@@ -1,0 +1,57 @@
+#######################################
+# Syntax Coloring Map For Wire
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+eOID_d	KEYWORD1
+eSessionCtxId_d	KEYWORD1
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+checkChip	KEYWORD2
+reset	KEYWORD2
+getCertificate	KEYWORD2
+getPublicKey	KEYWORD2
+getUniqueID	KEYWORD2
+getRandom	KEYWORD2
+getCurrentLimit	KEYWORD2
+setCurrentLimit	KEYWORD2
+getLastErrorCodes	KEYWORD2
+sha256	KEYWORD2
+calculateSignature	KEYWORD2
+formatSignature	KEYWORD2
+verifySignature	KEYWORD2
+sharedSecret	KEYWORD2
+sharedSecretWithExport	KEYWORD2
+generateKeypair	KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+TrustM	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+eLCS_G	LITERAL1
+eSECURITY_STATUS_G	LITERAL1
+eCOPROCESSOR_UID	LITERAL1
+eSLEEP_MODE_ACTIVATION_DELAY	LITERAL1
+eCURRENT_LIMITATION	LITERAL1
+eSECURITY_EVENT_COUNTER	LITERAL1
+eDEVICE_PUBKEY_CERT_IFX	LITERAL1
+eDEVICE_PUBKEY_CERT_PRJSPC_1	LITERAL1
+eDEVICE_PUBKEY_CERT_PRJSPC_2	LITERAL1
+eDEVICE_PUBKEY_CERT_PRJSPC_3	LITERAL1
+eFIRST_DEVICE_PRIKEY_1	LITERAL1
+eFIRST_DEVICE_PRIKEY_2	LITERAL1
+eFIRST_DEVICE_PRIKEY_3	LITERAL1
+eFIRST_DEVICE_PRIKEY_4	LITERAL1
+eLCS_A	LITERAL1
+eSECURITY_STATUS_A	LITERAL1
+eERROR_CODES	LITERAL1

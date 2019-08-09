@@ -1,0 +1,27 @@
+language: python
+python:
+    - "2.7"
+
+sudo: required
+        
+branches:
+    - master
+
+env:
+    matrix:
+        - PLATFORMIO_CI_SRC=examples/calculateHash
+        - PLATFORMIO_CI_SRC=examples/calculateSignVerifySign
+        - PLATFORMIO_CI_SRC=examples/generateKeypair
+        - PLATFORMIO_CI_SRC=examples/getCertificate
+        - PLATFORMIO_CI_SRC=examples/getRandom
+        - PLATFORMIO_CI_SRC=examples/getUniqueID
+        - PLATFORMIO_CI_SRC=examples/selfTest
+        - PLATFORMIO_CI_SRC=examples/testFullAPI
+
+install:
+    - pip install -U platformio
+    - platformio platform install -f infineonxmc 
+    - platformio platform install -f atmelavr
+
+script:
+    - platformio ci --lib="." --board=xmc1100_xmc2go --board=xmc1100_boot_kit --board=xmc4700_relax_kit --board=uno

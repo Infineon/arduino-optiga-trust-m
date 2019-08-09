@@ -1,0 +1,17 @@
+{
+    "name": "arduino-optiga-trust-m",
+    "keywords": "security, trust-m, sensor2go, ECDSA, DTLS, ECC256, AES128, SHA-256, TRNG, DRNG",
+    "description": "C++ library for Optiga Trust M Chip Security Controller", 
+    "repository":
+    {
+      "type": "git",
+      "url": "https://github.com/Infineon/arduino-optiga-trust-x.git",
+      "branch": "master"
+    },
+    "version":"0.1.0",
+    "frameworks": "arduino",
+    "platforms": [
+        "infineonxmc",
+        "atmelavr"
+    ]
+  }
