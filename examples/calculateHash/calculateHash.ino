@@ -52,23 +52,23 @@ void setup()
   /*
    * Initialise an OPTIGA™ Trust X Board
    */
-  printGreen("Begin to trust ... ");
-  ret = trustM.begin();
-  if (ret) {
-    printlnRed("Failed");
-    while (true);
-  }
-  printlnGreen("OK");
+  // printGreen("Begin to trust ... ");
+  // ret = trustM.begin();
+  // if (ret) {
+  //   printlnRed("Failed");
+  //   while (true);
+  // }
+  // printlnGreen("OK");
 
-  /*
-   * Speedup the board (from 6 mA to 15 mA)
-   */
-  ret = trustM.setCurrentLimit(15);
-  if (ret) {
-    printlnRed("Failed");
-    while (true);
-  }
-  printlnGreen("OK");
+  // /*
+  //  * Speedup the board (from 6 mA to 15 mA)
+  //  */
+  // ret = trustM.setCurrentLimit(15);
+  // if (ret) {
+  //   printlnRed("Failed");
+  //   while (true);
+  // }
+  // printlnGreen("OK");
 
 }
 
@@ -87,70 +87,70 @@ static void output_result(char* tag, uint32_t tstamp, uint8_t* in, uint16_t in_l
 
 void loop()
 {
-  uint32_t ret = 0;
-  uint8_t  cntr = 10;
-  // Timestamp is used to measure the execution time of a command
-  uint32_t ts = 0;
+  // uint32_t ret = 0;
+  // uint8_t  cntr = 10;
+  // // Timestamp is used to measure the execution time of a command
+  // uint32_t ts = 0;
   
-  /*
-   * Calculate a hash of the given data
-   */
-  printGreen("\r\nCalculate One-Time Hash for ");
-  printlnGreen((char *)data);
-  ts = millis();
-  ret = trustM.sha256(data, DATA_LENGTH, hash);
-  ts = millis() - ts;
-  if (ret) {
-    printlnRed("Failed");
-    while (true);
-  }
-  output_result("Hash", ts, hash, HASH_LENGTH);
+  // /*
+  //  * Calculate a hash of the given data
+  //  */
+  // printGreen("\r\nCalculate One-Time Hash for ");
+  // printlnGreen((char *)data);
+  // ts = millis();
+  // ret = trustM.sha256(data, DATA_LENGTH, hash);
+  // ts = millis() - ts;
+  // if (ret) {
+  //   printlnRed("Failed");
+  //   while (true);
+  // }
+  // output_result("Hash", ts, hash, HASH_LENGTH);
 
-  /*
-   * Calculate a hash of the given data (big input)
-   */
-  printlnGreen("\r\nCalculate One-Time Hash for 1024 bytes... ");
-  ts = millis();
-  ret = trustM.sha256(bigdata, BIGDATA_LENGTH, hash);
-  ts = millis() - ts;
-  if (ret) {
-    printlnRed("Failed");
-    while (true);
-  }
+  // /*
+  //  * Calculate a hash of the given data (big input)
+  //  */
+  // printlnGreen("\r\nCalculate One-Time Hash for 1024 bytes... ");
+  // ts = millis();
+  // ret = trustM.sha256(bigdata, BIGDATA_LENGTH, hash);
+  // ts = millis() - ts;
+  // if (ret) {
+  //   printlnRed("Failed");
+  //   while (true);
+  // }
 
-  output_result("Hash", ts, hash, HASH_LENGTH);
-  printGreen("Hashrate is "); 
-  Serial.print(1024/ts); 
-  Serial.println(" kB/sec");
+  // output_result("Hash", ts, hash, HASH_LENGTH);
+  // printGreen("Hashrate is "); 
+  // Serial.print(1024/ts); 
+  // Serial.println(" kB/sec");
 
-  /*
-   * Benchmarking hash for the current microcontroller
-   */
-  printlnGreen("\r\nBenchmarking SHA256 100 times for 20 bytes data ... ");
-  ts = millis();
-  for (int i = 0; i < 100; i++) {
-     trustM.sha256(data, DATA_LENGTH, hash);
-  }
-  ts = millis() - ts;
-  if (ret) {
-    printlnRed("Failed");
-    while (true);
-  }
+  // /*
+  //  * Benchmarking hash for the current microcontroller
+  //  */
+  // printlnGreen("\r\nBenchmarking SHA256 100 times for 20 bytes data ... ");
+  // ts = millis();
+  // for (int i = 0; i < 100; i++) {
+  //    trustM.sha256(data, DATA_LENGTH, hash);
+  // }
+  // ts = millis() - ts;
+  // if (ret) {
+  //   printlnRed("Failed");
+  //   while (true);
+  // }
 
-  printGreen("Becnhmark executed in "); 
-  Serial.print(ts); 
-  Serial.println(" ms");
-  printGreen("Hashrate is "); 
-  Serial.print((1000 * 100)/ts); 
-  Serial.println(" H/sec");
+  // printGreen("Becnhmark executed in "); 
+  // Serial.print(ts); 
+  // Serial.println(" ms");
+  // printGreen("Hashrate is "); 
+  // Serial.print((1000 * 100)/ts); 
+  // Serial.println(" H/sec");
 
-  /*
-   * Count down 10 seconds and restart the application
-   */
-  while(cntr) {
-    Serial.print(cntr);
-    Serial.println(" seconds untill restart.");
-    delay(1000);
-    cntr--;
-  }
+  // /*
+  //  * Count down 10 seconds and restart the application
+  //  */
+  // while(cntr) {
+  //   Serial.print(cntr);
+  //   Serial.println(" seconds untill restart.");
+  //   delay(1000);
+  //   cntr--;
+  // }
 }

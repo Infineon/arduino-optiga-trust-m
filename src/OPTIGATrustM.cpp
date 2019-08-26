@@ -25,54 +25,58 @@
  */
 
 #include "OPTIGATrustM.h"
-// #include "optiga_trustx/CommandLib.h"
+#include "optiga_trustm/optiga_util.h"
 // #include "optiga_trustx/IntegrationLib.h"
-// #include "optiga_trustx/optiga_comms.h"
-// #include "optiga_trustx/ifx_i2c_config.h"
-// #include "optiga_trustx/pal_os_event.h"
+#include "optiga_trustm/optiga_lib_types.h"
+#include "optiga_trustm/optiga_comms.h"
+#include "optiga_trustm/ifx_i2c_config.h"
+#include "optiga_trustm/pal_os_event.h"
 // #include "third_crypto/uECC.h"
 
-///OID of IFX Certificate
-#define     OID_IFX_CERTIFICATE                 0xE0E0
-///OID of the Coprocessor UID
-#define     OID_IFX_UID                         0xE0C2
-#define     LENGTH_UID                          27
-///Length of certificate
-#define     LENGTH_CERTIFICATE                  1728
-///ASN Tag for sequence
-#define     ASN_TAG_SEQUENCE                    0x30
-///ASN Tag for integer
-#define     ASN_TAG_INTEGER                     0x02
-///msb bit mask
-#define     MASK_MSB                            0x80
-///TLS Identity Tag
-#define     TLS_TAG                             0xC0
-///IFX Private Key Slot
-#define     OID_PRIVATE_KEY                     0xE0F0
-///Power Limit OID
-#define     OID_CURRENT_LIMIT                   0xE0C4
-///Length of R and S vector
-#define     LENGTH_RS_VECTOR                    0x40
+// ///OID of IFX Certificate
+// #define     OID_IFX_CERTIFICATE                 0xE0E0
+// ///OID of the Coprocessor UID
+// #define     OID_IFX_UID                         0xE0C2
+// #define     LENGTH_UID                          27
+// ///Length of certificate
+// #define     LENGTH_CERTIFICATE                  1728
+// ///ASN Tag for sequence
+// #define     ASN_TAG_SEQUENCE                    0x30
+// ///ASN Tag for integer
+// #define     ASN_TAG_INTEGER                     0x02
+// ///msb bit mask
+// #define     MASK_MSB                            0x80
+// ///TLS Identity Tag
+// #define     TLS_TAG                             0xC0
+// ///IFX Private Key Slot
+// #define     OID_PRIVATE_KEY                     0xE0F0
+// ///Power Limit OID
+// #define     OID_CURRENT_LIMIT                   0xE0C4
+// ///Length of R and S vector
+// #define     LENGTH_RS_VECTOR                    0x40
 
-///Length of maximum additional bytes to encode sign in DER
-#define     MAXLENGTH_SIGN_ENCODE               0x08
+// ///Length of maximum additional bytes to encode sign in DER
+// #define     MAXLENGTH_SIGN_ENCODE               0x08
 
-///Length of Signature
-#define     LENGTH_SIGNATURE                    (LENGTH_RS_VECTOR + MAXLENGTH_SIGN_ENCODE)
+// ///Length of Signature
+// #define     LENGTH_SIGNATURE                    (LENGTH_RS_VECTOR + MAXLENGTH_SIGN_ENCODE)
 
 
 // Members to use library in blocking mode
-static volatile uint8_t   m_ifx_i2c_busy = 0;
-static volatile uint8_t   m_ifx_i2c_status;
-static volatile uint8_t* m_optiga_rx_buffer;
-static volatile uint16_t  m_optiga_rx_len;
+// static volatile uint8_t   m_ifx_i2c_busy = 0;
+// static volatile uint8_t   m_ifx_i2c_status;
+// static volatile uint8_t*  m_optiga_rx_buffer;
+// static volatile uint16_t  m_optiga_rx_len;
 
 //Preinstantiated object
 IFX_OPTIGA_TrustM trustM = IFX_OPTIGA_TrustM();
 // optiga_comms_t optiga_comms = {static_cast<void*>(&ifx_i2c_context_0), NULL, NULL, 0};
-// static host_lib_status_t optiga_comms_status;
+//static optiga_lib_status_t optiga_comms_status;
 
-IFX_OPTIGA_TrustM::IFX_OPTIGA_TrustM(){ active = false;}
+
+
+IFX_OPTIGA_TrustM::IFX_OPTIGA_TrustM(){ //active = false;
+}
 
 IFX_OPTIGA_TrustM::~IFX_OPTIGA_TrustM(){}
 
@@ -87,7 +91,7 @@ IFX_OPTIGA_TrustM::~IFX_OPTIGA_TrustM(){}
 
 int32_t IFX_OPTIGA_TrustM::begin(void)
 {
-    // return begin(Wire);
+    return begin(Wire);
 }
 
 
@@ -144,53 +148,44 @@ int32_t IFX_OPTIGA_TrustM::checkChip(void)
 	// return err;
 }
 
-// static void optiga_comms_event_handler(void* upper_layer_ctx, host_lib_status_t event)
+// static void optiga_comms_event_handler(void* upper_layer_ctx, optiga_lib_status_t event)
 // {
-//     // optiga_comms_status = event;
+//     optiga_comms_status = event;
 // }
 
 int32_t IFX_OPTIGA_TrustM::begin(TwoWire& CustomWire)
 {
+    optiga_lib_status_t return_status;
 
-    // int32_t ret = CMD_LIB_ERROR;
+    do 
+    {
+        //Create an instance of optiga_util to open the application on OPTIGA.
+        me_util = optiga_util_create(0, optiga_util_callback, NULL);
 
-    // sOpenApp_d openapp_opt;
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */        
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me_util, 0);
 
-    // do {
-    //     //Invoke optiga_comms_open to initialize the IFX I2C Protocol and security chip
-    //     optiga_comms_status = OPTIGA_COMMS_BUSY;
-    //     optiga_comms.upper_layer_handler = optiga_comms_event_handler;
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_open_application is completed
+        }
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga util open application failed
+            break;
+        }
 
-    //     if(E_COMMS_SUCCESS != optiga_comms_open(&optiga_comms))
-    //     {
-    //         break;
-    //     }
+    }while (FALSE);
 
-    //     //Wait until IFX I2C initialization is complete
-    //     while(optiga_comms_status == OPTIGA_COMMS_BUSY) {
-    //         // Push forward timer dependent actions.
-    //         pal_os_event_process();
-    //     }
-
-    //     //Set OPTIGA comms context in Command library before invoking the use case APIs or command library APIs
-    //     //This context will be used by command libary to communicate with OPTIGA using IFX I2C Protocol.
-    //     CmdLib_SetOptigaCommsContext(&optiga_comms);
-
-    //     openapp_opt.eOpenType = eInit;
-
-    //     //Open the application in security chip
-    //     ret = CmdLib_OpenApplication(&openapp_opt);
-    //     if (CMD_LIB_OK == ret) {
-    //         CmdLib_GetMaxCommsBufferSize();
-    //         ret = 0;
-	// 		active = true;
-    //     }else {
-	// 		Serial.print(ret, HEX);
-	// 	}
-        
-    // } while (0);
-
-    // return ret;
+    return return_status;
 }
 
 int32_t IFX_OPTIGA_TrustM::reset(void)
@@ -203,13 +198,41 @@ int32_t IFX_OPTIGA_TrustM::reset(void)
 
 void IFX_OPTIGA_TrustM::end(void)
 {
-    // optiga_comms_close(&optiga_comms);
+     optiga_lib_status_t return_status;
+
+    do
+    {  
+        /* Close the application on OPTIGA after all the operations are executed
+         * using optiga_util_close_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_close_application(me_util, 0);
+        
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_close_application is completed
+        }
+        
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga util close application failed
+            break;
+        }
+
+        // destroy util and crypt instances
+        optiga_util_destroy(me_util);
+    }while (FALSE);
+
 }
 
 
-
-int32_t IFX_OPTIGA_TrustM::getGenericData(uint16_t oid, uint8_t* p_data, uint16_t& hashLength)
-{
+// int32_t IFX_OPTIGA_TrustM::getGenericData(uint16_t oid, uint8_t* p_data, uint16_t& hashLength)
+// {
     // int32_t ret = (int32_t)INT_LIB_ERROR;
     // sReadGPData_d   data_opt;
     // sbBlob_d        blob;
@@ -238,10 +261,10 @@ int32_t IFX_OPTIGA_TrustM::getGenericData(uint16_t oid, uint8_t* p_data, uint16_
     // }while(FALSE);
 
     // return ret;
-}
+// }
 
-int32_t IFX_OPTIGA_TrustM::getState(uint16_t oid, uint8_t& byte)
-{
+// int32_t IFX_OPTIGA_TrustM::getState(uint16_t oid, uint8_t& byte)
+// {
     // uint16_t length = 1;
     // int32_t  ret = (int32_t)CMD_LIB_ERROR;
 	// uint8_t  bt = 0;
@@ -265,7 +288,7 @@ int32_t IFX_OPTIGA_TrustM::getState(uint16_t oid, uint8_t& byte)
 	// }
 
     // return ret;
-}
+// }
 
 int32_t IFX_OPTIGA_TrustM::setGenericData(uint16_t oid, uint8_t* p_data, uint16_t hashLength)
 {
@@ -775,8 +798,8 @@ int32_t IFX_OPTIGA_TrustM::verifySignature( uint8_t* digest, uint16_t hashLength
     // return ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::calculateSharedSecretGeneric(int32_t curveID, uint16_t priv_oid, uint8_t* p_pubkey, uint16_t plen, uint16_t out_oid, uint8_t* p_out, uint16_t& olen)
-{
+// int32_t IFX_OPTIGA_TrustM::calculateSharedSecretGeneric(int32_t curveID, uint16_t priv_oid, uint8_t* p_pubkey, uint16_t plen, uint16_t out_oid, uint8_t* p_out, uint16_t& olen)
+// {
 //     int32_t             ret = IFX_I2C_STACK_ERROR;
 //     sCalcSSecOptions_d  shsec_opt;
 //     sbBlob_d            shsec;
@@ -817,10 +840,10 @@ int32_t IFX_OPTIGA_TrustM::calculateSharedSecretGeneric(int32_t curveID, uint16_
 //     }
 
 //     return ret;
-}
+// }
 
-int32_t IFX_OPTIGA_TrustM::str2cur(String curve_name)
-{
+// int32_t IFX_OPTIGA_TrustM::str2cur(String curve_name)
+// {
 //     int32_t ret;
     
 //     if (curve_name == "secp256r1") {
@@ -832,10 +855,10 @@ int32_t IFX_OPTIGA_TrustM::str2cur(String curve_name)
 //     }
     
 //     return ret;
-}
+// }
 
-int32_t IFX_OPTIGA_TrustM::deriveKey(uint8_t* p_data, uint16_t hashLength, uint8_t* p_key, uint16_t klen)
-{
+// int32_t IFX_OPTIGA_TrustM::deriveKey(uint8_t* p_data, uint16_t hashLength, uint8_t* p_key, uint16_t klen)
+// {
 //     int32_t             ret = INT_LIB_ERROR;
 //     sDeriveKeyOptions_d key_opt;
 //     sbBlob_d            key;
@@ -885,7 +908,7 @@ int32_t IFX_OPTIGA_TrustM::deriveKey(uint8_t* p_data, uint16_t hashLength, uint8
 //     }
 
 //     return ret;
-}
+// }
 
 int32_t IFX_OPTIGA_TrustM::generateKeypair(uint8_t* p_pubkey, uint16_t& plen, uint16_t privkey_oid)
 {
