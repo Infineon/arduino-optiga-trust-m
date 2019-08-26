@@ -100,6 +100,8 @@ typedef enum eSessionCtxId_d {
     eSESSION_ID_4 = 0xE103,
 } eSessionCtxId_d;
 
+
+
 /**
  * @defgroup ifx_optiga_library Infineon OPTIGA Trust M Command Library
  * @{
@@ -416,11 +418,9 @@ public:
 
 private:
     uint8_t return_value = 0;
-    static volatile optiga_lib_status_t optiga_lib_status;
     optiga_util_t * me_util;
 
 
-    static void optiga_util_callback(void * context, optiga_lib_status_t return_status){ optiga_lib_status = return_status; };
 	// bool active;
     // int32_t getGlobalSecurityStatus(uint8_t& status);
     // int32_t setGlobalSecurityStatus(uint8_t status);

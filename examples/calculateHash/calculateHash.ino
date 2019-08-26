@@ -52,13 +52,13 @@ void setup()
   /*
    * Initialise an OPTIGA™ Trust X Board
    */
-  // printGreen("Begin to trust ... ");
-  // ret = trustM.begin();
-  // if (ret) {
-  //   printlnRed("Failed");
-  //   while (true);
-  // }
-  // printlnGreen("OK");
+  printGreen("Begin to trust ... ");
+  ret = trustM.begin();
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
+  printlnGreen("OK");
 
   // /*
   //  * Speedup the board (from 6 mA to 15 mA)
