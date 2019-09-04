@@ -30,7 +30,7 @@
 #include "optiga_trustm/optiga_lib_types.h"
 #include "optiga_trustm/optiga_comms.h"
 #include "optiga_trustm/ifx_i2c_config.h"
-#include "optiga_trustm/pal_os_event.h"
+#include "optiga_trustm/pal_os_event_timer.h"
 // #include "third_crypto/uECC.h"
 
 // ///OID of IFX Certificate
@@ -162,7 +162,7 @@ int32_t IFX_OPTIGA_TrustM::begin(TwoWire& CustomWire)
     do 
     {
         //Create an instance of optiga_util to open the application on OPTIGA.
-        me_util = optiga_util_create(0, optiga_util_callback, NULL);
+        me_util = optiga_util_create(OPTIGA_INSTANCE_ID_0, optiga_util_callback, NULL);
 
         /**
          * Open the application on OPTIGA which is a precondition to perform any other operations
@@ -178,6 +178,7 @@ int32_t IFX_OPTIGA_TrustM::begin(TwoWire& CustomWire)
         while (optiga_lib_status == OPTIGA_LIB_BUSY)
         {
             //Wait until the optiga_util_open_application is completed
+            pal_os_event_process();
         }
         if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
         {
@@ -192,10 +193,10 @@ int32_t IFX_OPTIGA_TrustM::begin(TwoWire& CustomWire)
 
 int32_t IFX_OPTIGA_TrustM::reset(void)
 {
-    // // Soft reset
+    // // Soft reset -->not neccesarily ?? I2C-reset?
     // optiga_comms_reset(&optiga_comms, 1);
-    // end();
-    // return begin(Wire);
+    end();
+    return begin(Wire);
 }
 
 void IFX_OPTIGA_TrustM::end(void)
@@ -218,6 +219,7 @@ void IFX_OPTIGA_TrustM::end(void)
         while (optiga_lib_status == OPTIGA_LIB_BUSY)
         {
             //Wait until the optiga_util_close_application is completed
+            pal_os_event_process();
         }
         
         if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
@@ -232,41 +234,71 @@ void IFX_OPTIGA_TrustM::end(void)
 
 }
 
+int32_t IFX_OPTIGA_TrustM::getGenericData(uint16_t oid, uint8_t* p_data, uint16_t& hashLength)
+{
 
-// int32_t IFX_OPTIGA_TrustM::getGenericData(uint16_t oid, uint8_t* p_data, uint16_t& hashLength)
-// {
-    // int32_t ret = (int32_t)INT_LIB_ERROR;
-    // sReadGPData_d   data_opt;
-    // sbBlob_d        blob;
-    
-    // do
-    // {
-    //     if ((p_data == NULL) || (active == false)) {
-    //         break;
-    //     }
-        
-    //     //Read complete data strucuture
-    //     data_opt.wOffset = 0x00;
-    //     data_opt.wLength = hashLength;
-    //     data_opt.wOID = oid;
+    do
+    {
+        optiga_lib_status_t return_status = 0;
+        hashLength = 1024;
+        uint16_t offset = 0x00;
 
-    //     //Reading available data
-    //     blob.prgbStream = p_data;
-    //     blob.wLen = hashLength;
-    //     if(INT_LIB_OK == IntLib_ReadGPData(&data_opt,&blob))
-    //     {
-    //         ret = 0;
-    //         hashLength = blob.wLen;
-    //         break;
-    //     }
-    
-    // }while(FALSE);
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_read_data(me_util,
+                                              oid,
+                                              offset,
+                                              p_data,
+                                              &hashLength);
 
-    // return ret;
-// }
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
 
-// int32_t IFX_OPTIGA_TrustM::getState(uint16_t oid, uint8_t& byte)
-// {
+        while (OPTIGA_LIB_BUSY == optiga_lib_status)
+        {
+            //Wait until the optiga_util_read_data operation is completed
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //Reading the data object failed.
+            return_status = optiga_lib_status;
+            break;
+        }
+        /**
+         * Read metadata of a data object
+         * using optiga_util_read_data.
+         */
+        // hashLength = 1024;
+        // optiga_lib_status = OPTIGA_LIB_BUSY;
+        // return_status = optiga_util_read_metadata(me_util,
+        //                                           oid,
+        //                                           p_data,
+        //                                           &hashLength);
+
+        // if (OPTIGA_LIB_SUCCESS != return_status)
+        // {
+        //     break;
+        // }
+
+        // while (OPTIGA_LIB_BUSY == optiga_lib_status)
+        // {
+        //     //Wait until the optiga_util_read_metadata operation is completed
+        // }
+
+        // if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        // {
+        //     //Reading metadata data object failed.
+        //     return_status = optiga_lib_status;
+        //     break;
+        // }
+        // return_status = OPTIGA_LIB_SUCCESS;
+    } while (FALSE);
+}
+
+int32_t IFX_OPTIGA_TrustM::getState(uint16_t oid, uint8_t& byte)
+{
     // uint16_t length = 1;
     // int32_t  ret = (int32_t)CMD_LIB_ERROR;
 	// uint8_t  bt = 0;
@@ -290,7 +322,7 @@ void IFX_OPTIGA_TrustM::end(void)
 	// }
 
     // return ret;
-// }
+}
 
 int32_t IFX_OPTIGA_TrustM::setGenericData(uint16_t oid, uint8_t* p_data, uint16_t hashLength)
 {

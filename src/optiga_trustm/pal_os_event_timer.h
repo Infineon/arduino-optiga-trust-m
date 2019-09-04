@@ -26,42 +26,35 @@
 *
 * \author Infineon Technologies AG
 *
-* \file pal_os_lock_arduino.cpp
+* \file pal_os_event.h
 *
-* \brief   This file implements the platform abstraction layer APIs for os locks (e.g. semaphore).
+* \brief   This file provides the prototype declarations of PAL OS event 
 *
 * \ingroup  grPAL
 *
 * @{
 */
 
-#include "pal_os_lock.h"
+#ifndef _PAL_OS_EVENT_TIMER_H_
+#define _PAL_OS_EVENT_TIMER_H_
 
-void pal_os_lock_create(pal_os_lock_t * p_lock, uint8_t lock_type)
-{
+/**
+ * \brief Process an os event.
+ *
+ * \details
+ * For software polling based callback timer implementations. 
+ *
+ * \pre
+ * - None
+ *
+ * \note
+ * - None
+ *
+ */
+void pal_os_event_process(void);
 
-}
+#endif /*_PAL_OS_EVENT_TIMER_H_*/
 
-void pal_os_lock_destroy(pal_os_lock_t * p_lock)
-{
-
-}
-
-pal_status_t pal_os_lock_acquire(pal_os_lock_t * p_lock)
-{
-    return PAL_STATUS_SUCCESS;
-}
-
-void pal_os_lock_release(pal_os_lock_t * p_lock)
-{
-
-}
-
-void pal_os_lock_enter_critical_section(void)
-{
-
-}
-void pal_os_lock_exit_critical_section(void)
-{
-
-}
+/**
+* @}
+*/

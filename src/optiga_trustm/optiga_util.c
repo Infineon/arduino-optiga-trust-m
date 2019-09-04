@@ -227,7 +227,6 @@ optiga_lib_status_t optiga_util_open_application(optiga_util_t * me,
             break;
         }
 #endif
-
         if (OPTIGA_LIB_INSTANCE_BUSY == me->instance_state)
         {
             return_value = OPTIGA_UTIL_ERROR_INSTANCE_IN_USE;

@@ -33,6 +33,7 @@
 // #include "optiga_trustx/pal_ifx_i2c_config.h"
 #include <string.h> // memcpy
 #include "optiga_trustm/optiga_util.h"
+#include "optiga_trustm/optiga_crypt.h"
 
 // #include "optiga_trustx/ErrorCodes.h"
 // #include "optiga_trustx/AuthLibSettings.h"
@@ -208,7 +209,7 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    // int32_t getUniqueID(uint8_t uniqueID[], uint16_t& uidLength) { return uidLength != 0?getGenericData(eCOPROCESSOR_UID, uniqueID, uidLength):1; }
+    int32_t getUniqueID(uint8_t uniqueID[], uint16_t& uidLength) { return uidLength != 0?getGenericData(eCOPROCESSOR_UID, uniqueID, uidLength):1; }
 
     /**
      * @brief Get a random number.
@@ -426,8 +427,8 @@ private:
     // int32_t setGlobalSecurityStatus(uint8_t status);
     // int32_t getAppSecurityStatus(uint8_t* p_data, uint16_t& hashLength);
     // int32_t setAppSecurityStatus(uint8_t status);
-    // int32_t getGenericData(uint16_t oid, uint8_t* p_data, uint16_t& hashLength);
-    // int32_t getState(uint16_t oid, uint8_t& p_data);
+    int32_t getGenericData(uint16_t oid, uint8_t* p_data, uint16_t& hashLength);
+    int32_t getState(uint16_t oid, uint8_t& p_data);
     int32_t setGenericData(uint16_t oid, uint8_t* p_data, uint16_t hashLength);
     // int32_t str2cur(String curve_name);
 	// int32_t calculateSharedSecretGeneric( int32_t curveID, uint16_t priv_oid, uint8_t* p_pubkey, uint16_t plen, uint16_t out_oid) {
