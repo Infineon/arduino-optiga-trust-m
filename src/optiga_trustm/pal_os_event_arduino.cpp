@@ -42,7 +42,7 @@
 
 
 static pal_os_event_t pal_os_event_0 = {0};         /**< pal os event */
-       SimpleTimer    pal_os_event_cback_timer;     /**< pal os event callback timer */
+static SimpleTimer    pal_os_event_cback_timer;     /**< pal os event callback timer */
 
 LIBRARY_EXPORTS pal_os_event_t * pal_os_event_create(register_callback callback,
                                                      void * callback_args)
@@ -67,7 +67,7 @@ LIBRARY_EXPORTS void pal_os_event_register_callback_oneshot(pal_os_event_t * p_p
     p_pal_os_event->callback_registered = callback;
     p_pal_os_event->callback_ctx = callback_args;
 
-    pal_os_event_cback_timer.setTimeout(time_us/1000,pal_os_event_trigger_registered_callback);
+    pal_os_event_cback_timer.setTimeout((long)(time_us/1000),pal_os_event_trigger_registered_callback);
 }
 
 void pal_os_event_trigger_registered_callback(void)
@@ -98,7 +98,8 @@ LIBRARY_EXPORTS void pal_os_event_stop(pal_os_event_t * p_pal_os_event)
     p_pal_os_event->is_event_triggered = FALSE;
 }
 
-void pal_os_event_process(void)
+LIBRARY_EXPORTS void pal_os_event_process(void)
 {
     pal_os_event_cback_timer.run();
+    //delay(1);
 }

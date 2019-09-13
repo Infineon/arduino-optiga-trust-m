@@ -180,6 +180,10 @@ LIBRARY_EXPORTS void pal_os_event_start(pal_os_event_t * p_pal_os_event,
  */
 LIBRARY_EXPORTS void pal_os_event_stop(pal_os_event_t * p_pal_os_event);
 
+
+////
+void pal_os_event_process(void);
+
 #ifdef __cplusplus
 }
 #endif

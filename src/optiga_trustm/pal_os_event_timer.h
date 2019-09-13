@@ -26,7 +26,7 @@
 *
 * \author Infineon Technologies AG
 *
-* \file pal_os_event.h
+* \file pal_os_event_timer.h
 *
 * \brief   This file provides the prototype declarations of PAL OS event 
 *
@@ -51,7 +51,7 @@
  * - None
  *
  */
-void pal_os_event_process(void);
+// void pal_os_event_process(void);
 
 #endif /*_PAL_OS_EVENT_TIMER_H_*/
 

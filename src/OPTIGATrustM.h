@@ -36,9 +36,12 @@
 #include "optiga_trustm/optiga_util.h"
 #include "optiga_trustm/optiga_crypt.h"
 
+#include "optiga_trustm/pal_os_event.h"
 #include "optiga_trustm/pal_os_event_timer.h"
+#include "optiga_trustm/pal_os_timer.h"
 #include "optiga_trustm/optiga_lib_logger.h"
 #include "optiga_trustm/pal_ifx_i2c_config.h"
+#include "optiga_trustm/optiga_example.h"
 
 // #include "optiga_trustx/ErrorCodes.h"
 // #include "optiga_trustx/AuthLibSettings.h"
