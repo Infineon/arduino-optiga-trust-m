@@ -31,9 +31,14 @@
 #include <Wire.h>
 // #include "optiga_trustx/ifx_i2c_transport_layer.h"
 // #include "optiga_trustx/pal_ifx_i2c_config.h"
+#include "optiga_trustm/pal_i2c.h"
 #include <string.h> // memcpy
 #include "optiga_trustm/optiga_util.h"
 #include "optiga_trustm/optiga_crypt.h"
+
+#include "optiga_trustm/pal_os_event_timer.h"
+#include "optiga_trustm/optiga_lib_logger.h"
+#include "optiga_trustm/pal_ifx_i2c_config.h"
 
 // #include "optiga_trustx/ErrorCodes.h"
 // #include "optiga_trustx/AuthLibSettings.h"
@@ -422,12 +427,13 @@ private:
     optiga_util_t * me_util;
 
 
-	// bool active;
+	bool active;
     // int32_t getGlobalSecurityStatus(uint8_t& status);
     // int32_t setGlobalSecurityStatus(uint8_t status);
     // int32_t getAppSecurityStatus(uint8_t* p_data, uint16_t& hashLength);
     // int32_t setAppSecurityStatus(uint8_t status);
     int32_t getGenericData(uint16_t oid, uint8_t* p_data, uint16_t& hashLength);
+    //int32_t getGenericMetadata(uint16_t oid, uint8_t* p_data, uint16_t& hashLength);
     int32_t getState(uint16_t oid, uint8_t& p_data);
     int32_t setGenericData(uint16_t oid, uint8_t* p_data, uint16_t hashLength);
     // int32_t str2cur(String curve_name);
