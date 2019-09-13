@@ -270,7 +270,7 @@ void example_optiga_util_read_uuid(void)
         while (optiga_lib_status == OPTIGA_LIB_BUSY)
         {
             //Wait until the optiga_util_open_application is completed
-            pal_os_event_process();
+           // pal_os_event_process();
         }
         if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
         {
@@ -353,6 +353,7 @@ void example_optiga_util_read_uuid(void)
 				OPTIGA_EXAMPLE_LOG_HEX_DATA(&read_data_buffer[25], 2);
 		// #endif
     }while(0);
+    OPTIGA_EXAMPLE_LOG_STATUS(return_status);
 
     if (me)
 	{

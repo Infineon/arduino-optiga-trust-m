@@ -101,5 +101,5 @@ LIBRARY_EXPORTS void pal_os_event_stop(pal_os_event_t * p_pal_os_event)
 LIBRARY_EXPORTS void pal_os_event_process(void)
 {
     pal_os_event_cback_timer.run();
-    //delay(1);
+    delay(10);
 }
