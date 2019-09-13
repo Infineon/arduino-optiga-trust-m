@@ -46,7 +46,8 @@ void setup()
   /*
    * Initialise a serial port for debug output
    */
-  Serial.begin(38400);
+  Serial.begin(115200);
+  delay(1000);
   Serial.println("Initializing ... ");
 
   /*
@@ -59,6 +60,13 @@ void setup()
     while (true);
   }
   printlnGreen("OK");
+
+  // /*
+  //  * Initialise an OPTIGA™ Trust X Board
+  //  */
+  // printGreen("Stop to trust ... ");
+  // trustM.end();
+  // printlnGreen("OK");
 
   // /*
   //  * Speedup the board (from 6 mA to 15 mA)
