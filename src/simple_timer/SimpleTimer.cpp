@@ -27,8 +27,8 @@
 #include "SimpleTimer.h"
 
 // Select time function:
-//static inline unsigned long elapsed() { return micros(); }
-static inline unsigned long elapsed() { return millis(); }
+static inline unsigned long elapsed() { return micros(); }
+//static inline unsigned long elapsed() { return millis(); }
 
 
 SimpleTimer::SimpleTimer() {
@@ -37,6 +37,7 @@ SimpleTimer::SimpleTimer() {
     for (int i = 0; i < MAX_TIMERS; i++) {
         enabled[i] = false;
         callbacks[i] = 0;                   // if the callback pointer is zero, the slot is free, i.e. doesn't "contain" any timer
+        callbacks_args[i] = NULL;
         prev_millis[i] = current_millis;
         numRuns[i] = 0;
     }
@@ -65,8 +66,8 @@ void SimpleTimer::run() {
             if (current_millis - prev_millis[i] >= delays[i]) {
 
                 // update time
-                //prev_millis[i] = current_millis;
-                prev_millis[i] += delays[i];
+                prev_millis[i] = current_millis;
+                //prev_millis[i] += delays[i];
 
                 // check if the timer callback has to be executed
                 if (enabled[i]) {
@@ -96,11 +97,11 @@ void SimpleTimer::run() {
                 break;
 
             case DEFCALL_RUNONLY:
-                callbacks[i]();
+                callbacks[i](callbacks_args[i]);
                 break;
 
             case DEFCALL_RUNANDDEL:
-                callbacks[i]();
+                callbacks[i](callbacks_args[i]);
                 deleteTimer(i);
                 break;
         }
@@ -149,7 +150,32 @@ int SimpleTimer::setTimer(long d, timer_callback f, int n) {
     prev_millis[freeTimer] = elapsed();
 
     numTimers++;
+   // Serial.println("Timer created");
+    return freeTimer;
+}
 
+int SimpleTimer::setTimer(long d, timer_callback f, timer_callback_args a, int n)
+{
+   int freeTimer;
+
+    freeTimer = findFirstFreeSlot();
+    if (freeTimer < 0) {
+        return -1;
+    }
+
+    if (f == NULL) {
+        return -1;
+    }
+
+    delays[freeTimer] = d;
+    callbacks[freeTimer] = f;
+    callbacks_args[freeTimer] = a;
+    maxNumRuns[freeTimer] = n;
+    enabled[freeTimer] = true;
+    prev_millis[freeTimer] = elapsed();
+
+    numTimers++;
+   // Serial.println("Timer created");
     return freeTimer;
 }
 
@@ -161,6 +187,11 @@ int SimpleTimer::setInterval(long d, timer_callback f) {
 
 int SimpleTimer::setTimeout(long d, timer_callback f) {
     return setTimer(d, f, RUN_ONCE);
+}
+
+int SimpleTimer::setTimeout(long d, timer_callback f, timer_callback_args a)
+{
+    return setTimer(d, f, a, RUN_ONCE);
 }
 
 
@@ -185,6 +216,7 @@ void SimpleTimer::deleteTimer(int timerId) {
 
         // update number of timers
         numTimers--;
+        //Serial.println("Timer deleted");
     }
 }
 

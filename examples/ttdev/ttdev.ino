@@ -33,12 +33,12 @@ void setup()
      * Initialise a serial port for debug output
      */
     Serial.begin(100000);
-    delay(1000);
+    delay(100);
     Serial.println("Initializing ... ");
 
     //getState();
-    // example_optiga_util_read_data();
-    example_optiga_util_read_uuid();
+    example_optiga_util_read_data();
+    //example_optiga_util_read_uuid();
     //example_optiga_util_hibernate_restore();
 }
 
@@ -73,9 +73,12 @@ pal_status_t getState()
     pal_i2c_set_bitrate(&optiga_pal_i2c_context_0,50);
 
     while(pal_i2c_write(&optiga_pal_i2c_context_0, &reg, 1) == PAL_STATUS_FAILURE){};
-    while(pal_i2c_read(&optiga_pal_i2c_context_0, value, 5) == PAL_STATUS_FAILURE){};
+    while(pal_i2c_read(&optiga_pal_i2c_context_0, value, 4) == PAL_STATUS_FAILURE){};
     Serial.print("value: ");
     for(int i = 0; i < 6; i++)
+    {
         Serial.print(value[i]);
-    Serial.println(" ");
+        Serial.print(".");
+    }
+        Serial.println(" ");
 }

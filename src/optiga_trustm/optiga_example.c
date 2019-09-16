@@ -270,7 +270,7 @@ void example_optiga_util_read_uuid(void)
         while (optiga_lib_status == OPTIGA_LIB_BUSY)
         {
             //Wait until the optiga_util_open_application is completed
-           // pal_os_event_process();
+           pal_os_event_process();
         }
         if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
         {

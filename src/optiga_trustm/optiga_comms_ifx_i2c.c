@@ -43,6 +43,7 @@
 #include "ifx_i2c.h"
 #include "pal_os_event.h"
 
+
 /// @cond hidden
 
  /// Optiga comms is in use

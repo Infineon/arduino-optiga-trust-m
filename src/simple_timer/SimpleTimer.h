@@ -35,7 +35,9 @@
 // #include <WProgram.h>
 // #endif
 
-typedef void (*timer_callback)();
+typedef void * timer_callback_args;
+typedef void (*timer_callback)(timer_callback_args);
+//typedef void (*timer_callback)(); --> without arguments, original
 
 class SimpleTimer {
 
@@ -59,8 +61,14 @@ public:
     // call function f once after d milliseconds
     int setTimeout(long d, timer_callback f);
 
+    // call function f with argument a once after d milliseconds
+    int setTimeout(long d, timer_callback f, timer_callback_args a);
+    
     // call function f every d milliseconds for n times
     int setTimer(long d, timer_callback f, int n);
+
+    // call function f with arguments a every d milliseconds for n times
+    int setTimer(long d, timer_callback f, timer_callback_args a, int n);
 
     // destroy the specified timer
     void deleteTimer(int numTimer);
@@ -102,6 +110,9 @@ private:
 
     // pointers to the callback functions
     timer_callback callbacks[MAX_TIMERS];
+
+    // pointer to the callback arguments
+    timer_callback_args callbacks_args[MAX_TIMERS]; 
 
     // delay values
     long delays[MAX_TIMERS];
