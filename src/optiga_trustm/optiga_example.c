@@ -1325,6 +1325,7 @@ void example_optiga_util_read_data(void)
         if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
         {
             //optiga util open application failed
+            return_status = optiga_lib_status;
             break;
         }
 
@@ -1513,6 +1514,29 @@ void example_optiga_util_write_data(void)
         me = optiga_util_create(0, optiga_util_callback, NULL);
         if (NULL == me)
         {
+            break;
+        }
+
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */        
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me, 0);
+
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_open_application is completed
+            pal_os_event_process();
+        }
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga util open application failed
+            return_status = optiga_lib_status;
             break;
         }
 
@@ -2437,7 +2461,7 @@ void example_optiga_crypt_rsa_encrypt_session(void)
          */
 
         // OPTIGA Comms Shielded connection settings to enable the protection
-        OPTIGA_CRYPT_SET_COMMS_PROTOCOL_VERSION(me, OPTIGA_COMMS_PROTOCOL_VERSION_PRE_SHARED_SECRET);
+        // OPTIGA_CRYPT_SET_COMMS_PROTOCOL_VERSION(me, OPTIGA_COMMS_PROTOCOL_VERSION_PRE_SHARED_SECRET);
 
         encryption_scheme = OPTIGA_RSAES_PKCS1_V15;
         public_key_from_host.public_key = public_key;
@@ -2553,7 +2577,29 @@ void example_optiga_util_update_count(void)
         {
             break;
         }
-
+    
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me, 0);
+    
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_open_application is completed
+            pal_os_event_process();
+        }
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_open_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
         /**
          * Pre-condition
          * Any data object can be converted to counter data object by changing metadata as mentioned below:
@@ -2886,6 +2932,29 @@ void example_optiga_util_protected_update(void)
             break;
         }
 
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me, 0);
+    
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_open_application is completed
+            pal_os_event_process();
+        }
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_open_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+        
         /**
         *  Precondition 1 : Write Metadata for 0xE0E1 and 0xE0E3
          */

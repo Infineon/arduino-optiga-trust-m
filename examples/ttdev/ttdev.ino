@@ -44,20 +44,20 @@ void setup()
     // example_optiga_crypt_ecdh(); //--> OK (protected commented)
     // example_optiga_crypt_random(); //--> OK
     // example_optiga_crypt_tls_prf_sha256(); //--> FAIL [optiga example]  : Failed with return value - 0x0107
-    example_optiga_util_read_data(); //--> OK 
+    // example_optiga_util_read_data(); //--> OK 
     // example_optiga_util_write_data(); //--> OK   
-    // example_optiga_crypt_rsa_generate_keypair();
-    // example_optiga_crypt_rsa_sign();
-    // example_optiga_crypt_rsa_verify();
+    // example_optiga_crypt_rsa_generate_keypair(); //--> OK  
+    // example_optiga_crypt_rsa_sign(); //--> OK 
+    // example_optiga_crypt_rsa_verify(); //--> OK
     // example_optiga_crypt_rsa_decrypt_and_export();
     // example_optiga_crypt_rsa_decrypt_and_store();
-    // example_optiga_crypt_rsa_encrypt_message();
-    // example_optiga_crypt_rsa_encrypt_session();
-    // example_optiga_util_update_count();
-    // example_optiga_util_protected_update();
-    // example_optiga_util_read_uuid();
+    // example_optiga_crypt_rsa_encrypt_message(); //--> OK
+    // example_optiga_crypt_rsa_encrypt_session(); //--> FAIL [optiga example]  : Failed with return value - 0x0107
+    // example_optiga_util_update_count(); //--> OK
+    // example_optiga_util_protected_update(); //--> FAIL [optiga example]  : Failed with return value - 0x8001
+    // example_optiga_util_read_uuid();  //--> OK (protected commented)
     // example_pair_host_and_optiga_using_pre_shared_secret();
-    // example_optiga_util_hibernate_restore();
+    // example_optiga_util_hibernate_restore();//--> OK
 
 }
 
