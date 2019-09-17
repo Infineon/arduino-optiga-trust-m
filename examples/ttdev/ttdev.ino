@@ -37,15 +37,15 @@ void setup()
     Serial.println("Initializing ... ");
 
 
-    example_optiga_crypt_hash();
-    // example_optiga_crypt_ecc_generate_keypair();
-    // example_optiga_crypt_ecdsa_sign();
-    // example_optiga_crypt_ecdsa_verify();
-    // example_optiga_crypt_ecdh();
-    // example_optiga_crypt_random();  
-    // example_optiga_crypt_tls_prf_sha256();
-    // example_optiga_util_read_data();
-    // example_optiga_util_write_data();
+    // example_optiga_crypt_hash(); //--> OK
+    // example_optiga_crypt_ecc_generate_keypair(); //--> OK
+    // example_optiga_crypt_ecdsa_sign(); //--> OK
+    // example_optiga_crypt_ecdsa_verify(); //--> OK
+    // example_optiga_crypt_ecdh(); //--> OK (protected commented)
+    // example_optiga_crypt_random(); //--> OK
+    // example_optiga_crypt_tls_prf_sha256(); //--> FAIL [optiga example]  : Failed with return value - 0x0107
+    example_optiga_util_read_data(); //--> OK 
+    // example_optiga_util_write_data(); //--> OK   
     // example_optiga_crypt_rsa_generate_keypair();
     // example_optiga_crypt_rsa_sign();
     // example_optiga_crypt_rsa_verify();

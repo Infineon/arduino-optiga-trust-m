@@ -43,10 +43,43 @@ optiga_lib_status_t return_status = 0;
     uint8_t digest [32];
 
     optiga_crypt_t * me = NULL;
+    optiga_util_t  * me_util = NULL;
     OPTIGA_EXAMPLE_LOG_MESSAGE(__FUNCTION__);
 
     do
     {
+    	/**
+		 * Create OPTIGA Util Instance
+		 */
+		me_util = optiga_util_create(0, optiga_util_callback, NULL);
+		if (NULL == me_util)
+		{
+			break;
+		}
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me_util, 0);
+    
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_open_application is completed
+            pal_os_event_process();
+        }
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_open_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
+
         /**
          * 1. Create OPTIGA Crypt Instance
          */
@@ -139,13 +172,50 @@ optiga_lib_status_t return_status = 0;
         }
         return_status = OPTIGA_LIB_SUCCESS;
 
+
+        /**
+         * Close the application on OPTIGA 
+         * using optiga_util_close_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_close_application(me_util, 0);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_close_application is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_close_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+    
     } while (FALSE);
     OPTIGA_EXAMPLE_LOG_STATUS(return_status);
-    
+
+
     if (me)
     {
         //Destroy the instance after the completion of usecase if not required.
         return_status = optiga_crypt_destroy(me);
+        if(OPTIGA_LIB_SUCCESS != return_status)
+        {
+            //lint --e{774} suppress This is a generic macro
+            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+        }
+    }
+
+    if(me_util)
+    {
+        //Destroy the instance after the completion of usecase if not required.
+        return_status = optiga_util_destroy(me_util);
         if(OPTIGA_LIB_SUCCESS != return_status)
         {
             //lint --e{774} suppress This is a generic macro
@@ -164,10 +234,41 @@ void example_optiga_crypt_ecc_generate_keypair(void)
     uint16_t public_key_length = sizeof(public_key);
 
     optiga_crypt_t * me = NULL;
+    optiga_util_t  * me_util = NULL;
     OPTIGA_EXAMPLE_LOG_MESSAGE(__FUNCTION__);
 
     do
     {
+        /**
+		 * Create OPTIGA Util Instance
+		 */
+		me_util = optiga_util_create(0, optiga_util_callback, NULL);
+		if (NULL == me_util)
+		{
+			break;
+		}
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me_util, 0);
+    
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_open_application is completed
+            pal_os_event_process();
+        }
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_open_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
         /**
          * 1. Create OPTIGA Crypt Instance
          */
@@ -214,6 +315,30 @@ void example_optiga_crypt_ecc_generate_keypair(void)
         }
         return_status = OPTIGA_LIB_SUCCESS;
 
+        /**
+         * Close the application on OPTIGA 
+         * using optiga_util_close_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_close_application(me_util, 0);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_close_application is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_close_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
     } while (FALSE);
     OPTIGA_EXAMPLE_LOG_STATUS(return_status);
 
@@ -221,6 +346,17 @@ void example_optiga_crypt_ecc_generate_keypair(void)
     {
         //Destroy the instance after the completion of usecase if not required.
         return_status = optiga_crypt_destroy(me);
+        if(OPTIGA_LIB_SUCCESS != return_status)
+        {
+            //lint --e{774} suppress This is a generic macro
+            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+        }
+    }
+
+    if(me_util)
+    {
+        //Destroy the instance after the completion of usecase if not required.
+        return_status = optiga_util_destroy(me_util);
         if(OPTIGA_LIB_SUCCESS != return_status)
         {
             //lint --e{774} suppress This is a generic macro
@@ -244,11 +380,42 @@ void example_optiga_crypt_ecdsa_sign(void)
     uint16_t signature_length = sizeof(signature);
 
     optiga_crypt_t * me = NULL;
+    optiga_util_t * me_util = NULL;
     optiga_lib_status_t return_status = 0;
     OPTIGA_EXAMPLE_LOG_MESSAGE(__FUNCTION__);
 
     do
     {
+        /**
+		 * Create OPTIGA Util Instance
+		 */
+		me_util = optiga_util_create(0, optiga_util_callback, NULL);
+		if (NULL == me_util)
+		{
+			break;
+		}
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me_util, 0);
+    
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_open_application is completed
+            pal_os_event_process();
+        }
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_open_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
         /**
          * 1. Create OPTIGA Crypt Instance
          */
@@ -287,6 +454,29 @@ void example_optiga_crypt_ecdsa_sign(void)
         }
         return_status = OPTIGA_LIB_SUCCESS;
 
+        /**
+         * Close the application on OPTIGA 
+         * using optiga_util_close_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_close_application(me_util, 0);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_close_application is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_close_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
     } while (FALSE);
     OPTIGA_EXAMPLE_LOG_STATUS(return_status);
     
@@ -294,6 +484,17 @@ void example_optiga_crypt_ecdsa_sign(void)
     {
         //Destroy the instance after the completion of usecase if not required.
         return_status = optiga_crypt_destroy(me);
+        if(OPTIGA_LIB_SUCCESS != return_status)
+        {
+            //lint --e{774} suppress This is a generic macro
+            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+        }
+    }
+
+    if(me_util)
+    {
+        //Destroy the instance after the completion of usecase if not required.
+        return_status = optiga_util_destroy(me_util);
         if(OPTIGA_LIB_SUCCESS != return_status)
         {
             //lint --e{774} suppress This is a generic macro
@@ -362,9 +563,41 @@ void example_optiga_crypt_ecdsa_verify(void)
     optiga_lib_status_t return_status = 0;
 
     optiga_crypt_t * me = NULL;
+    optiga_util_t * me_util = NULL;
     OPTIGA_EXAMPLE_LOG_MESSAGE(__FUNCTION__);
     do
     {
+   	    /**
+		 * Create OPTIGA Util Instance
+		 */
+		me_util = optiga_util_create(0, optiga_util_callback, NULL);
+		if (NULL == me_util)
+		{
+			break;
+		}
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me_util, 0);
+    
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_open_application is completed
+            pal_os_event_process();
+        }
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_open_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         /**
          * 1. Create OPTIGA Crypt Instance
          */
@@ -403,6 +636,31 @@ void example_optiga_crypt_ecdsa_verify(void)
             return_status = optiga_lib_status;
             break;
         }
+
+        /**
+         * Close the application on OPTIGA 
+         * using optiga_util_close_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_close_application(me_util, 0);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_close_application is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_close_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         return_status = OPTIGA_LIB_SUCCESS;
     } while (FALSE);
     OPTIGA_EXAMPLE_LOG_STATUS(return_status);
@@ -411,6 +669,17 @@ void example_optiga_crypt_ecdsa_verify(void)
     {
         //Destroy the instance after the completion of usecase if not required.
         return_status = optiga_crypt_destroy(me);
+        if(OPTIGA_LIB_SUCCESS != return_status)
+        {
+            //lint --e{774} suppress This is a generic macro
+            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+        }
+    }
+
+    if(me_util)
+    {
+        //Destroy the instance after the completion of usecase if not required.
+        return_status = optiga_util_destroy(me_util);
         if(OPTIGA_LIB_SUCCESS != return_status)
         {
             //lint --e{774} suppress This is a generic macro
@@ -456,10 +725,42 @@ void example_optiga_crypt_ecdh(void)
     uint8_t shared_secret [32];
 
     optiga_crypt_t * me = NULL;
+    optiga_util_t * me_util = NULL;
     OPTIGA_EXAMPLE_LOG_MESSAGE(__FUNCTION__);
 
     do
     {
+       	/**
+		 * Create OPTIGA Util Instance
+		 */
+		me_util = optiga_util_create(0, optiga_util_callback, NULL);
+		if (NULL == me_util)
+		{
+			break;
+		}
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me_util, 0);
+    
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_open_application is completed
+            pal_os_event_process();
+        }
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_open_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         /**
          * 1. Create OPTIGA Crypt Instance
          */
@@ -479,8 +780,8 @@ void example_optiga_crypt_ecdh(void)
         optiga_lib_status = OPTIGA_LIB_BUSY;
         optiga_key_id = OPTIGA_KEY_ID_SESSION_BASED;
 
-        OPTIGA_CRYPT_SET_COMMS_PROTECTION_LEVEL(me, OPTIGA_COMMS_COMMAND_PROTECTION);
-        OPTIGA_CRYPT_SET_COMMS_PROTOCOL_VERSION(me, OPTIGA_COMMS_PROTOCOL_VERSION_PRE_SHARED_SECRET);
+        // OPTIGA_CRYPT_SET_COMMS_PROTECTION_LEVEL(me, OPTIGA_COMMS_COMMAND_PROTECTION);
+        // OPTIGA_CRYPT_SET_COMMS_PROTOCOL_VERSION(me, OPTIGA_COMMS_PROTOCOL_VERSION_PRE_SHARED_SECRET);
         return_status = optiga_crypt_ecc_generate_keypair(me,
                                                           OPTIGA_ECC_CURVE_NIST_P_256,
                                                           (uint8_t)OPTIGA_KEY_USAGE_KEY_AGREEMENT,
@@ -512,8 +813,8 @@ void example_optiga_crypt_ecdh(void)
          *       - Export the generated shared secret with protected I2C communication
          */
         optiga_lib_status = OPTIGA_LIB_BUSY;
-        OPTIGA_CRYPT_SET_COMMS_PROTECTION_LEVEL(me, OPTIGA_COMMS_COMMAND_PROTECTION);
-        OPTIGA_CRYPT_SET_COMMS_PROTOCOL_VERSION(me, OPTIGA_COMMS_PROTOCOL_VERSION_PRE_SHARED_SECRET);
+        // OPTIGA_CRYPT_SET_COMMS_PROTECTION_LEVEL(me, OPTIGA_COMMS_COMMAND_PROTECTION);
+        // OPTIGA_CRYPT_SET_COMMS_PROTOCOL_VERSION(me, OPTIGA_COMMS_PROTOCOL_VERSION_PRE_SHARED_SECRET);
         return_status = optiga_crypt_ecdh(me,
                                           optiga_key_id,
                                           &peer_public_key_details,
@@ -536,6 +837,31 @@ void example_optiga_crypt_ecdh(void)
             return_status = optiga_lib_status;
             break;
         }
+
+        /**
+         * Close the application on OPTIGA 
+         * using optiga_util_close_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_close_application(me_util, 0);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_close_application is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_close_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         return_status = OPTIGA_LIB_SUCCESS;
     } while (FALSE);
     OPTIGA_EXAMPLE_LOG_STATUS(return_status);
@@ -550,17 +876,60 @@ void example_optiga_crypt_ecdh(void)
             OPTIGA_EXAMPLE_LOG_STATUS(return_status);
         }
     }
+
+    if(me_util)
+    {
+        //Destroy the instance after the completion of usecase if not required.
+        return_status = optiga_util_destroy(me_util);
+        if(OPTIGA_LIB_SUCCESS != return_status)
+        {
+            //lint --e{774} suppress This is a generic macro
+            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+        }
+    }
 }
 
 void example_optiga_crypt_random(void)
 {
-uint8_t random_data_buffer [32];
+    uint8_t random_data_buffer [32];
     optiga_crypt_t * me = NULL;
+    optiga_util_t * me_util = NULL;
     optiga_lib_status_t return_status = 0;
     OPTIGA_EXAMPLE_LOG_MESSAGE(__FUNCTION__);
 
     do
     {
+       	/**
+		 * Create OPTIGA Util Instance
+		 */
+		me_util = optiga_util_create(0, optiga_util_callback, NULL);
+		if (NULL == me_util)
+		{
+			break;
+		}
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me_util, 0);
+    
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_open_application is completed
+            pal_os_event_process();
+        }
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_open_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         /**
          * 1. Create OPTIGA Crypt Instance
          *
@@ -598,6 +967,31 @@ uint8_t random_data_buffer [32];
             return_status = optiga_lib_status;
             break;
         }
+
+        /**
+         * Close the application on OPTIGA 
+         * using optiga_util_close_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_close_application(me_util, 0);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_close_application is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_close_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         return_status = OPTIGA_LIB_SUCCESS;
 
     } while (FALSE);
@@ -606,6 +1000,17 @@ uint8_t random_data_buffer [32];
     {
         //Destroy the instance after the completion of usecase if not required.
         return_status = optiga_crypt_destroy(me);
+        if(OPTIGA_LIB_SUCCESS != return_status)
+        {
+            //lint --e{774} suppress This is a generic macro
+            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+        }
+    }
+
+    if(me_util)
+    {
+        //Destroy the instance after the completion of usecase if not required.
+        return_status = optiga_util_destroy(me_util);
         if(OPTIGA_LIB_SUCCESS != return_status)
         {
             //lint --e{774} suppress This is a generic macro
@@ -666,6 +1071,29 @@ void example_optiga_crypt_tls_prf_sha256(void)
         me_util = optiga_util_create(0, optiga_util_callback, NULL);
         if (NULL == me_util)
         {
+            break;
+        }
+
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me_util, 0);
+    
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_open_application is completed
+            pal_os_event_process();
+        }
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_open_application failed
+            return_status = optiga_lib_status;
             break;
         }
 
@@ -747,7 +1175,7 @@ void example_optiga_crypt_tls_prf_sha256(void)
          */
         optiga_lib_status = OPTIGA_LIB_BUSY;
 
-        OPTIGA_CRYPT_SET_COMMS_PROTOCOL_VERSION(me, OPTIGA_COMMS_PROTOCOL_VERSION_PRE_SHARED_SECRET);
+        // OPTIGA_CRYPT_SET_COMMS_PROTOCOL_VERSION(me, OPTIGA_COMMS_PROTOCOL_VERSION_PRE_SHARED_SECRET);
         // Default protecition for this API is OPTIGA_COMMS_COMMAND_PROTECTION
         return_status = optiga_crypt_tls_prf_sha256(me,
                                                     0xF1D0, /* Input secret OID */
@@ -805,6 +1233,31 @@ void example_optiga_crypt_tls_prf_sha256(void)
             return_status = optiga_lib_status;
             break;
         }
+
+        /**
+         * Close the application on OPTIGA 
+         * using optiga_util_close_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_close_application(me_util, 0);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_close_application is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_close_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         return_status = OPTIGA_LIB_SUCCESS;
 
     } while (FALSE);
@@ -945,6 +1398,31 @@ void example_optiga_util_read_data(void)
             return_status = optiga_lib_status;
             break;
         }
+
+        /**
+         * Close the application on OPTIGA without hibernating
+         * using optiga_util_close_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_close_application(me, 0);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+    
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_close_application is completed
+            pal_os_event_process();
+        }
+    
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_close_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         return_status = OPTIGA_LIB_SUCCESS;
     } while (FALSE);    
     OPTIGA_EXAMPLE_LOG_STATUS(return_status);
@@ -1107,6 +1585,30 @@ void example_optiga_util_write_data(void)
             return_status = optiga_lib_status;
             break;
         }
+
+        /**
+         * Close the application on OPTIGA without hibernating
+         * using optiga_util_close_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_close_application(me, 0);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+    
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_close_application is completed
+            pal_os_event_process();
+        }
+    
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_close_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
         return_status = OPTIGA_LIB_SUCCESS;
 
     } while (FALSE);
@@ -1141,10 +1643,42 @@ void example_optiga_crypt_rsa_generate_keypair(void)
     uint16_t public_key_length = sizeof(public_key);
 
     optiga_crypt_t * me = NULL;
+    optiga_util_t * me_util = NULL;
     OPTIGA_EXAMPLE_LOG_MESSAGE(__FUNCTION__);
 
     do
     {
+       	/**
+		 * Create OPTIGA Util Instance
+		 */
+		me_util = optiga_util_create(0, optiga_util_callback, NULL);
+		if (NULL == me_util)
+		{
+			break;
+		}
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me_util, 0);
+    
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_open_application is completed
+            pal_os_event_process();
+        }
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_open_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         /**
          * 1. Create OPTIGA Crypt Instance
          */
@@ -1189,6 +1723,31 @@ void example_optiga_crypt_rsa_generate_keypair(void)
             return_status = optiga_lib_status;
             break;
         }
+
+        /**
+         * Close the application on OPTIGA 
+         * using optiga_util_close_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_close_application(me_util, 0);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_close_application is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_close_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         return_status = OPTIGA_LIB_SUCCESS;
     } while (FALSE);
     OPTIGA_EXAMPLE_LOG_STATUS(return_status);
@@ -1197,6 +1756,17 @@ void example_optiga_crypt_rsa_generate_keypair(void)
     {
         //Destroy the instance after the completion of usecase if not required.
         return_status = optiga_crypt_destroy(me);
+        if(OPTIGA_LIB_SUCCESS != return_status)
+        {
+            //lint --e{774} suppress This is a generic macro
+            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+        }
+    }
+
+    if(me_util)
+    {
+        //Destroy the instance after the completion of usecase if not required.
+        return_status = optiga_util_destroy(me_util);
         if(OPTIGA_LIB_SUCCESS != return_status)
         {
             //lint --e{774} suppress This is a generic macro
@@ -1220,11 +1790,43 @@ void example_optiga_crypt_rsa_sign(void)
 
     //Crypt Instance
     optiga_crypt_t * me = NULL;
+    optiga_util_t * me_util = NULL;
     optiga_lib_status_t return_status = 0;
     OPTIGA_EXAMPLE_LOG_MESSAGE(__FUNCTION__);
 
     do
     {
+        /**
+		 * Create OPTIGA Util Instance
+		 */
+		me_util = optiga_util_create(0, optiga_util_callback, NULL);
+		if (NULL == me_util)
+		{
+			break;
+		}
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me_util, 0);
+    
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_open_application is completed
+            pal_os_event_process();
+        }
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_open_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         /**
          * 1. Create OPTIGA Crypt Instance
          *
@@ -1267,6 +1869,31 @@ void example_optiga_crypt_rsa_sign(void)
             return_status = optiga_lib_status;
             break;
         }
+
+        /**
+         * Close the application on OPTIGA 
+         * using optiga_util_close_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_close_application(me_util, 0);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_close_application is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_close_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         return_status = OPTIGA_LIB_SUCCESS;
 
     } while (FALSE);
@@ -1276,6 +1903,17 @@ void example_optiga_crypt_rsa_sign(void)
     {
         //Destroy the instance after the completion of usecase if not required.
         return_status = optiga_crypt_destroy(me);
+        if(OPTIGA_LIB_SUCCESS != return_status)
+        {
+            //lint --e{774} suppress This is a generic macro
+            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+        }
+    }
+
+    if(me_util)
+    {
+        //Destroy the instance after the completion of usecase if not required.
+        return_status = optiga_util_destroy(me_util);
         if(OPTIGA_LIB_SUCCESS != return_status)
         {
             //lint --e{774} suppress This is a generic macro
@@ -1348,9 +1986,41 @@ void example_optiga_crypt_rsa_verify(void)
 
     optiga_lib_status_t return_status = 0;
     optiga_crypt_t * me = NULL;
+    optiga_util_t * me_util = NULL;
     OPTIGA_EXAMPLE_LOG_MESSAGE(__FUNCTION__);
     do
     {
+        /**
+		 * Create OPTIGA Util Instance
+		 */
+		me_util = optiga_util_create(0, optiga_util_callback, NULL);
+		if (NULL == me_util)
+		{
+			break;
+		}
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me_util, 0);
+    
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_open_application is completed
+            pal_os_event_process();
+        }
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_open_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+    
         /**
          * 1. Create OPTIGA Crypt Instance
          */
@@ -1391,6 +2061,31 @@ void example_optiga_crypt_rsa_verify(void)
             return_status = optiga_lib_status;
             break;
         }
+
+        /**
+         * Close the application on OPTIGA 
+         * using optiga_util_close_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_close_application(me_util, 0);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_close_application is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_close_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         return_status = OPTIGA_LIB_SUCCESS;
     } while (FALSE);
     OPTIGA_EXAMPLE_LOG_STATUS(return_status);
@@ -1399,6 +2094,17 @@ void example_optiga_crypt_rsa_verify(void)
     {
         //Destroy the instance after the completion of usecase if not required.
         return_status = optiga_crypt_destroy(me);
+        if(OPTIGA_LIB_SUCCESS != return_status)
+        {
+            //lint --e{774} suppress This is a generic macro
+            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+        }
+    }
+
+    if(me_util)
+    {
+        //Destroy the instance after the completion of usecase if not required.
+        return_status = optiga_util_destroy(me_util);
         if(OPTIGA_LIB_SUCCESS != return_status)
         {
             //lint --e{774} suppress This is a generic macro
@@ -1471,10 +2177,42 @@ void example_optiga_crypt_rsa_encrypt_message(void)
     public_key_from_host_t public_key_from_host;
 
     optiga_crypt_t * me = NULL;
+    optiga_util_t * me_util = NULL;
     OPTIGA_EXAMPLE_LOG_MESSAGE(__FUNCTION__);
 
     do
     {
+       	/**
+		 * Create OPTIGA Util Instance
+		 */
+		me_util = optiga_util_create(0, optiga_util_callback, NULL);
+		if (NULL == me_util)
+		{
+			break;
+		}
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me_util, 0);
+    
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_open_application is completed
+            pal_os_event_process();
+        }
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_open_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         /**
          * 1. Create OPTIGA Crypt Instance
          *
@@ -1521,6 +2259,31 @@ void example_optiga_crypt_rsa_encrypt_message(void)
             return_status = optiga_lib_status;
             break;
         }
+
+        /**
+         * Close the application on OPTIGA 
+         * using optiga_util_close_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_close_application(me_util, 0);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_close_application is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_close_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         return_status = OPTIGA_LIB_SUCCESS;
 
     } while (FALSE);
@@ -1536,11 +2299,22 @@ void example_optiga_crypt_rsa_encrypt_message(void)
             OPTIGA_EXAMPLE_LOG_STATUS(return_status);
         }
     }
+
+    if(me_util)
+    {
+        //Destroy the instance after the completion of usecase if not required.
+        return_status = optiga_util_destroy(me_util);
+        if(OPTIGA_LIB_SUCCESS != return_status)
+        {
+            //lint --e{774} suppress This is a generic macro
+            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+        }
+    }
 }
 
 void example_optiga_crypt_rsa_encrypt_session(void)
 {
-        optiga_lib_status_t return_status = 0;
+    optiga_lib_status_t return_status = 0;
     optiga_key_id_t optiga_key_id;
     optiga_rsa_encryption_scheme_t encryption_scheme;
 
@@ -1553,10 +2327,42 @@ void example_optiga_crypt_rsa_encrypt_session(void)
     uint16_t optional_data_length = sizeof(optional_data);
 
     optiga_crypt_t * me = NULL;
+    optiga_util_t * me_util = NULL;
     OPTIGA_EXAMPLE_LOG_MESSAGE(__FUNCTION__);
 
     do
     {
+       	/**
+		 * Create OPTIGA Util Instance
+		 */
+		me_util = optiga_util_create(0, optiga_util_callback, NULL);
+		if (NULL == me_util)
+		{
+			break;
+		}
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me_util, 0);
+    
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_open_application is completed
+            pal_os_event_process();
+        }
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_open_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         /**
          * 1. Create OPTIGA Crypt Instance
          *
@@ -1664,6 +2470,31 @@ void example_optiga_crypt_rsa_encrypt_session(void)
             return_status = optiga_lib_status;
             break;
         }
+
+        /**
+         * Close the application on OPTIGA 
+         * using optiga_util_close_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_close_application(me_util, 0);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_close_application is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_close_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         return_status = OPTIGA_LIB_SUCCESS;
 
     } while (FALSE);
@@ -1673,6 +2504,17 @@ void example_optiga_crypt_rsa_encrypt_session(void)
     {
         //Destroy the instance after the completion of usecase if not required.
         return_status = optiga_crypt_destroy(me);
+        if(OPTIGA_LIB_SUCCESS != return_status)
+        {
+            //lint --e{774} suppress This is a generic macro
+            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+        }
+    }
+
+    if(me_util)
+    {
+        //Destroy the instance after the completion of usecase if not required.
+        return_status = optiga_util_destroy(me_util);
         if(OPTIGA_LIB_SUCCESS != return_status)
         {
             //lint --e{774} suppress This is a generic macro
@@ -1777,6 +2619,31 @@ void example_optiga_util_update_count(void)
             return_status = optiga_lib_status;
             break;
         }
+
+        /**
+         * Close the application on OPTIGA without hibernating
+         * using optiga_util_close_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_close_application(me, 0);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+    
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_close_application is completed
+            pal_os_event_process();
+        }
+    
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_close_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         return_status = OPTIGA_LIB_SUCCESS;
     } while (FALSE);
     OPTIGA_EXAMPLE_LOG_STATUS(return_status);
@@ -2116,6 +2983,30 @@ void example_optiga_util_protected_update(void)
             break;
         }
 
+        /**
+         * Close the application on OPTIGA without hibernating
+         * using optiga_util_close_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_close_application(me, 0);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+    
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_close_application is completed
+            pal_os_event_process();
+        }
+    
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_close_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
         return_status = OPTIGA_LIB_SUCCESS;
     } while (FALSE);
     OPTIGA_EXAMPLE_LOG_STATUS(return_status);
@@ -2249,6 +3140,31 @@ void example_optiga_util_read_uuid(void)
 				OPTIGA_EXAMPLE_LOG_MESSAGE("ESW build number, BCD coded:");
 				OPTIGA_EXAMPLE_LOG_HEX_DATA(&read_data_buffer[25], 2);
 		// #endif
+
+        /**
+         * Close the application on OPTIGA without hibernating
+         * using optiga_util_close_application
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_close_application(me, 0);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+    
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_close_application is completed
+            pal_os_event_process();
+        }
+    
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga_util_close_application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
     }while(0);
     OPTIGA_EXAMPLE_LOG_STATUS(return_status);
 
