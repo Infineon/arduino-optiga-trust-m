@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2018 Infineon Technologies AG
+ * Copyright (c) 2019 Infineon Technologies AG
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,7 @@
  * SOFTWARE
  *
  * Demonstrates use of the 
- * Infineon Technologies AG OPTIGA™ Trust X Arduino library
+ * Infineon Technologies AG OPTIGA™ Trust M Arduino library
  */
 
 #include <OPTIGATrustM.h>
@@ -36,10 +36,29 @@ void setup()
     delay(100);
     Serial.println("Initializing ... ");
 
-    //getState();
-    example_optiga_util_read_data();
-    //example_optiga_util_read_uuid();
-    //example_optiga_util_hibernate_restore();
+
+    example_optiga_crypt_hash();
+    // example_optiga_crypt_ecc_generate_keypair();
+    // example_optiga_crypt_ecdsa_sign();
+    // example_optiga_crypt_ecdsa_verify();
+    // example_optiga_crypt_ecdh();
+    // example_optiga_crypt_random();  
+    // example_optiga_crypt_tls_prf_sha256();
+    // example_optiga_util_read_data();
+    // example_optiga_util_write_data();
+    // example_optiga_crypt_rsa_generate_keypair();
+    // example_optiga_crypt_rsa_sign();
+    // example_optiga_crypt_rsa_verify();
+    // example_optiga_crypt_rsa_decrypt_and_export();
+    // example_optiga_crypt_rsa_decrypt_and_store();
+    // example_optiga_crypt_rsa_encrypt_message();
+    // example_optiga_crypt_rsa_encrypt_session();
+    // example_optiga_util_update_count();
+    // example_optiga_util_protected_update();
+    // example_optiga_util_read_uuid();
+    // example_pair_host_and_optiga_using_pre_shared_secret();
+    // example_optiga_util_hibernate_restore();
+
 }
 
 void loop()
@@ -49,36 +68,3 @@ void loop()
 
 
 
-void upeh(void *, pal_status_t status)
-{
-   if (status == PAL_I2C_EVENT_ERROR)
-   {
-       Serial.println("NAK");
-   }
-   if(status == PAL_I2C_EVENT_SUCCESS)
-   {
-       Serial.println("ACK");
-   }
-}
-
-pal_status_t getState()
-{
-    uint8_t reg = 0x82;
-    uint8_t value[6] = {0};
-    optiga_pal_i2c_context_0.upper_layer_event_handler = upeh;
- 
-
-    pal_i2c_init(&optiga_pal_i2c_context_0);
-    Serial.println("initialized");
-    pal_i2c_set_bitrate(&optiga_pal_i2c_context_0,50);
-
-    while(pal_i2c_write(&optiga_pal_i2c_context_0, &reg, 1) == PAL_STATUS_FAILURE){};
-    while(pal_i2c_read(&optiga_pal_i2c_context_0, value, 4) == PAL_STATUS_FAILURE){};
-    Serial.print("value: ");
-    for(int i = 0; i < 6; i++)
-    {
-        Serial.print(value[i]);
-        Serial.print(".");
-    }
-        Serial.println(" ");
-}
