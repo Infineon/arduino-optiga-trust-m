@@ -54,7 +54,7 @@ extern "C" {
 // Logger color for different layers and data
 #define OPTIGA_EXAMPLE_COLOR               OPTIGA_LIB_LOGGER_COLOR_DEFAULT
 
-#if defined (OPTIGA_LIB_ENABLE_EXAMPLE_LOGGING)
+#if defined (OPTIGA_LIB_ENABLE_LOGGING) && defined (OPTIGA_LIB_ENABLE_EXAMPLE_LOGGING)
 /**
  * \brief Logs the message provided from Application layer
  *

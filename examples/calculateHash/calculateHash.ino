@@ -27,16 +27,16 @@
 
 #include <OPTIGATrustM.h>
 
-#define DATA_LENGTH       20
-#define BIGDATA_LENGTH    1024
+#define DATA_LENGTH       3
+#define BIGDATA_LENGTH    112
 #define HASH_LENGTH       32
 
 #define SUPPRESSCOLLORS
 #include "fprint.h"
 
 /* Arrays to store results of operations */
-uint8_t  data[DATA_LENGTH];
-uint8_t  bigdata[BIGDATA_LENGTH];
+uint8_t  data[DATA_LENGTH] = {'a','b','c'}; //NIST.1
+uint8_t  bigdata[] = "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu";         
 uint8_t  hash[HASH_LENGTH];
 
 void setup() 
@@ -60,13 +60,6 @@ void setup()
     while (true);
   }
   printlnGreen("OK");
-
-  // /*
-  //  * Initialise an OPTIGA™ Trust X Board
-  //  */
-  // printGreen("Stop to trust ... ");
-  // trustM.end();
-  // printlnGreen("OK");
 
   // /*
   //  * Speedup the board (from 6 mA to 15 mA)
@@ -95,70 +88,76 @@ static void output_result(char* tag, uint32_t tstamp, uint8_t* in, uint16_t in_l
 
 void loop()
 {
-  // uint32_t ret = 0;
-  // uint8_t  cntr = 10;
-  // // Timestamp is used to measure the execution time of a command
-  // uint32_t ts = 0;
+  uint32_t ret = 0;
+  uint8_t  cntr = 10;
+  // Timestamp is used to measure the execution time of a command
+  uint32_t ts = 0;
   
-  // /*
-  //  * Calculate a hash of the given data
-  //  */
-  // printGreen("\r\nCalculate One-Time Hash for ");
-  // printlnGreen((char *)data);
-  // ts = millis();
-  // ret = trustM.sha256(data, DATA_LENGTH, hash);
-  // ts = millis() - ts;
-  // if (ret) {
-  //   printlnRed("Failed");
-  //   while (true);
-  // }
-  // output_result("Hash", ts, hash, HASH_LENGTH);
+  /*
+   * Calculate a hash of the given data
+   */
+  printGreen("\r\nCalculate One-Time Hash for 'abc'");
+  ts = millis();
+  ret = trustM.sha256(data, DATA_LENGTH, hash);
+  ts = millis() - ts;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
+  output_result("Hash", ts, hash, HASH_LENGTH);
 
-  // /*
-  //  * Calculate a hash of the given data (big input)
-  //  */
-  // printlnGreen("\r\nCalculate One-Time Hash for 1024 bytes... ");
-  // ts = millis();
-  // ret = trustM.sha256(bigdata, BIGDATA_LENGTH, hash);
-  // ts = millis() - ts;
-  // if (ret) {
-  //   printlnRed("Failed");
-  //   while (true);
-  // }
+  /*
+   * SHA 256 NIST.1 --> "abc" string
+   * ba7816bf 8f01cfea 414140de 5dae2223 
+   * b00361a3 96177a9c b410ff61 f20015ad
+   */
 
-  // output_result("Hash", ts, hash, HASH_LENGTH);
-  // printGreen("Hashrate is "); 
-  // Serial.print(1024/ts); 
-  // Serial.println(" kB/sec");
+  /*
+   * Calculate a hash of the given data (big input)
+   */
+  printlnGreen("\r\nCalculate One-Time Hash for 1024 bytes... ");
+  ts = millis();
+  ret = trustM.sha256(bigdata, BIGDATA_LENGTH, hash);
+  ts = millis() - ts;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
 
-  // /*
-  //  * Benchmarking hash for the current microcontroller
-  //  */
-  // printlnGreen("\r\nBenchmarking SHA256 100 times for 20 bytes data ... ");
-  // ts = millis();
-  // for (int i = 0; i < 100; i++) {
-  //    trustM.sha256(data, DATA_LENGTH, hash);
-  // }
-  // ts = millis() - ts;
-  // if (ret) {
-  //   printlnRed("Failed");
-  //   while (true);
-  // }
+  output_result("Hash", ts, hash, HASH_LENGTH);
+  printGreen("Hashrate is "); 
+  Serial.print(1024/ts); 
+  Serial.println(" kB/sec");
 
-  // printGreen("Becnhmark executed in "); 
-  // Serial.print(ts); 
-  // Serial.println(" ms");
-  // printGreen("Hashrate is "); 
-  // Serial.print((1000 * 100)/ts); 
-  // Serial.println(" H/sec");
+  /*
+   * SHA 256 Big Data --> "abcd...stu" 112 char string
+   * cf5b16a7 78af8380 036ce59e 7b049237 
+   * 0b249b11 e8f07a51 afac4503 7afee9d1
+   */
 
-  // /*
-  //  * Count down 10 seconds and restart the application
-  //  */
-  // while(cntr) {
-  //   Serial.print(cntr);
-  //   Serial.println(" seconds untill restart.");
-  //   delay(1000);
-  //   cntr--;
-  // }
+  /*
+   * Benchmarking hash for the current microcontroller
+   */
+  printlnGreen("\r\nBenchmarking SHA256 100 times for 20 bytes data ... ");
+  ts = millis();
+  for (int i = 0; i < 100; i++) {
+     trustM.sha256(data, DATA_LENGTH, hash);
+  }
+  ts = millis() - ts;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
+
+  printGreen("Becnhmark executed in "); 
+  Serial.print(ts); 
+  Serial.println(" ms");
+  printGreen("Hashrate is "); 
+  Serial.print((1000 * 100)/ts); 
+  Serial.println(" H/sec");
+  
+  /* 
+   * Execute the loop just once :)
+   */
+  while(1){};
 }

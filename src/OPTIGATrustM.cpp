@@ -161,17 +161,24 @@ IFX_OPTIGA_TrustM trustM = IFX_OPTIGA_TrustM();
 
 
 static volatile optiga_lib_status_t optiga_lib_status;
-static void optiga_util_callback(void * context, optiga_lib_status_t return_status){ optiga_lib_status = return_status; };
+static void optiga_util_callback(void * context, optiga_lib_status_t return_status)
+{
+    optiga_lib_status = return_status; 
+    if (NULL != context)
+    {
+        // callback to upper layer here
+    }
+};
 
-IFX_OPTIGA_TrustM::IFX_OPTIGA_TrustM(){ active = false;
+IFX_OPTIGA_TrustM::IFX_OPTIGA_TrustM()
+{ 
+    active = false;
 }
 
-IFX_OPTIGA_TrustM::~IFX_OPTIGA_TrustM(){}
+IFX_OPTIGA_TrustM::~IFX_OPTIGA_TrustM()
+{
 
-/*
- * Local Functions
- */
-
+}
 
 /*
  * Global Functions
@@ -179,9 +186,51 @@ IFX_OPTIGA_TrustM::~IFX_OPTIGA_TrustM(){}
 
 int32_t IFX_OPTIGA_TrustM::begin(void)
 {
-    return begin(Wire);
-}
+        uint32_t ard_ret = 1;
+    optiga_lib_status_t return_status;
 
+    OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
+    do 
+    {
+        //Create an instance of optiga_util to open the application on OPTIGA.
+        me_util = optiga_util_create(OPTIGA_INSTANCE_ID_0, optiga_util_callback, NULL);
+        if (NULL == me_util)
+        {
+            break;
+        }
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */        
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me_util, 0);
+
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+        while (optiga_lib_status == OPTIGA_LIB_BUSY)
+        {
+            //Wait until the optiga_util_open_application is completed
+            pal_os_event_process();
+        }
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //optiga util open application failed
+            return_status = optiga_lib_status;
+            break;
+        }
+    	active = true;
+    }while (FALSE);
+
+    OPTIGA_ARDUINO_LOG_STATUS(return_status);
+
+    if(OPTIGA_LIB_SUCCESS == return_status)
+    {
+        ard_ret = 0;
+    }
+    return ard_ret;
+}
 
 int32_t IFX_OPTIGA_TrustM::checkChip(void)
 {
@@ -243,40 +292,11 @@ int32_t IFX_OPTIGA_TrustM::checkChip(void)
 
 int32_t IFX_OPTIGA_TrustM::begin(TwoWire& CustomWire)
 {
-    optiga_lib_status_t return_status;
+    /**
+     * Set the corresponding i2c context first
+     */
 
-    OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
-    do 
-    {
-        //Create an instance of optiga_util to open the application on OPTIGA.
-        me_util = optiga_util_create(OPTIGA_INSTANCE_ID_0, optiga_util_callback, NULL);
-
-        /**
-         * Open the application on OPTIGA which is a precondition to perform any other operations
-         * using optiga_util_open_application
-         */        
-        optiga_lib_status = OPTIGA_LIB_BUSY;
-        return_status = optiga_util_open_application(me_util, 0);
-
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-        while (optiga_lib_status == OPTIGA_LIB_BUSY)
-        {
-            //Wait until the optiga_util_open_application is completed
-            pal_os_event_process();
-        }
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            //optiga util open application failed
-            break;
-        }
-    	active = true;
-    }while (FALSE);
-
-    OPTIGA_ARDUINO_LOG_STATUS(return_status);
-    return return_status;
+    return begin();
 }
 
 int32_t IFX_OPTIGA_TrustM::reset(void)
@@ -314,13 +334,15 @@ void IFX_OPTIGA_TrustM::end(void)
         if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
         {
             //optiga util close application failed
+            return_status = optiga_lib_status;
             break;
         }
 
-        // destroy util and crypt instances
-        optiga_util_destroy(me_util);
         active = false;
     }while (FALSE);
+
+    // destroy util and crypt instances
+    return_status =  optiga_util_destroy(me_util);
 
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
     //TODO: original function prototypes does returns void in Optiga X.
@@ -573,194 +595,141 @@ int32_t IFX_OPTIGA_TrustM::getRandom(uint16_t length, uint8_t* p_random)
     // return ret;
 }
 
+/**
+ * Prepare the hash context
+ */
+#define OPTIGA_HASH_CONTEXT_INIT(hash_context,p_context_buffer,context_buffer_size,hash_type) \
+{                                                               \
+    hash_context.context_buffer = p_context_buffer;             \
+    hash_context.context_buffer_length = context_buffer_size;   \
+    hash_context.hash_algo = hash_type;                         \
+}
 
 int32_t IFX_OPTIGA_TrustM::sha256(uint8_t dataToHash[], uint16_t ilen, uint8_t out[32])
 {
-//     uint16_t ret = 1;
+    uint32_t ard_ret = 1;
+    optiga_crypt_t * me = NULL;
+    optiga_lib_status_t return_status = 0;
+    optiga_hash_context_t hash_context;
+    uint8_t hash_context_buffer [130];
+    hash_data_from_host_t hash_data_host;
 
-//     sCalcHash_d calchash_opt;
+    OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
 
-//     do {
-//         calchash_opt.eHashAlg = eSHA256;
-//         calchash_opt.eHashSequence  = eStartFinalizeHash;
-//         calchash_opt.eHashDataType = eDataStream;
-//         calchash_opt.sDataStream.prgbStream = dataToHash;
-//         calchash_opt.sDataStream.wLen = ilen;
-//         calchash_opt.sContextInfo.dwContextLen = 0x00;
-//         calchash_opt.sContextInfo.pbContextData = NULL;
-//         calchash_opt.sContextInfo.eContextAction = eUnused;
-//         calchash_opt.sOutHash.prgbBuffer = out;
-//         calchash_opt.sOutHash.wBufferLength = 32;
-//         calchash_opt.sOutHash.wRespLength = 0;
+    do
+    {
+        /**
+         * 1. Create OPTIGA Crypt Instance
+         */
+        me = optiga_crypt_create(0, optiga_util_callback, NULL);
+        if (NULL == me)
+        {
+            break;
+        }
 
-//         if (CMD_LIB_OK == CmdLib_CalcHash(&calchash_opt))
-//         {
-//             ret = 0;
-//             break;
-//         }
+        /**
+         * 2. Initialize the Hash context
+         */
+        OPTIGA_HASH_CONTEXT_INIT(hash_context,hash_context_buffer,  \
+                                 sizeof(hash_context_buffer),(uint8_t)OPTIGA_HASH_TYPE_SHA_256);
 
-// //      //eContinueHash - OID
-// //      calchash_opt.eHashSequence  = eContinueHash;
-// //      calchash_opt.eHashDataType = eOIDData;
-// //      calchash_opt.sOIDData.wOID = (uint16_t)eDEVICE_PUBKEY_CERT_IFX;
-// //      calchash_opt.sOIDData.wOffset = 0x00;
-// //      calchash_opt.sOIDData.wLength = 0x0020;
-// //      //In case of Intermediate Hash
-// //      //Set the variables as shown below
-// //      //calchash_opt.eHashSequence = eIntermediateHash;
-// //      //Allocate the buffer to stor ethe Hash output
-// //      //calchash_opt.sOutHash.prgbBuffer = rgbOutBuffer;
-// //      //calchash_opt.sOutHash.wBufferLength = sizeof(rgbOutBuffer);
-// //      //calchash_opt.sOutHash.wRespLength = 0;
-// //      ret = CmdLib_CalcHash(&calchash_opt);
-// //      if(CMD_LIB_OK != ret)
-// //      {
-// //          break;
-// //      }
-// //
-// //      //efinalizeHash - Datastream
-// //      calchash_opt.eHashSequence  = eFinalizeHash;
-// //      calchash_opt.eHashDataType = eDataStream;
-// //      calchash_opt.sDataStream.prgbStream = rgbDataStream;
-// //      calchash_opt.sDataStream.wLen = sizeof(rgbDataStream);
-// //
-// //      //Allocate output buffer for eFinalize
-// //      calchash_opt.sOutHash.prgbBuffer = rgbOutBuffer;
-// //      calchash_opt.sOutHash.wBufferLength = sizeof(rgbOutBuffer);
-// //      calchash_opt.sOutHash.wRespLength = 0;
-// //      ret = CmdLib_CalcHash(&calchash_opt);
-// //      if(CMD_LIB_OK != ret)
-// //      {
-// //          break;
-// //      }
-// //
-// //      //
-// //      //Import and Export of Hash Context
-// //      //
-// //
-// //      //eStart
-// //      calchash_opt.eHashAlg = eSHA256;
-// //      calchash_opt.eHashSequence  = eStartHash;
-// //      calchash_opt.eHashDataType = eDataStream;
-// //      calchash_opt.sDataStream.prgbStream = rgbDataStream;
-// //      calchash_opt.sDataStream.wLen = 10;
-// //      calchash_opt.sContextInfo.eContextAction = eUnused;
-// //      ret = CmdLib_CalcHash(&calchash_opt);
-// //      if(CMD_LIB_OK != ret)
-// //      {
-// //          break;
-// //      }
-// //
-// //      //First eContinue and eExport
-// //      calchash_opt.eHashAlg = eSHA256;
-// //      calchash_opt.eHashSequence  = eContinueHash;
-// //      calchash_opt.eHashDataType = eDataStream;
-// //      calchash_opt.sDataStream.prgbStream = &rgbDataStream[10];
-// //      calchash_opt.sDataStream.wLen = 10;
-// //      calchash_opt.sContextInfo.dwContextLen = sizeof(rgbFirstHashCntx);
-// //      calchash_opt.sContextInfo.pbContextData = rgbFirstHashCntx;
-// //      calchash_opt.sContextInfo.eContextAction = eExport;
-// //      ret = CmdLib_CalcHash(&calchash_opt);
-// //      if(CMD_LIB_OK != ret)
-// //      {
-// //          break;
-// //      }
-// //
-// //      //eStart
-// //      calchash_opt.eHashAlg = eSHA256;
-// //      calchash_opt.eHashSequence  = eStartHash;
-// //      calchash_opt.eHashDataType = eOIDData;
-// //      calchash_opt.eHashDataType = eOIDData;
-// //      calchash_opt.sOIDData.wOID = (uint16_t)eDEVICE_PUBKEY_CERT_IFX;
-// //      calchash_opt.sOIDData.wOffset = 0x00;
-// //      calchash_opt.sOIDData.wLength = 0x0020;
-// //      calchash_opt.sContextInfo.eContextAction = eUnused;
-// //      ret = CmdLib_CalcHash(&calchash_opt);
-// //      if(CMD_LIB_OK != ret)
-// //      {
-// //          break;
-// //      }
-// //
-// //      //Second eContinue and eExport
-// //      calchash_opt.eHashAlg = eSHA256;
-// //      calchash_opt.eHashSequence  = eContinueHash;
-// //      calchash_opt.eHashDataType = eDataStream;
-// //      calchash_opt.sDataStream.prgbStream = &rgbDataStream[20];
-// //      calchash_opt.sDataStream.wLen = 10;
-// //      calchash_opt.sContextInfo.dwContextLen = sizeof(rgbSecondHashCntx);
-// //      calchash_opt.sContextInfo.pbContextData = rgbSecondHashCntx;
-// //      calchash_opt.sContextInfo.eContextAction = eExport;
-// //      ret = CmdLib_CalcHash(&calchash_opt);
-// //      if(CMD_LIB_OK != ret)
-// //      {
-// //          break;
-// //      }
-// //
-// //      //eContinue and eImport of First HashCntx
-// //      calchash_opt.eHashAlg = eSHA256;
-// //      calchash_opt.eHashSequence  = eContinueHash;
-// //      calchash_opt.eHashDataType = eDataStream;
-// //      calchash_opt.sDataStream.prgbStream = &rgbDataStream[20];
-// //      calchash_opt.sDataStream.wLen = 10;
-// //      calchash_opt.sContextInfo.dwContextLen = sizeof(rgbFirstHashCntx);
-// //      calchash_opt.sContextInfo.pbContextData = rgbFirstHashCntx;
-// //      calchash_opt.sContextInfo.eContextAction = eImport;
-// //      ret = CmdLib_CalcHash(&calchash_opt);
-// //      if(CMD_LIB_OK != ret)
-// //      {
-// //          break;
-// //      }
-// //
-// //      //efinalizeHash with First Hash Context
-// //      calchash_opt.eHashSequence  = eFinalizeHash;
-// //      calchash_opt.eHashDataType = eDataStream;
-// //      calchash_opt.sDataStream.prgbStream = rgbDataStream;
-// //      calchash_opt.sDataStream.wLen = sizeof(rgbDataStream);
-// //
-// //      //Allocate output buffer for eFinalize
-// //      calchash_opt.sOutHash.prgbBuffer = rgbOutBuffer;
-// //      calchash_opt.sOutHash.wBufferLength = sizeof(rgbOutBuffer);
-// //      calchash_opt.sOutHash.wRespLength = 0;
-// //      ret = CmdLib_CalcHash(&calchash_opt);
-// //      if(CMD_LIB_OK != ret)
-// //      {
-// //          break;
-// //      }
-// //
-// //      //eContinue and eImport of Second HashCntx
-// //      calchash_opt.eHashAlg = eSHA256;
-// //      calchash_opt.eHashSequence  = eContinueHash;
-// //      calchash_opt.eHashDataType = eDataStream;
-// //      calchash_opt.sDataStream.prgbStream = &rgbDataStream[20];
-// //      calchash_opt.sDataStream.wLen = 10;
-// //      calchash_opt.sContextInfo.dwContextLen = sizeof(rgbSecondHashCntx);
-// //      calchash_opt.sContextInfo.pbContextData = rgbSecondHashCntx;
-// //      calchash_opt.sContextInfo.eContextAction = eImport;
-// //      ret = CmdLib_CalcHash(&calchash_opt);
-// //      if(CMD_LIB_OK != ret)
-// //      {
-// //          break;
-// //      }
-// //
-// //      //efinalizeHash with Second Hash Context
-// //      calchash_opt.eHashSequence  = eFinalizeHash;
-// //      calchash_opt.eHashDataType = eDataStream;
-// //      calchash_opt.sDataStream.prgbStream = rgbDataStream;
-// //      calchash_opt.sDataStream.wLen = sizeof(rgbDataStream);
-// //
-// //      //Allocate output buffer for eFinalize
-// //      calchash_opt.sOutHash.prgbBuffer = rgbOutBuffer;
-// //      calchash_opt.sOutHash.wBufferLength = sizeof(rgbOutBuffer);
-// //      calchash_opt.sOutHash.wRespLength = 0;
-// //      ret = CmdLib_CalcHash(&calchash_opt);
-// //      if(CMD_LIB_OK != ret)
-// //      {
-// //          break;
-// //      }
+        optiga_lib_status = OPTIGA_LIB_BUSY;
 
-//     }while(FALSE);
+        /**
+         * 3. Initialize the hashing context at OPTIGA
+         */
+        return_status = optiga_crypt_hash_start(me, &hash_context);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+        while (OPTIGA_LIB_BUSY == optiga_lib_status)
+        {
+            //Wait until the optiga_crypt_hash_start operation is completed
+            pal_os_event_process();
+        }
 
-//     return ret;
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            return_status = optiga_lib_status;
+            break;
+        }
+
+        
+        /**
+         * 4. Continue hashing the data
+         */
+        hash_data_host.buffer = dataToHash;
+        hash_data_host.length = ilen;
+
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_crypt_hash_update(me,
+                                                 &hash_context,
+                                                 OPTIGA_CRYPT_HOST_DATA,
+                                                 &hash_data_host);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (OPTIGA_LIB_BUSY == optiga_lib_status)
+        {
+            //Wait until the optiga_crypt_hash_update operation is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            return_status = optiga_lib_status;
+            break;
+        }
+
+        /**
+         * 5. Finalize the hash
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_crypt_hash_finalize(me,
+                                                   &hash_context,
+                                                   out);
+
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (OPTIGA_LIB_BUSY == optiga_lib_status)
+        {
+            //Wait until the optiga_crypt_hash_finalize operation is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            return_status = optiga_lib_status;
+            break;
+        }
+        return_status = OPTIGA_LIB_SUCCESS;
+
+    } while (FALSE);
+    OPTIGA_ARDUINO_LOG_STATUS(return_status);
+
+    
+    if (me)
+    {
+        //Destroy the instance after the completion of usecase if not required.
+        return_status = optiga_crypt_destroy(me);
+        if(OPTIGA_LIB_SUCCESS != return_status)
+        {
+            //lint --e{774} suppress This is a generic macro
+            OPTIGA_ARDUINO_LOG_STATUS(return_status);
+        }
+    }
+
+    if(OPTIGA_LIB_SUCCESS == return_status)
+    {
+        ard_ret = 0;
+    }
+    return ard_ret;
 }
 
 int32_t IFX_OPTIGA_TrustM::calculateSignature(uint8_t dataToSign[], uint16_t ilen, uint16_t ctx, uint8_t* out, uint16_t& olen)

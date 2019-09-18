@@ -87,7 +87,7 @@ extern "C" {
     * Enable macro OPTIGA_LIB_ENABLE_CRYPT_LOGGING for Crypt Service layer logging     \n
     * Enable macro OPTIGA_LIB_ENABLE_CMD_LOGGING for Command layer logging     \n
     * Enable macro OPTIGA_LIB_ENABLE_COMMS_LOGGING for Communication layer logging     */
-    #define OPTIGA_LIB_ENABLE_LOGGING
+    // #define OPTIGA_LIB_ENABLE_LOGGING
 
 /// @cond
 #ifdef OPTIGA_LIB_ENABLE_LOGGING

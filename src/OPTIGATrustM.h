@@ -426,9 +426,8 @@ public:
     int32_t generateKeypair(uint8_t publicKey[], uint16_t& plen, uint8_t privateKey[], uint16_t& prlen);
 
 private:
-    uint8_t return_value = 0;
-    optiga_util_t * me_util;
 
+    optiga_util_t * me_util = NULL;
 
 	bool active;
     // int32_t getGlobalSecurityStatus(uint8_t& status);
