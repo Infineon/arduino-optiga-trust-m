@@ -293,8 +293,7 @@ public:
      */
     int32_t calculateSignature(uint8_t dataToSign[], uint16_t dlen, uint16_t privateKey_oid, uint8_t result[], uint16_t& rlen);
     int32_t calculateSignature(uint8_t dataToSign[], uint16_t dlen, uint8_t result[], uint16_t& rlen) { 
-        //return calculateSignature(dataToSign, dlen, eFIRST_DEVICE_PRIKEY_1, result, rlen);
-        return calculateSignature(dataToSign, dlen, OPTIGA_KEY_ID_E0FC, result, rlen);
+        return calculateSignature(dataToSign, dlen, eFIRST_DEVICE_PRIKEY_1, result, rlen);
 	}
     
     /**

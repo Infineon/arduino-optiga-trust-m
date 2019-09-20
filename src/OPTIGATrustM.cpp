@@ -763,20 +763,16 @@ int32_t IFX_OPTIGA_TrustM::calculateSignature(uint8_t dataToSign[], uint16_t ile
         }
 
         /**
-         * 1. Sign the digest -
-         *       - Use Private key from Key Store ID E0FC
+         * Sign the digest -
          *       - Signature scheme is SHA256,
          */
         optiga_lib_status = OPTIGA_LIB_BUSY;
-        return_status = optiga_crypt_rsa_sign(me_crypt,
-                                              OPTIGA_RSASSA_PKCS1_V15_SHA256,
-                                              dataToSign,
-                                              ilen,
-                                              (optiga_key_id_t)privateKey_oid,
-                                              out,
-                                              &olen,
-                                              0x0000);
-
+        return_status = optiga_crypt_ecdsa_sign(me_crypt,
+                                                dataToSign,
+                                                ilen,
+                                                (optiga_key_id_t)privateKey_oid,
+                                                out,
+                                                &olen);
         if (OPTIGA_LIB_SUCCESS != return_status)
         {
             break;
@@ -928,16 +924,13 @@ int32_t IFX_OPTIGA_TrustM::verifySignature( uint8_t* digest, uint16_t hashLength
          * Verify RSA signature using public key from host
          */
         optiga_lib_status = OPTIGA_LIB_BUSY;
-        return_status = optiga_crypt_rsa_verify (me_crypt,
-                                                 OPTIGA_RSASSA_PKCS1_V15_SHA256,
-                                                 digest,
-                                                 hashLength,
-                                                 sign,
-                                                 signatureLength,
-                                                 OPTIGA_CRYPT_HOST_DATA,
-                                                 &public_key_details,
-                                                 0x0000);
-
+        return_status = optiga_crypt_ecdsa_verify (me_crypt,
+                                                   digest,
+                                                   hashLength,
+                                                   sign,
+                                                   signatureLength,
+                                                   OPTIGA_CRYPT_HOST_DATA,
+                                                   &public_key_details);
         if (OPTIGA_LIB_SUCCESS != return_status)
         {
             break;

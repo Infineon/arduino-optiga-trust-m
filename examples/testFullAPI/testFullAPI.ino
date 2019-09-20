@@ -22,10 +22,10 @@
  * SOFTWARE
  *
  * Demonstrates use of the 
- * Infineon Technologies AG OPTIGA™ Trust X Arduino library
+ * Infineon Technologies AG OPTIGA™ Trust M Arduino library
  */
 
-#include "OPTIGATrustX.h"
+#include "OPTIGATrustM.h"
 
 #define MAXCMD_LEN		255
 #define CERT_LENGTH		512
@@ -81,7 +81,7 @@ void loop()
    */
   printGreen("Get co-processor UID ... ");
   uint16_t uidLength = UID_LENGTH;
-  ret = trustX.getUniqueID(uid, uidLength);
+  ret = trustM.getUniqueID(uid, uidLength);
   ASSERT(ret);
   output_result("Co-processor UID", uid, uidLength);
 
@@ -89,7 +89,7 @@ void loop()
    * Getting primary certificate
    */
   printGreen("Reading cert ... ");
-  ret = trustX.getCertificate(cert, certLen);
+  ret = trustM.getCertificate(cert, certLen);
   ASSERT(ret);
   output_result("Certificate", cert, certLen);
 
@@ -98,7 +98,7 @@ void loop()
    */
   printGreen("Generate Key Pair ... ");
   uint16_t ctx = 0;
-  ret = trustX.generateKeypair(pubKey, pubKeyLen, ctx);
+  ret = trustM.generateKeypair(pubKey, pubKeyLen, ctx);
   ASSERT(ret);
   output_result("Public key", pubKey, pubKeyLen);
 
@@ -106,7 +106,7 @@ void loop()
    * Get random value of RND_LENGTH length
    */
   printGreen("Get random value ... ");
-  ret = trustX.getRandom(RND_LENGTH, rnd);
+  ret = trustM.getRandom(RND_LENGTH, rnd);
   ASSERT(ret);
   output_result("Random", rnd, RND_LENGTH);
 

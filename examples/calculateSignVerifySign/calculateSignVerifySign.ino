@@ -229,5 +229,8 @@ void loop()
   /* Sign data and verify a signature with a newly generated keypair */
   calculateSignVerifySign_newkey();
 
- 
+ /* 
+   * Execute the loop just once :)
+   */
+  while(1){};
 }

@@ -123,13 +123,8 @@ void loop()
   output_result("Public Key ", ts, pubKey, pubKeyLen);
   output_result("Private Key ", ts, privKey, privKeyLen);
   
-  /*
-   * Count down 10 seconds and restart the application
+/* 
+   * Execute the loop just once :)
    */
-  while(cntr) {
-    Serial.print(cntr);
-    Serial.println(" seconds untill restart.");
-    delay(1000);
-    cntr--;
-  }
+  while(1){};
 }
