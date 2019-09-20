@@ -127,7 +127,7 @@
 #endif
 
 
-#define PAL_I2C_MASTER_MAX_BITRATE  (50U)
+#define PAL_I2C_MASTER_MAX_BITRATE  (400U)
 
 LIBRARY_EXPORTS pal_status_t pal_i2c_init(const pal_i2c_t * p_i2c_context)
 {

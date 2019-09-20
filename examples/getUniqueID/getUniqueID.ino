@@ -25,7 +25,7 @@
  * Infineon Technologies AG OPTIGA™ Trust X Arduino library
  */
 
-#include "OPTIGATrustX.h"
+#include "OPTIGATrustM.h"
 
 #define UID_LENGTH        27
 
@@ -39,31 +39,31 @@ void setup()
   /*
    * Initialise a serial port for debug output
    */
-  Serial.begin(38400);
+  Serial.begin(115200);
   delay(1000);
   Serial.println("Initializing ... ");
 
   /*
-   * Initialise an OPTIGA™ Trust X Board
+   * Initialise an OPTIGA™ Trust M Board
    */
   printGreen("Begin to trust ... ");
-  ret = trustX.begin();
+  ret = trustM.begin();
   if (ret) {
     printlnRed("Failed");
     while (true);
   }
   printlnGreen("OK");
 
-  /*
-   * Speedup the board (from 6 mA to 15 mA)
-   */
-  printGreen("Limiting Current consumption (15mA - means no limitation) ... ");
-  ret = trustX.setCurrentLimit(15);
-  if (ret) {
-    printlnRed("Failed");
-    while (true);
-  }
-  printlnGreen("OK");
+  // /*
+  //  * Speedup the board (from 6 mA to 15 mA)
+  //  */
+  // printGreen("Limiting Current consumption (15mA - means no limitation) ... ");
+  // ret = trustM.setCurrentLimit(15);
+  // if (ret) {
+  //   printlnRed("Failed");
+  //   while (true);
+  // }
+  // printlnGreen("OK");
 
 }
 
@@ -73,11 +73,12 @@ void loop()
   uint8_t  cntr = 10;
   uint8_t  uid[UID_LENGTH];
   uint16_t uidLength = UID_LENGTH;
+
   /*
    * Getting co-processor Unique ID of 27 bytes
    */
   printlnGreen("\r\nGetting co-processor Unique ID... ");
-  ret = trustX.getUniqueID(uid, uidLength);
+  ret = trustM.getUniqueID(uid, uidLength);
   if (ret) {
     printlnRed("Failed");
     while (true);
@@ -88,7 +89,11 @@ void loop()
   Serial.println(uidLength);
   printlnMagenta("Unique ID:");
   HEXDUMP(uid, uidLength);
-
+ 
+  // /* 
+  //  * Execute the loop just once :)
+  //  */
+  // while(1){}
   /*
    * Count down 10 seconds and restart the application
    */

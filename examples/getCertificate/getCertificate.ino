@@ -41,7 +41,7 @@ void setup()
   /*
    * Initialise a serial port for debug output
    */
-  Serial.begin(38400);
+  Serial.begin(115200);
   delay(1000);
   Serial.println("Initializing ... ");
 
@@ -91,13 +91,8 @@ void loop()
   printlnMagenta("Certificate:");
   HEXDUMP(cert, certLen);
 
-  /*
-   * Count down 10 seconds and restart the application
+  /* 
+   * Execute the loop just once :)
    */
-  while(cntr) {
-    Serial.print(cntr);
-    Serial.println(" seconds untill restart.");
-    delay(1000);
-    cntr--;
-  }
+  while(1){}
 }

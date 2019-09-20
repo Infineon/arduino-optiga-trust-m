@@ -22,10 +22,10 @@
  * SOFTWARE
  *
  * Demonstrates use of the 
- * Infineon Technologies AG OPTIGA™ Trust X Arduino library
+ * Infineon Technologies AG OPTIGA™ Trust M Arduino library
  */
 
-#include "OPTIGATrustX.h"
+#include "OPTIGATrustM.h"
 
 #define DATA_LENGTH		10
 #define HASH_LENGTH		32
@@ -47,30 +47,30 @@ void setup()
   /*
    * Initialise a serial port for debug output
    */
-  Serial.begin(38400);
+  Serial.begin(115200);
   delay(1000);
   Serial.println("Initializing ... ");
 
   /*
-   * Initialise an OPTIGA™ Trust X Board
+   * Initialise an OPTIGA™ Trust M Board
    */
   printGreen("Begin to trust ... ");
-  ret = trustX.begin();
+  ret = trustM.begin();
   if (ret) {
     printlnRed("Failed");
     while (true);
   }
   printlnGreen("OK");
 
-  /*
-   * Speedup the board (from 6 mA to 15 mA)
-   */
-  ret = trustX.setCurrentLimit(15);
-  if (ret) {
-    printlnRed("Failed");
-    while (true);
-  }
-  printlnGreen("OK");
+  // /*
+  //  * Speedup the board (from 6 mA to 15 mA)
+  //  */
+  // ret = trustM.setCurrentLimit(15);
+  // if (ret) {
+  //   printlnRed("Failed");
+  //   while (true);
+  // }
+  // printlnGreen("OK");
 
 }
 
@@ -90,7 +90,7 @@ static void output_result(char* tag, uint32_t tstamp, uint8_t* in, uint16_t in_l
 void calculateSignVerifySign_ownkey()
 {
   uint32_t ret = 0;
-  uint8_t  data[DATA_LENGTH] = {'T', 'R', 'U', 'S', 'T', 'X', 'T', 'E', 'S', 'T'};
+  uint8_t  data[DATA_LENGTH] = {'T', 'R', 'U', 'S', 'T', 'M', 'T', 'E', 'S', 'T'};
   uint8_t  ifxPublicKey[68];
   uint32_t ts = 0;
   
@@ -101,7 +101,7 @@ void calculateSignVerifySign_ownkey()
   /*
    * Extract public key of the device certificate
    */
-  trustX.getPublicKey(ifxPublicKey);
+  trustM.getPublicKey(ifxPublicKey);
    
   output_result("My Public Key", ts, ifxPublicKey, sizeof(ifxPublicKey));
 
@@ -110,7 +110,7 @@ void calculateSignVerifySign_ownkey()
    */
   printlnGreen("\r\nCalculate Hash ... ");
   ts = millis();
-  ret = trustX.sha256(data, DATA_LENGTH, hash);
+  ret = trustM.sha256(data, DATA_LENGTH, hash);
   ts = millis() - ts;
   hashLen = HASH_LENGTH;
   if (ret) {
@@ -125,7 +125,7 @@ void calculateSignVerifySign_ownkey()
    */
   printlnGreen("\r\nGenerate Signature ... ");
   ts = millis();
-  ret = trustX.calculateSignature(hash, hashLen, formSign, signLen);
+  ret = trustM.calculateSignature(hash, hashLen, formSign, signLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -139,7 +139,7 @@ void calculateSignVerifySign_ownkey()
    */
   printlnGreen("\r\nVerify Signature ... ");
   ts = millis();
-  ret = trustX.verifySignature(hash, hashLen, formSign, signLen, ifxPublicKey, sizeof(ifxPublicKey));
+  ret = trustM.verifySignature(hash, hashLen, formSign, signLen, ifxPublicKey, sizeof(ifxPublicKey));
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -153,91 +153,84 @@ void calculateSignVerifySign_ownkey()
 
 void calculateSignVerifySign_newkey()
 {
-  uint32_t ret = 0;
-  uint8_t  data[DATA_LENGTH] = {'T', 'R', 'U', 'S', 'T', 'X', 'T', 'E', 'S', 'T'};
-  uint8_t  ifxPublicKey[68];
-  uint32_t ts = 0;
+  // uint32_t ret = 0;
+  // uint8_t  data[DATA_LENGTH] = {'T', 'R', 'U', 'S', 'T', 'M', 'T', 'E', 'S', 'T'};
+  // uint8_t  ifxPublicKey[68];
+  // uint32_t ts = 0;
   
-  uint16_t hashLen = HASH_LENGTH;
-  uint16_t signLen = SIGN_LENGTH;
-  uint16_t pubKeyLen = PUBKEY_LENGTH;
+  // uint16_t hashLen = HASH_LENGTH;
+  // uint16_t signLen = SIGN_LENGTH;
+  // uint16_t pubKeyLen = PUBKEY_LENGTH;
 
-  /*
-   * Calculate a hash of the given data
-   */
-  printlnGreen("\r\nCalculate Hash ... ");
-  ts = millis();
-  ret = trustX.sha256(data, DATA_LENGTH, hash);
-  ts = millis() - ts;
-  hashLen = HASH_LENGTH;
-  if (ret) {
-    printlnRed("Failed");
-    while (true);
-  }
+  // /*
+  //  * Calculate a hash of the given data
+  //  */
+  // printlnGreen("\r\nCalculate Hash ... ");
+  // ts = millis();
+  // ret = trustM.sha256(data, DATA_LENGTH, hash);
+  // ts = millis() - ts;
+  // hashLen = HASH_LENGTH;
+  // if (ret) {
+  //   printlnRed("Failed");
+  //   while (true);
+  // }
 
-  output_result("Hash", ts, hash, hashLen);
+  // output_result("Hash", ts, hash, hashLen);
 
-  /*
-   * Generate a key pair and store private key inside the security chip
-   */
-  printGreen("Generate Key Pair ... ");
-  ts = millis();
-  ret = trustX.generateKeypair(pubKey, pubKeyLen, eSESSION_ID_2);
-  ts = millis() - ts;
-  if (ret) {
-    printlnRed("Failed");
-    while (true);
-  }
-  output_result("Public key", ts, pubKey, pubKeyLen);
+  // /*
+  //  * Generate a key pair and store private key inside the security chip
+  //  */
+  // printGreen("Generate Key Pair ... ");
+  // ts = millis();
+  // ret = trustM.generateKeypair(pubKey, pubKeyLen, eSESSION_ID_2);
+  // ts = millis() - ts;
+  // if (ret) {
+  //   printlnRed("Failed");
+  //   while (true);
+  // }
+  // output_result("Public key", ts, pubKey, pubKeyLen);
 
-  /*
-   * Sign hash with the newly generated private key
-   */
-  printlnGreen("\r\nGenerate Signature ... ");
-  ts = millis();
-  ret = trustX.calculateSignature(hash, hashLen, eSESSION_ID_2, formSign, signLen);
-  ts = millis() - ts;
-  if (ret) {
-    printlnRed("Failed");
-    while (true);
-  }
+  // /*
+  //  * Sign hash with the newly generated private key
+  //  */
+  // printlnGreen("\r\nGenerate Signature ... ");
+  // ts = millis();
+  // ret = trustM.calculateSignature(hash, hashLen, eSESSION_ID_2, formSign, signLen);
+  // ts = millis() - ts;
+  // if (ret) {
+  //   printlnRed("Failed");
+  //   while (true);
+  // }
 
-  output_result("Signature #2", ts, formSign, signLen);
+  // output_result("Signature #2", ts, formSign, signLen);
 
-  /*
-   * Verify a signature generated before
-   */
-  printlnGreen("\r\nVerify Signature ... ");
-  ts = millis();
-  ret = trustX.verifySignature(hash, hashLen, formSign, signLen, pubKey, pubKeyLen);
-  ts = millis() - ts;
-  if (ret) {
-    printlnRed("Failed");
-    while (true);
-  }
+  // /*
+  //  * Verify a signature generated before
+  //  */
+  // printlnGreen("\r\nVerify Signature ... ");
+  // ts = millis();
+  // ret = trustM.verifySignature(hash, hashLen, formSign, signLen, pubKey, pubKeyLen);
+  // ts = millis() - ts;
+  // if (ret) {
+  //   printlnRed("Failed");
+  //   while (true);
+  // }
 
-  printGreen("[OK] | Command executed in "); 
-  Serial.print(ts); 
-  Serial.println(" ms");
+  // printGreen("[OK] | Command executed in "); 
+  // Serial.print(ts); 
+  // Serial.println(" ms");
 }
 
 void loop()
 {
-  uint8_t  cntr = 10;
-
   /* Sign data and verify a signature with the embedded certificate */
   calculateSignVerifySign_ownkey();
 
   /* Sign data and verify a signature with a newly generated keypair */
   calculateSignVerifySign_newkey();
 
-  /*
-   * Count down 10 seconds and restart the application
+  /* 
+   * Execute the loop just once :)
    */
-  while(cntr) {
-    Serial.print(cntr);
-    Serial.println(" seconds untill restart.");
-    delay(1000);
-    cntr--;
-  }  
+  while(1){};
 }

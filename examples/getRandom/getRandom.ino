@@ -22,10 +22,10 @@
  * SOFTWARE
  *
  * Demonstrates use of the 
- * Infineon Technologies AG OPTIGA™ Trust X Arduino library
+ * Infineon Technologies AG OPTIGA™ Trust M Arduino library
  */
 
-#include "OPTIGATrustX.h"
+#include "OPTIGATrustM.h"
 
 #define RND_MAXLENGTH     256
 
@@ -39,7 +39,7 @@ void setup()
   /*
    * Initialise a serial port for debug output
    */
-  Serial.begin(38400);
+  Serial.begin(115200);
   delay(1000);
   Serial.println("Initializing ... ");
 
@@ -47,22 +47,22 @@ void setup()
    * Initialise an OPTIGA™ Trust X Board
    */
   printGreen("Begin to trust ... ");
-  ret = trustX.begin();
+  ret = trustM.begin();
   if (ret) {
     printlnRed("Failed");
     while (true);
   }
   printlnGreen("OK");
 
-  /*
-   * Speedup the board (from 6 mA to 15 mA)
-   */
-  ret = trustX.setCurrentLimit(15);
-  if (ret) {
-    printlnRed("Failed");
-    while (true);
-  }
-  printlnGreen("OK");
+  // /*
+  //  * Speedup the board (from 6 mA to 15 mA)
+  //  */
+  // ret = trustM.setCurrentLimit(8);
+  // if (ret) {
+  //   printlnRed("Failed");
+  //   while (true);
+  // }
+  // printlnGreen("OK");
 
 }
 
@@ -94,7 +94,7 @@ void loop()
    */
   printGreen("\r\nGet 16 bytes random number");
   ts = millis();
-  ret = trustX.getRandom(16, rnd);
+  ret = trustM.getRandom(16, rnd);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -104,7 +104,7 @@ void loop()
 
   printGreen("\r\nGet 32 bytes random number");
   ts = millis();
-  ret = trustX.getRandom(32, rnd);
+  ret = trustM.getRandom(32, rnd);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -114,7 +114,7 @@ void loop()
 
   printGreen("\r\nGet 64 bytes random number");
   ts = millis();
-  ret = trustX.getRandom(64, rnd);
+  ret = trustM.getRandom(64, rnd);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -124,7 +124,7 @@ void loop()
 
   printGreen("\r\nGet 128 bytes random number");
   ts = millis();
-  ret = trustX.getRandom(128, rnd);
+  ret = trustM.getRandom(128, rnd);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -134,7 +134,7 @@ void loop()
 
   printGreen("\r\nGet 256 bytes random number");
   ts = millis();
-  ret = trustX.getRandom(256, rnd);
+  ret = trustM.getRandom(256, rnd);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -143,17 +143,12 @@ void loop()
   output_result("Random", ts, rnd, 256);
   
   /*
-   * Count down 10 seconds and restart the application
-   */
-  while(cntr) {
-    Serial.print(cntr);
-    Serial.println(" seconds untill restart.");
-    delay(1000);
-    cntr--;
-  }
-
-  /*
    * Remove dynamically allocated data
    */
   delete rnd;
+
+  /* 
+   * Execute the loop just once :)
+   */
+  while(1){};
 }

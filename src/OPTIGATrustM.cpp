@@ -26,7 +26,6 @@
 
 #include "OPTIGATrustM.h"
 #include "optiga_trustm/optiga_util.h"
-// #include "optiga_trustx/IntegrationLib.h"
 #include "optiga_trustm/optiga_lib_types.h"
 #include "optiga_trustm/optiga_comms.h"
 #include "optiga_trustm/ifx_i2c_config.h"
@@ -71,10 +70,11 @@
 
 #ifdef OPTIGA_LIB_ENABLE_LOGGING
     /** @brief Macro to enable logger for Util service */
-    #define OPTIGA_LIB_ENABLE_ARDUINO_LOGGING
+    //#define OPTIGA_LIB_ENABLE_ARDUINO_LOGGING
 #endif
 
- #if defined (OPTIGA_LIB_ENABLE_LOGGING) && defined (OPTIGA_LIB_ENABLE_ARDUINO_LOGGING)
+//  #if defined (OPTIGA_LIB_ENABLE_LOGGING) && defined (OPTIGA_LIB_ENABLE_ARDUINO_LOGGING)
+ #if defined (OPTIGA_LIB_ENABLE_ARDUINO_LOGGING)
 /**
  * \brief Logs the message provided from Util layer
  *
@@ -148,17 +148,10 @@
 #endif
 
 
-// Members to use library in blocking mode
-// static volatile uint8_t   m_ifx_i2c_busy = 0;
-// static volatile uint8_t   m_ifx_i2c_status;
-// static volatile uint8_t*  m_optiga_rx_buffer;
-// static volatile uint16_t  m_optiga_rx_len;
-
-//Preinstantiated object
+/**
+ * Preinstantiated object
+ */
 IFX_OPTIGA_TrustM trustM = IFX_OPTIGA_TrustM();
-// optiga_comms_t optiga_comms = {static_cast<void*>(&ifx_i2c_context_0), NULL, NULL, 0};
-//static optiga_lib_status_t optiga_comms_status;
-
 
 static volatile optiga_lib_status_t optiga_lib_status;
 static void optiga_util_callback(void * context, optiga_lib_status_t return_status)
@@ -186,7 +179,7 @@ IFX_OPTIGA_TrustM::~IFX_OPTIGA_TrustM()
 
 int32_t IFX_OPTIGA_TrustM::begin(void)
 {
-        uint32_t ard_ret = 1;
+    uint32_t ard_ret = 1;
     optiga_lib_status_t return_status;
 
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
@@ -196,8 +189,21 @@ int32_t IFX_OPTIGA_TrustM::begin(void)
         me_util = optiga_util_create(OPTIGA_INSTANCE_ID_0, optiga_util_callback, NULL);
         if (NULL == me_util)
         {
+            return_status = OPTIGA_UTIL_ERROR;
             break;
         }
+
+        /**
+         *  Create OPTIGA Crypt Instance
+         *
+         */
+        me_crypt = optiga_crypt_create(OPTIGA_INSTANCE_ID_0, optiga_util_callback, NULL);
+        if (NULL == me_crypt)
+        {
+            return_status = OPTIGA_CRYPT_ERROR;
+            break;
+        }
+
         /**
          * Open the application on OPTIGA which is a precondition to perform any other operations
          * using optiga_util_open_application
@@ -220,6 +226,7 @@ int32_t IFX_OPTIGA_TrustM::begin(void)
             return_status = optiga_lib_status;
             break;
         }
+
     	active = true;
     }while (FALSE);
 
@@ -285,15 +292,10 @@ int32_t IFX_OPTIGA_TrustM::checkChip(void)
 	// return err;
 }
 
-// static void optiga_comms_event_handler(void* upper_layer_ctx, optiga_lib_status_t event)
-// {
-//     optiga_comms_status = event;
-// }
-
 int32_t IFX_OPTIGA_TrustM::begin(TwoWire& CustomWire)
 {
     /**
-     * Set the corresponding i2c context first
+     * @todo Set the corresponding i2c context first
      */
 
     return begin();
@@ -301,8 +303,9 @@ int32_t IFX_OPTIGA_TrustM::begin(TwoWire& CustomWire)
 
 int32_t IFX_OPTIGA_TrustM::reset(void)
 {
-    // // Soft reset -->not neccesarily ?? I2C-reset?
-    // optiga_comms_reset(&optiga_comms, 1);
+    /**
+     * @todo Soft reset -->not neccesarily ?? I2C-reset?
+     */
     end();
     return begin(Wire);
 }
@@ -341,8 +344,27 @@ void IFX_OPTIGA_TrustM::end(void)
         active = false;
     }while (FALSE);
 
-    // destroy util and crypt instances
-    return_status =  optiga_util_destroy(me_util);
+    if (me_crypt)
+    {
+        //Destroy the instance after the completion of usecase if not required.
+        return_status = optiga_crypt_destroy(me_crypt);
+        if(OPTIGA_LIB_SUCCESS != return_status)
+        {
+            //lint --e{774} suppress This is a generic macro
+            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+        }
+    }
+
+    if(me_util)
+    {
+        //Destroy the instance after the completion of usecase if not required.
+        return_status = optiga_util_destroy(me_util);
+        if(OPTIGA_LIB_SUCCESS != return_status)
+        {
+            //lint --e{774} suppress This is a generic macro
+            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+        }
+    }
 
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
     //TODO: original function prototypes does returns void in Optiga X.
@@ -355,7 +377,7 @@ int32_t IFX_OPTIGA_TrustM::getGenericData(uint16_t oid, uint8_t* p_data, uint16_
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
     do
     {
-        hashLength = 1024;
+        hashLength = 0xFFFF;
         uint16_t offset = 0x00;
 
         optiga_lib_status = OPTIGA_LIB_BUSY;
@@ -390,6 +412,7 @@ int32_t IFX_OPTIGA_TrustM::getGenericData(uint16_t oid, uint8_t* p_data, uint16_
 
 int32_t IFX_OPTIGA_TrustM::getState(uint16_t oid, uint8_t& byte)
 {
+
     // uint16_t length = 1;
     // int32_t  ret = (int32_t)CMD_LIB_ERROR;
 	// uint8_t  bt = 0;
@@ -417,16 +440,18 @@ int32_t IFX_OPTIGA_TrustM::getState(uint16_t oid, uint8_t& byte)
 
 int32_t IFX_OPTIGA_TrustM::setGenericData(uint16_t oid, uint8_t* p_data, uint16_t hashLength)
 {
+    uint32_t ard_ret = 1;
     uint16_t offset;
     optiga_lib_status_t return_status = 0;
- 
+    
+    OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
     do
     {
         offset      = 0x0000; 
 
         return_status = optiga_util_write_data(me_util,
                                                oid,
-                                               OPTIGA_UTIL_ERASE_AND_WRITE,
+                                               OPTIGA_UTIL_WRITE_ONLY,
                                                offset,
                                                p_data,
                                                hashLength);
@@ -449,15 +474,21 @@ int32_t IFX_OPTIGA_TrustM::setGenericData(uint16_t oid, uint8_t* p_data, uint16_
             break;
         }
     } while (FALSE);
+    OPTIGA_ARDUINO_LOG_STATUS(return_status);
 
-    return return_status;
+    if(OPTIGA_LIB_SUCCESS == return_status)
+    {
+        ard_ret = 0;
+    }
+    return ard_ret;
 }
 /*************************************************************************************
  *                              COMMANDS API TRUST E COMPATIBLE
  **************************************************************************************/
  
-int32_t IFX_OPTIGA_TrustM::getCertificate(uint8_t* p_cert, uint16_t& clen)
+int32_t IFX_OPTIGA_TrustM:: getCertificate(uint8_t* p_cert, uint16_t& clen)
 {
+    uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
     uint16_t tag_len;
     uint32_t cert_len = 0;
@@ -473,126 +504,134 @@ int32_t IFX_OPTIGA_TrustM::getCertificate(uint8_t* p_cert, uint16_t& clen)
             break;
         }
 
-       return_status = getGenericData(eDEVICE_PUBKEY_CERT_IFX, p_cert, clen);
+        return_status = getGenericData(eDEVICE_PUBKEY_CERT_IFX, p_cert, clen);
 
         if (OPTIGA_LIB_SUCCESS != return_status)
         {
-            Serial.println(return_status);
             break;
         }
-    //     //Read complete certificate
-    //     data_opt.wOffset = 0x00;
-    //     data_opt.wLength = 0xFFFF;
-    //     data_opt.wOID = OID_IFX_CERTIFICATE;
 
-    //     //Reading available certificate data
-    //     cert_blob.prgbStream = p_cert;
-    //     cert_blob.wLen = LENGTH_CERTIFICATE;
-    //     ret = IntLib_ReadGPData(&data_opt,&cert_blob);
-    //     if(INT_LIB_OK != ret)
-    //     {
-    //         break;
-    //     }
+        OPTIGA_ARDUINO_LOG_HEX_DATA(p_cert,clen);
 
         //Validate TLV
-        // if((TLS_TAG != p_cert[0]) && (ASN_TAG_SEQUENCE != p_cert[0]))
-        // {
-        //     return_status = OPTIGA_UTIL_ERROR;
-        //     OPTIGA_UTIL_LOG_MESSAGE("tls tag validate");
-        //     break;
-        // }
+        if((TLS_TAG != p_cert[0]) && (ASN_TAG_SEQUENCE != p_cert[0]))
+        {
+            return_status = OPTIGA_UTIL_ERROR;
+            OPTIGA_ARDUINO_LOG_MESSAGE("tls tag validate");
+            break;
+        }
 
-        // if(TLS_TAG == p_cert[0])
-        // {
-        //     //Check minimum length must be 10
-        //     if(clen < LENGTH_MINIMUM_DATA)
-        //     {
-        //         OPTIGA_UTIL_LOG_MESSAGE("tls tag minimum length");
-        //         return_status = OPTIGA_UTIL_ERROR;
-        //         break;
-        //     }
-        //     tag_len = Utility_GetUint16 (&p_cert[1]);
-        //     cert_len = Utility_GetUint24(&p_cert[6]);
-        //     //Length checks
-        //     if((tag_len != (clen - LENGTH_TAGlEN_PLUS_TAG)) ||           \
-        //         (Utility_GetUint24(&p_cert[3]) != (uint32_t)(tag_len - LENGTH_CERTLIST_LEN)) ||   \
-        //         ((cert_len > (uint32_t)(tag_len - (LENGTH_CERTLIST_LEN  + LENGTH_CERTLEN))) || (cert_len == 0x00)))
-        //     {
-        //         OPTIGA_UTIL_LOG_MESSAGE("check lenghts");
-        //         return_status = OPTIGA_UTIL_ERROR;
-        //         break;
+        if(TLS_TAG == p_cert[0])
+        {
+            //Check minimum length must be 10
+            if(clen < LENGTH_MINIMUM_DATA)
+            {
+                OPTIGA_ARDUINO_LOG_MESSAGE("tls tag minimum length");
+                return_status = OPTIGA_UTIL_ERROR;
+                break;
+            }
+            tag_len = Utility_GetUint16(&p_cert[1]);
+            cert_len = Utility_GetUint24(&p_cert[6]);
+            //Length checks
+            if((tag_len != (clen - LENGTH_TAGlEN_PLUS_TAG)) ||           \
+                (Utility_GetUint24(&p_cert[3]) != (uint32_t)(tag_len - LENGTH_CERTLIST_LEN)) ||   \
+                ((cert_len > (uint32_t)(tag_len - (LENGTH_CERTLIST_LEN  + LENGTH_CERTLEN))) || (cert_len == 0x00)))
+            {
+                OPTIGA_UTIL_LOG_MESSAGE("check lenghts");
+                return_status = OPTIGA_UTIL_ERROR;
+                break;
 
-        //     }
-        // }
+            }
+        }
 
-        // memmove(&p_cert[0], &p_cert[9], cert_len);
-        // clen = (uint16_t)cert_len;
+        memmove(&p_cert[0], &p_cert[9], cert_len);
+        clen = (uint16_t)cert_len;
 
     }while(FALSE);
-
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
-    return return_status;
+
+    if(OPTIGA_LIB_SUCCESS == return_status)
+    {
+        ard_ret = 0;
+    }
+    return ard_ret;
 }
 
 int32_t IFX_OPTIGA_TrustM::getPublicKey(uint8_t p_pubkey[64])
 {
-	// int32_t ret = CMD_LIB_ERROR;
-	// uint8_t p_cert[512];
-	// uint16_t clen = 0;
+	uint32_t ard_ret = 1;
+	uint8_t p_cert[512];
+	uint16_t clen = 0;
 	
-	// do{
-	// 	ret = getCertificate(p_cert, clen);
-	// 	if (ret)
-	// 		break;
+	do{
+		ard_ret = getCertificate(p_cert, clen);
+		if (ard_ret)
+			break;
 	
-	// 	if ((p_cert != NULL) || (p_pubkey != NULL)) {
-	// 		  for (uint16_t i=0; i < clen; i++) {
-	// 			if (p_cert[i] != 0x03)
-	// 			  continue;
-	// 			if (p_cert[i+1] != 0x42)
-	// 			  continue;
-	// 			if (p_cert[i+2] != 0x00)
-	// 			  continue;
-	// 			if (p_cert[i+3] != 0x04)
-	// 			  continue;
+		if ((p_cert != NULL) || (p_pubkey != NULL)) {
+			  for (uint16_t i=0; i < clen; i++) {
+				if (p_cert[i] != 0x03)
+				  continue;
+				if (p_cert[i+1] != 0x42)
+				  continue;
+				if (p_cert[i+2] != 0x00)
+				  continue;
+				if (p_cert[i+3] != 0x04)
+				  continue;
 			  
-	// 			memcpy(p_pubkey, &p_cert[i], 68);
-	// 		  }
-	// 	}
+				memcpy(p_pubkey, &p_cert[i], 68);
+			  }
+		}
 		
-	// 	ret = 0;
-	// } while (FALSE);
+		ard_ret = 0;
+	} while (FALSE);
 	
-	// return ret;
+	return ard_ret;
 }
 
 int32_t IFX_OPTIGA_TrustM::getRandom(uint16_t length, uint8_t* p_random)
 {
-    // int32_t ret = (int32_t)CMD_LIB_ERROR;
-    // sRngOptions_d rng_opt;
-    // sCmdResponse_d cmd_resp;
-    
-    // rng_opt.eRngType = eTRNG;
-    // rng_opt.wRandomDataLen = length;
+    uint32_t ard_ret = 1;
+    optiga_lib_status_t return_status = 0;
+     
+    OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
+    do
+    {
+        /**
+         * Generate Random -
+         *  - Specify the Random type as TRNG
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_crypt_random(me_crypt,
+                                            OPTIGA_RNG_TYPE_TRNG,
+                                            p_random,
+                                            length);
 
-    // cmd_resp.prgbBuffer = p_random;
-    // cmd_resp.wBufferLength = length;
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
 
-    // do {
-    //     if (cmd_resp.prgbBuffer == NULL || (active == false)) {
-    //         ret = 1;
-    //         break;
-    //     }
+        while (OPTIGA_LIB_BUSY == optiga_lib_status)
+        {
+            //Wait until the optiga_crypt_random operation is completed
+            pal_os_event_process();
+        }
 
-    //     ret = CmdLib_GetRandom(&rng_opt, &cmd_resp);
-    //     if(CMD_LIB_OK == ret)
-    //     {
-    //         ret = 0;
-    //     }
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            return_status = optiga_lib_status;
+            break;
+        }
 
-    // }while(0);
+    } while (FALSE);
+    OPTIGA_ARDUINO_LOG_STATUS(return_status);
 
-    // return ret;
+        if(OPTIGA_LIB_SUCCESS == return_status)
+    {
+        ard_ret = 0;
+    }
+    return ard_ret;
 }
 
 /**
@@ -608,7 +647,6 @@ int32_t IFX_OPTIGA_TrustM::getRandom(uint16_t length, uint8_t* p_random)
 int32_t IFX_OPTIGA_TrustM::sha256(uint8_t dataToHash[], uint16_t ilen, uint8_t out[32])
 {
     uint32_t ard_ret = 1;
-    optiga_crypt_t * me = NULL;
     optiga_lib_status_t return_status = 0;
     optiga_hash_context_t hash_context;
     uint8_t hash_context_buffer [130];
@@ -619,16 +657,7 @@ int32_t IFX_OPTIGA_TrustM::sha256(uint8_t dataToHash[], uint16_t ilen, uint8_t o
     do
     {
         /**
-         * 1. Create OPTIGA Crypt Instance
-         */
-        me = optiga_crypt_create(0, optiga_util_callback, NULL);
-        if (NULL == me)
-        {
-            break;
-        }
-
-        /**
-         * 2. Initialize the Hash context
+         * 1. Initialize the Hash context
          */
         OPTIGA_HASH_CONTEXT_INIT(hash_context,hash_context_buffer,  \
                                  sizeof(hash_context_buffer),(uint8_t)OPTIGA_HASH_TYPE_SHA_256);
@@ -636,9 +665,9 @@ int32_t IFX_OPTIGA_TrustM::sha256(uint8_t dataToHash[], uint16_t ilen, uint8_t o
         optiga_lib_status = OPTIGA_LIB_BUSY;
 
         /**
-         * 3. Initialize the hashing context at OPTIGA
+         * 2. Initialize the hashing context at OPTIGA
          */
-        return_status = optiga_crypt_hash_start(me, &hash_context);
+        return_status = optiga_crypt_hash_start(me_crypt, &hash_context);
         if (OPTIGA_LIB_SUCCESS != return_status)
         {
             break;
@@ -654,16 +683,15 @@ int32_t IFX_OPTIGA_TrustM::sha256(uint8_t dataToHash[], uint16_t ilen, uint8_t o
             return_status = optiga_lib_status;
             break;
         }
-
         
         /**
-         * 4. Continue hashing the data
+         * 3. Continue hashing the data
          */
         hash_data_host.buffer = dataToHash;
         hash_data_host.length = ilen;
 
         optiga_lib_status = OPTIGA_LIB_BUSY;
-        return_status = optiga_crypt_hash_update(me,
+        return_status = optiga_crypt_hash_update(me_crypt,
                                                  &hash_context,
                                                  OPTIGA_CRYPT_HOST_DATA,
                                                  &hash_data_host);
@@ -685,10 +713,10 @@ int32_t IFX_OPTIGA_TrustM::sha256(uint8_t dataToHash[], uint16_t ilen, uint8_t o
         }
 
         /**
-         * 5. Finalize the hash
+         * 4. Finalize the hash
          */
         optiga_lib_status = OPTIGA_LIB_BUSY;
-        return_status = optiga_crypt_hash_finalize(me,
+        return_status = optiga_crypt_hash_finalize(me_crypt,
                                                    &hash_context,
                                                    out);
 
@@ -713,17 +741,6 @@ int32_t IFX_OPTIGA_TrustM::sha256(uint8_t dataToHash[], uint16_t ilen, uint8_t o
     } while (FALSE);
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
 
-    
-    if (me)
-    {
-        //Destroy the instance after the completion of usecase if not required.
-        return_status = optiga_crypt_destroy(me);
-        if(OPTIGA_LIB_SUCCESS != return_status)
-        {
-            //lint --e{774} suppress This is a generic macro
-            OPTIGA_ARDUINO_LOG_STATUS(return_status);
-        }
-    }
 
     if(OPTIGA_LIB_SUCCESS == return_status)
     {
@@ -732,8 +749,59 @@ int32_t IFX_OPTIGA_TrustM::sha256(uint8_t dataToHash[], uint16_t ilen, uint8_t o
     return ard_ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::calculateSignature(uint8_t dataToSign[], uint16_t ilen, uint16_t ctx, uint8_t* out, uint16_t& olen)
+int32_t IFX_OPTIGA_TrustM::calculateSignature(uint8_t dataToSign[], uint16_t ilen, uint16_t privateKey_oid, uint8_t* out, uint16_t& olen)
 {
+    uint32_t ard_ret = 1;
+    optiga_lib_status_t return_status = 0;
+
+    OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
+    do
+    {
+        if (dataToSign == NULL || out == NULL)
+        {
+            break;
+        }
+
+        /**
+         * 1. Sign the digest -
+         *       - Use Private key from Key Store ID E0FC
+         *       - Signature scheme is SHA256,
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_crypt_rsa_sign(me_crypt,
+                                              OPTIGA_RSASSA_PKCS1_V15_SHA256,
+                                              dataToSign,
+                                              ilen,
+                                              (optiga_key_id_t)privateKey_oid,
+                                              out,
+                                              &olen,
+                                              0x0000);
+
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (OPTIGA_LIB_BUSY == optiga_lib_status)
+        {
+            //Wait until the optiga_crypt_rsa_sign operation is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //RSA Signature generation failed.
+            return_status = optiga_lib_status;
+            break;
+        }
+    } while (FALSE);
+    OPTIGA_ARDUINO_LOG_STATUS(return_status);
+
+    if(OPTIGA_LIB_SUCCESS == return_status)
+    {
+        ard_ret = 0;
+    }
+    return ard_ret;
 //     uint16_t ret = (int32_t)INT_LIB_ERROR;
 //     sCalcSignOptions_d calsign_opt;
 //     sbBlob_d sign_blob;
@@ -910,8 +978,8 @@ int32_t IFX_OPTIGA_TrustM::verifySignature( uint8_t* digest, uint16_t hashLength
     // return ret;
 }
 
-// int32_t IFX_OPTIGA_TrustM::calculateSharedSecretGeneric(int32_t curveID, uint16_t priv_oid, uint8_t* p_pubkey, uint16_t plen, uint16_t out_oid, uint8_t* p_out, uint16_t& olen)
-// {
+int32_t IFX_OPTIGA_TrustM::calculateSharedSecretGeneric(int32_t curveID, uint16_t priv_oid, uint8_t* p_pubkey, uint16_t plen, uint16_t out_oid, uint8_t* p_out, uint16_t& olen)
+{
 //     int32_t             ret = IFX_I2C_STACK_ERROR;
 //     sCalcSSecOptions_d  shsec_opt;
 //     sbBlob_d            shsec;
@@ -952,10 +1020,10 @@ int32_t IFX_OPTIGA_TrustM::verifySignature( uint8_t* digest, uint16_t hashLength
 //     }
 
 //     return ret;
-// }
+}
 
-// int32_t IFX_OPTIGA_TrustM::str2cur(String curve_name)
-// {
+int32_t IFX_OPTIGA_TrustM::str2cur(String curve_name)
+{
 //     int32_t ret;
     
 //     if (curve_name == "secp256r1") {
@@ -967,10 +1035,10 @@ int32_t IFX_OPTIGA_TrustM::verifySignature( uint8_t* digest, uint16_t hashLength
 //     }
     
 //     return ret;
-// }
+}
 
-// int32_t IFX_OPTIGA_TrustM::deriveKey(uint8_t* p_data, uint16_t hashLength, uint8_t* p_key, uint16_t klen)
-// {
+int32_t IFX_OPTIGA_TrustM::deriveKey(uint8_t* p_data, uint16_t hashLength, uint8_t* p_key, uint16_t klen)
+{
 //     int32_t             ret = INT_LIB_ERROR;
 //     sDeriveKeyOptions_d key_opt;
 //     sbBlob_d            key;
@@ -1020,7 +1088,7 @@ int32_t IFX_OPTIGA_TrustM::verifySignature( uint8_t* digest, uint16_t hashLength
 //     }
 
 //     return ret;
-// }
+}
 
 int32_t IFX_OPTIGA_TrustM::generateKeypair(uint8_t* p_pubkey, uint16_t& plen, uint16_t privkey_oid)
 {

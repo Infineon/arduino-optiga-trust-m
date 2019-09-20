@@ -29,8 +29,6 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-// #include "optiga_trustx/ifx_i2c_transport_layer.h"
-// #include "optiga_trustx/pal_ifx_i2c_config.h"
 #include "optiga_trustm/pal_i2c.h"
 #include <string.h> // memcpy
 #include "optiga_trustm/optiga_util.h"
@@ -43,11 +41,6 @@
 #include "optiga_trustm/pal_ifx_i2c_config.h"
 #include "optiga_trustm/optiga_example.h"
 
-// #include "optiga_trustx/ErrorCodes.h"
-// #include "optiga_trustx/AuthLibSettings.h"
-// #include "optiga_trustx/BaseErrorCodes.h"
-// #include "optiga_trustx/Util.h"
-// #include "optiga_trustx/Version.h"
 
 /*************************************************************************
 
@@ -217,7 +210,7 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t getUniqueID(uint8_t uniqueID[], uint16_t& uidLength) { return uidLength != 0?getGenericData(eCOPROCESSOR_UID, uniqueID, uidLength):1; }
+    int32_t getUniqueID(uint8_t uniqueID[], uint16_t& uidLength) { return uidLength != 0? getGenericData(eCOPROCESSOR_UID, uniqueID, uidLength):1; }
 
     /**
      * @brief Get a random number.
@@ -245,7 +238,7 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    // int32_t getCurrentLimit(uint8_t& currentLim) { return getState(eCURRENT_LIMITATION, currentLim); }
+    int32_t getCurrentLimit(uint8_t& currentLim) { return getState(eCURRENT_LIMITATION, currentLim); }
     
     /**
      * This function sets the sleep mode activation delay. Valid values are 0x06 - 0x0F or 6 mA - 15mA
@@ -266,7 +259,7 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    // int32_t getLastErrorCodes(uint8_t errorCodes[], uint16_t& errorCodesLength) { return errorCodesLength != 0?getGenericData(eERROR_CODES, errorCodes, errorCodesLength):1; }
+    int32_t getLastErrorCodes(uint8_t errorCodes[], uint16_t& errorCodesLength) { return errorCodesLength != 0?getGenericData(eERROR_CODES, errorCodes, errorCodesLength):1; }
 
     /**
      * This function calculates SHA256 hash of the given data.
@@ -377,27 +370,27 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    // int32_t sharedSecret(uint8_t publicKey[], uint16_t plen) { 
-	// 	return calculateSharedSecretGeneric(0x03, eSESSION_ID_2, publicKey, plen, eSESSION_ID_2);
-	// }
-    // int32_t sharedSecret(uint16_t oid, uint8_t publicKey[], uint16_t plen) {
-	// 	return calculateSharedSecretGeneric(0x03, oid, publicKey, plen, oid);
-	// }
-    // int32_t sharedSecret(uint16_t in_oid, uint16_t out_oid, uint8_t publicKey[], uint16_t plen) {
-	// 	return calculateSharedSecretGeneric(0x03, in_oid, publicKey, plen, out_oid);
-	// }
-    // int32_t sharedSecret(String curveName, uint8_t publicKey[], uint16_t plen) {
-	// 	return calculateSharedSecretGeneric(str2cur(curveName),eSESSION_ID_2, publicKey, plen, eSESSION_ID_2);
-	// }
-    // int32_t sharedSecret(String curveName, uint16_t oid, uint8_t publicKey[], uint16_t plen) { 
-	// 	return calculateSharedSecretGeneric(str2cur(curveName),oid, publicKey, plen, oid);
-	// }
-    // int32_t sharedSecretWithExport(uint8_t publicKey[], uint16_t plen, uint8_t sharedSecret[], uint16_t shlen) {
-	// 	return calculateSharedSecretGeneric(0x03, eSESSION_ID_2, publicKey, plen, 0x0000, sharedSecret, shlen);
-	// }
-    // int32_t sharedSecretWithExport(String curveName, uint8_t publicKey[], uint16_t plen, uint8_t sharedSecret[], uint16_t shlen) {
-	// 	return calculateSharedSecretGeneric(str2cur(curveName), eSESSION_ID_2, publicKey, plen, 0x0000, sharedSecret, shlen);
-	// }  
+    int32_t sharedSecret(uint8_t publicKey[], uint16_t plen) { 
+		return calculateSharedSecretGeneric(0x03, eSESSION_ID_2, publicKey, plen, eSESSION_ID_2);
+	}
+    int32_t sharedSecret(uint16_t oid, uint8_t publicKey[], uint16_t plen) {
+		return calculateSharedSecretGeneric(0x03, oid, publicKey, plen, oid);
+	}
+    int32_t sharedSecret(uint16_t in_oid, uint16_t out_oid, uint8_t publicKey[], uint16_t plen) {
+		return calculateSharedSecretGeneric(0x03, in_oid, publicKey, plen, out_oid);
+	}
+    int32_t sharedSecret(String curveName, uint8_t publicKey[], uint16_t plen) {
+		return calculateSharedSecretGeneric(str2cur(curveName),eSESSION_ID_2, publicKey, plen, eSESSION_ID_2);
+	}
+    int32_t sharedSecret(String curveName, uint16_t oid, uint8_t publicKey[], uint16_t plen) { 
+		return calculateSharedSecretGeneric(str2cur(curveName),oid, publicKey, plen, oid);
+	}
+    int32_t sharedSecretWithExport(uint8_t publicKey[], uint16_t plen, uint8_t sharedSecret[], uint16_t shlen) {
+		return calculateSharedSecretGeneric(0x03, eSESSION_ID_2, publicKey, plen, 0x0000, sharedSecret, shlen);
+	}
+    int32_t sharedSecretWithExport(String curveName, uint8_t publicKey[], uint16_t plen, uint8_t sharedSecret[], uint16_t shlen) {
+		return calculateSharedSecretGeneric(str2cur(curveName), eSESSION_ID_2, publicKey, plen, 0x0000, sharedSecret, shlen);
+	}  
     
     /**
      * This function generates a public private keypair. You can store the private key internally or export it for your usage
@@ -427,25 +420,26 @@ public:
 
 private:
 
-    optiga_util_t * me_util = NULL;
+    optiga_util_t  * me_util  = NULL;
+    optiga_crypt_t * me_crypt = NULL;
 
 	bool active;
-    // int32_t getGlobalSecurityStatus(uint8_t& status);
-    // int32_t setGlobalSecurityStatus(uint8_t status);
-    // int32_t getAppSecurityStatus(uint8_t* p_data, uint16_t& hashLength);
-    // int32_t setAppSecurityStatus(uint8_t status);
+    int32_t getGlobalSecurityStatus(uint8_t& status);
+    int32_t setGlobalSecurityStatus(uint8_t status);
+    int32_t getAppSecurityStatus(uint8_t* p_data, uint16_t& hashLength);
+    int32_t setAppSecurityStatus(uint8_t status);
     int32_t getGenericData(uint16_t oid, uint8_t* p_data, uint16_t& hashLength);
-    //int32_t getGenericMetadata(uint16_t oid, uint8_t* p_data, uint16_t& hashLength);
+    int32_t getGenericMetadata(uint16_t oid, uint8_t* p_data, uint16_t& hashLength);
     int32_t getState(uint16_t oid, uint8_t& p_data);
     int32_t setGenericData(uint16_t oid, uint8_t* p_data, uint16_t hashLength);
-    // int32_t str2cur(String curve_name);
-	// int32_t calculateSharedSecretGeneric( int32_t curveID, uint16_t priv_oid, uint8_t* p_pubkey, uint16_t plen, uint16_t out_oid) {
-	// 	uint16_t dummy_len; 
-	// 	return calculateSharedSecretGeneric(0x03, priv_oid, p_pubkey, plen, out_oid, NULL, dummy_len);
-	// }
-    // int32_t calculateSharedSecretGeneric( int32_t curveID, uint16_t priv_oid, uint8_t* p_pubkey, uint16_t plen, uint16_t out_oid, uint8_t* p_out, uint16_t& olen);
-    // int32_t ecp_gen_keypair_generic(uint8_t* p_pubkey, uint16_t& plen, uint16_t& ctx, uint8_t* p_privkey, uint16_t& prlen);
-    // int32_t deriveKey(uint8_t hash[], uint16_t hashLength, uint8_t publicKey[], uint16_t plen);
+    int32_t str2cur(String curve_name);
+	int32_t calculateSharedSecretGeneric( int32_t curveID, uint16_t priv_oid, uint8_t* p_pubkey, uint16_t plen, uint16_t out_oid) {
+	uint16_t dummy_len; 
+	return calculateSharedSecretGeneric(0x03, priv_oid, p_pubkey, plen, out_oid, NULL, dummy_len);
+	}
+    int32_t calculateSharedSecretGeneric( int32_t curveID, uint16_t priv_oid, uint8_t* p_pubkey, uint16_t plen, uint16_t out_oid, uint8_t* p_out, uint16_t& olen);
+    int32_t ecp_gen_keypair_generic(uint8_t* p_pubkey, uint16_t& plen, uint16_t& ctx, uint8_t* p_privkey, uint16_t& prlen);
+    int32_t deriveKey(uint8_t hash[], uint16_t hashLength, uint8_t publicKey[], uint16_t plen);
 };
 /**
  * @}
