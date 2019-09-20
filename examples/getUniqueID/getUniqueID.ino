@@ -90,17 +90,8 @@ void loop()
   printlnMagenta("Unique ID:");
   HEXDUMP(uid, uidLength);
  
-  // /* 
-  //  * Execute the loop just once :)
-  //  */
-  // while(1){}
-  /*
-   * Count down 10 seconds and restart the application
+  /* 
+   * Execute the loop just once :)
    */
-  while(cntr) {
-    Serial.print(cntr);
-    Serial.println(" seconds untill restart.");
-    delay(1000);
-    cntr--;
-  }
+  while(1){}
 }

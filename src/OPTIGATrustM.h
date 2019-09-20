@@ -293,7 +293,8 @@ public:
      */
     int32_t calculateSignature(uint8_t dataToSign[], uint16_t dlen, uint16_t privateKey_oid, uint8_t result[], uint16_t& rlen);
     int32_t calculateSignature(uint8_t dataToSign[], uint16_t dlen, uint8_t result[], uint16_t& rlen) { 
-        return calculateSignature(dataToSign, dlen, eFIRST_DEVICE_PRIKEY_1, result, rlen);
+        //return calculateSignature(dataToSign, dlen, eFIRST_DEVICE_PRIKEY_1, result, rlen);
+        return calculateSignature(dataToSign, dlen, OPTIGA_KEY_ID_E0FC, result, rlen);
 	}
     
     /**
@@ -424,12 +425,12 @@ private:
     optiga_crypt_t * me_crypt = NULL;
 
 	bool active;
-    int32_t getGlobalSecurityStatus(uint8_t& status);
-    int32_t setGlobalSecurityStatus(uint8_t status);
-    int32_t getAppSecurityStatus(uint8_t* p_data, uint16_t& hashLength);
-    int32_t setAppSecurityStatus(uint8_t status);
+    int32_t getGlobalSecurityStatus(uint8_t& status); //TODO: Not implemented (as in arduino-trust-x)
+    int32_t setGlobalSecurityStatus(uint8_t status);  //TODO: Not implemented (as in arduino-trust-x)
+    int32_t getAppSecurityStatus(uint8_t* p_data, uint16_t& hashLength);  //TODO: Not implemented (as in arduino-trust-x)
+    int32_t setAppSecurityStatus(uint8_t status);  //TODO: Not implemented (as in arduino-trust-x)
     int32_t getGenericData(uint16_t oid, uint8_t* p_data, uint16_t& hashLength);
-    int32_t getGenericMetadata(uint16_t oid, uint8_t* p_data, uint16_t& hashLength);
+    int32_t getGenericMetadata(uint16_t oid, uint8_t* p_data, uint16_t& hashLength);  //TODO: Not implemented (as in arduino-trust-x)
     int32_t getState(uint16_t oid, uint8_t& p_data);
     int32_t setGenericData(uint16_t oid, uint8_t* p_data, uint16_t hashLength);
     int32_t str2cur(String curve_name);
@@ -439,7 +440,7 @@ private:
 	}
     int32_t calculateSharedSecretGeneric( int32_t curveID, uint16_t priv_oid, uint8_t* p_pubkey, uint16_t plen, uint16_t out_oid, uint8_t* p_out, uint16_t& olen);
     int32_t ecp_gen_keypair_generic(uint8_t* p_pubkey, uint16_t& plen, uint16_t& ctx, uint8_t* p_privkey, uint16_t& prlen);
-    int32_t deriveKey(uint8_t hash[], uint16_t hashLength, uint8_t publicKey[], uint16_t plen);
+    int32_t deriveKey(uint8_t hash[], uint16_t hashLength, uint8_t publicKey[], uint16_t plen); //TODO: ?? Private function unused by any other function.
 };
 /**
  * @}

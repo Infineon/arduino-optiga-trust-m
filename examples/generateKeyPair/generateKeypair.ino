@@ -25,9 +25,9 @@
  * Infineon Technologies AG OPTIGA™ Trust X Arduino library
  */
  
-#include "OPTIGATrustX.h"
+#include "OPTIGATrustM.h"
 
-#define KEY_MAXLENGTH    70
+#define KEY_MAXLENGTH    300
 
 #define SUPPRESSCOLLORS
 #include "fprint.h"
@@ -42,7 +42,7 @@ void setup()
   /*
    * Initialise a serial port for debug output
    */
-  Serial.begin(38400);
+  Serial.begin(115200);
   delay(1000);
   Serial.println("Initializing ... ");
 
@@ -50,7 +50,7 @@ void setup()
    * Initialise an OPTIGA™ Trust X Board
    */
   printGreen("Begin to trust ... ");
-  ret = trustX.begin();
+  ret = trustM.begin();
   if (ret) {
     printlnRed("Failed");
     while (true);
@@ -60,13 +60,13 @@ void setup()
   /*
    * Speedup the board (from 6 mA to 15 mA)
    */
-  printGreen("Limit the Current ... ");
-  ret = trustX.setCurrentLimit(15);
-  if (ret) {
-    printlnRed("Failed");
-    while (true);
-  }
-  printlnGreen("OK");
+  // printGreen("Limit the Current ... ");
+  // ret = trustX.setCurrentLimit(15);
+  // if (ret) {
+  //   printlnRed("Failed");
+  //   while (true);
+  // }
+  // printlnGreen("OK");
 
 }
 
@@ -88,17 +88,17 @@ void loop()
   uint32_t ret = 0;
   uint8_t  cntr = 10;
   uint32_t ts = 0;
-  /* OPTIGA Trust X support up to 4 contexts to store you private key  */
+  /* OPTIGA Trust M support up to 4 contexts to store you private key  */
   uint16_t ctx = 0;
-  uint16_t pubKeyLen = 0;
-  uint16_t privKeyLen = 0;
+  uint16_t pubKeyLen = KEY_MAXLENGTH;
+  uint16_t privKeyLen = KEY_MAXLENGTH;
 
   /*
    * Generate a keypair#1
    */
   printlnGreen("\r\nGenerate Key Pair. Store Private Key on Board ... ");
   ts = millis();
-  ret = trustX.generateKeypair(pubKey, pubKeyLen, ctx);
+  ret = trustM.generateKeypair(pubKey, pubKeyLen, ctx);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -113,7 +113,7 @@ void loop()
    */
   printlnGreen("\r\nGenerate Key Pair. Export Private Key ... ");
   ts = millis();
-  ret = trustX.generateKeypair(pubKey, pubKeyLen, privKey, privKeyLen);
+  ret = trustM.generateKeypair(pubKey, pubKeyLen, privKey, privKeyLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");

@@ -29,7 +29,7 @@
 
 #define DATA_LENGTH		10
 #define HASH_LENGTH		32
-#define SIGN_LENGTH		80
+#define SIGN_LENGTH		200
 #define PUBKEY_LENGTH	70
 
 #define SUPPRESSCOLLORS
@@ -229,8 +229,5 @@ void loop()
   /* Sign data and verify a signature with a newly generated keypair */
   calculateSignVerifySign_newkey();
 
-  /* 
-   * Execute the loop just once :)
-   */
-  while(1){};
+ 
 }
