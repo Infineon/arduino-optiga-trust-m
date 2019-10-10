@@ -114,7 +114,7 @@ void loop()
    * Calculate SHA256 value
    */
   printGreen("Calculate Hash ... ");
-  ret = trustX.sha256(rnd, RND_LENGTH, hash);
+  ret = trustM.sha256(rnd, RND_LENGTH, hash);
   hashLen = 32;
   ASSERT(ret);
   output_result("SHA256", hash, hashLen);
@@ -123,30 +123,25 @@ void loop()
    * Generate a signature NIST-P256
    */
   printGreen("Generate Signature ... ");
-  ret = trustX.calculateSignature(hash, hashLen, formSign, signLen);
+  ret = trustM.calculateSignature(hash, hashLen, formSign, signLen);
   ASSERT(ret);
   output_result("Signature", formSign, signLen);
 
   /* 
    * Verify just geberated signature
    */
-  trustX.getPublicKey(ifxPublicKey);
+  trustM.getPublicKey(ifxPublicKey);
    
   printGreen("Verify Signature ... ");
-  ret = trustX.verifySignature(hash, hashLen, formSign, signLen, ifxPublicKey,
+  ret = trustM.verifySignature(hash, hashLen, formSign, signLen, ifxPublicKey,
       sizeof(ifxPublicKey) / sizeof(ifxPublicKey[0]));
   ASSERT(ret);
   printlnGreen("OK");
 
-  /*
-   * Count down 10 seconds and restart the application
+  /* 
+   * Execute the loop just once :)
    */
-  while(cntr) {
-    Serial.print(cntr);
-    Serial.println(" seconds untill restart.");
-    delay(1000);
-    cntr--;
-  }
+  while(1){}
 }
 
 void setup()
@@ -156,36 +151,36 @@ void setup()
   /*
    * Initialise serial output
    */
-	Serial.begin(38400);
+	Serial.begin(115200);
 	Serial.println("Initializing ... ");
 
   /*
    * Initialise OPTIGA™ Trust X
    */
 	printGreen("Begin Trust ... ");
-	ret = trustX.begin();
+	ret = trustM.begin();
 	ASSERT(ret);
 	printlnGreen("OK");
 
-  /*
-   * Speed up the chip (min is 6ma, maximum is 15ma)
-   */
-  printGreen("Setting Current Limit... ");
-	ret = trustX.setCurrentLimit(15);
-	ASSERT(ret);
-	printlnGreen("OK");
+  // /*
+  //  * Speed up the chip (min is 6ma, maximum is 15ma)
+  //  */
+  // printGreen("Setting Current Limit... ");
+	// ret = trustM.setCurrentLimit(15);
+	// ASSERT(ret);
+	// printlnGreen("OK");
 
-  /*
-   * Check the return value which we just set
-   */
-  printGreen("Checking Power Limit... ");
-  uint8_t current_lim = 0;
-  ret = trustX.getCurrentLimit(current_lim);
-  ASSERT(ret);
-  if (current_lim == 15) {
-    printlnGreen("OK");
-  } else {
-    printlnRed("Failed");
-    while(1);
-  }
+  // /*
+  //  * Check the return value which we just set
+  //  */
+  // printGreen("Checking Power Limit... ");
+  // uint8_t current_lim = 0;
+  // ret = trustM.getCurrentLimit(current_lim);
+  // ASSERT(ret);
+  // if (current_lim == 15) {
+  //   printlnGreen("OK");
+  // } else {
+  //   printlnRed("Failed");
+  //   while(1);
+  // }
 }

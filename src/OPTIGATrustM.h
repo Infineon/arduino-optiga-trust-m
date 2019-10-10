@@ -145,6 +145,9 @@ public:
     int32_t begin(TwoWire& CustomWire);
 
 	
+    /**
+     * @todo remove??
+     */
 	int32_t checkChip(void);
 	
     /**
@@ -414,9 +417,69 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-	int32_t generateKeypair(uint8_t publicKey[], uint16_t& plen ) { return generateKeypair(publicKey, plen, 0); }
-    int32_t generateKeypair(uint8_t publicKey[], uint16_t& plen, uint16_t privateKey_oid);
-    int32_t generateKeypair(uint8_t publicKey[], uint16_t& plen, uint8_t privateKey[], uint16_t& prlen);
+	int32_t generateKeypair(uint8_t publicKey[], uint16_t& plen ) { return generateKeypairRSA(publicKey, plen, 0, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); }
+    int32_t generateKeypair(uint8_t publicKey[], uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairRSA(publicKey, plen, privateKey_oid, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); };
+    int32_t generateKeypair(uint8_t publicKey[], uint16_t& plen, uint8_t privateKey[], uint16_t& prlen) {return generateKeypairRSA(publicKey, plen, privateKey, prlen, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL);};
+    
+    /**
+     * This function generates a public private keypair. You can store the private key internally or export it for your usage
+     *
+     * @param[out] publicKey        Pointer to the data array where the result public key should be stored.
+     * @param[out] plen             Length of the public key
+     * @param[in] privateKey_oid    an Object ID of a slot, where the newly generated key should be stored:
+     *                              Use one of the following slots:
+     *                              @ref eSESSION_ID_1
+     *                              @ref eSESSION_ID_2 (Default)
+     *                              @ref eSESSION_ID_3
+     *                              @ref eSESSION_ID_4
+     *                              @ref eFIRST_DEVICE_PRIKEY_1
+     *                              @ref eFIRST_DEVICE_PRIKEY_2 
+     *                              @ref eFIRST_DEVICE_PRIKEY_3 
+     *                              @ref eFIRST_DEVICE_PRIKEY_4      
+     * @param[out] privateKey       [Optional] Pointer to the data array where the result private key should be stored.
+     * @param[out] prlen            [Optional] Length of the private key.
+
+     *
+     * @retval  0 If function was successful.
+     * @retval  1 If the operation failed.
+     */
+    int32_t generateKeypairRSA(uint8_t publicKey[], uint16_t& plen ) {return generateKeypairRSA(publicKey, plen, OPTIGA_KEY_ID_E0FC, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); };
+    int32_t generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid, optiga_rsa_key_type_t rsa_key_type);
+    int32_t generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen, optiga_rsa_key_type_t rsa_key_type);
+    int32_t generateKeypairRSA1024(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen) { return generateKeypairRSA(p_pubkey, plen, p_privkey, prlen, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); };
+    int32_t generateKeypairRSA1024(uint8_t* p_pubkey, uint16_t& plen,  uint16_t privateKey_oid) { return generateKeypairRSA(p_pubkey, plen, privateKey_oid, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); };
+    int32_t generateKeypairRSA2048(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen)  {return generateKeypairRSA(p_pubkey, plen, p_privkey, prlen, OPTIGA_RSA_KEY_2048_BIT_EXPONENTIAL); };
+    int32_t generateKeypairRSA2048(uint8_t* p_pubkey, uint16_t& plen,  uint16_t privateKey_oid) { return generateKeypairRSA(p_pubkey, plen, privateKey_oid, OPTIGA_RSA_KEY_2048_BIT_EXPONENTIAL); };
+    
+    /**
+     * This function generates a public private keypair. You can store the private key internally or export it for your usage
+     *
+     * @param[out] publicKey        Pointer to the data array where the result public key should be stored.
+     * @param[out] plen             Length of the public key
+     * @param[in] privateKey_oid    an Object ID of a slot, where the newly generated key should be stored:
+     *                              Use one of the following slots:
+     *                              @ref eSESSION_ID_1
+     *                              @ref eSESSION_ID_2 (Default)
+     *                              @ref eSESSION_ID_3
+     *                              @ref eSESSION_ID_4
+     *                              @ref eFIRST_DEVICE_PRIKEY_1
+     *                              @ref eFIRST_DEVICE_PRIKEY_2 
+     *                              @ref eFIRST_DEVICE_PRIKEY_3 
+     *                              @ref eFIRST_DEVICE_PRIKEY_4      
+     * @param[out] privateKey       [Optional] Pointer to the data array where the result private key should be stored.
+     * @param[out] prlen            [Optional] Length of the private key.
+
+     *
+     * @retval  0 If function was successful.
+     * @retval  1 If the operation failed.
+     */
+    int32_t generateKeypairECC(uint8_t publicKey[], uint16_t& plen ) { return generateKeypairECC(publicKey, plen, OPTIGA_KEY_ID_E0F1, OPTIGA_ECC_CURVE_NIST_P_256); };
+    int32_t generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid, optiga_ecc_curve_t ecc_key_type);
+    int32_t generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen, optiga_ecc_curve_t ecc_key_type);
+    int32_t generateKeypairECCP256(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen) { return generateKeypairECC(p_pubkey, plen, p_privkey, prlen, OPTIGA_ECC_CURVE_NIST_P_256); };
+    int32_t generateKeypairECCP256(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(p_pubkey, plen, privateKey_oid, OPTIGA_ECC_CURVE_NIST_P_256); };
+    int32_t generateKeypairECCP384(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen) { return generateKeypairECC(p_pubkey, plen, p_privkey, prlen, OPTIGA_ECC_CURVE_NIST_P_384); };
+    int32_t generateKeypairECCP384(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(p_pubkey, plen, privateKey_oid, OPTIGA_ECC_CURVE_NIST_P_384); };
 
 private:
 

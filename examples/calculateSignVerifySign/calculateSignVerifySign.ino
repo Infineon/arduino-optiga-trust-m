@@ -30,7 +30,7 @@
 #define DATA_LENGTH		10
 #define HASH_LENGTH		32
 #define SIGN_LENGTH		200
-#define PUBKEY_LENGTH	70
+#define PUBKEY_LENGTH	300
 
 #define SUPPRESSCOLLORS
 #include "fprint.h"
@@ -153,78 +153,78 @@ void calculateSignVerifySign_ownkey()
 
 void calculateSignVerifySign_newkey()
 {
-  // uint32_t ret = 0;
-  // uint8_t  data[DATA_LENGTH] = {'T', 'R', 'U', 'S', 'T', 'M', 'T', 'E', 'S', 'T'};
-  // uint8_t  ifxPublicKey[68];
-  // uint32_t ts = 0;
+  uint32_t ret = 0;
+  uint8_t  data[DATA_LENGTH] = {'T', 'R', 'U', 'S', 'T', 'M', 'T', 'E', 'S', 'T'};
+  uint8_t  ifxPublicKey[PUBKEY_LENGTH];
+  uint32_t ts = 0;
   
-  // uint16_t hashLen = HASH_LENGTH;
-  // uint16_t signLen = SIGN_LENGTH;
-  // uint16_t pubKeyLen = PUBKEY_LENGTH;
+  uint16_t hashLen = HASH_LENGTH;
+  uint16_t signLen = SIGN_LENGTH;
+  uint16_t pubKeyLen = PUBKEY_LENGTH;
 
-  // /*
-  //  * Calculate a hash of the given data
-  //  */
-  // printlnGreen("\r\nCalculate Hash ... ");
-  // ts = millis();
-  // ret = trustM.sha256(data, DATA_LENGTH, hash);
-  // ts = millis() - ts;
-  // hashLen = HASH_LENGTH;
-  // if (ret) {
-  //   printlnRed("Failed");
-  //   while (true);
-  // }
+  /*
+   * Calculate a hash of the given data
+   */
+  printlnGreen("\r\nCalculate Hash ... ");
+  ts = millis();
+  ret = trustM.sha256(data, DATA_LENGTH, hash);
+  ts = millis() - ts;
+  hashLen = HASH_LENGTH;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
 
-  // output_result("Hash", ts, hash, hashLen);
+  output_result("Hash", ts, hash, hashLen);
 
-  // /*
-  //  * Generate a key pair and store private key inside the security chip
-  //  */
-  // printGreen("Generate Key Pair ... ");
-  // ts = millis();
-  // ret = trustM.generateKeypair(pubKey, pubKeyLen, eSESSION_ID_2);
-  // ts = millis() - ts;
-  // if (ret) {
-  //   printlnRed("Failed");
-  //   while (true);
-  // }
-  // output_result("Public key", ts, pubKey, pubKeyLen);
+  /*
+   * Generate a key pair and store private key inside the security chip
+   */
+  printGreen("Generate Key Pair ... ");
+  ts = millis();
+  ret = trustM.generateKeypair(pubKey, pubKeyLen, OPTIGA_KEY_ID_E0FD);
+  ts = millis() - ts;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
+  output_result("Public key", ts, pubKey, pubKeyLen);
 
-  // /*
-  //  * Sign hash with the newly generated private key
-  //  */
-  // printlnGreen("\r\nGenerate Signature ... ");
-  // ts = millis();
-  // ret = trustM.calculateSignature(hash, hashLen, eSESSION_ID_2, formSign, signLen);
-  // ts = millis() - ts;
-  // if (ret) {
-  //   printlnRed("Failed");
-  //   while (true);
-  // }
+  /*
+   * Sign hash with the newly generated private key
+   */
+  printlnGreen("\r\nGenerate Signature ... ");
+  ts = millis();
+  ret = trustM.calculateSignature(hash, hashLen, OPTIGA_KEY_ID_E0FD, formSign, signLen);
+  ts = millis() - ts;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
 
-  // output_result("Signature #2", ts, formSign, signLen);
+  output_result("Signature #2", ts, formSign, signLen);
 
-  // /*
-  //  * Verify a signature generated before
-  //  */
-  // printlnGreen("\r\nVerify Signature ... ");
-  // ts = millis();
-  // ret = trustM.verifySignature(hash, hashLen, formSign, signLen, pubKey, pubKeyLen);
-  // ts = millis() - ts;
-  // if (ret) {
-  //   printlnRed("Failed");
-  //   while (true);
-  // }
+  /*
+   * Verify a signature generated before
+   */
+  printlnGreen("\r\nVerify Signature ... ");
+  ts = millis();
+  ret = trustM.verifySignature(hash, hashLen, formSign, signLen, pubKey, pubKeyLen);
+  ts = millis() - ts;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
 
-  // printGreen("[OK] | Command executed in "); 
-  // Serial.print(ts); 
-  // Serial.println(" ms");
+  printGreen("[OK] | Command executed in "); 
+  Serial.print(ts); 
+  Serial.println(" ms");
 }
 
 void loop()
 {
   /* Sign data and verify a signature with the embedded certificate */
-  calculateSignVerifySign_ownkey();
+  //calculateSignVerifySign_ownkey();
 
   /* Sign data and verify a signature with a newly generated keypair */
   calculateSignVerifySign_newkey();

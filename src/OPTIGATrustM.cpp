@@ -1134,7 +1134,7 @@ int32_t IFX_OPTIGA_TrustM::deriveKey(uint8_t* p_data, uint16_t hashLength, uint8
 //     return ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::generateKeypair(uint8_t* p_pubkey, uint16_t& plen, uint16_t privkey_oid)
+int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid, optiga_rsa_key_type_t rsa_key_type)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -1151,16 +1151,16 @@ int32_t IFX_OPTIGA_TrustM::generateKeypair(uint8_t* p_pubkey, uint16_t& plen, ui
          *               encoding length))
          *       - Export Public Key
          */
-        if (privkey_oid == 0)
-            privkey_oid = OPTIGA_KEY_ID_E0FC;
+        if (privateKey_oid == 0)
+            privateKey_oid = OPTIGA_KEY_ID_E0FC;
             //privkey_oid= (uint16_t)eSESSION_ID_2;
  
         optiga_lib_status = OPTIGA_LIB_BUSY;
         return_status = optiga_crypt_rsa_generate_keypair(me_crypt,
-                                                          OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL,
-                                                          (uint8_t)OPTIGA_KEY_USAGE_SIGN,
+                                                          rsa_key_type,
+                                                          (uint8_t)(OPTIGA_KEY_USAGE_SIGN | OPTIGA_KEY_USAGE_AUTHENTICATION | OPTIGA_KEY_USAGE_KEY_AGREEMENT) ,
                                                           FALSE,
-                                                          &privkey_oid,
+                                                          &privateKey_oid,
                                                           p_pubkey,
                                                           &plen);
         if (OPTIGA_LIB_SUCCESS != return_status)
@@ -1192,7 +1192,7 @@ int32_t IFX_OPTIGA_TrustM::generateKeypair(uint8_t* p_pubkey, uint16_t& plen, ui
     return ard_ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::generateKeypair(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen)
+int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen, optiga_rsa_key_type_t rsa_key_type)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -1201,7 +1201,7 @@ int32_t IFX_OPTIGA_TrustM::generateKeypair(uint8_t* p_pubkey, uint16_t& plen, ui
     do
     {
        /**
-         * 2. Generate RSA Key pair
+         * 1. Generate RSA Key pair
          *       - Use 1024 or 2048 bit RSA key
          *       - Specify the Key Usage
          *       - Export the Private key in OPTIGA Key store
@@ -1212,8 +1212,116 @@ int32_t IFX_OPTIGA_TrustM::generateKeypair(uint8_t* p_pubkey, uint16_t& plen, ui
  
         optiga_lib_status = OPTIGA_LIB_BUSY;
         return_status = optiga_crypt_rsa_generate_keypair(me_crypt,
-                                                          OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL,
-                                                          (uint8_t)(OPTIGA_KEY_USAGE_SIGN |OPTIGA_KEY_USAGE_AUTHENTICATION | OPTIGA_KEY_USAGE_KEY_AGREEMENT) ,
+                                                          rsa_key_type,
+                                                          (uint8_t)(OPTIGA_KEY_USAGE_SIGN | OPTIGA_KEY_USAGE_AUTHENTICATION | OPTIGA_KEY_USAGE_KEY_AGREEMENT) ,
+                                                          TRUE,
+                                                          p_privkey,
+                                                          p_pubkey,
+                                                          &plen);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (OPTIGA_LIB_BUSY == optiga_lib_status)
+        {
+            //Wait until the optiga_crypt_rsa_generate_keypair operation is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //RSA Key pair generation failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
+
+    } while (FALSE);
+    OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+    
+    if(OPTIGA_LIB_SUCCESS == return_status)
+    {
+        ard_ret = 0;
+    }
+    return ard_ret;
+}
+
+int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid, optiga_ecc_curve_t ecc_key_type)
+{
+    uint32_t ard_ret = 1;
+    optiga_lib_status_t return_status = 0;
+
+    OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
+    do
+    {
+        /**
+         * 1. Generate ECC Key pair
+         *       - Use ECC NIST P 256  or P384 Curve
+         *       - Specify the Key Usage (Key Agreement or Sign based on requirement)
+         *       - Store the Private key in OPTIGA Key store
+         *       - Export Public Key
+         */
+        if (privateKey_oid == 0)
+            privateKey_oid = OPTIGA_KEY_ID_E0F1;
+            //privkey_oid= (uint16_t)eSESSION_ID_2;
+ 
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_crypt_ecc_generate_keypair(me_crypt,
+                                                          ecc_key_type,
+                                                          (uint8_t)(OPTIGA_KEY_USAGE_SIGN | OPTIGA_KEY_USAGE_AUTHENTICATION | OPTIGA_KEY_USAGE_KEY_AGREEMENT),
+                                                          FALSE,
+                                                          &privateKey_oid,
+                                                          p_pubkey,
+                                                          &plen);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (OPTIGA_LIB_BUSY == optiga_lib_status)
+        {
+            //Wait until the optiga_crypt_rsa_generate_keypair operation is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //RSA Key pair generation failed
+            return_status = optiga_lib_status;
+            break;
+        }
+
+
+    } while (FALSE);
+    OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+    
+    if(OPTIGA_LIB_SUCCESS == return_status)
+    {
+        ard_ret = 0;
+    }
+    return ard_ret;
+}
+
+int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen, optiga_ecc_curve_t ecc_key_type)
+{
+    uint32_t ard_ret = 1;
+    optiga_lib_status_t return_status = 0;
+
+    OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
+    do
+    {
+        /**
+         * 1. Generate ECC Key pair
+         *       - Use ECC NIST P 256 or P384 Curve
+         *       - Specify the Key Usage (Key Agreement or Sign based on requirement)
+         *       - Store the Private key in OPTIGA Key store
+         *       - Export Public Key
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_crypt_ecc_generate_keypair(me_crypt,
+                                                          ecc_key_type,
+                                                          (uint8_t)(OPTIGA_KEY_USAGE_SIGN |OPTIGA_KEY_USAGE_AUTHENTICATION | OPTIGA_KEY_USAGE_KEY_AGREEMENT),
                                                           TRUE,
                                                           p_privkey,
                                                           p_pubkey,

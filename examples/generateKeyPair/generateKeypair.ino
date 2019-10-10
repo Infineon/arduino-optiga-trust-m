@@ -22,12 +22,12 @@
  * SOFTWARE
  *
  * Demonstrates use of the 
- * Infineon Technologies AG OPTIGA™ Trust X Arduino library
+ * Infineon Technologies AG OPTIGA™ Trust M Arduino library
  */
  
 #include "OPTIGATrustM.h"
 
-#define KEY_MAXLENGTH    300
+#define KEY_MAXLENGTH   300
 
 #define SUPPRESSCOLLORS
 #include "fprint.h"
@@ -94,9 +94,9 @@ void loop()
   uint16_t privKeyLen = KEY_MAXLENGTH;
 
   /*
-   * Generate a keypair#1
+   * Generate a keypair#1 RSA 1024
    */
-  printlnGreen("\r\nGenerate Key Pair. Store Private Key on Board ... ");
+  printlnGreen("\r\nGenerate Key Pair RSA 1024. Store Private Key on Board ... ");
   ts = millis();
   ret = trustM.generateKeypair(pubKey, pubKeyLen, ctx);
   ts = millis() - ts;
@@ -109,9 +109,11 @@ void loop()
 
 
   /*
-   * Generate a keypair#2
+   * Generate a keypair#2 RSA 1024
    */
-  printlnGreen("\r\nGenerate Key Pair. Export Private Key ... ");
+  pubKeyLen = KEY_MAXLENGTH;
+  privKeyLen = KEY_MAXLENGTH;
+  printlnGreen("\r\nGenerate Key Pair RSA 1024. Export Private Key ... ");
   ts = millis();
   ret = trustM.generateKeypair(pubKey, pubKeyLen, privKey, privKeyLen);
   ts = millis() - ts;
@@ -122,8 +124,41 @@ void loop()
 
   output_result("Public Key ", ts, pubKey, pubKeyLen);
   output_result("Private Key ", ts, privKey, privKeyLen);
+
+  /*
+   * Generate a keypair#3 ECC NIST P 256
+   */
+  pubKeyLen = KEY_MAXLENGTH;
+  privKeyLen = KEY_MAXLENGTH;
+  printlnGreen("\r\nGenerate Key Pair ECC NIST P 256. Store Private Key on Board ... ");
+  ts = millis();
+  ret = trustM.generateKeypairECC(pubKey, pubKeyLen);
+  ts = millis() - ts;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
+
+  output_result("Public Key ", ts, pubKey, pubKeyLen);
+
+  /*
+   * Generate a keypair#4 ECC NIST P 384
+   */
+  pubKeyLen = KEY_MAXLENGTH;
+  privKeyLen = KEY_MAXLENGTH;
+  printlnGreen("\r\nGenerate Key Pair ECC NIST P 384. Export Private Key ... ");
+  ts = millis();
+  ret = trustM.generateKeypairECCP384(pubKey, pubKeyLen, privKey, privKeyLen);
+  ts = millis() - ts;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
+
+  output_result("Public Key ", ts, pubKey, pubKeyLen);
+  output_result("Private Key ", ts, privKey, privKeyLen);
   
-/* 
+  /* 
    * Execute the loop just once :)
    */
   while(1){};
