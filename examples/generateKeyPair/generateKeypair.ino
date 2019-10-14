@@ -60,13 +60,13 @@ void setup()
   /*
    * Speedup the board (from 6 mA to 15 mA)
    */
-  // printGreen("Limit the Current ... ");
-  // ret = trustX.setCurrentLimit(15);
-  // if (ret) {
-  //   printlnRed("Failed");
-  //   while (true);
-  // }
-  // printlnGreen("OK");
+  printGreen("Limit the Current ... ");
+  ret = trustM.setCurrentLimit(15);
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
+  printlnGreen("OK");
 
 }
 

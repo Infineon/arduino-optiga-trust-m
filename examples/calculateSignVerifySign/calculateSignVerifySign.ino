@@ -62,15 +62,16 @@ void setup()
   }
   printlnGreen("OK");
 
-  // /*
-  //  * Speedup the board (from 6 mA to 15 mA)
-  //  */
-  // ret = trustM.setCurrentLimit(15);
-  // if (ret) {
-  //   printlnRed("Failed");
-  //   while (true);
-  // }
-  // printlnGreen("OK");
+  /*
+   * Speedup the board (from 6 mA to 15 mA)
+   */
+  printGreen("Setting current limit to 15 mA ... ");
+  ret = trustM.setCurrentLimit(15);
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
+  printlnGreen("OK");
 
 }
 
@@ -195,7 +196,7 @@ void calculateSignVerifySign_newkey()
    */
   printlnGreen("\r\nGenerate Signature ... ");
   ts = millis();
-  ret = trustM.calculateSignature(hash, hashLen, OPTIGA_KEY_ID_E0FD, formSign, signLen);
+  ret = trustM.calculateSignatureRSA(hash, hashLen, OPTIGA_KEY_ID_E0FD, formSign, signLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -209,7 +210,8 @@ void calculateSignVerifySign_newkey()
    */
   printlnGreen("\r\nVerify Signature ... ");
   ts = millis();
-  ret = trustM.verifySignature(hash, hashLen, formSign, signLen, pubKey, pubKeyLen);
+  // GenerateKeyPair uses OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL key
+  ret = trustM.verifySignatureRSA(hash, hashLen, formSign, signLen, pubKey, pubKeyLen, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -224,13 +226,13 @@ void calculateSignVerifySign_newkey()
 void loop()
 {
   /* Sign data and verify a signature with the embedded certificate */
-  //calculateSignVerifySign_ownkey();
+  calculateSignVerifySign_ownkey();
 
   /* Sign data and verify a signature with a newly generated keypair */
   calculateSignVerifySign_newkey();
 
  /* 
-   * Execute the loop just once :)
-   */
+  * Execute the loop just once :)
+  */
   while(1){};
 }

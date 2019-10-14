@@ -54,16 +54,16 @@ void setup()
   }
   printlnGreen("OK");
 
-  // /*
-  //  * Speedup the board (from 6 mA to 15 mA)
-  //  */
-  // printGreen("Limiting Current consumption (15mA - means no limitation) ... ");
-  // ret = trustM.setCurrentLimit(15);
-  // if (ret) {
-  //   printlnRed("Failed");
-  //   while (true);
-  // }
-  // printlnGreen("OK");
+  /*
+   * Speedup the board (from 6 mA to 15 mA)
+   */
+  printGreen("Limiting Current consumption (15mA - means no limitation) ... ");
+  ret = trustM.setCurrentLimit(15);
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
+  printlnGreen("OK");
 
 }
 

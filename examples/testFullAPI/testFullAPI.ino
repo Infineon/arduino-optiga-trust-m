@@ -32,7 +32,7 @@
 #define RND_LENGTH		64
 #define HASH_LENGTH		32
 #define SIGN_LENGTH		80
-#define PUBKEY_LENGTH	70
+#define PUBKEY_LENGTH	300
 #define UID_LENGTH    27
 
 #define SUPPRESSCOLLORS
@@ -162,25 +162,25 @@ void setup()
 	ASSERT(ret);
 	printlnGreen("OK");
 
-  // /*
-  //  * Speed up the chip (min is 6ma, maximum is 15ma)
-  //  */
-  // printGreen("Setting Current Limit... ");
-	// ret = trustM.setCurrentLimit(15);
-	// ASSERT(ret);
-	// printlnGreen("OK");
+  /*
+   * Speed up the chip (min is 6ma, maximum is 15ma)
+   */
+  printGreen("Setting Current Limit... ");
+	ret = trustM.setCurrentLimit(15);
+	ASSERT(ret);
+	printlnGreen("OK");
 
-  // /*
-  //  * Check the return value which we just set
-  //  */
-  // printGreen("Checking Power Limit... ");
-  // uint8_t current_lim = 0;
-  // ret = trustM.getCurrentLimit(current_lim);
-  // ASSERT(ret);
-  // if (current_lim == 15) {
-  //   printlnGreen("OK");
-  // } else {
-  //   printlnRed("Failed");
-  //   while(1);
-  // }
+  /*
+   * Check the return value which we just set
+   */
+  printGreen("Checking Power Limit... ");
+  uint8_t current_lim = 0;
+  ret = trustM.getCurrentLimit(current_lim);
+  ASSERT(ret);
+  if (current_lim == 15) {
+    printlnGreen("OK");
+  } else {
+    printlnRed("Failed");
+    while(1);
+  }
 }

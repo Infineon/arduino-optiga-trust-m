@@ -44,16 +44,16 @@
 #define     ASN_TAG_SEQUENCE                    0x30
 // ///ASN Tag for integer
 #define     ASN_TAG_INTEGER                     0x02
-// ///msb bit mask
-// #define     MASK_MSB                            0x80
+///msb bit mask
+#define     MASK_MSB                            0x80
 // ///TLS Identity Tag
 #define     TLS_TAG                             0xC0
 // ///IFX Private Key Slot
 // #define     OID_PRIVATE_KEY                     0xE0F0
 // ///Power Limit OID
 // #define     OID_CURRENT_LIMIT                   0xE0C4
-// ///Length of R and S vector
-// #define     LENGTH_RS_VECTOR                    0x40
+///Length of R and S vector
+#define     LENGTH_RS_VECTOR                    0x40
 
 // ///Length of maximum additional bytes to encode sign in DER
 // #define     MAXLENGTH_SIGN_ENCODE               0x08
@@ -276,55 +276,55 @@ int32_t IFX_OPTIGA_TrustM::begin(void)
 
 int32_t IFX_OPTIGA_TrustM::checkChip(void)
 {
-	// int32_t err = CMD_LIB_ERROR;
-	// uint8_t p_rnd[32];
-	// uint16_t rlen = 32;
-	// uint8_t p_cert[512];
-	// uint16_t clen = 0;
-	// uint8_t p_pubkey[68];
-	// uint8_t p_sign[69];
-	// uint8_t p_unformSign[64];
-	// uint16_t slen = 0;
-	// uint8_t r_off = 0;
-	// uint8_t s_off = 0;
+	int32_t err = 1;
+	uint8_t p_rnd[32];
+	uint16_t rlen = 32;
+	uint8_t p_cert[512];
+	uint16_t clen = 0;
+	uint8_t p_pubkey[68];
+	uint8_t p_sign[69];
+	uint8_t p_unformSign[64];
+	uint16_t slen = 0;
+	uint8_t r_off = 0;
+	uint8_t s_off = 0;
 	
-	// do {
-	// 	randomSeed(analogRead(0));
+	do {
+		randomSeed(analogRead(0));
 		
-	// 	for (uint8_t i = 0; i < rlen; i++) {
-	// 	  p_rnd[i] = random(0xff);
-	// 	  randomSeed(analogRead(0));
-	// 	}
+		for (uint8_t i = 0; i < rlen; i++) {
+		  p_rnd[i] = random(0xff);
+		  randomSeed(analogRead(0));
+		}
 		
-	// 	err = getCertificate(p_cert, clen);
-	// 	if (err)
-	// 	  break;
+		err = getCertificate(p_cert, clen);
+		if (err)
+		  break;
 		
-	// 	getPublicKey(p_pubkey);
+		getPublicKey(p_pubkey);
 		
-	// 	err = calculateSignature(p_rnd, rlen, p_sign, slen);
-	// 	if (err)
-	// 	  break;
+		err = calculateSignature(p_rnd, rlen, p_sign, slen);
+		if (err)
+		  break;
 		
-	// 	// Checking the size of r,s components withing the signature
-	// 	// It is represented as follows
-	// 	// R: 0x02 0x21 0x00 0xXX or 0x02 0x20 0xXX
-	// 	// L: 0x02 0x21 0x00 0xXX or 0x02 0x20 0xXX
-	// 	if (p_sign[1] == 0x21) { r_off = 3; } 
-	// 	else                   { r_off = 2; }
+		// Checking the size of r,s components withing the signature
+		// It is represented as follows
+		// R: 0x02 0x21 0x00 0xXX or 0x02 0x20 0xXX
+		// L: 0x02 0x21 0x00 0xXX or 0x02 0x20 0xXX
+		if (p_sign[1] == 0x21) { r_off = 3; } 
+		else                   { r_off = 2; }
 		
-	// 	if (p_sign[r_off + (LENGTH_RS_VECTOR/2) + 1] == 0x21) { s_off = r_off + (LENGTH_RS_VECTOR/2) + 3; }
-	// 	else                                                  { s_off = r_off + (LENGTH_RS_VECTOR/2) + 2; }
+		if (p_sign[r_off + (LENGTH_RS_VECTOR/2) + 1] == 0x21) { s_off = r_off + (LENGTH_RS_VECTOR/2) + 3; }
+		else                                                  { s_off = r_off + (LENGTH_RS_VECTOR/2) + 2; }
 		
-	// 	memcpy(p_unformSign, &p_sign[r_off], LENGTH_RS_VECTOR/2);
-	// 	memcpy(&p_unformSign[LENGTH_RS_VECTOR/2], &p_sign[s_off], LENGTH_RS_VECTOR/2);
+		memcpy(p_unformSign, &p_sign[r_off], LENGTH_RS_VECTOR/2);
+		memcpy(&p_unformSign[LENGTH_RS_VECTOR/2], &p_sign[s_off], LENGTH_RS_VECTOR/2);
 		
-	// 	if (uECC_verify(p_pubkey+4, p_rnd, rlen, p_unformSign, uECC_secp256r1())) {
-	// 	  err = 0;
-	// 	}
-	// } while(0);
+		// if (uECC_verify(p_pubkey+4, p_rnd, rlen, p_unformSign, uECC_secp256r1())) {
+		//   err = 0;
+		// }
+	} while(0);
 	
-	// return err;
+	return err;
 }
 
 int32_t IFX_OPTIGA_TrustM::begin(TwoWire& CustomWire)
@@ -386,7 +386,7 @@ void IFX_OPTIGA_TrustM::end(void)
         if(OPTIGA_LIB_SUCCESS != return_status)
         {
             //lint --e{774} suppress This is a generic macro
-            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+            OPTIGA_ARDUINO_LOG_STATUS(return_status);
         }
     }
 
@@ -397,7 +397,7 @@ void IFX_OPTIGA_TrustM::end(void)
         if(OPTIGA_LIB_SUCCESS != return_status)
         {
             //lint --e{774} suppress This is a generic macro
-            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+            OPTIGA_ARDUINO_LOG_STATUS(return_status);
         }
     }
 
@@ -448,29 +448,12 @@ int32_t IFX_OPTIGA_TrustM::getGenericData(uint16_t oid, uint8_t* p_data, uint16_
 int32_t IFX_OPTIGA_TrustM::getState(uint16_t oid, uint8_t& byte)
 {
 
-    // uint16_t length = 1;
-    // int32_t  ret = (int32_t)CMD_LIB_ERROR;
-	// uint8_t  bt = 0;
-	// sGetData_d sGDVector;
-    // sCmdResponse_d sCmdResponse;
-	
-	// sGDVector.wOID = oid;
-	// sGDVector.wLength = 1;
-	// sGDVector.wOffset = 0;
-	// sGDVector.eDataOrMdata = eDATA;
-	
-	// sCmdResponse.prgbBuffer = &bt;
-	// sCmdResponse.wBufferLength = 1;
-	// sCmdResponse.wRespLength = 0;
+    uint16_t length = 1;
+    int32_t  ret = 1;
 
-	// ret = CmdLib_GetDataObject(&sGDVector,&sCmdResponse);
-	// if(CMD_LIB_OK == ret)
-	// {
-	// 	byte = bt;
-	// 	ret = 0;
-	// }
+    ret = getGenericData(oid, &byte, length);
 
-    // return ret;
+    return ret;
 }
 
 int32_t IFX_OPTIGA_TrustM::setGenericData(uint16_t oid, uint8_t* p_data, uint16_t hashLength)
@@ -484,9 +467,10 @@ int32_t IFX_OPTIGA_TrustM::setGenericData(uint16_t oid, uint8_t* p_data, uint16_
     {
         offset      = 0x0000; 
 
+        optiga_lib_status = OPTIGA_LIB_BUSY;
         return_status = optiga_util_write_data(me_util,
                                                oid,
-                                               OPTIGA_UTIL_WRITE_ONLY,
+                                               OPTIGA_UTIL_ERASE_AND_WRITE,
                                                offset,
                                                p_data,
                                                hashLength);
@@ -564,32 +548,6 @@ int32_t IFX_OPTIGA_TrustM::getGenericMetadata(uint16_t oid, uint8_t* p_data, uin
 }
 
 
-
-int32_t IFX_OPTIGA_TrustM::getObjectSize(uint16_t oid, uint16_t& objectSize)
-{
-    uint32_t ard_ret = 1;
-    uint8_t obj_metatada[MAXLENGTH_OBJ_METADATA] = {};
-    objectSize = MAXLENGTH_OBJ_METADATA;
-    
-    do
-    {
-        ard_ret = getGenericMetadata(oid, obj_metatada, objectSize);
-
-        if(0 == ard_ret)
-        {   
-            break;
-        }
-         OPTIGA_ARDUINO_LOG_HEX_DATA(obj_metatada,objectSize);
-        
-    } while (FALSE);
-
-    return ard_ret;
-}
-
-int32_t  IFX_OPTIGA_TrustM::getKeySize(uint16_t oid, uint16_t& keySize)
-{
-
-}
 /*************************************************************************************
  *                              COMMANDS API TRUST E COMPATIBLE
  **************************************************************************************/
@@ -857,7 +815,9 @@ int32_t IFX_OPTIGA_TrustM::sha256(uint8_t dataToHash[], uint16_t ilen, uint8_t o
     return ard_ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::calculateSignatureRSA(uint8_t dataToSign[], uint16_t ilen, uint16_t privateKey_oid, uint8_t* out, uint16_t& olen)
+int32_t IFX_OPTIGA_TrustM::calculateSignatureRSA(uint8_t dataToSign[], uint16_t ilen, 
+                                                 uint16_t privateKey_oid, uint8_t* out, 
+                                                 uint16_t& olen)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -870,6 +830,7 @@ int32_t IFX_OPTIGA_TrustM::calculateSignatureRSA(uint8_t dataToSign[], uint16_t 
             break;
         }
 
+        optiga_lib_status = OPTIGA_LIB_BUSY;
         return_status = optiga_crypt_rsa_sign(me_crypt,
                                         OPTIGA_RSASSA_PKCS1_V15_SHA256,
                                         dataToSign,
@@ -906,7 +867,9 @@ int32_t IFX_OPTIGA_TrustM::calculateSignatureRSA(uint8_t dataToSign[], uint16_t 
     return ard_ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::calculateSignatureECDSA(uint8_t dataToSign[], uint16_t ilen, uint16_t privateKey_oid, uint8_t* out, uint16_t& olen)
+int32_t IFX_OPTIGA_TrustM::calculateSignatureECDSA(uint8_t dataToSign[], uint16_t ilen, 
+                                                   uint16_t privateKey_oid, uint8_t* out, 
+                                                   uint16_t& olen)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -959,87 +922,78 @@ int32_t IFX_OPTIGA_TrustM::calculateSignatureECDSA(uint8_t dataToSign[], uint16_
 }
 
 
-int32_t IFX_OPTIGA_TrustM::formatSignature(uint8_t* inSign, uint16_t signLen, uint8_t* outSign, uint16_t& outSignLen)
+int32_t IFX_OPTIGA_TrustM::formatSignature(uint8_t* inSign, uint16_t signLen, 
+                                           uint8_t* outSign, uint16_t& outSignLen)
 {
-    // int32_t ret = (int32_t)INT_LIB_ERROR;
-    // uint8_t bIndex = 0;
-    // do
-    // {
-    //     if((NULL == outSign) || (NULL == inSign))
-    //     {
-    //         ret = (int32_t)INT_LIB_NULL_PARAM;
-    //         break;
-    //     }
-    //     if((0 == outSignLen)||(0 == signLen))
-    //     {
-    //         ret = (int32_t)INT_LIB_ZEROLEN_ERROR;
-    //         break;
-    //     }
-    //     //check to see oif input buffer is short,
-    //     // or signture plus 6 byte considering der encoding  is more than 0xff
-    //     if((outSignLen < signLen)||(0xFF < (signLen + 6)))
-    //     {
-    //         //send lib error
-    //         break;
-    //     }
-    //     //Encode ASN sequence
-    //     *(outSign + 0) = ASN_TAG_SEQUENCE;
-    //     //Length of RS and encoding bytes
-    //     *(outSign + 1) = LENGTH_RS_VECTOR + 4;
-    //     //Encode integer
-    //     *(outSign + 2) = ASN_TAG_INTEGER;
-    //     //Check if the integer is negative
-    //     bIndex = 4;
-    //     *(outSign + 3) = 0x20;
-    //     if(outSign[0] & MASK_MSB)
-    //     {
-    //         *(outSign + 3) = 0x21;
-    //         *(outSign + bIndex++) = 0x00;
-    //     }
+    int32_t ret = 1;
+    uint8_t bIndex = 0;
+    do
+    {
+        if((NULL == outSign) || (NULL == inSign))
+        {
+            ret = 1;
+            break;
+        }
+        if((0 == outSignLen)||(0 == signLen))
+        {
+            ret = 1;
+            break;
+        }
+        //check to see oif input buffer is short,
+        // or signture plus 6 byte considering der encoding  is more than 0xff
+        if((outSignLen < signLen)||(0xFF < (signLen + 6)))
+        {
+            //send lib error
+            break;
+        }
+        //Encode ASN sequence
+        *(outSign + 0) = ASN_TAG_SEQUENCE;
+        //Length of RS and encoding bytes
+        *(outSign + 1) = LENGTH_RS_VECTOR + 4;
+        //Encode integer
+        *(outSign + 2) = ASN_TAG_INTEGER;
+        //Check if the integer is negative
+        bIndex = 4;
+        *(outSign + 3) = 0x20;
+        if(outSign[0] & MASK_MSB)
+        {
+            *(outSign + 3) = 0x21;
+            *(outSign + bIndex++) = 0x00;
+        }
 
-    //     //copy R
-    //     memmove(outSign + bIndex, inSign, (LENGTH_RS_VECTOR/2));
-    //     bIndex+=(LENGTH_RS_VECTOR/2);
-    //     //Encode integer
-    //     *(outSign + bIndex++) = ASN_TAG_INTEGER;
-    //     //Check if the integer is negative
-    //     *(outSign + bIndex) = 0x20;
-    //     if(outSign[LENGTH_RS_VECTOR/2] & MASK_MSB)
-    //     {
-    //         *(outSign + bIndex) = 0x21;
-    //         bIndex++;
-    //         *(outSign + bIndex) = 0x00;
-    //     }
-    //     bIndex++;
+        //copy R
+        memmove(outSign + bIndex, inSign, (LENGTH_RS_VECTOR/2));
+        bIndex+=(LENGTH_RS_VECTOR/2);
+        //Encode integer
+        *(outSign + bIndex++) = ASN_TAG_INTEGER;
+        //Check if the integer is negative
+        *(outSign + bIndex) = 0x20;
+        if(outSign[LENGTH_RS_VECTOR/2] & MASK_MSB)
+        {
+            *(outSign + bIndex) = 0x21;
+            bIndex++;
+            *(outSign + bIndex) = 0x00;
+        }
+        bIndex++;
 
-    //     //copy S
-    //     memcpy(outSign + bIndex, inSign+(LENGTH_RS_VECTOR/2), (LENGTH_RS_VECTOR/2));
-    //     bIndex += (LENGTH_RS_VECTOR/2);
-    //     //Sequence length is "index-2"
-    //     *(outSign + 1) = (bIndex-2);
-    //     //Total length is equal to index
-    //     outSignLen = bIndex;
+        //copy S
+        memcpy(outSign + bIndex, inSign+(LENGTH_RS_VECTOR/2), (LENGTH_RS_VECTOR/2));
+        bIndex += (LENGTH_RS_VECTOR/2);
+        //Sequence length is "index-2"
+        *(outSign + 1) = (bIndex-2);
+        //Total length is equal to index
+        outSignLen = bIndex;
 
-    //     ret = 0;
+        ret = 0;
 
-    // }while(FALSE);
+    }while(FALSE);
 
-    // return ret;
+    return ret;
 }
 
-int32_t  IFX_OPTIGA_TrustM::verifySignatureRSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint16_t publicKey_oid)
-{
-
-}
-
-int32_t  IFX_OPTIGA_TrustM::verifySignatureRSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint8_t pubKey[], uint16_t plen)
-{
-    
-}
-
-int32_t IFX_OPTIGA_TrustM::verifySignatureECDSA( uint8_t* digest, uint16_t hashLength, 
-											uint8_t* sign, uint16_t signatureLength,
-											uint16_t publicKey_oid)
+int32_t  IFX_OPTIGA_TrustM::verifySignatureRSA(uint8_t hash[], uint16_t hashLength, 
+                                               uint8_t signature[], uint16_t signatureLength, 
+                                               uint16_t publicKey_oid)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -1048,7 +1002,121 @@ int32_t IFX_OPTIGA_TrustM::verifySignatureECDSA( uint8_t* digest, uint16_t hashL
     {
          publicKey_oid,
          0x00,
-         (uint8_t)68 // TODO: How to know the length of the certificate data?
+         (uint8_t)0// @todo: Do we need to specify the certificate data length?
+    };
+
+    OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
+    do
+    {   
+        /**
+         * Verify RSA signature using public key from host
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_crypt_rsa_verify(me_crypt,
+                                                OPTIGA_RSASSA_PKCS1_V15_SHA256,
+                                                hash,
+                                                hashLength,
+                                                signature,
+                                                signatureLength,
+                                                OPTIGA_CRYPT_OID_DATA,
+                                                &public_key_details,
+                                                0x0000);
+
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (OPTIGA_LIB_BUSY == optiga_lib_status)
+        {
+            //Wait until the optiga_crypt_rsa_sign operation is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //RSA Signature generation failed.
+            return_status = optiga_lib_status;
+            break;
+        }
+    } while (FALSE);
+    OPTIGA_ARDUINO_LOG_STATUS(return_status);
+
+    if(OPTIGA_LIB_SUCCESS == return_status)
+    {
+        ard_ret = 0;
+    }
+    return ard_ret;
+}
+
+int32_t  IFX_OPTIGA_TrustM::verifySignatureRSA(uint8_t hash[], uint16_t hashLength, 
+                                               uint8_t signature[], uint16_t signatureLength, 
+                                               uint8_t pubKey[], uint16_t plen, optiga_rsa_key_type_t rsa_key_type)
+{
+    uint32_t ard_ret = 1;
+    optiga_lib_status_t return_status = 0;
+    public_key_from_host_t public_key_details =
+    {
+         pubKey,
+         plen,
+         (uint8_t)rsa_key_type
+    };
+
+    OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
+    do
+    {
+        /**
+         * Verify RSA signature using public key from host
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_crypt_rsa_verify(me_crypt,
+                                                OPTIGA_RSASSA_PKCS1_V15_SHA256,
+                                                hash,
+                                                hashLength,
+                                                signature,
+                                                signatureLength,
+                                                OPTIGA_CRYPT_HOST_DATA,
+                                                &public_key_details,
+                                                0x0000);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (OPTIGA_LIB_BUSY == optiga_lib_status)
+        {
+            //Wait until the optiga_crypt_rsa_sign operation is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //RSA Signature generation failed.
+            return_status = optiga_lib_status;
+            break;
+        }
+    } while (FALSE);
+    OPTIGA_ARDUINO_LOG_STATUS(return_status);
+
+    if(OPTIGA_LIB_SUCCESS == return_status)
+    {
+        ard_ret = 0;
+    }
+    return ard_ret;
+}
+
+int32_t IFX_OPTIGA_TrustM::verifySignatureECDSA( uint8_t hash[], uint16_t hashLength, 
+											     uint8_t signature[], uint16_t signatureLength,
+											     uint16_t publicKey_oid)
+{
+    uint32_t ard_ret = 1;
+    optiga_lib_status_t return_status = 0;
+    uint16_t keyLength = 0;
+    hash_data_in_optiga_t  public_key_details =
+    {
+         publicKey_oid,
+         0x00,
+         (uint8_t)0 // @todo: Do we need to specify the certificate data length?
     };
 
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
@@ -1062,9 +1130,9 @@ int32_t IFX_OPTIGA_TrustM::verifySignatureECDSA( uint8_t* digest, uint16_t hashL
          */
         optiga_lib_status = OPTIGA_LIB_BUSY;
         return_status = optiga_crypt_ecdsa_verify (me_crypt,
-                                                   digest,
+                                                   hash,
                                                    hashLength,
-                                                   sign,
+                                                   signature,
                                                    signatureLength,
                                                    OPTIGA_CRYPT_OID_DATA,
                                                    &public_key_details);
@@ -1093,41 +1161,11 @@ int32_t IFX_OPTIGA_TrustM::verifySignatureECDSA( uint8_t* digest, uint16_t hashL
         ard_ret = 0;
     }
     return ard_ret;
-    // int32_t ret = (int32_t)INT_LIB_ERROR;
-    // sVerifyOption_d versign_opt;
-    // sbBlob_d sign_blob;
-    // sbBlob_d digest_blob;
-
-    // do
-    // {
-    //     //
-    //     // Example to demonstrate the verifySignature using the Public Key from Host
-    //     //
-    //     versign_opt.eSignScheme = eECDSA_FIPS_186_3_WITHOUT_HASH;
-    //     versign_opt.eVerifyDataType = eOIDData;
-    //     versign_opt.wOIDPubKey = publicKey_oid;
-
-    //     digest_blob.prgbStream = digest;
-    //     digest_blob.wLen = hashLength;
-
-    //     sign_blob.prgbStream = sign;
-    //     sign_blob.wLen = signatureLength;
-
-    //     //Initiate CmdLib API for the Verification of signature
-    //     ret = CmdLib_VerifySign(&versign_opt, &digest_blob, &sign_blob);
-
-    //     if(CMD_LIB_OK == ret)
-    //     {
-    //         ret = 0;
-    //     }
-    // }while(FALSE);
-
-    // return ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::verifySignatureECDSA( uint8_t* digest, uint16_t hashLength,
-                                         uint8_t* sign, uint16_t signatureLength,
-                                         uint8_t* pubKey, uint16_t plen, optiga_ecc_curve_t ecc_key_type)
+int32_t IFX_OPTIGA_TrustM::verifySignatureECDSA( uint8_t hash[], uint16_t hashLength,
+                                                 uint8_t signature[], uint16_t signatureLength,
+                                                 uint8_t pubKey[], uint16_t plen, optiga_ecc_curve_t ecc_key_type)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -1146,9 +1184,9 @@ int32_t IFX_OPTIGA_TrustM::verifySignatureECDSA( uint8_t* digest, uint16_t hashL
          */
         optiga_lib_status = OPTIGA_LIB_BUSY;
         return_status = optiga_crypt_ecdsa_verify (me_crypt,
-                                                   digest,
+                                                   hash,
                                                    hashLength,
-                                                   sign,
+                                                   signature,
                                                    signatureLength,
                                                    OPTIGA_CRYPT_HOST_DATA,
                                                    &public_key_details);
@@ -1179,9 +1217,10 @@ int32_t IFX_OPTIGA_TrustM::verifySignatureECDSA( uint8_t* digest, uint16_t hashL
     return ard_ret;
 }
 
-
-
-int32_t IFX_OPTIGA_TrustM::calculateSharedSecretGeneric(int32_t curveID, uint16_t priv_oid, uint8_t* p_pubkey, uint16_t plen, uint16_t out_oid, uint8_t* p_out, uint16_t& olen)
+int32_t IFX_OPTIGA_TrustM::calculateSharedSecretGeneric(int32_t curveID, uint16_t priv_oid, 
+                                                        uint8_t* p_pubkey, uint16_t plen, 
+                                                        uint16_t out_oid, uint8_t* p_out, 
+                                                        uint16_t& olen)
 {
 //     int32_t             ret = IFX_I2C_STACK_ERROR;
 //     sCalcSSecOptions_d  shsec_opt;
@@ -1240,7 +1279,8 @@ int32_t IFX_OPTIGA_TrustM::str2cur(String curve_name)
     // return ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::deriveKey(uint8_t* p_data, uint16_t hashLength, uint8_t* p_key, uint16_t klen)
+int32_t IFX_OPTIGA_TrustM::deriveKey(uint8_t* p_data, uint16_t hashLength, 
+                                     uint8_t* p_key, uint16_t klen)
 {
 //     int32_t             ret = INT_LIB_ERROR;
 //     sDeriveKeyOptions_d key_opt;
@@ -1293,7 +1333,8 @@ int32_t IFX_OPTIGA_TrustM::deriveKey(uint8_t* p_data, uint16_t hashLength, uint8
 //     return ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid, optiga_rsa_key_type_t rsa_key_type)
+int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, 
+                                              uint16_t privateKey_oid, optiga_rsa_key_type_t rsa_key_type)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -1341,7 +1382,7 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen,
 
 
     } while (FALSE);
-    OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+    OPTIGA_ARDUINO_LOG_STATUS(return_status);
     
     if(OPTIGA_LIB_SUCCESS == return_status)
     {
@@ -1350,7 +1391,9 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen,
     return ard_ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen, optiga_rsa_key_type_t rsa_key_type)
+int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, 
+                                              uint8_t* p_privkey, uint16_t& prlen, 
+                                              optiga_rsa_key_type_t rsa_key_type)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -1396,7 +1439,7 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen,
 
 
     } while (FALSE);
-    OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+    OPTIGA_ARDUINO_LOG_STATUS(return_status);
     
     if(OPTIGA_LIB_SUCCESS == return_status)
     {
@@ -1405,7 +1448,8 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen,
     return ard_ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid, optiga_ecc_curve_t ecc_key_type)
+int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen, 
+                                              uint16_t privateKey_oid, optiga_ecc_curve_t ecc_key_type)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -1451,7 +1495,7 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen,
 
 
     } while (FALSE);
-    OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+    OPTIGA_ARDUINO_LOG_STATUS(return_status);
     
     if(OPTIGA_LIB_SUCCESS == return_status)
     {
@@ -1460,7 +1504,9 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen,
     return ard_ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen, optiga_ecc_curve_t ecc_key_type)
+int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen, 
+                                              uint8_t* p_privkey, uint16_t& prlen,
+                                              optiga_ecc_curve_t ecc_key_type)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -1503,7 +1549,7 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen,
 
 
     } while (FALSE);
-    OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+    OPTIGA_ARDUINO_LOG_STATUS(return_status);
     
     if(OPTIGA_LIB_SUCCESS == return_status)
     {

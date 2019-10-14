@@ -349,24 +349,17 @@ public:
     int32_t verifySignature(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint16_t publicKey_oid)
     {   return verifySignatureECDSA(hash, hashLength, signature, signatureLength, publicKey_oid); }
     int32_t verifySignature(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength ) 
-    {   return verifySignatureECDSA(hash, hashLength, signature, signatureLength); }
+    {   return verifySignatureECDSA(hash, hashLength, signature, signatureLength, eDEVICE_PUBKEY_CERT_IFX); }
     int32_t verifySignature(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint8_t pubKey[], uint16_t plen)
     {   return verifySignatureECDSA(hash, hashLength, signature, signatureLength, pubKey, plen, OPTIGA_ECC_CURVE_NIST_P_256);}
 
 
 
     int32_t verifySignatureRSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint16_t publicKey_oid);
-    int32_t verifySignatureRSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength ) {
-		return verifySignatureRSA(hash, hashLength, signature, signatureLength, OPTIGA_KEY_ID_E0F0);
-	}
-    int32_t verifySignatureRSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint8_t pubKey[], uint16_t plen);
-
+    int32_t verifySignatureRSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint8_t pubKey[], uint16_t plen, optiga_rsa_key_type rsa_key_type);
 
 
     int32_t verifySignatureECDSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint16_t publicKey_oid);
-    int32_t verifySignatureECDSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength ) {
-		return verifySignatureECDSA(hash, hashLength, signature, signatureLength, OPTIGA_KEY_ID_E0F0);
-	}
     int32_t verifySignatureECDSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint8_t pubKey[], uint16_t plen, optiga_ecc_curve_t ecc_key_type);
     
     /**
@@ -521,8 +514,6 @@ private:
     int32_t setAppSecurityStatus(uint8_t status);  //TODO?: Not implemented (as in arduino-trust-x)
     int32_t getGenericData(uint16_t oid, uint8_t* p_data, uint16_t& hashLength);
     int32_t getGenericMetadata(uint16_t oid, uint8_t* p_data, uint16_t& length);
-    int32_t getObjectSize(uint16_t oid, uint16_t& objectSize);
-    int32_t getKeySize(uint16_t oid, uint16_t& keySize);
     int32_t getState(uint16_t oid, uint8_t& p_data);
     int32_t setGenericData(uint16_t oid, uint8_t* p_data, uint16_t hashLength);
     int32_t str2cur(String curve_name);
