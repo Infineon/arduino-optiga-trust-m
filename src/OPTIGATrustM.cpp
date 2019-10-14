@@ -61,6 +61,41 @@
 // ///Length of Signature
 // #define     LENGTH_SIGNATURE                    (LENGTH_RS_VECTOR + MAXLENGTH_SIGN_ENCODE)
 
+
+/**
+ * OPTIGA metadata TLV types
+ */
+/// Metatada ttype
+#define     METADATA_TYPE                       0x20
+/// Life cycle state (LcsO)
+#define     LCSO_TYPE                           0xC0
+/// Data or key object version
+#define     DATA_VERSION_TYPE                   0xC1
+/// Max. size of the data
+#define     MAX_DATA_SIZE_TYPE                  0xC4
+/// Max. size of the data
+#define     MAX_DATA_SIZE_TYPE                  0xC4
+/// Used size of the data object
+#define     USED_DATA_SIZE_TYPE                 0xC5
+
+/// Change Access Condition descriptor
+#define     CHA_ACCESS_COND_TYPE                0xD0
+/// Read Access Condition descriptor
+#define     READ_ACCESS_COND_TYPE               0xD1
+/// Execute Access Condition descriptor
+#define     EXE_ACCESS_COND_TYPE                0xD3
+/// Algorithm associated with key container
+#define     KEY_ALGORITHM_TYPE                  0xE0
+/// Key usage associated with key container
+#define     KEY_USAGE_TYPE                      0xE1
+/// Data object type
+#define     DATA_OBJ_TYPE_TYPE                  0xE8
+
+
+
+/// Maximum objetct metada length
+#define     MAXLENGTH_OBJ_METADATA              0x101
+
 /**
  * optiga logger arduino library level 
  */
@@ -482,6 +517,79 @@ int32_t IFX_OPTIGA_TrustM::setGenericData(uint16_t oid, uint8_t* p_data, uint16_
     }
     return ard_ret;
 }
+
+int32_t IFX_OPTIGA_TrustM::getGenericMetadata(uint16_t oid, uint8_t* p_data, uint16_t& length)
+{   
+    uint32_t ard_ret = 1;
+    optiga_lib_status_t return_status = 0;
+    
+    OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
+    do
+    {
+        /**
+         * Read metadata of a data object (e.g. certificate data object E0E0)
+         * using optiga_util_read_data.
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_read_metadata(me_util,
+                                                  oid,
+                                                  p_data,
+                                                  &length);
+
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (OPTIGA_LIB_BUSY == optiga_lib_status)
+        {
+            //Wait until the optiga_util_write_data operation is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //writing data to a data object failed.
+            return_status = optiga_lib_status;
+            break;
+        }
+    } while (FALSE);
+    OPTIGA_ARDUINO_LOG_STATUS(return_status);
+
+    if(OPTIGA_LIB_SUCCESS == return_status)
+    {
+        ard_ret = 0;
+    }
+    return ard_ret;
+}
+
+
+
+int32_t IFX_OPTIGA_TrustM::getObjectSize(uint16_t oid, uint16_t& objectSize)
+{
+    uint32_t ard_ret = 1;
+    uint8_t obj_metatada[MAXLENGTH_OBJ_METADATA] = {};
+    objectSize = MAXLENGTH_OBJ_METADATA;
+    
+    do
+    {
+        ard_ret = getGenericMetadata(oid, obj_metatada, objectSize);
+
+        if(0 == ard_ret)
+        {   
+            break;
+        }
+         OPTIGA_ARDUINO_LOG_HEX_DATA(obj_metatada,objectSize);
+        
+    } while (FALSE);
+
+    return ard_ret;
+}
+
+int32_t  IFX_OPTIGA_TrustM::getKeySize(uint16_t oid, uint16_t& keySize)
+{
+
+}
 /*************************************************************************************
  *                              COMMANDS API TRUST E COMPATIBLE
  **************************************************************************************/
@@ -749,7 +857,7 @@ int32_t IFX_OPTIGA_TrustM::sha256(uint8_t dataToHash[], uint16_t ilen, uint8_t o
     return ard_ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::calculateSignature(uint8_t dataToSign[], uint16_t ilen, uint16_t privateKey_oid, uint8_t* out, uint16_t& olen)
+int32_t IFX_OPTIGA_TrustM::calculateSignatureRSA(uint8_t dataToSign[], uint16_t ilen, uint16_t privateKey_oid, uint8_t* out, uint16_t& olen)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -762,17 +870,15 @@ int32_t IFX_OPTIGA_TrustM::calculateSignature(uint8_t dataToSign[], uint16_t ile
             break;
         }
 
-        /**
-         * Sign the digest -
-         *       - Signature scheme is SHA256,
-         */
-        optiga_lib_status = OPTIGA_LIB_BUSY;
-        return_status = optiga_crypt_ecdsa_sign(me_crypt,
-                                                dataToSign,
-                                                ilen,
-                                                (optiga_key_id_t)privateKey_oid,
-                                                out,
-                                                &olen);
+        return_status = optiga_crypt_rsa_sign(me_crypt,
+                                        OPTIGA_RSASSA_PKCS1_V15_SHA256,
+                                        dataToSign,
+                                        ilen,
+                                        (optiga_key_id_t)privateKey_oid,
+                                        out,
+                                        &olen,
+                                        0x0000);
+
         if (OPTIGA_LIB_SUCCESS != return_status)
         {
             break;
@@ -798,43 +904,60 @@ int32_t IFX_OPTIGA_TrustM::calculateSignature(uint8_t dataToSign[], uint16_t ile
         ard_ret = 0;
     }
     return ard_ret;
-//     uint16_t ret = (int32_t)INT_LIB_ERROR;
-//     sCalcSignOptions_d calsign_opt;
-//     sbBlob_d sign_blob;
-// #define MAX_SIGN_LEN    80
-
-//     do
-//     {
-//         if (dataToSign == NULL || out == NULL)
-//         {
-//             break;
-//         }
-
-//         //
-//         // Example to demonstrate the calc sign using the private key object
-//         //
-//         calsign_opt.eSignScheme = eECDSA_FIPS_186_3_WITHOUT_HASH;
-//         calsign_opt.sDigestToSign.prgbStream = dataToSign;
-//         calsign_opt.sDigestToSign.wLen = ilen;
-
-//         //Choose the key OID from the device private keys or session private keys.
-//         //Note: Make sure the private key is available in the OID
-//         calsign_opt.wOIDSignKey = (uint16_t)ctx;
-
-//         sign_blob.prgbStream = out;
-//         sign_blob.wLen = MAX_SIGN_LEN;
-
-//         //Initiate CmdLib API for the Calculation of signature
-//         if(CMD_LIB_OK == CmdLib_CalculateSign(&calsign_opt,&sign_blob))
-//         {
-//             olen = sign_blob.wLen;
-//             ret = 0;
-//             //Print_Stringline("Calculation of Signature is successful");
-//         }
-//     }while(FALSE);
-
-//     return ret;
 }
+
+int32_t IFX_OPTIGA_TrustM::calculateSignatureECDSA(uint8_t dataToSign[], uint16_t ilen, uint16_t privateKey_oid, uint8_t* out, uint16_t& olen)
+{
+    uint32_t ard_ret = 1;
+    optiga_lib_status_t return_status = 0;
+
+    OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
+    do
+    {
+        if (dataToSign == NULL || out == NULL)
+        {
+            break;
+        }
+
+        /**
+         * Sign the digest -
+         *       - Signature scheme is SHA256,
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_crypt_ecdsa_sign(me_crypt,
+                                                dataToSign,
+                                                ilen,
+                                                (optiga_key_id_t)privateKey_oid,
+                                                out,
+                                                &olen);
+
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (OPTIGA_LIB_BUSY == optiga_lib_status)
+        {
+            //Wait until the optiga_crypt_rsa_sign operation is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //RSA Signature generation failed.
+            return_status = optiga_lib_status;
+            break;
+        }
+    } while (FALSE);
+    OPTIGA_ARDUINO_LOG_STATUS(return_status);
+
+    if(OPTIGA_LIB_SUCCESS == return_status)
+    {
+        ard_ret = 0;
+    }
+    return ard_ret;
+}
+
 
 int32_t IFX_OPTIGA_TrustM::formatSignature(uint8_t* inSign, uint16_t signLen, uint8_t* outSign, uint16_t& outSignLen)
 {
@@ -904,9 +1027,107 @@ int32_t IFX_OPTIGA_TrustM::formatSignature(uint8_t* inSign, uint16_t signLen, ui
     // return ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::verifySignature( uint8_t* digest, uint16_t hashLength,
+int32_t  IFX_OPTIGA_TrustM::verifySignatureRSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint16_t publicKey_oid)
+{
+
+}
+
+int32_t  IFX_OPTIGA_TrustM::verifySignatureRSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint8_t pubKey[], uint16_t plen)
+{
+    
+}
+
+int32_t IFX_OPTIGA_TrustM::verifySignatureECDSA( uint8_t* digest, uint16_t hashLength, 
+											uint8_t* sign, uint16_t signatureLength,
+											uint16_t publicKey_oid)
+{
+    uint32_t ard_ret = 1;
+    optiga_lib_status_t return_status = 0;
+    uint16_t keyLength = 0;
+    hash_data_in_optiga_t  public_key_details =
+    {
+         publicKey_oid,
+         0x00,
+         (uint8_t)68 // TODO: How to know the length of the certificate data?
+    };
+
+    OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
+    do
+    {   /**
+         * Get the key data
+         */
+        //getObjectSize(publicKey_oid, keyLength);
+        /**
+         * Verify RSA signature using public key from host
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_crypt_ecdsa_verify (me_crypt,
+                                                   digest,
+                                                   hashLength,
+                                                   sign,
+                                                   signatureLength,
+                                                   OPTIGA_CRYPT_OID_DATA,
+                                                   &public_key_details);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (OPTIGA_LIB_BUSY == optiga_lib_status)
+        {
+            //Wait until the optiga_crypt_rsa_sign operation is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //RSA Signature generation failed.
+            return_status = optiga_lib_status;
+            break;
+        }
+    } while (FALSE);
+    OPTIGA_ARDUINO_LOG_STATUS(return_status);
+
+    if(OPTIGA_LIB_SUCCESS == return_status)
+    {
+        ard_ret = 0;
+    }
+    return ard_ret;
+    // int32_t ret = (int32_t)INT_LIB_ERROR;
+    // sVerifyOption_d versign_opt;
+    // sbBlob_d sign_blob;
+    // sbBlob_d digest_blob;
+
+    // do
+    // {
+    //     //
+    //     // Example to demonstrate the verifySignature using the Public Key from Host
+    //     //
+    //     versign_opt.eSignScheme = eECDSA_FIPS_186_3_WITHOUT_HASH;
+    //     versign_opt.eVerifyDataType = eOIDData;
+    //     versign_opt.wOIDPubKey = publicKey_oid;
+
+    //     digest_blob.prgbStream = digest;
+    //     digest_blob.wLen = hashLength;
+
+    //     sign_blob.prgbStream = sign;
+    //     sign_blob.wLen = signatureLength;
+
+    //     //Initiate CmdLib API for the Verification of signature
+    //     ret = CmdLib_VerifySign(&versign_opt, &digest_blob, &sign_blob);
+
+    //     if(CMD_LIB_OK == ret)
+    //     {
+    //         ret = 0;
+    //     }
+    // }while(FALSE);
+
+    // return ret;
+}
+
+int32_t IFX_OPTIGA_TrustM::verifySignatureECDSA( uint8_t* digest, uint16_t hashLength,
                                          uint8_t* sign, uint16_t signatureLength,
-                                         uint8_t* pubKey, uint16_t plen)
+                                         uint8_t* pubKey, uint16_t plen, optiga_ecc_curve_t ecc_key_type)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -914,7 +1135,7 @@ int32_t IFX_OPTIGA_TrustM::verifySignature( uint8_t* digest, uint16_t hashLength
     {
          pubKey,
          plen,
-         (uint8_t)OPTIGA_ECC_CURVE_NIST_P_256
+         (uint8_t)ecc_key_type
     };
 
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
@@ -956,71 +1177,9 @@ int32_t IFX_OPTIGA_TrustM::verifySignature( uint8_t* digest, uint16_t hashLength
         ard_ret = 0;
     }
     return ard_ret;
-    // int32_t ret = (int32_t)INT_LIB_ERROR;
-    // sVerifyOption_d versign_opt;
-    // sbBlob_d sign_blob, digest_blob;
-
-    // //
-    // // Example to demonstrate the verifySignature using the Public Key from Host
-    // //
-    // versign_opt.eSignScheme = eECDSA_FIPS_186_3_WITHOUT_HASH;
-    // versign_opt.eVerifyDataType = eDataStream;
-    // versign_opt.sPubKeyInput.eAlgId = eECC_NIST_P256;
-    // versign_opt.sPubKeyInput.sDataStream.prgbStream = pubKey;
-    // versign_opt.sPubKeyInput.sDataStream.wLen = plen;
-
-    // digest_blob.prgbStream = digest;
-    // digest_blob.wLen = hashLength;
-
-    // sign_blob.prgbStream = sign;
-    // sign_blob.wLen = signatureLength;
-
-    // //Initiate CmdLib API for the Verification of signature
-    // ret = CmdLib_VerifySign(&versign_opt, &digest_blob, &sign_blob);
-
-    // if(CMD_LIB_OK == ret)
-    // {
-    //     ret = 0;
-    // }
-
-    // return ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::verifySignature( uint8_t* digest, uint16_t hashLength, 
-											uint8_t* sign, uint16_t signatureLength,
-											uint16_t publicKey_oid )
-{
-    // int32_t ret = (int32_t)INT_LIB_ERROR;
-    // sVerifyOption_d versign_opt;
-    // sbBlob_d sign_blob;
-    // sbBlob_d digest_blob;
 
-    // do
-    // {
-    //     //
-    //     // Example to demonstrate the verifySignature using the Public Key from Host
-    //     //
-    //     versign_opt.eSignScheme = eECDSA_FIPS_186_3_WITHOUT_HASH;
-    //     versign_opt.eVerifyDataType = eOIDData;
-    //     versign_opt.wOIDPubKey = publicKey_oid;
-
-    //     digest_blob.prgbStream = digest;
-    //     digest_blob.wLen = hashLength;
-
-    //     sign_blob.prgbStream = sign;
-    //     sign_blob.wLen = signatureLength;
-
-    //     //Initiate CmdLib API for the Verification of signature
-    //     ret = CmdLib_VerifySign(&versign_opt, &digest_blob, &sign_blob);
-
-    //     if(CMD_LIB_OK == ret)
-    //     {
-    //         ret = 0;
-    //     }
-    // }while(FALSE);
-
-    // return ret;
-}
 
 int32_t IFX_OPTIGA_TrustM::calculateSharedSecretGeneric(int32_t curveID, uint16_t priv_oid, uint8_t* p_pubkey, uint16_t plen, uint16_t out_oid, uint8_t* p_out, uint16_t& olen)
 {
@@ -1153,7 +1312,6 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen,
          */
         if (privateKey_oid == 0)
             privateKey_oid = OPTIGA_KEY_ID_E0FC;
-            //privkey_oid= (uint16_t)eSESSION_ID_2;
  
         optiga_lib_status = OPTIGA_LIB_BUSY;
         return_status = optiga_crypt_rsa_generate_keypair(me_crypt,
@@ -1264,7 +1422,6 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen,
          */
         if (privateKey_oid == 0)
             privateKey_oid = OPTIGA_KEY_ID_E0F1;
-            //privkey_oid= (uint16_t)eSESSION_ID_2;
  
         optiga_lib_status = OPTIGA_LIB_BUSY;
         return_status = optiga_crypt_ecc_generate_keypair(me_crypt,

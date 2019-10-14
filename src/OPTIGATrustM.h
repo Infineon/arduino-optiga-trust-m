@@ -292,11 +292,22 @@ public:
      * @param[out] rlen             Length of the output data. Will be modified in case of success.
      *
      * @retval  0 If function was successful.
-     * @retval  1 If the operation failed.
+     * @retval  1 If the operation failed.<<<<<<<<<<<<<<<<<<<<<<<
      */
-    int32_t calculateSignature(uint8_t dataToSign[], uint16_t dlen, uint16_t privateKey_oid, uint8_t result[], uint16_t& rlen);
+    int32_t calculateSignature(uint8_t dataToSign[], uint16_t dlen, uint16_t privateKey_oid, uint8_t result[], uint16_t& rlen)
+    {   return(calculateSignatureECDSA(dataToSign, dlen, privateKey_oid, result, rlen));};
     int32_t calculateSignature(uint8_t dataToSign[], uint16_t dlen, uint8_t result[], uint16_t& rlen) { 
-        return calculateSignature(dataToSign, dlen, eFIRST_DEVICE_PRIKEY_1, result, rlen);
+        return calculateSignatureECDSA(dataToSign, dlen, OPTIGA_KEY_ID_E0F0, result, rlen);
+	}
+    
+    int32_t calculateSignatureRSA(uint8_t dataToSign[], uint16_t dlen, uint16_t privateKey_oid, uint8_t result[], uint16_t& rlen);
+    int32_t calculateSignatureRSA(uint8_t dataToSign[], uint16_t dlen, uint8_t result[], uint16_t& rlen) { 
+        return calculateSignatureRSA(dataToSign, dlen, OPTIGA_KEY_ID_E0FC, result, rlen);
+	}
+
+    int32_t calculateSignatureECDSA(uint8_t dataToSign[], uint16_t dlen, uint16_t privateKey_oid, uint8_t result[], uint16_t& rlen);
+    int32_t calculateSignatureECDSA(uint8_t dataToSign[], uint16_t dlen, uint8_t result[], uint16_t& rlen) { 
+        return calculateSignatureECDSA(dataToSign, dlen, OPTIGA_KEY_ID_E0F0, result, rlen);
 	}
     
     /**
@@ -335,11 +346,28 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t verifySignature(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint16_t publicKey_oid);
-    int32_t verifySignature(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength ) {
-		verifySignature(hash, hashLength, signature, signatureLength, eDEVICE_PUBKEY_CERT_IFX);
+    int32_t verifySignature(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint16_t publicKey_oid)
+    {   return verifySignatureECDSA(hash, hashLength, signature, signatureLength, publicKey_oid); }
+    int32_t verifySignature(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength ) 
+    {   return verifySignatureECDSA(hash, hashLength, signature, signatureLength); }
+    int32_t verifySignature(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint8_t pubKey[], uint16_t plen)
+    {   return verifySignatureECDSA(hash, hashLength, signature, signatureLength, pubKey, plen, OPTIGA_ECC_CURVE_NIST_P_256);}
+
+
+
+    int32_t verifySignatureRSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint16_t publicKey_oid);
+    int32_t verifySignatureRSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength ) {
+		return verifySignatureRSA(hash, hashLength, signature, signatureLength, OPTIGA_KEY_ID_E0F0);
 	}
-    int32_t verifySignature(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint8_t pubKey[], uint16_t plen);
+    int32_t verifySignatureRSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint8_t pubKey[], uint16_t plen);
+
+
+
+    int32_t verifySignatureECDSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint16_t publicKey_oid);
+    int32_t verifySignatureECDSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength ) {
+		return verifySignatureECDSA(hash, hashLength, signature, signatureLength, OPTIGA_KEY_ID_E0F0);
+	}
+    int32_t verifySignatureECDSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint8_t pubKey[], uint16_t plen, optiga_ecc_curve_t ecc_key_type);
     
     /**
      * This function generates a shared secret based on Elliptic Curve Diffie-Hellman Key Exchange Algorithm
@@ -417,7 +445,7 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-	int32_t generateKeypair(uint8_t publicKey[], uint16_t& plen ) { return generateKeypairRSA(publicKey, plen, 0, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); }
+	int32_t generateKeypair(uint8_t publicKey[], uint16_t& plen ) { return generateKeypairRSA(publicKey, plen, OPTIGA_KEY_ID_E0FC, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); }
     int32_t generateKeypair(uint8_t publicKey[], uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairRSA(publicKey, plen, privateKey_oid, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); };
     int32_t generateKeypair(uint8_t publicKey[], uint16_t& plen, uint8_t privateKey[], uint16_t& prlen) {return generateKeypairRSA(publicKey, plen, privateKey, prlen, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL);};
     
@@ -487,12 +515,14 @@ private:
     optiga_crypt_t * me_crypt = NULL;
 
 	bool active;
-    int32_t getGlobalSecurityStatus(uint8_t& status); //TODO: Not implemented (as in arduino-trust-x)
-    int32_t setGlobalSecurityStatus(uint8_t status);  //TODO: Not implemented (as in arduino-trust-x)
-    int32_t getAppSecurityStatus(uint8_t* p_data, uint16_t& hashLength);  //TODO: Not implemented (as in arduino-trust-x)
-    int32_t setAppSecurityStatus(uint8_t status);  //TODO: Not implemented (as in arduino-trust-x)
+    int32_t getGlobalSecurityStatus(uint8_t& status); //TODO?: Not implemented (as in arduino-trust-x)
+    int32_t setGlobalSecurityStatus(uint8_t status);  //TODO?: Not implemented (as in arduino-trust-x)
+    int32_t getAppSecurityStatus(uint8_t* p_data, uint16_t& hashLength);  //TODO?: Not implemented (as in arduino-trust-x)
+    int32_t setAppSecurityStatus(uint8_t status);  //TODO?: Not implemented (as in arduino-trust-x)
     int32_t getGenericData(uint16_t oid, uint8_t* p_data, uint16_t& hashLength);
-    int32_t getGenericMetadata(uint16_t oid, uint8_t* p_data, uint16_t& hashLength);  //TODO: Not implemented (as in arduino-trust-x)
+    int32_t getGenericMetadata(uint16_t oid, uint8_t* p_data, uint16_t& length);
+    int32_t getObjectSize(uint16_t oid, uint16_t& objectSize);
+    int32_t getKeySize(uint16_t oid, uint16_t& keySize);
     int32_t getState(uint16_t oid, uint8_t& p_data);
     int32_t setGenericData(uint16_t oid, uint8_t* p_data, uint16_t hashLength);
     int32_t str2cur(String curve_name);
@@ -501,7 +531,6 @@ private:
 	return calculateSharedSecretGeneric(0x03, priv_oid, p_pubkey, plen, out_oid, NULL, dummy_len);
 	}
     int32_t calculateSharedSecretGeneric( int32_t curveID, uint16_t priv_oid, uint8_t* p_pubkey, uint16_t plen, uint16_t out_oid, uint8_t* p_out, uint16_t& olen);
-    int32_t ecp_gen_keypair_generic(uint8_t* p_pubkey, uint16_t& plen, uint16_t& ctx, uint8_t* p_privkey, uint16_t& prlen);
     int32_t deriveKey(uint8_t hash[], uint16_t hashLength, uint8_t publicKey[], uint16_t plen); //TODO: ?? Private function unused by any other function.
 };
 /**
