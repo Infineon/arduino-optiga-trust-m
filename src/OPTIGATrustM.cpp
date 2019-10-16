@@ -31,7 +31,7 @@
 #include "optiga_trustm/ifx_i2c_config.h"
 #include "optiga_trustm/pal_os_event_timer.h"
 #include "optiga_trustm/Util.h"
-// #include "third_crypto/uECC.h"
+#include "third_crypto/uECC.h"
 
 // ///OID of IFX Certificate
 // #define     OID_IFX_CERTIFICATE                 0xE0E0
@@ -319,9 +319,9 @@ int32_t IFX_OPTIGA_TrustM::checkChip(void)
 		memcpy(p_unformSign, &p_sign[r_off], LENGTH_RS_VECTOR/2);
 		memcpy(&p_unformSign[LENGTH_RS_VECTOR/2], &p_sign[s_off], LENGTH_RS_VECTOR/2);
 		
-		// if (uECC_verify(p_pubkey+4, p_rnd, rlen, p_unformSign, uECC_secp256r1())) {
-		//   err = 0;
-		// }
+		if (uECC_verify(p_pubkey+4, p_rnd, rlen, p_unformSign, uECC_secp256r1())) {
+		  err = 0;
+		}
 	} while(0);
 	
 	return err;
@@ -998,12 +998,6 @@ int32_t  IFX_OPTIGA_TrustM::verifySignatureRSA(uint8_t hash[], uint16_t hashLeng
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
     uint16_t keyLength = 0;
-    hash_data_in_optiga_t  public_key_details =
-    {
-         publicKey_oid,
-         0x00,
-         (uint8_t)0// @todo: Do we need to specify the certificate data length?
-    };
 
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
     do
@@ -1019,7 +1013,7 @@ int32_t  IFX_OPTIGA_TrustM::verifySignatureRSA(uint8_t hash[], uint16_t hashLeng
                                                 signature,
                                                 signatureLength,
                                                 OPTIGA_CRYPT_OID_DATA,
-                                                &public_key_details,
+                                                &publicKey_oid,
                                                 0x0000);
 
         if (OPTIGA_LIB_SUCCESS != return_status)
@@ -1112,12 +1106,7 @@ int32_t IFX_OPTIGA_TrustM::verifySignatureECDSA( uint8_t hash[], uint16_t hashLe
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
     uint16_t keyLength = 0;
-    hash_data_in_optiga_t  public_key_details =
-    {
-         publicKey_oid,
-         0x00,
-         (uint8_t)0 // @todo: Do we need to specify the certificate data length?
-    };
+
 
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
     do
@@ -1135,7 +1124,7 @@ int32_t IFX_OPTIGA_TrustM::verifySignatureECDSA( uint8_t hash[], uint16_t hashLe
                                                    signature,
                                                    signatureLength,
                                                    OPTIGA_CRYPT_OID_DATA,
-                                                   &public_key_details);
+                                                   &publicKey_oid);
         if (OPTIGA_LIB_SUCCESS != return_status)
         {
             break;
@@ -1179,7 +1168,7 @@ int32_t IFX_OPTIGA_TrustM::verifySignatureECDSA( uint8_t hash[], uint16_t hashLe
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
     do
     {
-          /**
+        /**
          * Verify RSA signature using public key from host
          */
         optiga_lib_status = OPTIGA_LIB_BUSY;
@@ -1222,61 +1211,141 @@ int32_t IFX_OPTIGA_TrustM::calculateSharedSecretGeneric(int32_t curveID, uint16_
                                                         uint16_t out_oid, uint8_t* p_out, 
                                                         uint16_t& olen)
 {
-//     int32_t             ret = IFX_I2C_STACK_ERROR;
-//     sCalcSSecOptions_d  shsec_opt;
-//     sbBlob_d            shsec;
-//     uint8_t             out[32];
+    #define SHARED_SECRET_SIZE_PRIVATE_NIST_P256    32
+    #define SHARED_SECRET_SIZE_PRIVATE_NIST_P384    48
+    uint32_t ard_ret = 1;
+    // optiga_lib_status_t return_status = 0;
+    bool_t exprt = FALSE;
 
-//     //
-//     // Example to demonstrate the calculation of shared secret
-//     //
+    //To store the generated public key as part of Generate key pair
+    uint8_t public_key [100];
+    uint16_t public_key_length = sizeof(public_key);
 
-//     //Mention the Key Agreement protocol
-//     shsec_opt.eKeyAgreementType = eECDH_NISTSP80056A;
+    // Peer public key details for the ECDH operation
+    public_key_from_host_t peer_public_key_details =
+    {
+         p_pubkey,
+         plen,
+         (uint8_t)curveID   //Not working for NIST P 384??
+    };
 
-//     //Provide the public key information
-//     shsec_opt.ePubKeyAlgId          = (eAlgId_d)curveID;
-//     shsec_opt.sPubKey.prgbStream    = p_pubkey;
-//     shsec_opt.sPubKey.wLen          = plen;
+    optiga_lib_status_t return_status = 0;
 
-//     //Provide the ID of the private key to be used
-//     //Make sure the private key is present in the OID. Use CmdLib_GenerateKeyPair
-//     shsec_opt.wOIDPrivKey = priv_oid;
+    OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
+    do
+    {
+        // If out_oid is set to 0x0000 the shared secret is exported
+        if (p_out != NULL && 0x0000 == out_oid)
+        {
+            exprt = TRUE;
+        }
+        else
+        {
+            if(p_out == NULL && 0x0000 == out_oid)
+            {
+                return_status = OPTIGA_CRYPT_ERROR_INVALID_INPUT;
+                break;
+            }
+        }
 
-//     //Mentioned where should the generated shared secret be stored.
-//     //1.To store the shared secret in session oid,provide the session oid value
-//     //or
-//     //2.To export the shared secret, set the value to 0x0000
-//     shsec_opt.wOIDSharedSecret = out_oid;
+        if(OPTIGA_ECC_CURVE_NIST_P_256 == curveID)
+        {
+            olen = SHARED_SECRET_SIZE_PRIVATE_NIST_P256;
+        }
+        else if (OPTIGA_ECC_CURVE_NIST_P_384 == curveID)
+        {
+            olen = SHARED_SECRET_SIZE_PRIVATE_NIST_P384;
+        }
+        else
+        {
+            return_status = OPTIGA_CRYPT_ERROR_INVALID_INPUT;
+            break;
+        }
 
-//     //Buffer to export the generated shared secret
-//     //Shared secret is returned if sCalcSSecOptions.wOIDSharedSecret is 0x0000.
-//     shsec.prgbStream = out;
-//     shsec.wLen = olen;
+        /**
+         * Generate ECC Key pair - To use the private key with ECDH in the next step
+         *       - Specify the Key Usage as Key Agreement
+         *       - Store the Private key with in OPTIGA Session
+         *       - Export Public Key
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
 
-//     //Initiate CmdLib API for the Calculate shared secret
-//     if(CMD_LIB_OK == CmdLib_CalculateSharedSecret(&shsec_opt, &shsec))
-//     {
-//         olen = shsec.wLen;
-//         ret = 0;
-//     }
+        //optiga_key_id = OPTIGA_KEY_ID_SESSION_BASED;
+        return_status = optiga_crypt_ecc_generate_keypair(me_crypt,
+                                                          (optiga_ecc_curve_t)curveID,
+                                                          (uint8_t)OPTIGA_KEY_USAGE_KEY_AGREEMENT,
+                                                          FALSE,
+                                                          &priv_oid,
+                                                          public_key,
+                                                          &public_key_length);
 
-//     return ret;
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (OPTIGA_LIB_BUSY == optiga_lib_status)
+        {
+            //Wait until the optiga_crypt_ecc_generate_keypair operation is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            return_status = optiga_lib_status;
+            break;
+        }
+
+        /**
+         *  Perform ECDH using the Peer Public key
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_crypt_ecdh(me_crypt,
+                                          (optiga_key_id_t)priv_oid,
+                                          &peer_public_key_details,
+                                          exprt,
+                                          p_out);
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            break;
+        }
+
+        while (OPTIGA_LIB_BUSY == optiga_lib_status)
+        {
+            //Wait until the optiga_crypt_rsa_sign operation is completed
+            pal_os_event_process();
+        }
+
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
+        {
+            //RSA Signature generation failed.
+            return_status = optiga_lib_status;
+            break;
+        }
+
+    } while (FALSE);
+    OPTIGA_ARDUINO_LOG_STATUS(return_status);
+
+    if(OPTIGA_LIB_SUCCESS == return_status)
+    {
+        ard_ret = 0;
+    }
+    return ard_ret;
 }
 
 int32_t IFX_OPTIGA_TrustM::str2cur(String curve_name)
 {
-    // int32_t ret;
+    int32_t ret;
     
-    // if (curve_name == "secp256r1") {
-    //     ret = eECC_NIST_P256;
-    // } else if (curve_name == "secp384r1") {
-    //     ret = eECC_NIST_P384;
-    // } else {
-    //     ret = eECC_NIST_P256;
-    // }
+    if (curve_name == "secp256r1") {
+        ret = OPTIGA_ECC_CURVE_NIST_P_256;
+    } else if (curve_name == "secp384r1") {
+        ret = OPTIGA_ECC_CURVE_NIST_P_384;
+    } else {
+        ret = OPTIGA_ECC_CURVE_NIST_P_256;
+    }
     
-    // return ret;
+    return ret;
 }
 
 int32_t IFX_OPTIGA_TrustM::deriveKey(uint8_t* p_data, uint16_t hashLength, 
@@ -1557,3 +1626,5 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen,
     }
     return ard_ret;
 }
+
+

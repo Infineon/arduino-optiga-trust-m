@@ -22,7 +22,7 @@
  * SOFTWARE
  *
  * Demonstrates use of the 
- * Infineon Technologies AG OPTIGA™ Trust X Arduino library
+ * Infineon Technologies AG OPTIGA™ Trust M Arduino library
  */
 
 #include <OPTIGATrustM.h>
@@ -34,9 +34,9 @@ void loop()
 {
   uint32_t ret = 0; 
   /*
-   * Authenticating OPTIGA™ Trust X chip
+   * Authenticating OPTIGA™ Trust M chip
    */
-  printGreen("Authenticating OPTIGA(TM) Trust X chip... ");
+  printGreen("Authenticating OPTIGA(TM) Trust M chip... ");
   ret = trustM.checkChip();
   if (ret) {
     printlnRed("Failed");
@@ -54,11 +54,11 @@ void setup()
   /*
    * Initialise serial output
    */
-	Serial.begin(38400);
+	Serial.begin(115200);
 	Serial.println("Initializing ... ");
 
   /*
-   * Initialise OPTIGA™ Trust X
+   * Initialise OPTIGA™ Trust M
    */
 	printGreen("Begin Trust ... ");
 	ret = trustM.begin();

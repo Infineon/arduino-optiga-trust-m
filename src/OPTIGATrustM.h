@@ -395,24 +395,24 @@ public:
      * @retval  1 If the operation failed.
      */
     int32_t sharedSecret(uint8_t publicKey[], uint16_t plen) { 
-		return calculateSharedSecretGeneric(0x03, eSESSION_ID_2, publicKey, plen, eSESSION_ID_2);
+		return calculateSharedSecretGeneric(OPTIGA_ECC_CURVE_NIST_P_256, eSESSION_ID_2, publicKey, plen, eSESSION_ID_2);
 	}
     int32_t sharedSecret(uint16_t oid, uint8_t publicKey[], uint16_t plen) {
-		return calculateSharedSecretGeneric(0x03, oid, publicKey, plen, oid);
+		return calculateSharedSecretGeneric(OPTIGA_ECC_CURVE_NIST_P_256, oid, publicKey, plen, oid);
 	}
-    int32_t sharedSecret(uint16_t in_oid, uint16_t out_oid, uint8_t publicKey[], uint16_t plen) {
-		return calculateSharedSecretGeneric(0x03, in_oid, publicKey, plen, out_oid);
-	}
+    // int32_t sharedSecret(uint16_t in_oid, uint16_t out_oid, uint8_t publicKey[], uint16_t plen) {
+	// 	return calculateSharedSecretGeneric(OPTIGA_ECC_CURVE_NIST_P_256, in_oid, publicKey, plen, out_oid);
+	// }
     int32_t sharedSecret(String curveName, uint8_t publicKey[], uint16_t plen) {
 		return calculateSharedSecretGeneric(str2cur(curveName),eSESSION_ID_2, publicKey, plen, eSESSION_ID_2);
 	}
     int32_t sharedSecret(String curveName, uint16_t oid, uint8_t publicKey[], uint16_t plen) { 
 		return calculateSharedSecretGeneric(str2cur(curveName),oid, publicKey, plen, oid);
 	}
-    int32_t sharedSecretWithExport(uint8_t publicKey[], uint16_t plen, uint8_t sharedSecret[], uint16_t shlen) {
-		return calculateSharedSecretGeneric(0x03, eSESSION_ID_2, publicKey, plen, 0x0000, sharedSecret, shlen);
+    int32_t sharedSecretWithExport(uint8_t publicKey[], uint16_t plen, uint8_t sharedSecret[], uint16_t& shlen) {
+		return calculateSharedSecretGeneric(OPTIGA_ECC_CURVE_NIST_P_256, eSESSION_ID_2, publicKey, plen, 0x0000, sharedSecret, shlen);
 	}
-    int32_t sharedSecretWithExport(String curveName, uint8_t publicKey[], uint16_t plen, uint8_t sharedSecret[], uint16_t shlen) {
+    int32_t sharedSecretWithExport(String curveName, uint8_t publicKey[], uint16_t plen, uint8_t sharedSecret[], uint16_t& shlen) {
 		return calculateSharedSecretGeneric(str2cur(curveName), eSESSION_ID_2, publicKey, plen, 0x0000, sharedSecret, shlen);
 	}  
     
@@ -497,8 +497,12 @@ public:
     int32_t generateKeypairECC(uint8_t publicKey[], uint16_t& plen ) { return generateKeypairECC(publicKey, plen, OPTIGA_KEY_ID_E0F1, OPTIGA_ECC_CURVE_NIST_P_256); };
     int32_t generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid, optiga_ecc_curve_t ecc_key_type);
     int32_t generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen, optiga_ecc_curve_t ecc_key_type);
+    
+    
     int32_t generateKeypairECCP256(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen) { return generateKeypairECC(p_pubkey, plen, p_privkey, prlen, OPTIGA_ECC_CURVE_NIST_P_256); };
     int32_t generateKeypairECCP256(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(p_pubkey, plen, privateKey_oid, OPTIGA_ECC_CURVE_NIST_P_256); };
+    
+    
     int32_t generateKeypairECCP384(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen) { return generateKeypairECC(p_pubkey, plen, p_privkey, prlen, OPTIGA_ECC_CURVE_NIST_P_384); };
     int32_t generateKeypairECCP384(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(p_pubkey, plen, privateKey_oid, OPTIGA_ECC_CURVE_NIST_P_384); };
 
@@ -519,7 +523,7 @@ private:
     int32_t str2cur(String curve_name);
 	int32_t calculateSharedSecretGeneric( int32_t curveID, uint16_t priv_oid, uint8_t* p_pubkey, uint16_t plen, uint16_t out_oid) {
 	uint16_t dummy_len; 
-	return calculateSharedSecretGeneric(0x03, priv_oid, p_pubkey, plen, out_oid, NULL, dummy_len);
+	return calculateSharedSecretGeneric(curveID, priv_oid, p_pubkey, plen, out_oid, NULL, dummy_len);
 	}
     int32_t calculateSharedSecretGeneric( int32_t curveID, uint16_t priv_oid, uint8_t* p_pubkey, uint16_t plen, uint16_t out_oid, uint8_t* p_out, uint16_t& olen);
     int32_t deriveKey(uint8_t hash[], uint16_t hashLength, uint8_t publicKey[], uint16_t plen); //TODO: ?? Private function unused by any other function.
