@@ -32,10 +32,9 @@ void setup()
     /*
      * Initialise a serial port for debug output
      */
-    Serial.begin(100000);
+    Serial.begin(115200);
     delay(100);
     Serial.println("Initializing ... ");
-
 
     // example_optiga_crypt_hash(); //--> OK
     // example_optiga_crypt_ecc_generate_keypair(); //--> OK
@@ -58,7 +57,6 @@ void setup()
     // example_optiga_util_read_uuid();  //--> OK (protected commented)
     // example_pair_host_and_optiga_using_pre_shared_secret();
     // example_optiga_util_hibernate_restore();//--> OK
-
 }
 
 void loop()

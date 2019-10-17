@@ -3,6 +3,9 @@
 #include "uECC.h"
 #include "uECC_vli.h"
 
+
+#ifndef ARDUINO_AVR_UNO
+
 #ifndef uECC_RNG_MAX_TRIES
     #define uECC_RNG_MAX_TRIES 64
 #endif
@@ -1632,3 +1635,15 @@ void uECC_point_mult(uECC_word_t *result,
 }
 
 #endif /* uECC_ENABLE_VLI_API */
+
+#else 
+
+int uECC_verify(const uint8_t *public_key,
+                const uint8_t *message_hash,
+                unsigned hash_size,
+                const uint8_t *signature,
+                uECC_Curve curve) { return 1; };
+
+uECC_Curve uECC_secp256r1(){return 1; };
+
+#endif /* ARDUINO_AVR_UNO */

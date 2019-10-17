@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 201 Infineon Technologies AG
+ * Copyright (c) 2019 Infineon Technologies AG
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -124,7 +124,7 @@ public:
      *
      * This function initializes the Infineon OPTIGA Trust X command library and
      * sends the 'open application' command to the device. This opens the communicatino
-     * channel to the Optiga Trust X, so that you can carry out different operations
+     * channel to the Optiga Trust M, so that you can carry out different operations
      *
      * @retval  0    If function was successful.
      * @retval  1    If the operation failed.
@@ -135,7 +135,7 @@ public:
      *
      * This function initializes the Infineon OPTIGA Trust M command library and
      * sends the 'open application' command to the device. This opens the communicatino
-     * channel to the Optiga Trust X, so that you can carry out different operations
+     * channel to the Optiga Trust M, so that you can carry out different operations
      *
      * @param[in]  CustomWire       Reference to a custom TwoWire object used with the Optiga.
      *
@@ -146,7 +146,11 @@ public:
 
 	
     /**
-     * @todo remove??
+     *
+     * This function checks ??
+     *
+     * @retval  0  If function was successful.
+     * @retval  1  If the operation failed.
      */
 	int32_t checkChip(void);
 	
@@ -277,7 +281,7 @@ public:
     int32_t sha256(uint8_t dataToHash[], uint16_t dlen, uint8_t hash[32]);
     
     /**
-     * This function generates an ECDSA FIPS 186-3 w/o hash signature.
+     * This function generates an ECDSA signature.
      *
      * @param[in] dataToSign        Pointer to the data
      * @param[in] dlen              Length of the input data
@@ -292,7 +296,7 @@ public:
      * @param[out] rlen             Length of the output data. Will be modified in case of success.
      *
      * @retval  0 If function was successful.
-     * @retval  1 If the operation failed.<<<<<<<<<<<<<<<<<<<<<<<
+     * @retval  1 If the operation failed.
      */
     int32_t calculateSignature(uint8_t dataToSign[], uint16_t dlen, uint16_t privateKey_oid, uint8_t result[], uint16_t& rlen)
     {   return(calculateSignatureECDSA(dataToSign, dlen, privateKey_oid, result, rlen));};
@@ -300,11 +304,48 @@ public:
         return calculateSignatureECDSA(dataToSign, dlen, OPTIGA_KEY_ID_E0F0, result, rlen);
 	}
     
+    /**
+     * This function generates an RSA signature.
+     *
+     * @param[in] dataToSign        Pointer to the data
+     * @param[in] dlen              Length of the input data
+     * @param[in] privateKey_oid    [Optional] Object ID defines which private key slot will be used to generate the signature. Default is the first slot.
+     *                              Use either one of:
+     *                              @ref eFIRST_DEVICE_PRIKEY_1 (Default)
+     *                              @ref eFIRST_DEVICE_PRIKEY_2 
+     *                              @ref eFIRST_DEVICE_PRIKEY_3 
+     *                              @ref eFIRST_DEVICE_PRIKEY_4 
+     *                              slots define below or @ref eSessionCtxId_d session contexts
+     * @param[out] result           Pointer to the data array where the final result should be stored.
+     * @param[out] rlen             Length of the output data. Will be modified in case of success.
+     *
+     * @retval  0 If function was successful.
+     * @retval  1 If the operation failed.
+     */
     int32_t calculateSignatureRSA(uint8_t dataToSign[], uint16_t dlen, uint16_t privateKey_oid, uint8_t result[], uint16_t& rlen);
     int32_t calculateSignatureRSA(uint8_t dataToSign[], uint16_t dlen, uint8_t result[], uint16_t& rlen) { 
         return calculateSignatureRSA(dataToSign, dlen, OPTIGA_KEY_ID_E0FC, result, rlen);
 	}
 
+    
+    /**
+     * This function generates an ECDSA signature.
+     *
+     * @param[in] dataToSign        Pointer to the data
+     * @param[in] dlen              Length of the input data
+     * @param[in] privateKey_oid    [Optional] Object ID defines which private key slot will be used to generate the signature. Default is the first slot.
+     *                              Use either one of:
+     *                              @ref eFIRST_DEVICE_PRIKEY_1 (Default)
+     *                              @ref eFIRST_DEVICE_PRIKEY_2 
+     *                              @ref eFIRST_DEVICE_PRIKEY_3 
+     *                              @ref eFIRST_DEVICE_PRIKEY_4 
+     *                              slots define below or @ref eSessionCtxId_d session contexts
+     * @param[out] result           Pointer to the data array where the final result should be stored.
+     * @param[out] rlen             Length of the output data. Will be modified in case of success.
+     *
+     * @retval  0 If function was successful.
+     * @retval  1 If the operation failed.
+     */
     int32_t calculateSignatureECDSA(uint8_t dataToSign[], uint16_t dlen, uint16_t privateKey_oid, uint8_t result[], uint16_t& rlen);
     int32_t calculateSignatureECDSA(uint8_t dataToSign[], uint16_t dlen, uint8_t result[], uint16_t& rlen) { 
         return calculateSignatureECDSA(dataToSign, dlen, OPTIGA_KEY_ID_E0F0, result, rlen);
@@ -324,7 +365,7 @@ public:
     int32_t formatSignature(uint8_t signature[], uint16_t signatureLength, uint8_t result[], uint16_t& rlen);
     
     /**
-     * This function verifies an ECDSA FIPS 186-3 w/o hash signature.
+     * This function verifies an ECDSA signature.
      * This functions works in two modes, either use internal OID where a public key is stored
      * or you can give your own public key as an input
      *
@@ -353,12 +394,57 @@ public:
     int32_t verifySignature(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint8_t pubKey[], uint16_t plen)
     {   return verifySignatureECDSA(hash, hashLength, signature, signatureLength, pubKey, plen, OPTIGA_ECC_CURVE_NIST_P_256);}
 
-
-
+    /**
+     * This function verifies an RSA signature.
+     * This functions works in two modes, either use internal OID where a public key is stored
+     * or you can give your own public key as an input
+     *
+     * @param[in] hash              Pointer to the hash
+     * @param[in] hashLength        Length of the input data
+     * @param[in] publicKey_oid     [Optional] Object ID defines which slot will be used to verify the signature. 
+     *                              The slot should contain a public key certificate starting with internat 0xC0 byte. 
+     *                              For more information please refere to the datasheet documents. Default is the first slot.
+     *                              Possible values are:
+     *                              @ref eDEVICE_PUBKEY_CERT_IFX (Default)
+     *                              @ref eDEVICE_PUBKEY_CERT_PRJSPC_1
+     *                              @ref eDEVICE_PUBKEY_CERT_PRJSPC_2
+     *                              @ref eDEVICE_PUBKEY_CERT_PRJSPC_3
+     * @param[in] signature         Pointer to the data array where the final result should be stored.
+     * @param[in] signatureLength   Length of the output data. Will be modified in case of success.
+     * @param[in] pubKey            A pointer to the public key to be used for the verification
+     * @param[in] plen              Length of the public key to be used for the verification
+     * @param[in] rsa_key_type      Public key RSA type
+     *
+     * @retval  0 If function was successful.
+     * @retval  1 If the operation failed.
+     */
     int32_t verifySignatureRSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint16_t publicKey_oid);
     int32_t verifySignatureRSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint8_t pubKey[], uint16_t plen, optiga_rsa_key_type rsa_key_type);
 
-
+    /**
+     * This function verifies an ECDSA FIPS 186-3 w/o hash signature.
+     * This functions works in two modes, either use internal OID where a public key is stored
+     * or you can give your own public key as an input
+     *
+     * @param[in] hash              Pointer to the hash
+     * @param[in] hashLength        Length of the input data
+     * @param[in] publicKey_oid     [Optional] Object ID defines which slot will be used to verify the signature. 
+     *                              The slot should contain a public key certificate starting with internat 0xC0 byte. 
+     *                              For more information please refere to the datasheet documents. Default is the first slot.
+     *                              Possible values are:
+     *                              @ref eDEVICE_PUBKEY_CERT_IFX (Default)
+     *                              @ref eDEVICE_PUBKEY_CERT_PRJSPC_1
+     *                              @ref eDEVICE_PUBKEY_CERT_PRJSPC_2
+     *                              @ref eDEVICE_PUBKEY_CERT_PRJSPC_3
+     * @param[in] signature         Pointer to the data array where the final result should be stored.
+     * @param[in] signatureLength   Length of the output data. Will be modified in case of success.
+     * @param[in] pubKey            A pointer to the public key to be used for the verification
+     * @param[in] plen              Length of the public key to be used for the verification
+     * @param[in] ecc_key_type      Public key ECC curve type   
+     *
+     * @retval  0 If function was successful.
+     * @retval  1 If the operation failed.
+     */
     int32_t verifySignatureECDSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint16_t publicKey_oid);
     int32_t verifySignatureECDSA(uint8_t hash[], uint16_t hashLength, uint8_t signature[], uint16_t signatureLength, uint8_t pubKey[], uint16_t plen, optiga_ecc_curve_t ecc_key_type);
     
@@ -400,9 +486,6 @@ public:
     int32_t sharedSecret(uint16_t oid, uint8_t publicKey[], uint16_t plen) {
 		return calculateSharedSecretGeneric(OPTIGA_ECC_CURVE_NIST_P_256, oid, publicKey, plen, oid);
 	}
-    // int32_t sharedSecret(uint16_t in_oid, uint16_t out_oid, uint8_t publicKey[], uint16_t plen) {
-	// 	return calculateSharedSecretGeneric(OPTIGA_ECC_CURVE_NIST_P_256, in_oid, publicKey, plen, out_oid);
-	// }
     int32_t sharedSecret(String curveName, uint8_t publicKey[], uint16_t plen) {
 		return calculateSharedSecretGeneric(str2cur(curveName),eSESSION_ID_2, publicKey, plen, eSESSION_ID_2);
 	}
@@ -417,7 +500,7 @@ public:
 	}  
     
     /**
-     * This function generates a public private keypair. You can store the private key internally or export it for your usage
+     * This function generates a RSA 1024 bits exponential public private keypair. You can store the private key internally or export it for your usage
      *
      * @param[out] publicKey        Pointer to the data array where the result public key should be stored.
      * @param[out] plen             Length of the public key
@@ -433,7 +516,6 @@ public:
      *                              @ref eFIRST_DEVICE_PRIKEY_4      
      * @param[out] privateKey       [Optional] Pointer to the data array where the result private key should be stored.
      * @param[out] prlen            [Optional] Length of the private key.
-
      *
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
@@ -443,7 +525,7 @@ public:
     int32_t generateKeypair(uint8_t publicKey[], uint16_t& plen, uint8_t privateKey[], uint16_t& prlen) {return generateKeypairRSA(publicKey, plen, privateKey, prlen, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL);};
     
     /**
-     * This function generates a public private keypair. You can store the private key internally or export it for your usage
+     * This function generates a RSA type public private keypair. You can store the private key internally or export it for your usage
      *
      * @param[out] publicKey        Pointer to the data array where the result public key should be stored.
      * @param[out] plen             Length of the public key
@@ -459,7 +541,7 @@ public:
      *                              @ref eFIRST_DEVICE_PRIKEY_4      
      * @param[out] privateKey       [Optional] Pointer to the data array where the result private key should be stored.
      * @param[out] prlen            [Optional] Length of the private key.
-
+     * @param[in] rsa_key_type      [Optional] Public key RSA type
      *
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
@@ -467,13 +549,9 @@ public:
     int32_t generateKeypairRSA(uint8_t publicKey[], uint16_t& plen ) {return generateKeypairRSA(publicKey, plen, OPTIGA_KEY_ID_E0FC, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); };
     int32_t generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid, optiga_rsa_key_type_t rsa_key_type);
     int32_t generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen, optiga_rsa_key_type_t rsa_key_type);
-    int32_t generateKeypairRSA1024(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen) { return generateKeypairRSA(p_pubkey, plen, p_privkey, prlen, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); };
-    int32_t generateKeypairRSA1024(uint8_t* p_pubkey, uint16_t& plen,  uint16_t privateKey_oid) { return generateKeypairRSA(p_pubkey, plen, privateKey_oid, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); };
-    int32_t generateKeypairRSA2048(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen)  {return generateKeypairRSA(p_pubkey, plen, p_privkey, prlen, OPTIGA_RSA_KEY_2048_BIT_EXPONENTIAL); };
-    int32_t generateKeypairRSA2048(uint8_t* p_pubkey, uint16_t& plen,  uint16_t privateKey_oid) { return generateKeypairRSA(p_pubkey, plen, privateKey_oid, OPTIGA_RSA_KEY_2048_BIT_EXPONENTIAL); };
-    
+
     /**
-     * This function generates a public private keypair. You can store the private key internally or export it for your usage
+     * This function generates RSA 1024 bits exponential type public private keypair. You can store the private key internally or export it for your usage
      *
      * @param[out] publicKey        Pointer to the data array where the result public key should be stored.
      * @param[out] plen             Length of the public key
@@ -489,7 +567,55 @@ public:
      *                              @ref eFIRST_DEVICE_PRIKEY_4      
      * @param[out] privateKey       [Optional] Pointer to the data array where the result private key should be stored.
      * @param[out] prlen            [Optional] Length of the private key.
+     *
+     * @retval  0 If function was successful.
+     * @retval  1 If the operation failed.
+     */
+    int32_t generateKeypairRSA1024(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen) { return generateKeypairRSA(p_pubkey, plen, p_privkey, prlen, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); };
+    int32_t generateKeypairRSA1024(uint8_t* p_pubkey, uint16_t& plen,  uint16_t privateKey_oid) { return generateKeypairRSA(p_pubkey, plen, privateKey_oid, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); };
 
+        /**
+     * This function generates RSA 2048 bits exponential type public private keypair. You can store the private key internally or export it for your usage
+     *
+     * @param[out] publicKey        Pointer to the data array where the result public key should be stored.
+     * @param[out] plen             Length of the public key
+     * @param[in] privateKey_oid    an Object ID of a slot, where the newly generated key should be stored:
+     *                              Use one of the following slots:
+     *                              @ref eSESSION_ID_1
+     *                              @ref eSESSION_ID_2 (Default)
+     *                              @ref eSESSION_ID_3
+     *                              @ref eSESSION_ID_4
+     *                              @ref eFIRST_DEVICE_PRIKEY_1
+     *                              @ref eFIRST_DEVICE_PRIKEY_2 
+     *                              @ref eFIRST_DEVICE_PRIKEY_3 
+     *                              @ref eFIRST_DEVICE_PRIKEY_4      
+     * @param[out] privateKey       [Optional] Pointer to the data array where the result private key should be stored.
+     * @param[out] prlen            [Optional] Length of the private key.
+     *
+     * @retval  0 If function was successful.
+     * @retval  1 If the operation failed.
+     */
+    int32_t generateKeypairRSA2048(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen)  {return generateKeypairRSA(p_pubkey, plen, p_privkey, prlen, OPTIGA_RSA_KEY_2048_BIT_EXPONENTIAL); };
+    int32_t generateKeypairRSA2048(uint8_t* p_pubkey, uint16_t& plen,  uint16_t privateKey_oid) { return generateKeypairRSA(p_pubkey, plen, privateKey_oid, OPTIGA_RSA_KEY_2048_BIT_EXPONENTIAL); };
+    
+    /**
+     * This function generates an ECC public private keypair. You can store the private key internally or export it for your usage
+     *
+     * @param[out] publicKey        Pointer to the data array where the result public key should be stored.
+     * @param[out] plen             Length of the public key
+     * @param[in] privateKey_oid    an Object ID of a slot, where the newly generated key should be stored:
+     *                              Use one of the following slots:
+     *                              @ref eSESSION_ID_1
+     *                              @ref eSESSION_ID_2 (Default)
+     *                              @ref eSESSION_ID_3
+     *                              @ref eSESSION_ID_4
+     *                              @ref eFIRST_DEVICE_PRIKEY_1
+     *                              @ref eFIRST_DEVICE_PRIKEY_2 
+     *                              @ref eFIRST_DEVICE_PRIKEY_3 
+     *                              @ref eFIRST_DEVICE_PRIKEY_4      
+     * @param[out] privateKey       [Optional] Pointer to the data array where the result private key should be stored.
+     * @param[out] prlen            [Optional] Length of the private key.
+     * @param[in] ecc_key_type      [Optional] Public key ECC curve type  
      *
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
@@ -498,11 +624,51 @@ public:
     int32_t generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid, optiga_ecc_curve_t ecc_key_type);
     int32_t generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen, optiga_ecc_curve_t ecc_key_type);
     
-    
+    /**
+     * This function generates an ECC NIST P 256 public private keypair. You can store the private key internally or export it for your usage
+     *
+     * @param[out] publicKey        Pointer to the data array where the result public key should be stored.
+     * @param[out] plen             Length of the public key
+     * @param[in] privateKey_oid    an Object ID of a slot, where the newly generated key should be stored:
+     *                              Use one of the following slots:
+     *                              @ref eSESSION_ID_1
+     *                              @ref eSESSION_ID_2 (Default)
+     *                              @ref eSESSION_ID_3
+     *                              @ref eSESSION_ID_4
+     *                              @ref eFIRST_DEVICE_PRIKEY_1
+     *                              @ref eFIRST_DEVICE_PRIKEY_2 
+     *                              @ref eFIRST_DEVICE_PRIKEY_3 
+     *                              @ref eFIRST_DEVICE_PRIKEY_4      
+     * @param[out] privateKey       [Optional] Pointer to the data array where the result private key should be stored.
+     * @param[out] prlen            [Optional] Length of the private key.
+     *
+     * @retval  0 If function was successful.
+     * @retval  1 If the operation failed.
+     */
     int32_t generateKeypairECCP256(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen) { return generateKeypairECC(p_pubkey, plen, p_privkey, prlen, OPTIGA_ECC_CURVE_NIST_P_256); };
     int32_t generateKeypairECCP256(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(p_pubkey, plen, privateKey_oid, OPTIGA_ECC_CURVE_NIST_P_256); };
     
-    
+        /**
+     * This function generates an ECC NIST P 384 public private keypair. You can store the private key internally or export it for your usage
+     *
+     * @param[out] publicKey        Pointer to the data array where the result public key should be stored.
+     * @param[out] plen             Length of the public key
+     * @param[in] privateKey_oid    an Object ID of a slot, where the newly generated key should be stored:
+     *                              Use one of the following slots:
+     *                              @ref eSESSION_ID_1
+     *                              @ref eSESSION_ID_2 (Default)
+     *                              @ref eSESSION_ID_3
+     *                              @ref eSESSION_ID_4
+     *                              @ref eFIRST_DEVICE_PRIKEY_1
+     *                              @ref eFIRST_DEVICE_PRIKEY_2 
+     *                              @ref eFIRST_DEVICE_PRIKEY_3 
+     *                              @ref eFIRST_DEVICE_PRIKEY_4      
+     * @param[out] privateKey       [Optional] Pointer to the data array where the result private key should be stored.
+     * @param[out] prlen            [Optional] Length of the private key.
+     *
+     * @retval  0 If function was successful.
+     * @retval  1 If the operation failed.
+     */
     int32_t generateKeypairECCP384(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen) { return generateKeypairECC(p_pubkey, plen, p_privkey, prlen, OPTIGA_ECC_CURVE_NIST_P_384); };
     int32_t generateKeypairECCP384(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(p_pubkey, plen, privateKey_oid, OPTIGA_ECC_CURVE_NIST_P_384); };
 
@@ -510,12 +676,8 @@ private:
 
     optiga_util_t  * me_util  = NULL;
     optiga_crypt_t * me_crypt = NULL;
-
 	bool active;
-    int32_t getGlobalSecurityStatus(uint8_t& status); //TODO?: Not implemented (as in arduino-trust-x)
-    int32_t setGlobalSecurityStatus(uint8_t status);  //TODO?: Not implemented (as in arduino-trust-x)
-    int32_t getAppSecurityStatus(uint8_t* p_data, uint16_t& hashLength);  //TODO?: Not implemented (as in arduino-trust-x)
-    int32_t setAppSecurityStatus(uint8_t status);  //TODO?: Not implemented (as in arduino-trust-x)
+
     int32_t getGenericData(uint16_t oid, uint8_t* p_data, uint16_t& hashLength);
     int32_t getGenericMetadata(uint16_t oid, uint8_t* p_data, uint16_t& length);
     int32_t getState(uint16_t oid, uint8_t& p_data);
@@ -526,7 +688,12 @@ private:
 	return calculateSharedSecretGeneric(curveID, priv_oid, p_pubkey, plen, out_oid, NULL, dummy_len);
 	}
     int32_t calculateSharedSecretGeneric( int32_t curveID, uint16_t priv_oid, uint8_t* p_pubkey, uint16_t plen, uint16_t out_oid, uint8_t* p_out, uint16_t& olen);
-    int32_t deriveKey(uint8_t hash[], uint16_t hashLength, uint8_t publicKey[], uint16_t plen); //TODO: ?? Private function unused by any other function.
+
+    // int32_t getGlobalSecurityStatus(uint8_t& status); //TODO?: Not implemented (as in arduino-trust-x)
+    // int32_t setGlobalSecurityStatus(uint8_t status);  //TODO?: Not implemented (as in arduino-trust-x)
+    // int32_t getAppSecurityStatus(uint8_t* p_data, uint16_t& hashLength);  //TODO?: Not implemented (as in arduino-trust-x)
+    // int32_t setAppSecurityStatus(uint8_t status);  //TODO?: Not implemented (as in arduino-trust-x)
+    // int32_t deriveKey(uint8_t hash[], uint16_t hashLength, uint8_t publicKey[], uint16_t plen); //TODO: ?? Private function unused by any other function.
 };
 /**
  * @}
@@ -542,4 +709,4 @@ extern IFX_OPTIGA_TrustM trustM;
  *************************************************************************/
                          
 
-#endif /* IFXOPTIGATRUST_H_ */
+#endif /* IFXOPTIGATRUSTM_H_ */

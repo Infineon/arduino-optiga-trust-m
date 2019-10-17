@@ -1175,7 +1175,7 @@ void example_optiga_crypt_tls_prf_sha256(void)
          */
         optiga_lib_status = OPTIGA_LIB_BUSY;
 
-        // OPTIGA_CRYPT_SET_COMMS_PROTOCOL_VERSION(me, OPTIGA_COMMS_PROTOCOL_VERSION_PRE_SHARED_SECRET);
+        OPTIGA_CRYPT_SET_COMMS_PROTOCOL_VERSION(me, OPTIGA_COMMS_PROTOCOL_VERSION_PRE_SHARED_SECRET);
         // Default protecition for this API is OPTIGA_COMMS_COMMAND_PROTECTION
         return_status = optiga_crypt_tls_prf_sha256(me,
                                                     0xF1D0, /* Input secret OID */

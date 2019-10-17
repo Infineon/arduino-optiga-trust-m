@@ -33,11 +33,7 @@
 #include "optiga_trustm/Util.h"
 #include "third_crypto/uECC.h"
 
-// ///OID of IFX Certificate
-// #define     OID_IFX_CERTIFICATE                 0xE0E0
-// ///OID of the Coprocessor UID
-// #define     OID_IFX_UID                         0xE0C2
-// #define     LENGTH_UID                          27
+
 // ///Length of certificate
 #define     LENGTH_CERTIFICATE                  1728
 // ///ASN Tag for sequence
@@ -48,53 +44,8 @@
 #define     MASK_MSB                            0x80
 // ///TLS Identity Tag
 #define     TLS_TAG                             0xC0
-// ///IFX Private Key Slot
-// #define     OID_PRIVATE_KEY                     0xE0F0
-// ///Power Limit OID
-// #define     OID_CURRENT_LIMIT                   0xE0C4
 ///Length of R and S vector
 #define     LENGTH_RS_VECTOR                    0x40
-
-// ///Length of maximum additional bytes to encode sign in DER
-// #define     MAXLENGTH_SIGN_ENCODE               0x08
-
-// ///Length of Signature
-// #define     LENGTH_SIGNATURE                    (LENGTH_RS_VECTOR + MAXLENGTH_SIGN_ENCODE)
-
-
-/**
- * OPTIGA metadata TLV types
- */
-/// Metatada ttype
-#define     METADATA_TYPE                       0x20
-/// Life cycle state (LcsO)
-#define     LCSO_TYPE                           0xC0
-/// Data or key object version
-#define     DATA_VERSION_TYPE                   0xC1
-/// Max. size of the data
-#define     MAX_DATA_SIZE_TYPE                  0xC4
-/// Max. size of the data
-#define     MAX_DATA_SIZE_TYPE                  0xC4
-/// Used size of the data object
-#define     USED_DATA_SIZE_TYPE                 0xC5
-
-/// Change Access Condition descriptor
-#define     CHA_ACCESS_COND_TYPE                0xD0
-/// Read Access Condition descriptor
-#define     READ_ACCESS_COND_TYPE               0xD1
-/// Execute Access Condition descriptor
-#define     EXE_ACCESS_COND_TYPE                0xD3
-/// Algorithm associated with key container
-#define     KEY_ALGORITHM_TYPE                  0xE0
-/// Key usage associated with key container
-#define     KEY_USAGE_TYPE                      0xE1
-/// Data object type
-#define     DATA_OBJ_TYPE_TYPE                  0xE8
-
-
-
-/// Maximum objetct metada length
-#define     MAXLENGTH_OBJ_METADATA              0x101
 
 /**
  * optiga logger arduino library level 
@@ -104,7 +55,7 @@
 #define OPTIGA_ARDUINO_SERVICE_COLOR               OPTIGA_LIB_LOGGER_COLOR_MAGENTA
 
 #ifdef OPTIGA_LIB_ENABLE_LOGGING
-    /** @brief Macro to enable logger for Util service */
+    /** @brief Macro to enable logger for Arduino logging service */
     //#define OPTIGA_LIB_ENABLE_ARDUINO_LOGGING
 #endif
 
@@ -182,11 +133,45 @@
 
 #endif
 
+/**
+ * \brief Asserts the Util or crypt API call and wait till completion
+ *
+ * \details
+ * Asserts the util or crypt API call and wait till completion
+ *
+ * \pre
+ *
+ * \note
+ * - None
+ *
+ * \param[in]      return_value      Status information from util or crypt service
+ *
+ */
+#define OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status) \
+{ \
+        if (OPTIGA_LIB_SUCCESS != return_status)  \
+        {  \
+            break;  \
+        }  \
+        \
+        while (OPTIGA_LIB_BUSY == optiga_lib_status)  \
+        { \
+            pal_os_event_process(); \
+        } \
+        \
+        if (OPTIGA_LIB_SUCCESS != optiga_lib_status) \
+        { \
+            return_status = optiga_lib_status;  \
+            break;  \
+        }  \
+}
+
 
 /**
  * Preinstantiated object
  */
 IFX_OPTIGA_TrustM trustM = IFX_OPTIGA_TrustM();
+
 
 static volatile optiga_lib_status_t optiga_lib_status;
 static void optiga_util_callback(void * context, optiga_lib_status_t return_status)
@@ -245,26 +230,10 @@ int32_t IFX_OPTIGA_TrustM::begin(void)
          */        
         optiga_lib_status = OPTIGA_LIB_BUSY;
         return_status = optiga_util_open_application(me_util, 0);
-
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-        while (optiga_lib_status == OPTIGA_LIB_BUSY)
-        {
-            //Wait until the optiga_util_open_application is completed
-            pal_os_event_process();
-        }
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            //optiga util open application failed
-            return_status = optiga_lib_status;
-            break;
-        }
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
     	active = true;
     }while (FALSE);
-
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
 
     if(OPTIGA_LIB_SUCCESS == return_status)
@@ -330,24 +299,22 @@ int32_t IFX_OPTIGA_TrustM::checkChip(void)
 int32_t IFX_OPTIGA_TrustM::begin(TwoWire& CustomWire)
 {
     /**
-     * @todo Set the corresponding i2c context first
+     * Set the corresponding i2c context first
      */
-
+    optiga_pal_i2c_context_0.p_i2c_hw_config = &CustomWire;
+    
     return begin();
 }
 
 int32_t IFX_OPTIGA_TrustM::reset(void)
 {
-    /**
-     * @todo Soft reset -->not neccesarily ?? I2C-reset?
-     */
     end();
-    return begin(Wire);
+    return begin();
 }
 
 void IFX_OPTIGA_TrustM::end(void)
 {
-     optiga_lib_status_t return_status;
+    optiga_lib_status_t return_status;
 
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
     do
@@ -357,24 +324,7 @@ void IFX_OPTIGA_TrustM::end(void)
          */
         optiga_lib_status = OPTIGA_LIB_BUSY;
         return_status = optiga_util_close_application(me_util, 0);
-        
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-
-        while (optiga_lib_status == OPTIGA_LIB_BUSY)
-        {
-            //Wait until the optiga_util_close_application is completed
-            pal_os_event_process();
-        }
-        
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            //optiga util close application failed
-            return_status = optiga_lib_status;
-            break;
-        }
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
         active = false;
     }while (FALSE);
@@ -402,11 +352,11 @@ void IFX_OPTIGA_TrustM::end(void)
     }
 
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
-    //TODO: original function prototypes does returns void in Optiga X.
 }
 
 int32_t IFX_OPTIGA_TrustM::getGenericData(uint16_t oid, uint8_t* p_data, uint16_t& hashLength)
-{   
+{  
+    uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
     
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
@@ -421,33 +371,21 @@ int32_t IFX_OPTIGA_TrustM::getGenericData(uint16_t oid, uint8_t* p_data, uint16_
                                               offset,
                                               p_data,
                                               &hashLength);
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_util_read_data operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            //Reading the data object failed.
-            return_status = optiga_lib_status;
-            break;
-        }
     } while (FALSE);
 
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
-    return return_status;
+
+    if(OPTIGA_LIB_SUCCESS == return_status)
+    {
+        ard_ret = 0;
+    }
+    return ard_ret;
 }
 
 int32_t IFX_OPTIGA_TrustM::getState(uint16_t oid, uint8_t& byte)
 {
-
     uint16_t length = 1;
     int32_t  ret = 1;
 
@@ -465,8 +403,7 @@ int32_t IFX_OPTIGA_TrustM::setGenericData(uint16_t oid, uint8_t* p_data, uint16_
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
     do
     {
-        offset      = 0x0000; 
-
+        offset            = 0x0000; 
         optiga_lib_status = OPTIGA_LIB_BUSY;
         return_status = optiga_util_write_data(me_util,
                                                oid,
@@ -474,24 +411,8 @@ int32_t IFX_OPTIGA_TrustM::setGenericData(uint16_t oid, uint8_t* p_data, uint16_
                                                offset,
                                                p_data,
                                                hashLength);
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_util_write_data operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            //writing data to a data object failed.
-            return_status = optiga_lib_status;
-            break;
-        }
     } while (FALSE);
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
 
@@ -519,24 +440,8 @@ int32_t IFX_OPTIGA_TrustM::getGenericMetadata(uint16_t oid, uint8_t* p_data, uin
                                                   oid,
                                                   p_data,
                                                   &length);
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_util_write_data operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            //writing data to a data object failed.
-            return_status = optiga_lib_status;
-            break;
-        }
     } while (FALSE);
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
 
@@ -672,23 +577,7 @@ int32_t IFX_OPTIGA_TrustM::getRandom(uint16_t length, uint8_t* p_random)
                                             OPTIGA_RNG_TYPE_TRNG,
                                             p_random,
                                             length);
-
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_crypt_random operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            return_status = optiga_lib_status;
-            break;
-        }
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
     } while (FALSE);
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
@@ -734,21 +623,7 @@ int32_t IFX_OPTIGA_TrustM::sha256(uint8_t dataToHash[], uint16_t ilen, uint8_t o
          * 2. Initialize the hashing context at OPTIGA
          */
         return_status = optiga_crypt_hash_start(me_crypt, &hash_context);
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_crypt_hash_start operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            return_status = optiga_lib_status;
-            break;
-        }
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
         
         /**
          * 3. Continue hashing the data
@@ -761,22 +636,7 @@ int32_t IFX_OPTIGA_TrustM::sha256(uint8_t dataToHash[], uint16_t ilen, uint8_t o
                                                  &hash_context,
                                                  OPTIGA_CRYPT_HOST_DATA,
                                                  &hash_data_host);
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_crypt_hash_update operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            return_status = optiga_lib_status;
-            break;
-        }
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
         /**
          * 4. Finalize the hash
@@ -785,23 +645,8 @@ int32_t IFX_OPTIGA_TrustM::sha256(uint8_t dataToHash[], uint16_t ilen, uint8_t o
         return_status = optiga_crypt_hash_finalize(me_crypt,
                                                    &hash_context,
                                                    out);
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_crypt_hash_finalize operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            return_status = optiga_lib_status;
-            break;
-        }
         return_status = OPTIGA_LIB_SUCCESS;
 
     } while (FALSE);
@@ -839,24 +684,8 @@ int32_t IFX_OPTIGA_TrustM::calculateSignatureRSA(uint8_t dataToSign[], uint16_t 
                                         out,
                                         &olen,
                                         0x0000);
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_crypt_rsa_sign operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            //RSA Signature generation failed.
-            return_status = optiga_lib_status;
-            break;
-        }
     } while (FALSE);
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
 
@@ -893,24 +722,8 @@ int32_t IFX_OPTIGA_TrustM::calculateSignatureECDSA(uint8_t dataToSign[], uint16_
                                                 (optiga_key_id_t)privateKey_oid,
                                                 out,
                                                 &olen);
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_crypt_rsa_sign operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            //RSA Signature generation failed.
-            return_status = optiga_lib_status;
-            break;
-        }
     } while (FALSE);
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
 
@@ -1015,24 +828,8 @@ int32_t  IFX_OPTIGA_TrustM::verifySignatureRSA(uint8_t hash[], uint16_t hashLeng
                                                 OPTIGA_CRYPT_OID_DATA,
                                                 &publicKey_oid,
                                                 0x0000);
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_crypt_rsa_sign operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            //RSA Signature generation failed.
-            return_status = optiga_lib_status;
-            break;
-        }
     } while (FALSE);
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
 
@@ -1072,23 +869,8 @@ int32_t  IFX_OPTIGA_TrustM::verifySignatureRSA(uint8_t hash[], uint16_t hashLeng
                                                 OPTIGA_CRYPT_HOST_DATA,
                                                 &public_key_details,
                                                 0x0000);
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_crypt_rsa_sign operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            //RSA Signature generation failed.
-            return_status = optiga_lib_status;
-            break;
-        }
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
+        
     } while (FALSE);
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
 
@@ -1110,10 +892,7 @@ int32_t IFX_OPTIGA_TrustM::verifySignatureECDSA( uint8_t hash[], uint16_t hashLe
 
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
     do
-    {   /**
-         * Get the key data
-         */
-        //getObjectSize(publicKey_oid, keyLength);
+    {  
         /**
          * Verify RSA signature using public key from host
          */
@@ -1125,23 +904,8 @@ int32_t IFX_OPTIGA_TrustM::verifySignatureECDSA( uint8_t hash[], uint16_t hashLe
                                                    signatureLength,
                                                    OPTIGA_CRYPT_OID_DATA,
                                                    &publicKey_oid);
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_crypt_rsa_sign operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            //RSA Signature generation failed.
-            return_status = optiga_lib_status;
-            break;
-        }
     } while (FALSE);
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
 
@@ -1179,23 +943,8 @@ int32_t IFX_OPTIGA_TrustM::verifySignatureECDSA( uint8_t hash[], uint16_t hashLe
                                                    signatureLength,
                                                    OPTIGA_CRYPT_HOST_DATA,
                                                    &public_key_details);
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_crypt_rsa_sign operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            //RSA Signature generation failed.
-            return_status = optiga_lib_status;
-            break;
-        }
     } while (FALSE);
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
 
@@ -1217,7 +966,7 @@ int32_t IFX_OPTIGA_TrustM::calculateSharedSecretGeneric(int32_t curveID, uint16_
     // optiga_lib_status_t return_status = 0;
     bool_t exprt = FALSE;
 
-    //To store the generated public key as part of Generate key pair
+    // To store the generated public key as part of Generate key pair
     uint8_t public_key [100];
     uint16_t public_key_length = sizeof(public_key);
 
@@ -1278,23 +1027,8 @@ int32_t IFX_OPTIGA_TrustM::calculateSharedSecretGeneric(int32_t curveID, uint16_
                                                           &priv_oid,
                                                           public_key,
                                                           &public_key_length);
-
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_crypt_ecc_generate_keypair operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            return_status = optiga_lib_status;
-            break;
-        }
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
+        
 
         /**
          *  Perform ECDH using the Peer Public key
@@ -1305,23 +1039,7 @@ int32_t IFX_OPTIGA_TrustM::calculateSharedSecretGeneric(int32_t curveID, uint16_
                                           &peer_public_key_details,
                                           exprt,
                                           p_out);
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_crypt_rsa_sign operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            //RSA Signature generation failed.
-            return_status = optiga_lib_status;
-            break;
-        }
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
     } while (FALSE);
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
@@ -1348,60 +1066,6 @@ int32_t IFX_OPTIGA_TrustM::str2cur(String curve_name)
     return ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::deriveKey(uint8_t* p_data, uint16_t hashLength, 
-                                     uint8_t* p_key, uint16_t klen)
-{
-//     int32_t             ret = INT_LIB_ERROR;
-//     sDeriveKeyOptions_d key_opt;
-//     sbBlob_d            key;
-
-//     //
-//     // Example to demonstrate the derive key
-//     //
-
-//     //Mention the Key derivation method
-//     key_opt.eKDM = eTLS_PRF_SHA256;
-
-//     //Provide the seed information
-//     key_opt.sSeed.prgbStream = p_data;
-//     key_opt.sSeed.wLen =  hashLength;
-
-//     //Provide the ID of the share secret to be used
-//     //Make sure the shared secret is present in the OID. Use CmdLib_CalculateSharedSecret
-//     // OID Master Secret
-//     key_opt.wOIDSharedSecret = 0xe100;
-
-//     if (p_key)
-//     {
-//         //Mentioned where should the generated derive key be stored.
-//         //1.To export the derive key, set the value to 0x0000
-//         key_opt.wOIDDerivedKey = 0x0000;
-//     }
-//     else
-//     {
-//         //or
-//         //2.To store the shared secret in session oid,provide the session oid value
-//         key_opt.wOIDDerivedKey = 0xe101;
-//     }
-
-//     //Provide the expected length of the derive secret
-//     key_opt.wDerivedKeyLen = klen;
-
-//     //Buffer to export the generated derive key
-//     //Shared secret is returned if sDeriveKeyOptions.wOIDDerivedKey is 0x0000.
-//     key.prgbStream = p_key;
-//     key.wLen = klen;
-
-//     //Initiate CmdLib API for the Calculate shared secret
-//     if(CMD_LIB_OK == CmdLib_DeriveKey(&key_opt, &key))
-//     {
-//         klen = key.wLen;
-//         ret = 0;
-//     }
-
-//     return ret;
-}
-
 int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, 
                                               uint16_t privateKey_oid, optiga_rsa_key_type_t rsa_key_type)
 {
@@ -1412,7 +1076,7 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen,
     do
     {
        /**
-         * 2. Generate RSA Key pair
+         * Generate RSA Key pair
          *       - Use 1024 or 2048 bit RSA key
          *       - Specify the Key Usage
          *       - Store the Private key in OPTIGA Key store
@@ -1431,24 +1095,7 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen,
                                                           &privateKey_oid,
                                                           p_pubkey,
                                                           &plen);
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_crypt_rsa_generate_keypair operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            //RSA Key pair generation failed
-            return_status = optiga_lib_status;
-            break;
-        }
-
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
     } while (FALSE);
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
@@ -1471,7 +1118,7 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen,
     do
     {
        /**
-         * 1. Generate RSA Key pair
+         * Generate RSA Key pair
          *       - Use 1024 or 2048 bit RSA key
          *       - Specify the Key Usage
          *       - Export the Private key in OPTIGA Key store
@@ -1479,7 +1126,6 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen,
          *               encoding length))
          *       - Export Public Key
          */
- 
         optiga_lib_status = OPTIGA_LIB_BUSY;
         return_status = optiga_crypt_rsa_generate_keypair(me_crypt,
                                                           rsa_key_type,
@@ -1488,24 +1134,7 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen,
                                                           p_privkey,
                                                           p_pubkey,
                                                           &plen);
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_crypt_rsa_generate_keypair operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            //RSA Key pair generation failed
-            return_status = optiga_lib_status;
-            break;
-        }
-
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
     } while (FALSE);
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
@@ -1527,7 +1156,7 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen,
     do
     {
         /**
-         * 1. Generate ECC Key pair
+         *  Generate ECC Key pair
          *       - Use ECC NIST P 256  or P384 Curve
          *       - Specify the Key Usage (Key Agreement or Sign based on requirement)
          *       - Store the Private key in OPTIGA Key store
@@ -1544,24 +1173,7 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen,
                                                           &privateKey_oid,
                                                           p_pubkey,
                                                           &plen);
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_crypt_rsa_generate_keypair operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            //RSA Key pair generation failed
-            return_status = optiga_lib_status;
-            break;
-        }
-
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
     } while (FALSE);
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
@@ -1584,7 +1196,7 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen,
     do
     {
         /**
-         * 1. Generate ECC Key pair
+         * Generate ECC Key pair
          *       - Use ECC NIST P 256 or P384 Curve
          *       - Specify the Key Usage (Key Agreement or Sign based on requirement)
          *       - Store the Private key in OPTIGA Key store
@@ -1598,23 +1210,7 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen,
                                                           p_privkey,
                                                           p_pubkey,
                                                           &plen);
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
-
-        while (OPTIGA_LIB_BUSY == optiga_lib_status)
-        {
-            //Wait until the optiga_crypt_rsa_generate_keypair operation is completed
-            pal_os_event_process();
-        }
-
-        if (OPTIGA_LIB_SUCCESS != optiga_lib_status)
-        {
-            //RSA Key pair generation failed
-            return_status = optiga_lib_status;
-            break;
-        }
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
 
     } while (FALSE);

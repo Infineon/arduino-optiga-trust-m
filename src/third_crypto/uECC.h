@@ -99,6 +99,9 @@ uECC_Curve uECC_secp256r1(void);
 uECC_Curve uECC_secp256k1(void);
 #endif
 
+#ifndef ARDUINO_AVR_UNO
+
+
 /* uECC_RNG_Function type
 The RNG function should fill 'size' random bytes into 'dest'. It should return 1 if
 'dest' was filled with random data, or 0 if the random data could not be generated.
@@ -338,6 +341,8 @@ int uECC_sign_deterministic(const uint8_t *private_key,
                             uint8_t *signature,
                             uECC_Curve curve);
 
+#endif /* ARDUINO_AVR_UNO */
+
 /* uECC_verify() function.
 Verify an ECDSA signature.
 
@@ -361,5 +366,7 @@ int uECC_verify(const uint8_t *public_key,
 #ifdef __cplusplus
 } /* end of extern "C" */
 #endif
+
+
 
 #endif /* _UECC_H_ */

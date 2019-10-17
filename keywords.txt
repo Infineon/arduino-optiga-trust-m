@@ -23,11 +23,21 @@ setCurrentLimit	KEYWORD2
 getLastErrorCodes	KEYWORD2
 sha256	KEYWORD2
 calculateSignature	KEYWORD2
+calculateSignatureRSA   KEYWORD2
+calculateSignatureECDSA KEYWORD2
 formatSignature	KEYWORD2
 verifySignature	KEYWORD2
+verifySignatureRSA  KEYWORD2
+verifySignatureECDSA    KEYWORD2
 sharedSecret	KEYWORD2
 sharedSecretWithExport	KEYWORD2
 generateKeypair	KEYWORD2
+generateKeypairRSA  KEYWORD2
+generateKeypairRSA1024  KEYWORD2
+generateKeypairRSA2048  KEYWORD2
+generateKeypairECC  KEYWORD2
+generateKeypairECCP256  KEYWORD2
+generateKeypairECCP384  KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)
