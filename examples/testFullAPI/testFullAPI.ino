@@ -75,6 +75,8 @@ void loop()
   uint32_t ret = 0;
   uint8_t  cntr = 10;
   uint8_t ifxPublicKey[68];
+  uint8_t  shared_secret[48];
+  uint16_t shared_s_len = 0; 
 
   /* 
    * Getting co-processor Unique ID
@@ -138,6 +140,17 @@ void loop()
   ASSERT(ret);
   printlnGreen("OK");
 
+  /*
+   * Calculate shared secret
+   */
+  printlnGreen("\r\nCalculate shared secret with export... ");
+  ret = trustM.sharedSecretWithExport(ifxPublicKey, sizeof(ifxPublicKey), shared_secret, shared_s_len);
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
+  
+  output_result("My Shared Secret", shared_secret, shared_s_len);
   /* 
    * Execute the loop just once :)
    */
