@@ -42,7 +42,7 @@ LIBRARY_EXPORTS void pal_gpio_set_high(const pal_gpio_t * p_gpio_context)
 {
    if ((p_gpio_context != NULL) && (p_gpio_context->p_gpio_hw != NULL))
    {
-       digitalWrite(p_gpio_context->p_gpio_hw, HIGH);
+       digitalWrite(*(uint8_t*)p_gpio_context->p_gpio_hw, HIGH);
    }
 }
 
@@ -50,7 +50,7 @@ LIBRARY_EXPORTS void pal_gpio_set_low(const pal_gpio_t * p_gpio_context)
 {
     if ((p_gpio_context != NULL) && (p_gpio_context->p_gpio_hw != NULL))
     {
-        digitalWrite(p_gpio_context->p_gpio_hw, LOW);
+        digitalWrite(*(uint8_t*)p_gpio_context->p_gpio_hw, LOW);
     }
 }
 
@@ -58,7 +58,7 @@ LIBRARY_EXPORTS pal_status_t pal_gpio_init(const pal_gpio_t * p_gpio_context)
 {
     if ((p_gpio_context != NULL) && (p_gpio_context->p_gpio_hw != NULL))
     {
-        pinMode(p_gpio_context->p_gpio_hw, OUTPUT);
+        pinMode(*(uint8_t*)p_gpio_context->p_gpio_hw, OUTPUT);
     }
 }
 
