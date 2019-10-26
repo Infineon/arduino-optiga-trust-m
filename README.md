@@ -159,6 +159,10 @@ testFullAPI is used to briefly test major API calls to the library. The expected
 
 ![testFullAPI expected result](https://github.com/Infineon/Assets/raw/master/Pictures/OPTIGA%20Trust%20X%20testFullAPI.png)
 	
+## Available Functions
+
+The available Arduino API is described in the [Doxygen documentation](https://infineon.github.io/arduino-optiga-trust-m/).
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process of submitting pull requests to us.
