@@ -73,13 +73,17 @@ typedef enum eOID_d {
     /// Project-Specific device Public Key Certificate
     eDEVICE_PUBKEY_CERT_PRJSPC_3 = 0xE0E3,
     /// First Device Private Key
-    eFIRST_DEVICE_PRIKEY_1 = 0xE0F0,
-    /// First Device Private Key
-    eFIRST_DEVICE_PRIKEY_2 = 0xE0F1,
-    /// First Device Private Key
-    eFIRST_DEVICE_PRIKEY_3 = 0xE0F2,
-    /// First Device Private Key
-    eFIRST_DEVICE_PRIKEY_4 = 0xE0F3,
+    eDEVICE_PRIKEY_1 = 0xE0F0,
+    /// Second Device Private Key
+    eDEVICE_PRIKEY_2 = 0xE0F1,
+    /// Third Device Private Key
+    eDEVICE_PRIKEY_3 = 0xE0F2,
+    /// Fourth Device Private Key
+    eDEVICE_PRIKEY_4 = 0xE0F3,
+	/// First RSA Device Private Key
+    eRSA_DEVICE_PRIKEY_1 = 0xE0FC,
+	/// Second RSA Device Private Key
+    eRSA_DEVICE_PRIKEY_2 = 0xE0FD,
     /// Application Life Cycle Status
     eLCS_A = 0xF1C0,
     /// Application Security Status
@@ -125,11 +129,13 @@ public:
      * This function initializes the Infineon OPTIGA Trust X command library and
      * sends the 'open application' command to the device. This opens the communicatino
      * channel to the Optiga Trust M, so that you can carry out different operations
+	 * 
+	 * @param[in]  pairDevice       Define whether you want to pair MCU and OPTIGA Trust M devices.
      *
      * @retval  0    If function was successful.
      * @retval  1    If the operation failed.
      */
-    int32_t begin(void);
+    int32_t begin(uint8_t pairDevice=1);
 
     /**
      *
@@ -147,12 +153,24 @@ public:
 	
     /**
      *
-     * This function checks ??
+     * This function checks whether the chip posseses the genuine certificate
      *
      * @retval  0  If function was successful.
      * @retval  1  If the operation failed.
      */
 	int32_t checkChip(void);
+	
+	/**
+     *
+     * This function pairs the Host MCU and the OPTIGA Trust M
+	 * This function by default works only with samples which have 
+	 * Pres-shared secret data object unlocked for modification
+	 * YOu can though pair devices and then lock this dataobject afterwards.
+     *
+     * @retval  0  If function was successful.
+     * @retval  1  If the operation failed.
+     */
+	int32_t pairMCU(void);
 	
     /**
      *
@@ -287,10 +305,10 @@ public:
      * @param[in] dlen              Length of the input data
      * @param[in] privateKey_oid    [Optional] Object ID defines which private key slot will be used to generate the signature. Default is the first slot.
      *                              Use either one of:
-     *                              @ref eFIRST_DEVICE_PRIKEY_1 (Default)
-     *                              @ref eFIRST_DEVICE_PRIKEY_2 
-     *                              @ref eFIRST_DEVICE_PRIKEY_3 
-     *                              @ref eFIRST_DEVICE_PRIKEY_4 
+     *                              @ref eDEVICE_PRIKEY_1 (Default)
+     *                              @ref eDEVICE_PRIKEY_2 
+     *                              @ref eDEVICE_PRIKEY_3 
+     *                              @ref eDEVICE_PRIKEY_4 
      *                              slots define below or @ref eSessionCtxId_d session contexts
      * @param[out] result           Pointer to the data array where the final result should be stored.
      * @param[out] rlen             Length of the output data. Will be modified in case of success.
@@ -311,10 +329,10 @@ public:
      * @param[in] dlen              Length of the input data
      * @param[in] privateKey_oid    [Optional] Object ID defines which private key slot will be used to generate the signature. Default is the first slot.
      *                              Use either one of:
-     *                              @ref eFIRST_DEVICE_PRIKEY_1 (Default)
-     *                              @ref eFIRST_DEVICE_PRIKEY_2 
-     *                              @ref eFIRST_DEVICE_PRIKEY_3 
-     *                              @ref eFIRST_DEVICE_PRIKEY_4 
+     *                              @ref eDEVICE_PRIKEY_1 (Default)
+     *                              @ref eDEVICE_PRIKEY_2 
+     *                              @ref eDEVICE_PRIKEY_3 
+     *                              @ref eDEVICE_PRIKEY_4 
      *                              slots define below or @ref eSessionCtxId_d session contexts
      * @param[out] result           Pointer to the data array where the final result should be stored.
      * @param[out] rlen             Length of the output data. Will be modified in case of success.
@@ -324,10 +342,9 @@ public:
      */
     int32_t calculateSignatureRSA(uint8_t dataToSign[], uint16_t dlen, uint16_t privateKey_oid, uint8_t result[], uint16_t& rlen);
     int32_t calculateSignatureRSA(uint8_t dataToSign[], uint16_t dlen, uint8_t result[], uint16_t& rlen) { 
-        return calculateSignatureRSA(dataToSign, dlen, OPTIGA_KEY_ID_E0FC, result, rlen);
+        return calculateSignatureRSA(dataToSign, dlen, eRSA_DEVICE_PRIKEY_1, result, rlen);
 	}
-
-    
+	    
     /**
      * This function generates an ECDSA signature.
      *
@@ -335,10 +352,10 @@ public:
      * @param[in] dlen              Length of the input data
      * @param[in] privateKey_oid    [Optional] Object ID defines which private key slot will be used to generate the signature. Default is the first slot.
      *                              Use either one of:
-     *                              @ref eFIRST_DEVICE_PRIKEY_1 (Default)
-     *                              @ref eFIRST_DEVICE_PRIKEY_2 
-     *                              @ref eFIRST_DEVICE_PRIKEY_3 
-     *                              @ref eFIRST_DEVICE_PRIKEY_4 
+     *                              @ref eDEVICE_PRIKEY_1 (Default)
+     *                              @ref eDEVICE_PRIKEY_2 
+     *                              @ref eDEVICE_PRIKEY_3 
+     *                              @ref eDEVICE_PRIKEY_4 
      *                              slots define below or @ref eSessionCtxId_d session contexts
      * @param[out] result           Pointer to the data array where the final result should be stored.
      * @param[out] rlen             Length of the output data. Will be modified in case of success.
@@ -510,17 +527,17 @@ public:
      *                              @ref eSESSION_ID_2 (Default)
      *                              @ref eSESSION_ID_3
      *                              @ref eSESSION_ID_4
-     *                              @ref eFIRST_DEVICE_PRIKEY_1
-     *                              @ref eFIRST_DEVICE_PRIKEY_2 
-     *                              @ref eFIRST_DEVICE_PRIKEY_3 
-     *                              @ref eFIRST_DEVICE_PRIKEY_4      
+     *                              @ref eDEVICE_PRIKEY_1
+     *                              @ref eDEVICE_PRIKEY_2 
+     *                              @ref eDEVICE_PRIKEY_3 
+     *                              @ref eDEVICE_PRIKEY_4      
      * @param[out] privateKey       [Optional] Pointer to the data array where the result private key should be stored.
      * @param[out] prlen            [Optional] Length of the private key.
      *
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-	int32_t generateKeypair(uint8_t publicKey[], uint16_t& plen ) { return generateKeypairRSA(publicKey, plen, OPTIGA_KEY_ID_E0FC, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); }
+	int32_t generateKeypair(uint8_t publicKey[], uint16_t& plen ) { return generateKeypairRSA(publicKey, plen, eRSA_DEVICE_PRIKEY_1, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); }
     int32_t generateKeypair(uint8_t publicKey[], uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairRSA(publicKey, plen, privateKey_oid, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); };
     int32_t generateKeypair(uint8_t publicKey[], uint16_t& plen, uint8_t privateKey[], uint16_t& prlen) {return generateKeypairRSA(publicKey, plen, privateKey, prlen, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL);};
     
@@ -535,10 +552,10 @@ public:
      *                              @ref eSESSION_ID_2 (Default)
      *                              @ref eSESSION_ID_3
      *                              @ref eSESSION_ID_4
-     *                              @ref eFIRST_DEVICE_PRIKEY_1
-     *                              @ref eFIRST_DEVICE_PRIKEY_2 
-     *                              @ref eFIRST_DEVICE_PRIKEY_3 
-     *                              @ref eFIRST_DEVICE_PRIKEY_4      
+     *                              @ref eDEVICE_PRIKEY_1
+     *                              @ref eDEVICE_PRIKEY_2 
+     *                              @ref eDEVICE_PRIKEY_3 
+     *                              @ref eDEVICE_PRIKEY_4      
      * @param[out] privateKey       [Optional] Pointer to the data array where the result private key should be stored.
      * @param[out] prlen            [Optional] Length of the private key.
      * @param[in] rsa_key_type      [Optional] Public key RSA type
@@ -546,7 +563,7 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateKeypairRSA(uint8_t publicKey[], uint16_t& plen ) {return generateKeypairRSA(publicKey, plen, OPTIGA_KEY_ID_E0FC, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); };
+    int32_t generateKeypairRSA(uint8_t publicKey[], uint16_t& plen ) {return generateKeypairRSA(publicKey, plen, eRSA_DEVICE_PRIKEY_1, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); };
     int32_t generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid, optiga_rsa_key_type_t rsa_key_type);
     int32_t generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen, optiga_rsa_key_type_t rsa_key_type);
 
@@ -561,10 +578,10 @@ public:
      *                              @ref eSESSION_ID_2 (Default)
      *                              @ref eSESSION_ID_3
      *                              @ref eSESSION_ID_4
-     *                              @ref eFIRST_DEVICE_PRIKEY_1
-     *                              @ref eFIRST_DEVICE_PRIKEY_2 
-     *                              @ref eFIRST_DEVICE_PRIKEY_3 
-     *                              @ref eFIRST_DEVICE_PRIKEY_4      
+     *                              @ref eDEVICE_PRIKEY_1
+     *                              @ref eDEVICE_PRIKEY_2 
+     *                              @ref eDEVICE_PRIKEY_3 
+     *                              @ref eDEVICE_PRIKEY_4      
      * @param[out] privateKey       [Optional] Pointer to the data array where the result private key should be stored.
      * @param[out] prlen            [Optional] Length of the private key.
      *
@@ -585,10 +602,10 @@ public:
      *                              @ref eSESSION_ID_2 (Default)
      *                              @ref eSESSION_ID_3
      *                              @ref eSESSION_ID_4
-     *                              @ref eFIRST_DEVICE_PRIKEY_1
-     *                              @ref eFIRST_DEVICE_PRIKEY_2 
-     *                              @ref eFIRST_DEVICE_PRIKEY_3 
-     *                              @ref eFIRST_DEVICE_PRIKEY_4      
+     *                              @ref eDEVICE_PRIKEY_1
+     *                              @ref eDEVICE_PRIKEY_2 
+     *                              @ref eDEVICE_PRIKEY_3 
+     *                              @ref eDEVICE_PRIKEY_4      
      * @param[out] privateKey       [Optional] Pointer to the data array where the result private key should be stored.
      * @param[out] prlen            [Optional] Length of the private key.
      *
@@ -609,10 +626,10 @@ public:
      *                              @ref eSESSION_ID_2 (Default)
      *                              @ref eSESSION_ID_3
      *                              @ref eSESSION_ID_4
-     *                              @ref eFIRST_DEVICE_PRIKEY_1
-     *                              @ref eFIRST_DEVICE_PRIKEY_2 
-     *                              @ref eFIRST_DEVICE_PRIKEY_3 
-     *                              @ref eFIRST_DEVICE_PRIKEY_4      
+     *                              @ref eDEVICE_PRIKEY_1
+     *                              @ref eDEVICE_PRIKEY_2 
+     *                              @ref eDEVICE_PRIKEY_3 
+     *                              @ref eDEVICE_PRIKEY_4      
      * @param[out] privateKey       [Optional] Pointer to the data array where the result private key should be stored.
      * @param[out] prlen            [Optional] Length of the private key.
      * @param[in] ecc_key_type      [Optional] Public key ECC curve type  
@@ -635,10 +652,10 @@ public:
      *                              @ref eSESSION_ID_2 (Default)
      *                              @ref eSESSION_ID_3
      *                              @ref eSESSION_ID_4
-     *                              @ref eFIRST_DEVICE_PRIKEY_1
-     *                              @ref eFIRST_DEVICE_PRIKEY_2 
-     *                              @ref eFIRST_DEVICE_PRIKEY_3 
-     *                              @ref eFIRST_DEVICE_PRIKEY_4      
+     *                              @ref eDEVICE_PRIKEY_1
+     *                              @ref eDEVICE_PRIKEY_2 
+     *                              @ref eDEVICE_PRIKEY_3 
+     *                              @ref eDEVICE_PRIKEY_4      
      * @param[out] privateKey       [Optional] Pointer to the data array where the result private key should be stored.
      * @param[out] prlen            [Optional] Length of the private key.
      *
@@ -659,10 +676,10 @@ public:
      *                              @ref eSESSION_ID_2 (Default)
      *                              @ref eSESSION_ID_3
      *                              @ref eSESSION_ID_4
-     *                              @ref eFIRST_DEVICE_PRIKEY_1
-     *                              @ref eFIRST_DEVICE_PRIKEY_2 
-     *                              @ref eFIRST_DEVICE_PRIKEY_3 
-     *                              @ref eFIRST_DEVICE_PRIKEY_4      
+     *                              @ref eDEVICE_PRIKEY_1
+     *                              @ref eDEVICE_PRIKEY_2 
+     *                              @ref eDEVICE_PRIKEY_3 
+     *                              @ref eDEVICE_PRIKEY_4      
      * @param[out] privateKey       [Optional] Pointer to the data array where the result private key should be stored.
      * @param[out] prlen            [Optional] Length of the private key.
      *
@@ -672,6 +689,98 @@ public:
     int32_t generateKeypairECCP384(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen) { return generateKeypairECC(p_pubkey, plen, p_privkey, prlen, OPTIGA_ECC_CURVE_NIST_P_384); };
     int32_t generateKeypairECCP384(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(p_pubkey, plen, privateKey_oid, OPTIGA_ECC_CURVE_NIST_P_384); };
 
+	/**
+     * This function encrypt user given data with RSAES PKCS1 v1.5 Scheme.
+     *
+     * @param[in] dataToEncrypt     Pointer to the data
+     * @param[in] dlen              Length of the input data
+	 * @param[in] pubkeyFromUser    A user provided RSA public key.
+     *                              @note The folloiwng format is expected
+	 * static uint8_t public_key [] = {
+	 * //BIT String
+	 * 0x03,
+	 * 	//BIT String Length
+	 * 	0x81, 0x8E,
+	 * 		//UnusedBits
+	 * 		0x00,
+	 * 		//SEQUENCE
+	 * 		0x30,
+	 * 			//Length
+	 * 			0x81, 0x8A,
+	 * 			//INTEGER (pub key)
+	 * 			0x02,
+	 * 			//Pub key modulus length
+	 * 			0x81, 0x81,
+	 * 				//Public key modulus
+	 * 				0x00,
+	 * 				0xA1, 0xD4, 0x6F, 0xBA, 0x23, 0x18, 0xF8, 0xDC,
+	 * 				0xEF, 0x16, 0xC2, 0x80, 0x94, 0x8B, 0x1C, 0xF2,
+	 * 				0x79, 0x66, 0xB9, 0xB4, 0x72, 0x25, 0xED, 0x29,
+	 * 				0x89, 0xF8, 0xD7, 0x4B, 0x45, 0xBD, 0x36, 0x04,
+	 * 				0x9C, 0x0A, 0xAB, 0x5A, 0xD0, 0xFF, 0x00, 0x35,
+	 * 				0x53, 0xBA, 0x84, 0x3C, 0x8E, 0x12, 0x78, 0x2F,
+	 * 				0xC5, 0x87, 0x3B, 0xB8, 0x9A, 0x3D, 0xC8, 0x4B,
+	 * 				0x88, 0x3D, 0x25, 0x66, 0x6C, 0xD2, 0x2B, 0xF3,
+	 * 				0xAC, 0xD5, 0xB6, 0x75, 0x96, 0x9F, 0x8B, 0xEB,
+	 * 				0xFB, 0xCA, 0xC9, 0x3F, 0xDD, 0x92, 0x7C, 0x74,
+	 * 				0x42, 0xB1, 0x78, 0xB1, 0x0D, 0x1D, 0xFF, 0x93,
+	 * 				0x98, 0xE5, 0x23, 0x16, 0xAA, 0xE0, 0xAF, 0x74,
+	 * 				0xE5, 0x94, 0x65, 0x0B, 0xDC, 0x3C, 0x67, 0x02,
+	 * 				0x41, 0xD4, 0x18, 0x68, 0x45, 0x93, 0xCD, 0xA1,
+	 * 				0xA7, 0xB9, 0xDC, 0x4F, 0x20, 0xD2, 0xFD, 0xC6,
+	 * 				0xF6, 0x63, 0x44, 0x07, 0x40, 0x03, 0xE2, 0x11,
+	 * 			//INTEGER (publicExponent)
+	 *			0x02,
+	 *				//Pub key exponent length
+	 *				0x04,
+	 *				//Public Exponent
+	 *				0x00, 0x01, 0x00, 0x01
+	 * };
+	 * @param[in] pklen             Public key length
+     * @param[out] result           Pointer to the data array where the final result should be stored.
+     * @param[out] rlen             Length of the output data. Will be modified in case of success.
+     *
+     * @retval  0 If function was successful.
+     * @retval  1 If the operation failed.
+     */
+    int32_t encrypt(uint8_t dataToEncrypt[], uint16_t dlen,  uint8_t pubkeyFromUser[], uint16_t pklen, uint8_t result[], uint16_t& rlen);
+	
+	/**
+     * This function encrypt user given data with RSAES PKCS1 v1.5 Scheme.
+     *
+     * @param[in] dataToEncrypt     Pointer to the data
+     * @param[in] dlen              Length of the input data
+     * @param[in] certOID           Object ID defines which public key will be used to encrypt the message (the public key will be extracted from the certificate). Default is the first slot.
+     *                              Use either one of:
+     *                              @ref eDEVICE_PUBKEY_CERT_IFX (Default)
+     *                              @ref eDEVICE_PUBKEY_CERT_PRJSPC_1
+     *                              @ref eDEVICE_PUBKEY_CERT_PRJSPC_2
+     *                              @ref eDEVICE_PUBKEY_CERT_PRJSPC_3
+     * @param[out] result           Pointer to the data array where the final result should be stored.
+     * @param[out] rlen             Length of the output data. Will be modified in case of success.
+     *
+     * @retval  0 If function was successful.
+     * @retval  1 If the operation failed.
+     */
+	int32_t encrypt(uint8_t dataToEncrypt[], uint16_t dlen,  uint16_t certOID, uint8_t result[], uint16_t& rlen);
+
+	/**
+     * This function decrypt user given data with RSAES PKCS1 v1.5 Scheme.
+     *
+     * @param[in] dataToDecrypt     Pointer to the data
+     * @param[in] dlen              Length of the input data
+     * @param[in] keyOID            Object ID defines which key will be used to decrypt the message. Default is the first slot.
+     *                              Use either one of:
+     *                              @ref eRSA_DEVICE_PRIKEY_1 (Default)
+     *                              @ref eRSA_DEVICE_PRIKEY_2 
+     * @param[out] result           Pointer to the data array where the final result should be stored.
+     * @param[out] rlen             Length of the output data. Will be modified in case of success.
+     *
+     * @retval  0 If function was successful.
+     * @retval  1 If the operation failed.
+     */
+	int32_t decrypt(uint8_t dataToDecrypt[], uint16_t dlen,  uint16_t keyOID, uint8_t result[], uint16_t& rlen);
+	
 private:
 
     optiga_util_t  * me_util  = NULL;
