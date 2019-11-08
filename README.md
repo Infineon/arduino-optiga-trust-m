@@ -171,7 +171,7 @@ The example does the following:
 * Sends to the chip the chiphertext over the protected communication channle and gets the responce.
 
 The sample output is following:
-```c
+```
 Initializing ...
 Begin to trust ... OK
 Limit the Current ... OK
