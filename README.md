@@ -161,6 +161,62 @@ Verify Signature ...
 [OK] | Command executed in 230 ms
 ```
 
+### encryptDecryptData
+This example demonstrated RSA Data Encryption/Decryption using PKCS#1 v1.5 Scheme.
+The example does the following:
+* Initializes the Secure Element and pairs the Host and the OPTIGA(TM) Trust M (Shielded Connection)
+* Generate a new RSA1024 keypair and exports the public key to the host
+* Encrypts sample message using OPTIGA(TM) Trust M rev.1. The message sent is protected.
+* Gets the resulting cipher from the Secure Element
+* Sends to the chip the chiphertext over the protected communication channle and gets the responce.
+
+The sample output is following:
+```c
+Initializing ...
+Begin to trust ... OK
+Limit the Current ... OK
+
+Generate Key Pair RSA 1024. Store Private Key on Board ...
+[OK] | Command executed in 540 ms
+Public Key  Length: 144
+Public Key :
+0x000000: 03 81 8d 00 30 81 89 02 81 81 00 a4 06 98 4b d2 ....0.........K.
+0x000010: 04 ba 61 66 5e 69 ae c3 18 40 75 75 a3 be 31 01 ..af^i...@uu..1.
+0x000020: a5 10 a7 f4 2a d3 24 9c f5 af 2e d5 99 4a da a1 ....*.$......J..
+0x000030: 13 bc 89 f3 9a 53 b9 34 88 ef f8 a9 ab 1f 7e 28 .....S.4......~(
+0x000040: 3a 03 7a cf 41 09 2e 57 b6 36 2d 3b 76 e0 71 91 :.z.A..W.6-;v.q.
+0x000050: 8c 6b 67 22 aa 0a 61 42 45 e6 ce 7d d4 8b b8 c2 .kg"..aBE..}....
+0x000060: 2a 90 81 82 df 3b 88 92 2e 3a 31 ef 58 5c 95 f4 *....;...:1.X\..
+0x000070: a8 f3 9c 2b 9c 51 e5 b0 54 7a 0c 25 cd 07 f7 6b ...+.Q..Tz.%...k
+0x000080: 65 e6 c3 97 dd 4d 30 e3 20 b8 51 02 03 01 00 01 e....M0. .Q.....
+
+Message to Encrypt: Encrypt and Decrypt Data using OPTIGA(TM) Trust M
+
+[OK] | Command executed in 274 ms
+
+Encrypted message  Length: 128
+
+Encrypted message :
+0x000000: 0f 85 53 f2 1b 55 69 f9 15 10 40 56 da 12 09 09 ..S..Ui...@V....
+0x000010: 7e d7 6c 5b 87 55 8b f9 48 2b d1 88 13 b0 ac 9b ~.l[.U..H+......
+0x000020: 01 4b 10 14 e1 3d 16 85 14 c5 53 ca 3d dd c2 04 .K...=....S.=...
+0x000030: d4 85 87 22 66 e8 6b e2 b2 d0 1a f2 15 d9 26 6e ..."f.k.......&n
+0x000040: 29 dc dd f9 e4 40 d5 c7 b2 66 ff d5 7f ee 85 3e )....@...f.....>
+0x000050: e8 2f b2 7e cf 96 54 62 4a 07 16 64 59 e6 ec fd ./.~..TbJ..dY...
+0x000060: 13 9d e0 41 35 6c 47 08 bb 46 41 c1 7b 0b 9a 9f ...A5lG..FA.{...
+0x000070: 85 d8 b6 7c 2d 53 8a 10 fd f3 d3 ca 57 4f b8 57 ...|-S......WO.W
+
+[OK] | Command executed in 149 ms
+
+Decrypted message  Length: 50
+
+Decrypted message :
+0x000000: 45 6e 63 72 79 70 74 20 61 6e 64 20 44 65 63 72 Encrypt and Decr
+0x000010: 79 70 74 20 44 61 74 61 20 75 73 69 6e 67 20 4f ypt Data using O
+0x000020: 50 54 49 47 41 28 54 4d 29 20 54 72 75 73 74 20 PTIGA(TM) Trust
+0x000030: 4d 00
+```
+
 ### generateKeypair
 calculateSignVerifySign demonstrates methods for keypair generation, either with a private key export, or without. 
 In the latter case the developer should specify the Object ID of the private key. 
