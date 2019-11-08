@@ -162,7 +162,9 @@ Verify Signature ...
 ```
 
 ### encryptDecryptData
-This example demonstrated RSA Data Encryption/Decryption using PKCS#1 v1.5 Scheme.
+
+This example demonstrates RSA Data Encryption/Decryption using PKCS#1 v1.5 Scheme.
+
 The example does the following:
 * Initializes the Secure Element and pairs the Host and the OPTIGA(TM) Trust M (Shielded Connection)
 * Generate a new RSA1024 keypair and exports the public key to the host
