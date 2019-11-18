@@ -7,12 +7,14 @@ sudo: required
 branches:
     - master
     - develop
+    - feature/rsa_encrypt_decrypt
 
 env:
     matrix:
         - PLATFORMIO_CI_SRC=examples/calculateHash
         - PLATFORMIO_CI_SRC=examples/calculateSharedSecret
         - PLATFORMIO_CI_SRC=examples/calculateSignVerifySign
+        - PLATFORMIO_CI_SRC=examples/encryptDecryptData
         - PLATFORMIO_CI_SRC=examples/generateKeypair
         - PLATFORMIO_CI_SRC=examples/getCertificate
         - PLATFORMIO_CI_SRC=examples/getRandom
