@@ -26,8 +26,8 @@ env:
 install:
     - pip install -U platformio
     - platformio platform install -f infineonxmc 
-    - platformio platform install -f atmelavr
+    - platformio platform install -f atmelsam
     - platformio platform install -f espressif32
 
 script:
-    - platformio ci --lib="." --board=xmc1100_xmc2go --board=xmc1100_boot_kit --board=xmc4700_relax_kit --board=megaatmega2560 --board=mhetesp32minikit
+    - platformio ci --lib="." --board=xmc1100_xmc2go --board=xmc1100_boot_kit --board=xmc4700_relax_kit --board=zero --board=mhetesp32minikit

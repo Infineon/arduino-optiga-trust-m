@@ -67,7 +67,7 @@ In general, the library should be compatible with any Arduino board, however it 
 * XMC1100 2Go (Infineon Technologies, XMC1100, Cortex M0)
 * XMC1100 Arduino Boot Kit (Infineon Technologies, XMC1100, Cortex M0)
 * XMC4700 Relax Kit (Infineon Technologies, XMC4700, Cortex M4)
-* Arduino Mega 2560 (Atmel, ATmega2560, megaAVR)
+* Arduino Zero (Atmel SAM, SAMD21G18A, Cortex M0+)
 * MH ET LIVE ESP32MiniKit (Espressif, ESP32, Tensilica Xtensa LX6)
 
 ## Usage
