@@ -8,7 +8,7 @@
       "url": "https://github.com/Infineon/arduino-optiga-trust-m.git",
       "branch": "master"
     },
-    "version":"1.0.0",
+    "version":"1.1.0",
     "frameworks": "arduino",
     "platforms": [
         "infineonxmc",
