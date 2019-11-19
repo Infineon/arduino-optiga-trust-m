@@ -25,7 +25,7 @@
 #endif
 
 #if !defined(MBEDTLS_CONFIG_FILE)
-#include "mbedtls/config.h"
+#include "config.h"
 #else
 #include MBEDTLS_CONFIG_FILE
 #endif
@@ -34,17 +34,17 @@
 
 #if defined(MBEDTLS_ENTROPY_C)
 
-#include "mbedtls/entropy.h"
-#include "mbedtls/entropy_poll.h"
+#include "entropy.h"
+#include "entropy_poll.h"
 
 #if defined(MBEDTLS_TIMING_C)
-#include "mbedtls/timing.h"
+#include "timing.h"
 #endif
 #if defined(MBEDTLS_HAVEGE_C)
-#include "mbedtls/havege.h"
+#include "havege.h"
 #endif
 #if defined(MBEDTLS_ENTROPY_NV_SEED)
-#include "mbedtls/platform.h"
+#include "platform.h"
 #endif
 
 #if !defined(MBEDTLS_NO_PLATFORM_ENTROPY)

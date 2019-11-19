@@ -29,14 +29,14 @@
 #endif
 
 #if !defined(MBEDTLS_CONFIG_FILE)
-#include "mbedtls/config.h"
+#include "config.h"
 #else
 #include MBEDTLS_CONFIG_FILE
 #endif
 
-#include "mbedtls/platform_util.h"
-#include "mbedtls/platform.h"
-#include "mbedtls/threading.h"
+#include "platform_util.h"
+#include "platform.h"
+#include "threading.h"
 
 #include <stddef.h>
 #include <string.h>

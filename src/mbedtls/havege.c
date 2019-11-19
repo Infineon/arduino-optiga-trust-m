@@ -27,16 +27,16 @@
  */
 
 #if !defined(MBEDTLS_CONFIG_FILE)
-#include "mbedtls/config.h"
+#include "config.h"
 #else
 #include MBEDTLS_CONFIG_FILE
 #endif
 
 #if defined(MBEDTLS_HAVEGE_C)
 
-#include "mbedtls/havege.h"
-#include "mbedtls/timing.h"
-#include "mbedtls/platform_util.h"
+#include "havege.h"
+#include "timing.h"
+#include "platform_util.h"
 
 #include <string.h>
 

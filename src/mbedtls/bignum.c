@@ -36,21 +36,21 @@
  */
 
 #if !defined(MBEDTLS_CONFIG_FILE)
-#include "mbedtls/config.h"
+#include "config.h"
 #else
 #include MBEDTLS_CONFIG_FILE
 #endif
 
 #if defined(MBEDTLS_BIGNUM_C)
 
-#include "mbedtls/bignum.h"
-#include "mbedtls/bn_mul.h"
-#include "mbedtls/platform_util.h"
+#include "bignum.h"
+#include "bn_mul.h"
+#include "platform_util.h"
 
 #include <string.h>
 
 #if defined(MBEDTLS_PLATFORM_C)
-#include "mbedtls/platform.h"
+#include "platform.h"
 #else
 #include <stdio.h>
 #include <stdlib.h>
@@ -2387,7 +2387,7 @@ int mbedtls_mpi_gen_prime( mbedtls_mpi *X, size_t nbits, int flags,
     while( 1 )
     {
         MBEDTLS_MPI_CHK( mbedtls_mpi_fill_random( X, n * ciL, f_rng, p_rng ) );
-        /* make sure generated number is at least (nbits-1)+0.5 bits (FIPS 186-4 §B.3.3 steps 4.4, 5.5) */
+        /* make sure generated number is at least (nbits-1)+0.5 bits (FIPS 186-4 ï¿½B.3.3 steps 4.4, 5.5) */
         if( X->p[n-1] < CEIL_MAXUINT_DIV_SQRT2 ) continue;
 
         k = n * biL;

@@ -25,23 +25,23 @@
  */
 
 #if !defined(MBEDTLS_CONFIG_FILE)
-#include "mbedtls/config.h"
+#include "config.h"
 #else
 #include MBEDTLS_CONFIG_FILE
 #endif
 
 #if defined(MBEDTLS_X509_CSR_WRITE_C)
 
-#include "mbedtls/x509_csr.h"
-#include "mbedtls/oid.h"
-#include "mbedtls/asn1write.h"
-#include "mbedtls/platform_util.h"
+#include "x509_csr.h"
+#include "oid.h"
+#include "asn1write.h"
+#include "platform_util.h"
 
 #include <string.h>
 #include <stdlib.h>
 
 #if defined(MBEDTLS_PEM_WRITE_C)
-#include "mbedtls/pem.h"
+#include "pem.h"
 #endif
 
 void mbedtls_x509write_csr_init( mbedtls_x509write_csr *ctx )

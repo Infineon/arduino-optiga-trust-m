@@ -26,23 +26,23 @@
  */
 
 #if !defined(MBEDTLS_CONFIG_FILE)
-#include "mbedtls/config.h"
+#include "config.h"
 #else
 #include MBEDTLS_CONFIG_FILE
 #endif
 
 #if defined(MBEDTLS_X509_CRT_WRITE_C)
 
-#include "mbedtls/x509_crt.h"
-#include "mbedtls/oid.h"
-#include "mbedtls/asn1write.h"
-#include "mbedtls/sha1.h"
-#include "mbedtls/platform_util.h"
+#include "x509_crt.h"
+#include "oid.h"
+#include "asn1write.h"
+#include "sha1.h"
+#include "platform_util.h"
 
 #include <string.h>
 
 #if defined(MBEDTLS_PEM_WRITE_C)
-#include "mbedtls/pem.h"
+#include "pem.h"
 #endif /* MBEDTLS_PEM_WRITE_C */
 
 void mbedtls_x509write_crt_init( mbedtls_x509write_cert *ctx )

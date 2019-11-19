@@ -20,18 +20,18 @@
  */
 
 #if !defined(MBEDTLS_CONFIG_FILE)
-#include "mbedtls/config.h"
+#include "config.h"
 #else
 #include MBEDTLS_CONFIG_FILE
 #endif
 
 #if defined(MBEDTLS_MEMORY_BUFFER_ALLOC_C)
-#include "mbedtls/memory_buffer_alloc.h"
+#include "memory_buffer_alloc.h"
 
 /* No need for the header guard as MBEDTLS_MEMORY_BUFFER_ALLOC_C
    is dependent upon MBEDTLS_PLATFORM_C */
-#include "mbedtls/platform.h"
-#include "mbedtls/platform_util.h"
+#include "platform.h"
+#include "platform_util.h"
 
 #include <string.h>
 
@@ -40,7 +40,7 @@
 #endif
 
 #if defined(MBEDTLS_THREADING_C)
-#include "mbedtls/threading.h"
+#include "threading.h"
 #endif
 
 #define MAGIC1       0xFF00AA55

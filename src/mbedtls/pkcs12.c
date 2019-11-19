@@ -26,26 +26,26 @@
  */
 
 #if !defined(MBEDTLS_CONFIG_FILE)
-#include "mbedtls/config.h"
+#include "config.h"
 #else
 #include MBEDTLS_CONFIG_FILE
 #endif
 
 #if defined(MBEDTLS_PKCS12_C)
 
-#include "mbedtls/pkcs12.h"
-#include "mbedtls/asn1.h"
-#include "mbedtls/cipher.h"
-#include "mbedtls/platform_util.h"
+#include "pkcs12.h"
+#include "asn1.h"
+#include "cipher.h"
+#include "platform_util.h"
 
 #include <string.h>
 
 #if defined(MBEDTLS_ARC4_C)
-#include "mbedtls/arc4.h"
+#include "arc4.h"
 #endif
 
 #if defined(MBEDTLS_DES_C)
-#include "mbedtls/des.h"
+#include "des.h"
 #endif
 
 #if defined(MBEDTLS_ASN1_PARSE_C)

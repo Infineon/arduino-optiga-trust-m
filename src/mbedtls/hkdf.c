@@ -19,7 +19,7 @@
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
 #if !defined(MBEDTLS_CONFIG_FILE)
-#include "mbedtls/config.h"
+#include "config.h"
 #else
 #include MBEDTLS_CONFIG_FILE
 #endif
@@ -27,8 +27,8 @@
 #if defined(MBEDTLS_HKDF_C)
 
 #include <string.h>
-#include "mbedtls/hkdf.h"
-#include "mbedtls/platform_util.h"
+#include "hkdf.h"
+#include "platform_util.h"
 
 int mbedtls_hkdf( const mbedtls_md_info_t *md, const unsigned char *salt,
                   size_t salt_len, const unsigned char *ikm, size_t ikm_len,
