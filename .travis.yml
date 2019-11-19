@@ -7,7 +7,6 @@ sudo: required
 branches:
     - master
     - develop
-    - feature/rsa_encrypt_decrypt
 
 env:
     matrix:
