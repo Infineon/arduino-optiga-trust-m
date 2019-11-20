@@ -1,0 +1,5 @@
+<map id="optiga_comms_open" name="optiga_comms_open">
+<area shape="rect" id="node1" title="Opens the communication channel with OPTIGA." alt="" coords="5,31,148,57"/>
+<area shape="rect" id="node2" href="$d3/dd9/pal_8c.html#a1cfd48c3d24518556f6d901b37189590" title="Initializes the PAL layer." alt="" coords="212,5,275,32"/>
+<area shape="rect" id="node3" href="$de/db2/ifx__i2c_8c.html#a1b6ef08b044c3d93203043f85fd96849" title="Initializes the IFX I2C protocol stack for a given context." alt="" coords="196,56,291,83"/>
+</map>

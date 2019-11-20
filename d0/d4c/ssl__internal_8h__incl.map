@@ -1,0 +1,17 @@
+<map id="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/mbedtls/ssl_internal.h" name="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/mbedtls/ssl_internal.h">
+<area shape="rect" id="node1" title="Internal functions shared by the SSL modules." alt="" coords="129,5,327,76"/>
+<area shape="rect" id="node2" href="$df/d6d/ssl_8h.html" title="SSL/TLS functions." alt="" coords="203,124,253,151"/>
+<area shape="rect" id="node13" href="$d1/dd6/cipher_8h.html" title="This file contains an abstraction interface for use with the cipher primitives provided by the librar..." alt="" coords="346,273,414,300"/>
+<area shape="rect" id="node15" href="$d5/de3/sha256_8h.html" title="This file contains SHA&#45;224 and SHA&#45;256 definitions and functions." alt="" coords="5,348,80,375"/>
+<area shape="rect" id="node3" href="$db/d16/config_8h.html" title="Configuration options (set of defines)" alt="" coords="272,423,339,449"/>
+<area shape="rect" id="node6" href="$dd/da2/bignum_8h.html" title="Multi&#45;precision integer library." alt="" coords="104,348,179,375"/>
+<area shape="rect" id="node9" href="$de/df7/ecp_8h.html" title="This file provides an API for Elliptic Curves over GF(P) (ECP)." alt="" coords="85,199,139,225"/>
+<area shape="rect" id="node10" href="$df/d01/ssl__ciphersuites_8h.html" title="SSL Ciphersuites for mbed TLS." alt="" coords="215,199,342,225"/>
+<area shape="rect" id="node4" href="$d3/d41/check__config_8h.html" title="Consistency checks for configuration options." alt="" coords="251,497,360,524"/>
+<area shape="rect" id="node5" title=" " alt="" coords="273,572,337,599"/>
+<area shape="rect" id="node7" title=" " alt="" coords="179,423,247,449"/>
+<area shape="rect" id="node8" title=" " alt="" coords="58,423,123,449"/>
+<area shape="rect" id="node11" href="$d1/dd6/pk_8h.html" title="Public Key abstraction layer." alt="" coords="266,273,313,300"/>
+<area shape="rect" id="node12" href="$d8/dbf/md_8h.html" title="This file contains the generic message&#45;digest wrapper." alt="" coords="203,348,253,375"/>
+<area shape="rect" id="node14" href="$d2/de1/platform__util_8h.html" title="Common and shared functions used by multiple modules in the Mbed TLS library." alt="" coords="379,348,482,375"/>
+</map>

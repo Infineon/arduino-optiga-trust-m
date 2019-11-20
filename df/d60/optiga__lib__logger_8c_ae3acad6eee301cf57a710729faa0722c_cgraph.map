@@ -1,0 +1,8 @@
+<map id="optiga_lib_print_array_hex_format" name="optiga_lib_print_array_hex_format">
+<area shape="rect" id="node1" title="To log the byte array in hex format." alt="" coords="5,129,151,171"/>
+<area shape="rect" id="node2" href="$df/d60/optiga__lib__logger_8c.html#a4a47785c6377ac6a4b03198045e6bebe" title=" " alt="" coords="199,71,349,112"/>
+<area shape="rect" id="node5" href="$d3/d1b/pal__logger_8h.html#afdbc9ab287bbdecd0f4044e66f2277d9" title="Writes to logger port." alt="" coords="593,107,708,134"/>
+<area shape="rect" id="node6" href="$df/d60/optiga__lib__logger_8c.html#a56c7e529b549c9d0ac0fba1c3ddc9c38" title=" " alt="" coords="211,188,337,229"/>
+<area shape="rect" id="node3" href="$df/d60/optiga__lib__logger_8c.html#ad42c524579e52b9d412213f28dcf7aae" title=" " alt="" coords="407,5,536,47"/>
+<area shape="rect" id="node4" href="$df/d60/optiga__lib__logger_8c.html#ad841dd1104bea4f848ce8ba3b8546f90" title="To log a string with a new line." alt="" coords="397,71,545,112"/>
+</map>

@@ -1,0 +1,52 @@
+<map id="ifx_i2c_prl_event_handler" name="ifx_i2c_prl_event_handler">
+<area shape="rect" id="node1" title=" " alt="" coords="5,494,172,521"/>
+<area shape="rect" id="node2" href="$d6/dc6/ifx__i2c__presentation__layer_8c.html#a206265c5dd51ab16b987c5b3e52cdafd" title=" " alt="" coords="228,563,383,604"/>
+<area shape="rect" id="node4" href="$d3/dc7/optiga__lib__common_8c.html#a6ce7eb375d09c0e61903265d7b02aed8" title="Copies 4 bytes of uint32 [Big endian] type value to the buffer and stores in the output pointer." alt="" coords="932,325,1113,351"/>
+<area shape="rect" id="node5" href="$d1/d1b/pal__os__datastore_8h.html#a214588f1e3ed0af418fd0fef9dc5ef47" title="Writes data to the specified location for a given datastore_id." alt="" coords="452,730,607,757"/>
+<area shape="rect" id="node6" href="$dc/d29/ifx__i2c__transport__layer_8c.html#afdd05b4c820b4be0257fff2a57547496" title="Function to transmit and receive a packet." alt="" coords="460,679,599,706"/>
+<area shape="rect" id="node25" href="$d6/dc6/ifx__i2c__presentation__layer_8c.html#ac6b0ecffcccfe220aca5a90dd9c18a0e" title=" " alt="" coords="220,443,391,470"/>
+<area shape="rect" id="node26" href="$d3/dc7/optiga__lib__common_8c.html#a224004b9095b93830b73d1a953541030" title="Prepares uint32 [Big endian] type value from the buffer and store." alt="" coords="439,477,620,503"/>
+<area shape="rect" id="node38" href="$d6/dc6/ifx__i2c__presentation__layer_8c.html#a4fcb1e5cafbea706b8c14cd76c2430d4" title=" " alt="" coords="448,274,611,301"/>
+<area shape="rect" id="node47" href="$d6/dc6/ifx__i2c__presentation__layer_8c.html#acd42a5ca88dd08f8e1128b6e7f3b620a" title=" " alt="" coords="448,325,611,351"/>
+<area shape="rect" id="node50" href="$d6/dc6/ifx__i2c__presentation__layer_8c.html#a18b27d68ffd6caa985ae679343d72f83" title=" " alt="" coords="232,679,379,706"/>
+<area shape="rect" id="node3" href="$d1/d1b/pal__os__datastore_8h.html#af70a84fc2aee090203a79f7fb083b894" title="Reads data from the specified location for a given datastore_id." alt="" coords="699,629,852,655"/>
+<area shape="rect" id="node7" href="$d3/d40/pal__os__timer_8h.html#a9b652f13b4c40387615be7f849115553" title="Gets tick count value in milliseconds." alt="" coords="1792,744,1945,785"/>
+<area shape="rect" id="node8" href="$dc/d29/ifx__i2c__transport__layer_8c.html#a37491293d7995a4d80e421be4cc9b58a" title=" " alt="" coords="705,889,845,931"/>
+<area shape="rect" id="node9" href="$dc/d29/ifx__i2c__transport__layer_8c.html#a9e1bf1c436c825c71ba65f5b01fdf9d7" title=" " alt="" coords="942,947,1103,974"/>
+<area shape="rect" id="node10" href="$d4/d17/ifx__i2c__data__link__layer_8c.html#acda0916085df94f289a343110157fb99" title="Function for sending a frame." alt="" coords="947,897,1098,923"/>
+<area shape="rect" id="node11" href="$d4/d17/ifx__i2c__data__link__layer_8c.html#a5f7865854ebd83541e0559a25d521023" title=" " alt="" coords="1163,919,1313,960"/>
+<area shape="rect" id="node12" href="$d4/d17/ifx__i2c__data__link__layer_8c.html#aa94c20477f0466bc797428e4b97bed3b" title=" " alt="" coords="1381,981,1513,1007"/>
+<area shape="rect" id="node14" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a58465fb4468ce23d645cc37b060d8942" title="Function for sending a frame." alt="" coords="1371,926,1522,953"/>
+<area shape="rect" id="node13" href="$d4/d17/ifx__i2c__data__link__layer_8c.html#aa70a7d2a3c199536c7e7ad0573cecc7f" title=" " alt="" coords="1580,985,1744,1011"/>
+<area shape="rect" id="node15" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a861f23046b66b4dd77521a4fa98e4204" title=" " alt="" coords="1586,919,1738,960"/>
+<area shape="rect" id="node16" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a337508a9d7baecd5a2a5d1942a89e254" title=" " alt="" coords="1799,977,1939,1003"/>
+<area shape="rect" id="node17" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a22e117b8670c542fd94fba87e041293a" title=" " alt="" coords="1994,1027,2153,1054"/>
+<area shape="rect" id="node19" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a2c966b1934a2e845a14d8d8749135734" title=" " alt="" coords="1993,926,2153,953"/>
+<area shape="rect" id="node20" href="$de/d5e/pal__os__event_8h.html#ae19d426d427610ee4451d6a180f6c1a6" title="Callback registration function to trigger once when timer expires." alt="" coords="2201,847,2348,888"/>
+<area shape="rect" id="node21" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a709558b6b4e67fccf7c5fb76e2af1ef3" title=" " alt="" coords="1795,809,1942,851"/>
+<area shape="rect" id="node24" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a69f37cc1f205498c2e7a95a87a08c59b" title=" " alt="" coords="1795,1028,1942,1069"/>
+<area shape="rect" id="node18" href="$db/dc2/pal__i2c_8h.html#a7bdda5d0f7d194d2dfd5353fd8b5885c" title="Writes on I2C bus." alt="" coords="2226,959,2323,986"/>
+<area shape="rect" id="node22" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a63396640292aa554e4839ae52440167d" title=" " alt="" coords="1998,774,2149,801"/>
+<area shape="rect" id="node23" href="$db/dc2/pal__i2c_8h.html#a339652b7cbdfd5ae0e031e4a6da284f9" title="Sets the I2C Master bitrate." alt="" coords="2209,774,2340,801"/>
+<area shape="rect" id="node27" href="$d6/dc6/ifx__i2c__presentation__layer_8c.html#a7e1a52bbc4d9cbf335864f6767b0590d" title=" " alt="" coords="479,578,580,605"/>
+<area shape="rect" id="node28" href="$d9/d74/pal__crypt_8h.html#a15ee0e25dc1762ba38abc617b3be3537" title="Derives the key using the TLS PRF SHA256 for a given secret." alt="" coords="692,578,859,605"/>
+<area shape="rect" id="node29" href="$d1/d7e/md_8c.html#ad8b02927ca10552e3cbf293fa8c10e24" title="This function initializes a message&#45;digest context without binding it to a particular message&#45;digest ..." alt="" coords="964,375,1081,402"/>
+<area shape="rect" id="node30" href="$d1/d7e/md_8c.html#aca53b51e0c8eb0e07c7eb4a3e6acfa0d" title="This function returns the message&#45;digest information associated with the given digest type." alt="" coords="931,426,1115,453"/>
+<area shape="rect" id="node31" href="$d1/d7e/md_8c.html#a1b858111212997b90bd7d2c71010a7ec" title="This function selects the message digest algorithm to use, and allocates internal structures." alt="" coords="957,477,1089,503"/>
+<area shape="rect" id="node32" href="$d1/d7e/md_8c.html#a8968f8659fc277f013374c1bac8d4d1a" title="This function sets the HMAC key and prepares to authenticate a new message." alt="" coords="937,527,1109,554"/>
+<area shape="rect" id="node33" href="$d1/d7e/md_8c.html#a86cbea1c3bcd558a7e185ff8200a29a6" title="This function feeds an input buffer into an ongoing HMAC computation." alt="" coords="933,578,1112,605"/>
+<area shape="rect" id="node34" href="$d1/d7e/md_8c.html#a7aeafef80c89e47ee3033035a6a75a27" title="This function finishes the HMAC operation, and writes the result to the output buffer." alt="" coords="938,629,1107,655"/>
+<area shape="rect" id="node35" href="$d1/d7e/md_8c.html#a3a5c64b5bda0f294e917ccd5a8ca234e" title="This function prepares to authenticate a new message with the same key as the previous HMAC operation..." alt="" coords="939,679,1107,706"/>
+<area shape="rect" id="node36" href="$d1/d7e/md_8c.html#af3248ddb6ad05035292fa92ac4af2587" title="This function clears the internal structure of ctx and frees any embedded internal structure,..." alt="" coords="1177,502,1299,529"/>
+<area shape="rect" id="node37" href="$dd/dde/platform__util_8c.html#aa4e36b2c1c58d8ad89e1e11b6ebea2d9" title="Securely zeroize a buffer." alt="" coords="1361,223,1532,250"/>
+<area shape="rect" id="node39" href="$d6/dc6/ifx__i2c__presentation__layer_8c.html#a219bbc2faa53b56817e9fa272be5af91" title=" " alt="" coords="668,274,883,301"/>
+<area shape="rect" id="node41" href="$d9/d74/pal__crypt_8h.html#a74945450a8b7576417d9aca9955d09a0" title="Encrypts the input plain text using AES CCM algorithm and provides the cipher text as well as MAC int..." alt="" coords="672,122,879,149"/>
+<area shape="rect" id="node40" href="$d3/dc7/optiga__lib__common_8c.html#af644c6ab6ad5604dca0600d7cb05a67d" title="Copies 2 bytes of uint16 type value to the buffer." alt="" coords="932,274,1113,301"/>
+<area shape="rect" id="node42" href="$d0/d8d/ccm_8c.html#abaeb0629dfac72016fda58a4f7870040" title="This function initializes the specified CCM context, to make references valid, and prepare the contex..." alt="" coords="961,71,1085,98"/>
+<area shape="rect" id="node43" href="$d0/d8d/ccm_8c.html#a464d8e724738b4bbd5b415ca0580f1b1" title="This function initializes the CCM context set in the ctx parameter and sets the encryption key." alt="" coords="949,122,1096,149"/>
+<area shape="rect" id="node44" href="$d0/d8d/ccm_8c.html#a64de697edfefbff94d7eb0d9a8de926f" title="This function encrypts a buffer using CCM." alt="" coords="947,5,1098,47"/>
+<area shape="rect" id="node45" href="$d0/d8d/ccm_8c.html#a2bd8130a83c6633a4dfd61b181cdabac" title="This function releases and clears the specified CCM context and underlying cipher sub&#45;context." alt="" coords="959,173,1087,199"/>
+<area shape="rect" id="node46" href="$dd/d8f/cipher_8c.html#a903c4146b471207690988584b83854a9" title="This function frees and clears the cipher&#45;specific context of ctx. Freeing ctx itself remains the res..." alt="" coords="1169,223,1307,250"/>
+<area shape="rect" id="node48" href="$d9/d74/pal__crypt_8h.html#a8e4f0fc1d953df4a18ad683b59f26870" title="Decrypts the cipher text using AES CCM algorithm and provides the plain text." alt="" coords="672,173,879,199"/>
+<area shape="rect" id="node49" href="$d0/d8d/ccm_8c.html#a8dc9dfe246064185498f005d8bf22622" title="This function performs a CCM authenticated decryption of a buffer." alt="" coords="931,223,1114,250"/>
+</map>

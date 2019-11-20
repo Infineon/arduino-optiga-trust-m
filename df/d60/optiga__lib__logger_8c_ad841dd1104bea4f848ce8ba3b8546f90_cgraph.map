@@ -1,0 +1,4 @@
+<map id="optiga_lib_print_string_with_newline" name="optiga_lib_print_string_with_newline">
+<area shape="rect" id="node1" title="To log a string with a new line." alt="" coords="5,5,153,47"/>
+<area shape="rect" id="node2" href="$d3/d1b/pal__logger_8h.html#afdbc9ab287bbdecd0f4044e66f2277d9" title="Writes to logger port." alt="" coords="201,13,316,39"/>
+</map>

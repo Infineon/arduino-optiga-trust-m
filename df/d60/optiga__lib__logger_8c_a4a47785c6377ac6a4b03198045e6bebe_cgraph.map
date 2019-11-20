@@ -1,0 +1,6 @@
+<map id="optiga_lib_print_length_of_data" name="optiga_lib_print_length_of_data">
+<area shape="rect" id="node1" title=" " alt="" coords="5,39,156,80"/>
+<area shape="rect" id="node2" href="$df/d60/optiga__lib__logger_8c.html#ad42c524579e52b9d412213f28dcf7aae" title=" " alt="" coords="213,5,343,47"/>
+<area shape="rect" id="node3" href="$df/d60/optiga__lib__logger_8c.html#ad841dd1104bea4f848ce8ba3b8546f90" title="To log a string with a new line." alt="" coords="204,71,352,112"/>
+<area shape="rect" id="node4" href="$d3/d1b/pal__logger_8h.html#afdbc9ab287bbdecd0f4044e66f2277d9" title="Writes to logger port." alt="" coords="400,78,515,105"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="ifx_i2c_prl_form_associated_data" name="ifx_i2c_prl_form_associated_data">
+<area shape="rect" id="node1" title=" " alt="" coords="5,31,220,57"/>
+<area shape="rect" id="node2" href="$d3/dc7/optiga__lib__common_8c.html#a6ce7eb375d09c0e61903265d7b02aed8" title="Copies 4 bytes of uint32 [Big endian] type value to the buffer and stores in the output pointer." alt="" coords="268,5,449,32"/>
+<area shape="rect" id="node3" href="$d3/dc7/optiga__lib__common_8c.html#af644c6ab6ad5604dca0600d7cb05a67d" title="Copies 2 bytes of uint16 type value to the buffer." alt="" coords="268,56,449,83"/>
+</map>

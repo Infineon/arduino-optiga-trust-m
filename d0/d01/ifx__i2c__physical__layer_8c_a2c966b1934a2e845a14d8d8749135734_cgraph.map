@@ -1,0 +1,4 @@
+<map id="ifx_i2c_pl_write_register" name="ifx_i2c_pl_write_register">
+<area shape="rect" id="node1" title=" " alt="" coords="5,5,165,32"/>
+<area shape="rect" id="node2" href="$db/dc2/pal__i2c_8h.html#a7bdda5d0f7d194d2dfd5353fd8b5885c" title="Writes on I2C bus." alt="" coords="213,5,311,32"/>
+</map>

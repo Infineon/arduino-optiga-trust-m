@@ -1,0 +1,6 @@
+<map id="optiga_context" name="optiga_context">
+<area shape="rect" id="node1" title="OPTIGA Context which holds the communication buffer, comms instance and other required...." alt="" coords="150,109,257,136"/>
+<area shape="rect" id="node2" href="$d1/df5/structpal__os__event.html" title="PAL os event structure." alt="" coords="5,5,103,32"/>
+<area shape="rect" id="node3" href="$de/dc7/structoptiga__comms.html" title="Optiga comms structure." alt="" coords="150,5,257,32"/>
+<area shape="rect" id="node4" href="$dc/d84/structoptiga__cmd__queue__slot.html" title="The structure represents the slot in the execution queue." alt="" coords="281,5,440,32"/>
+</map>

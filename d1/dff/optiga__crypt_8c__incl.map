@@ -1,0 +1,16 @@
+<map id="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/optiga_crypt.c" name="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/optiga_crypt.c">
+<area shape="rect" id="node1" title="This file implements the OPTIGA Crypt module." alt="" coords="285,5,483,76"/>
+<area shape="rect" id="node2" href="$d4/db4/optiga__crypt_8h.html" title="This file implements the prototype declarations of OPTIGA Crypt module." alt="" coords="288,124,392,151"/>
+<area shape="rect" id="node12" href="$d0/dbc/optiga__lib__logger_8h.html" title="This file provides the prototypes for the OPTIGA library logger." alt="" coords="107,273,237,300"/>
+<area shape="rect" id="node13" href="$d2/dd7/optiga__lib__common__internal_8h.html" title="This file provides the prototypes for the commonly used internal functions and structures of OPTIGA L..." alt="" coords="415,199,609,225"/>
+<area shape="rect" id="node14" href="$d0/d52/pal__os__memory_8h.html" title="This file defines the memory management related macros." alt="" coords="467,124,592,151"/>
+<area shape="rect" id="node3" href="$d7/d37/optiga__cmd_8h.html" title="This file defines APIs, types and data structures used in the Command (cmd) module implementation." alt="" coords="290,199,390,225"/>
+<area shape="rect" id="node4" href="$d4/d4b/optiga__lib__common_8h.html" title="This file provides the prototypes for the commonly used functions and structures of OPTIGA Library." alt="" coords="267,273,413,300"/>
+<area shape="rect" id="node5" href="$d2/d32/optiga__lib__config_8h.html" title="This file is defines the compilation switches to build code with required features." alt="" coords="450,348,579,375"/>
+<area shape="rect" id="node6" href="$d7/d49/optiga__lib__types_8h.html" title="This file contains the type definitions for the fundamental data types." alt="" coords="103,348,230,375"/>
+<area shape="rect" id="node11" href="$d6/dc1/optiga__lib__return__codes_8h.html" title="This file defines the error codes for the all the layers and modules. &#160;OPTIGA host library return val..." alt="" coords="255,348,425,375"/>
+<area shape="rect" id="node7" title=" " alt="" coords="5,423,67,449"/>
+<area shape="rect" id="node8" title=" " alt="" coords="91,423,155,449"/>
+<area shape="rect" id="node9" title=" " alt="" coords="179,423,245,449"/>
+<area shape="rect" id="node10" title=" " alt="" coords="269,423,334,449"/>
+</map>

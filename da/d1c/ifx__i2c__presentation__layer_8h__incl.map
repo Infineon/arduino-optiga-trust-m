@@ -1,0 +1,16 @@
+<map id="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/ifx_i2c_presentation_layer.h" name="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/ifx_i2c_presentation_layer.h">
+<area shape="rect" id="node1" title="Module for the presentation layer of the Infineon I2C Protocol Stack library." alt="" coords="221,5,451,76"/>
+<area shape="rect" id="node2" href="$df/deb/ifx__i2c__config_8h.html" title="This file defines the structures and macros for the Infineon I2C Protocol." alt="" coords="281,124,391,151"/>
+<area shape="rect" id="node3" href="$db/dc2/pal__i2c_8h.html" title="This file provides the prototype declarations of PAL I2C." alt="" coords="5,199,80,225"/>
+<area shape="rect" id="node10" href="$d4/dc4/pal__gpio_8h.html" title="This file provides the prototype declarations of PAL GPIO." alt="" coords="105,199,186,225"/>
+<area shape="rect" id="node11" href="$d3/d40/pal__os__timer_8h.html" title="This file provides the prototype declarations of PAL OS timer functionalities." alt="" coords="211,199,317,225"/>
+<area shape="rect" id="node12" href="$d1/d1b/pal__os__datastore_8h.html" title="This file provides API prototypes of platform abstraction layer for datastore operations." alt="" coords="342,199,474,225"/>
+<area shape="rect" id="node13" href="$d2/d32/optiga__lib__config_8h.html" title="This file is defines the compilation switches to build code with required features." alt="" coords="498,199,627,225"/>
+<area shape="rect" id="node14" href="$d0/dbc/optiga__lib__logger_8h.html" title="This file provides the prototypes for the OPTIGA library logger." alt="" coords="456,273,587,300"/>
+<area shape="rect" id="node4" href="$d9/d16/pal_8h.html" title="This file provides the prototype declarations of platform abstraction layer." alt="" coords="239,273,289,300"/>
+<area shape="rect" id="node5" href="$d7/d49/optiga__lib__types_8h.html" title="This file contains the type definitions for the fundamental data types." alt="" coords="329,348,455,375"/>
+<area shape="rect" id="node6" title=" " alt="" coords="231,423,292,449"/>
+<area shape="rect" id="node7" title=" " alt="" coords="316,423,380,449"/>
+<area shape="rect" id="node8" title=" " alt="" coords="405,423,470,449"/>
+<area shape="rect" id="node9" title=" " alt="" coords="494,423,559,449"/>
+</map>

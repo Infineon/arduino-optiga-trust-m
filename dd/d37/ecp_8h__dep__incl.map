@@ -1,0 +1,15 @@
+<map id="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/mbedtls/ecp.h" name="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/mbedtls/ecp.h">
+<area shape="rect" id="node1" title="This file provides an API for Elliptic Curves over GF(P) (ECP)." alt="" coords="1059,5,1273,61"/>
+<area shape="rect" id="node2" href="$df/d6d/ssl_8h.html" title="SSL/TLS functions." alt="" coords="697,117,907,173"/>
+<area shape="rect" id="node11" href="$dd/db0/ecdh_8h.html" title="This file contains ECDH definitions and functions." alt="" coords="931,117,1153,173"/>
+<area shape="rect" id="node12" href="$d5/d5d/ecdsa_8h.html" title="This file contains ECDSA definitions and functions." alt="" coords="1177,117,1405,173"/>
+<area shape="rect" id="node13" href="$d2/d6e/ecjpake_8h.html" title="Elliptic curve J&#45;PAKE." alt="" coords="1429,109,1628,180"/>
+<area shape="rect" id="node3" href="$db/d16/debug_8h.html" title="Functions for controlling and providing debug output from the library." alt="" coords="5,235,233,291"/>
+<area shape="rect" id="node4" href="$d3/ddb/net__sockets_8h.html" title="Network sockets abstraction layer to integrate Mbed TLS into a BSD&#45;style sockets API." alt="" coords="257,228,456,299"/>
+<area shape="rect" id="node6" href="$d2/d81/ssl__cache_8h.html" title="SSL session cache implementation." alt="" coords="480,228,679,299"/>
+<area shape="rect" id="node7" href="$d6/dbb/ssl__cookie_8h.html" title="DTLS cookie callbacks implementation." alt="" coords="703,228,901,299"/>
+<area shape="rect" id="node8" href="$d7/d1c/ssl__internal_8h.html" title="Internal functions shared by the SSL modules." alt="" coords="925,228,1124,299"/>
+<area shape="rect" id="node9" href="$dd/d66/ssl__ticket_8h.html" title="TLS server ticket callbacks implementation." alt="" coords="1148,228,1347,299"/>
+<area shape="rect" id="node10" href="$d4/d75/pal__crypt__mbedtls_8c.html" title="This file implements the platform abstraction layer APIs for cryptographic functions using mbedTLS SW..." alt="" coords="1371,228,1569,299"/>
+<area shape="rect" id="node5" href="$d7/d97/net_8h.html" title="Deprecated header file that includes net_sockets.h." alt="" coords="251,347,462,403"/>
+</map>

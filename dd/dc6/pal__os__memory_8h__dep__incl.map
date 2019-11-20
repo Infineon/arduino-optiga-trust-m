@@ -1,0 +1,8 @@
+<map id="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/pal_os_memory.h" name="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/pal_os_memory.h">
+<area shape="rect" id="node1" title="This file defines the memory management related macros." alt="" coords="451,5,649,76"/>
+<area shape="rect" id="node2" href="$db/dd5/optiga__cmd_8c.html" title="This file implements cmd modules which covers OPTIGA command formation, locking mechanism,..." alt="" coords="5,124,204,195"/>
+<area shape="rect" id="node3" href="$d6/dbe/optiga__crypt_8c.html" title="This file implements the OPTIGA Crypt module." alt="" coords="228,124,427,195"/>
+<area shape="rect" id="node4" href="$df/d60/optiga__lib__logger_8c.html" title="This file implements the APIs for the OPTIGA library logger." alt="" coords="451,124,649,195"/>
+<area shape="rect" id="node5" href="$d8/dc7/optiga__util_8c.html" title="This file implements the OPTIGA utility module functionalities." alt="" coords="673,124,872,195"/>
+<area shape="rect" id="node6" href="$d4/d75/pal__crypt__mbedtls_8c.html" title="This file implements the platform abstraction layer APIs for cryptographic functions using mbedTLS SW..." alt="" coords="896,124,1095,195"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="ifx_i2c_pl_write_slave_address" name="ifx_i2c_pl_write_slave_address">
+<area shape="rect" id="node1" title="Function for setting slave address." alt="" coords="5,64,152,105"/>
+<area shape="rect" id="node2" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a88d710983170d587dac7e420ca526f8d" title=" " alt="" coords="200,5,340,47"/>
+<area shape="rect" id="node3" href="$db/dc2/pal__i2c_8h.html#a7bdda5d0f7d194d2dfd5353fd8b5885c" title="Writes on I2C bus." alt="" coords="221,71,319,98"/>
+<area shape="rect" id="node4" href="$d3/d40/pal__os__timer_8h.html#a303c1eacb9062873218f417a4a65aa9a" title="Waits or delay until the supplied milliseconds." alt="" coords="203,123,337,164"/>
+</map>

@@ -1,0 +1,12 @@
+<map id="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/pal_ifx_i2c_config.h" name="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/pal_ifx_i2c_config.h">
+<area shape="rect" id="node1" title="This file provides the platform abstraction layer extern declarations for IFX I2C." alt="" coords="67,5,266,76"/>
+<area shape="rect" id="node2" href="$d9/d16/pal_8h.html" title="This file provides the prototype declarations of platform abstraction layer." alt="" coords="141,199,192,225"/>
+<area shape="rect" id="node8" href="$db/dc2/pal__i2c_8h.html" title="This file provides the prototype declarations of PAL I2C." alt="" coords="79,124,153,151"/>
+<area shape="rect" id="node9" href="$d4/dc4/pal__gpio_8h.html" title="This file provides the prototype declarations of PAL GPIO." alt="" coords="178,124,259,151"/>
+<area shape="rect" id="node10" href="$d1/d1b/pal__os__datastore_8h.html" title="This file provides API prototypes of platform abstraction layer for datastore operations." alt="" coords="283,124,415,151"/>
+<area shape="rect" id="node3" href="$d7/d49/optiga__lib__types_8h.html" title="This file contains the type definitions for the fundamental data types." alt="" coords="103,273,230,300"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,348,67,375"/>
+<area shape="rect" id="node5" title=" " alt="" coords="91,348,155,375"/>
+<area shape="rect" id="node6" title=" " alt="" coords="179,348,245,375"/>
+<area shape="rect" id="node7" title=" " alt="" coords="269,348,334,375"/>
+</map>

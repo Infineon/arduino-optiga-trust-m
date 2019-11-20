@@ -1,0 +1,5 @@
+<map id="optiga_cmd_restore_context" name="optiga_cmd_restore_context">
+<area shape="rect" id="node1" title=" " alt="" coords="5,23,141,65"/>
+<area shape="rect" id="node2" href="$d1/d1b/pal__os__datastore_8h.html#af70a84fc2aee090203a79f7fb083b894" title="Reads data from the specified location for a given datastore_id." alt="" coords="203,5,357,32"/>
+<area shape="rect" id="node3" href="$d3/dc7/optiga__lib__common_8c.html#a224004b9095b93830b73d1a953541030" title="Prepares uint32 [Big endian] type value from the buffer and store." alt="" coords="189,56,371,83"/>
+</map>

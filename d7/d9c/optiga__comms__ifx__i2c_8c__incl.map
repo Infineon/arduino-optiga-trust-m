@@ -1,0 +1,21 @@
+<map id="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/optiga_comms_ifx_i2c.c" name="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/optiga_comms_ifx_i2c.c">
+<area shape="rect" id="node1" title="This file implements optiga comms abstraction layer for IFX I2C Protocol." alt="" coords="776,5,986,76"/>
+<area shape="rect" id="node2" href="$dc/d8e/optiga__comms_8h.html" title="This file implements Optiga comms abstraction layer for IFX I2C Protocol." alt="" coords="118,124,236,151"/>
+<area shape="rect" id="node11" href="$d0/dbc/optiga__lib__logger_8h.html" title="This file provides the prototypes for the OPTIGA library logger." alt="" coords="973,273,1104,300"/>
+<area shape="rect" id="node12" href="$dd/d89/ifx__i2c_8h.html" title="This file defines the API prototype for IFX I2C protocol v2.00 wrapper." alt="" coords="636,124,707,151"/>
+<area shape="rect" id="node19" href="$de/d5e/pal__os__event_8h.html" title="This file provides the prototype declarations of PAL OS event." alt="" coords="992,348,1100,375"/>
+<area shape="rect" id="node3" href="$d7/d49/optiga__lib__types_8h.html" title="This file contains the type definitions for the fundamental data types." alt="" coords="467,423,594,449"/>
+<area shape="rect" id="node8" href="$d6/dc1/optiga__lib__return__codes_8h.html" title="This file defines the error codes for the all the layers and modules. &#160;OPTIGA host library return val..." alt="" coords="29,273,200,300"/>
+<area shape="rect" id="node9" href="$d4/d4b/optiga__lib__common_8h.html" title="This file provides the prototypes for the commonly used functions and structures of OPTIGA Library." alt="" coords="162,199,307,225"/>
+<area shape="rect" id="node4" title=" " alt="" coords="369,497,430,524"/>
+<area shape="rect" id="node5" title=" " alt="" coords="454,497,518,524"/>
+<area shape="rect" id="node6" title=" " alt="" coords="543,497,608,524"/>
+<area shape="rect" id="node7" title=" " alt="" coords="632,497,698,524"/>
+<area shape="rect" id="node10" href="$d2/d32/optiga__lib__config_8h.html" title="This file is defines the compilation switches to build code with required features." alt="" coords="275,273,404,300"/>
+<area shape="rect" id="node13" href="$df/deb/ifx__i2c__config_8h.html" title="This file defines the structures and macros for the Infineon I2C Protocol." alt="" coords="616,199,727,225"/>
+<area shape="rect" id="node14" href="$db/dc2/pal__i2c_8h.html" title="This file provides the prototype declarations of PAL I2C." alt="" coords="480,273,554,300"/>
+<area shape="rect" id="node16" href="$d4/dc4/pal__gpio_8h.html" title="This file provides the prototype declarations of PAL GPIO." alt="" coords="579,273,660,300"/>
+<area shape="rect" id="node17" href="$d3/d40/pal__os__timer_8h.html" title="This file provides the prototype declarations of PAL OS timer functionalities." alt="" coords="685,273,792,300"/>
+<area shape="rect" id="node18" href="$d1/d1b/pal__os__datastore_8h.html" title="This file provides API prototypes of platform abstraction layer for datastore operations." alt="" coords="816,273,948,300"/>
+<area shape="rect" id="node15" href="$d9/d16/pal_8h.html" title="This file provides the prototype declarations of platform abstraction layer." alt="" coords="594,348,645,375"/>
+</map>

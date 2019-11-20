@@ -1,0 +1,5 @@
+<map id="optiga_lib_print_status" name="optiga_lib_print_status">
+<area shape="rect" id="node1" title="To log a return value with a new line and layer information." alt="" coords="5,42,157,69"/>
+<area shape="rect" id="node2" href="$df/d60/optiga__lib__logger_8c.html#ad42c524579e52b9d412213f28dcf7aae" title=" " alt="" coords="205,5,335,47"/>
+<area shape="rect" id="node3" href="$d3/d1b/pal__logger_8h.html#afdbc9ab287bbdecd0f4044e66f2277d9" title="Writes to logger port." alt="" coords="213,71,327,98"/>
+</map>

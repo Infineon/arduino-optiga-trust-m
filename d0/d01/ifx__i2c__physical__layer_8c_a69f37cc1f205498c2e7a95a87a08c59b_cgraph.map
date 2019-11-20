@@ -1,0 +1,5 @@
+<map id="ifx_i2c_pl_status_poll_callback" name="ifx_i2c_pl_status_poll_callback">
+<area shape="rect" id="node1" title=" " alt="" coords="5,5,152,47"/>
+<area shape="rect" id="node2" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a22e117b8670c542fd94fba87e041293a" title=" " alt="" coords="200,13,359,39"/>
+<area shape="rect" id="node3" href="$db/dc2/pal__i2c_8h.html#a7bdda5d0f7d194d2dfd5353fd8b5885c" title="Writes on I2C bus." alt="" coords="407,13,504,39"/>
+</map>

@@ -1,0 +1,15 @@
+<map id="optiga_crypt_params" name="optiga_crypt_params">
+<area shape="rect" id="node1" title="union for OPTIGA crypt parameters" alt="" coords="664,207,807,233"/>
+<area shape="rect" id="node2" href="$dd/d4a/structoptiga__enc__dec__asym.html" title="Specifies the structure for asymmetric encryption and decryption." alt="" coords="299,29,451,56"/>
+<area shape="rect" id="node3" href="$d7/d33/structoptiga__verify__sign.html" title="Specifies the data structure for ECDSA signature verification." alt="" coords="313,80,437,107"/>
+<area shape="rect" id="node4" href="$dd/d21/structpublic__key__from__host.html" title="Specifies the data structure of the Public Key details (key, size and type)" alt="" coords="5,99,153,125"/>
+<area shape="rect" id="node5" href="$da/ddc/structoptiga__calc__ssec.html" title="Specifies the data structure for ecdh secret generation." alt="" coords="313,131,436,157"/>
+<area shape="rect" id="node6" href="$d0/d20/structoptiga__calc__hash.html" title="Specifies the data structure of calculate hash." alt="" coords="313,181,436,208"/>
+<area shape="rect" id="node7" href="$d8/d24/structoptiga__hash__context.html" title="Specifies the structure to the Hash context details managed by OPTIGA." alt="" coords="8,168,151,195"/>
+<area shape="rect" id="node8" href="$da/d84/structhash__data__from__host.html" title="Specifies the structure to provide the details of data to be hashed from host." alt="" coords="6,219,153,245"/>
+<area shape="rect" id="node9" href="$df/d46/structhash__data__in__optiga.html" title="Specifies the structure to provide the details of data to be hashed from OPTIGA." alt="" coords="9,269,150,296"/>
+<area shape="rect" id="node10" href="$d2/dec/structoptiga__derive__key.html" title="Specifies the structure for derivation of key using pseudo random function." alt="" coords="312,232,437,259"/>
+<area shape="rect" id="node11" href="$d2/d1d/structoptiga__calc__sign.html" title="Specifies the data structure for ECDSA signature." alt="" coords="315,283,434,309"/>
+<area shape="rect" id="node12" href="$d9/d66/structoptiga__gen__keypair.html" title="Specifies the data structure for generate key pair." alt="" coords="307,335,442,361"/>
+<area shape="rect" id="node13" href="$d9/d89/structoptiga__get__random.html" title="Specifies the data structure of random generation." alt="" coords="309,385,441,412"/>
+</map>

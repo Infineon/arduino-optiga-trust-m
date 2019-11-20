@@ -1,0 +1,8 @@
+<map id="optiga_cmd_open_application_handler" name="optiga_cmd_open_application_handler">
+<area shape="rect" id="node1" title=" " alt="" coords="5,89,199,130"/>
+<area shape="rect" id="node2" href="$db/dd5/optiga__cmd_8c.html#a96c615cb702c139b3693b756544ae15c" title=" " alt="" coords="256,23,392,65"/>
+<area shape="rect" id="node5" href="$db/dd5/optiga__cmd_8c.html#abde8c38727ddd09b1740e66e96883719" title=" " alt="" coords="255,89,393,130"/>
+<area shape="rect" id="node6" href="$d1/d1b/pal__os__datastore_8h.html#a214588f1e3ed0af418fd0fef9dc5ef47" title="Writes data to the specified location for a given datastore_id." alt="" coords="247,155,401,181"/>
+<area shape="rect" id="node3" href="$d1/d1b/pal__os__datastore_8h.html#af70a84fc2aee090203a79f7fb083b894" title="Reads data from the specified location for a given datastore_id." alt="" coords="463,5,617,32"/>
+<area shape="rect" id="node4" href="$d3/dc7/optiga__lib__common_8c.html#a224004b9095b93830b73d1a953541030" title="Prepares uint32 [Big endian] type value from the buffer and store." alt="" coords="449,56,631,83"/>
+</map>

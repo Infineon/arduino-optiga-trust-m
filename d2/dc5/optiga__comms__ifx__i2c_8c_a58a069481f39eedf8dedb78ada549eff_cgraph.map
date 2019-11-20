@@ -1,0 +1,4 @@
+<map id="optiga_comms_reset" name="optiga_comms_reset">
+<area shape="rect" id="node1" title="Resets the OPTIGA." alt="" coords="5,5,148,32"/>
+<area shape="rect" id="node2" href="$de/db2/ifx__i2c_8c.html#a2e15b1b82649338ccb8e1fde8b812f9e" title="Resets the I2C slave." alt="" coords="196,5,291,32"/>
+</map>

@@ -1,0 +1,20 @@
+<map id="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/optiga_lib_return_codes.h" name="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/optiga_lib_return_codes.h">
+<area shape="rect" id="node1" title="This file defines the error codes for the all the layers and modules. &#160;OPTIGA host library return val..." alt="" coords="441,5,659,76"/>
+<area shape="rect" id="node2" href="$d4/d4b/optiga__lib__common_8h.html" title="This file provides the prototypes for the commonly used functions and structures of OPTIGA Library." alt="" coords="451,124,649,195"/>
+<area shape="rect" id="node13" href="$dc/d8e/optiga__comms_8h.html" title="This file implements Optiga comms abstraction layer for IFX I2C Protocol." alt="" coords="5,243,204,313"/>
+<area shape="rect" id="node18" href="$d2/db2/pal__i2c__arduino_8cpp.html" title="This file implements the platform abstraction layer(pal) APIs for I2C." alt="" coords="673,124,872,195"/>
+<area shape="rect" id="node3" href="$d6/dc6/ifx__i2c__presentation__layer_8c.html" title="This file implements the IFX I2C Presentation Layer of the Infineon I2C Protocol Stack library." alt="" coords="673,243,904,313"/>
+<area shape="rect" id="node4" href="$d7/d37/optiga__cmd_8h.html" title="This file defines APIs, types and data structures used in the Command (cmd) module implementation." alt="" coords="928,243,1127,313"/>
+<area shape="rect" id="node15" href="$d3/dc7/optiga__lib__common_8c.html" title="This file implements the commonly used functions by the OPTIGA Library ." alt="" coords="1151,243,1349,313"/>
+<area shape="rect" id="node16" href="$df/d60/optiga__lib__logger_8c.html" title="This file implements the APIs for the OPTIGA library logger." alt="" coords="228,243,427,313"/>
+<area shape="rect" id="node17" href="$d4/d75/pal__crypt__mbedtls_8c.html" title="This file implements the platform abstraction layer APIs for cryptographic functions using mbedTLS SW..." alt="" coords="451,243,649,313"/>
+<area shape="rect" id="node5" href="$db/dd5/optiga__cmd_8c.html" title="This file implements cmd modules which covers OPTIGA command formation, locking mechanism,..." alt="" coords="423,361,621,432"/>
+<area shape="rect" id="node6" href="$d4/db4/optiga__crypt_8h.html" title="This file implements the prototype declarations of OPTIGA Crypt module." alt="" coords="928,361,1127,432"/>
+<area shape="rect" id="node11" href="$d2/d1e/optiga__util_8h.html" title="This file defines APIs, types and data structures used in the OPTIGA utility module." alt="" coords="689,361,888,432"/>
+<area shape="rect" id="node7" href="$d6/dbe/optiga__crypt_8c.html" title="This file implements the OPTIGA Crypt module." alt="" coords="1151,480,1349,551"/>
+<area shape="rect" id="node8" href="$df/d40/optiga__example_8c.html" title=" " alt="" coords="928,480,1127,551"/>
+<area shape="rect" id="node9" href="$d5/da0/_o_p_t_i_g_a_trust_m_8h.html" title=" " alt="" coords="673,487,904,543"/>
+<area shape="rect" id="node10" href="$dc/d63/_o_p_t_i_g_a_trust_m_8cpp.html" title=" " alt="" coords="290,599,535,655"/>
+<area shape="rect" id="node12" href="$d8/dc7/optiga__util_8c.html" title="This file implements the OPTIGA utility module functionalities." alt="" coords="451,480,649,551"/>
+<area shape="rect" id="node14" href="$d2/dc5/optiga__comms__ifx__i2c_8c.html" title="This file implements optiga comms abstraction layer for IFX I2C Protocol." alt="" coords="142,361,353,432"/>
+</map>

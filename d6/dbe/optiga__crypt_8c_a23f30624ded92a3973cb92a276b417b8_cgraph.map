@@ -1,0 +1,7 @@
+<map id="optiga_crypt_destroy" name="optiga_crypt_destroy">
+<area shape="rect" id="node1" title="Destroys an instance of optiga_crypt_t." alt="" coords="5,42,148,69"/>
+<area shape="rect" id="node2" href="$db/dd5/optiga__cmd_8c.html#aefdbf34eb27e0923740a3b4a6a0f9dea" title="Destroys the instance of optiga_cmd_t." alt="" coords="196,42,335,69"/>
+<area shape="rect" id="node3" href="$db/dd5/optiga__cmd_8c.html#a0b7d1c48bdcbfa2513945948f44eb544" title=" " alt="" coords="423,5,561,47"/>
+<area shape="rect" id="node5" href="$db/dd5/optiga__cmd_8c.html#a1487cf9d74a3d8eb0198be751d45f9d5" title=" " alt="" coords="383,71,601,98"/>
+<area shape="rect" id="node4" href="$db/dd5/optiga__cmd_8c.html#a2c729c15b736da7f20ff1fb7b388056c" title=" " alt="" coords="649,13,819,39"/>
+</map>

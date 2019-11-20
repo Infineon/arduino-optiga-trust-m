@@ -1,0 +1,4 @@
+<map id="mbedtls_md_free" name="mbedtls_md_free">
+<area shape="rect" id="node1" title="This function clears the internal structure of ctx and frees any embedded internal structure,..." alt="" coords="5,5,127,32"/>
+<area shape="rect" id="node2" href="$dd/dde/platform__util_8c.html#aa4e36b2c1c58d8ad89e1e11b6ebea2d9" title="Securely zeroize a buffer." alt="" coords="175,5,345,32"/>
+</map>

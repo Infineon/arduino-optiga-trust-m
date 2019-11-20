@@ -1,0 +1,21 @@
+<map id="optiga_crypt" name="optiga_crypt">
+<area shape="rect" id="node1" title="OPTIGA crypt instance structure." alt="" coords="957,293,1051,320"/>
+<area shape="rect" id="node2" href="$d3/d89/unionoptiga__crypt__params.html" title="union for OPTIGA crypt parameters" alt="" coords="712,232,855,259"/>
+<area shape="rect" id="node3" href="$dd/d4a/structoptiga__enc__dec__asym.html" title="Specifies the structure for asymmetric encryption and decryption." alt="" coords="347,31,499,57"/>
+<area shape="rect" id="node4" href="$d7/d33/structoptiga__verify__sign.html" title="Specifies the data structure for ECDSA signature verification." alt="" coords="361,81,485,108"/>
+<area shape="rect" id="node5" href="$dd/d21/structpublic__key__from__host.html" title="Specifies the data structure of the Public Key details (key, size and type)" alt="" coords="11,101,159,128"/>
+<area shape="rect" id="node6" href="$da/ddc/structoptiga__calc__ssec.html" title="Specifies the data structure for ecdh secret generation." alt="" coords="361,132,484,159"/>
+<area shape="rect" id="node7" href="$d0/d20/structoptiga__calc__hash.html" title="Specifies the data structure of calculate hash." alt="" coords="361,183,484,209"/>
+<area shape="rect" id="node8" href="$d8/d24/structoptiga__hash__context.html" title="Specifies the structure to the Hash context details managed by OPTIGA." alt="" coords="13,169,156,196"/>
+<area shape="rect" id="node9" href="$da/d84/structhash__data__from__host.html" title="Specifies the structure to provide the details of data to be hashed from host." alt="" coords="11,220,158,247"/>
+<area shape="rect" id="node10" href="$df/d46/structhash__data__in__optiga.html" title="Specifies the structure to provide the details of data to be hashed from OPTIGA." alt="" coords="14,271,155,297"/>
+<area shape="rect" id="node11" href="$d2/dec/structoptiga__derive__key.html" title="Specifies the structure for derivation of key using pseudo random function." alt="" coords="360,233,485,260"/>
+<area shape="rect" id="node12" href="$d2/d1d/structoptiga__calc__sign.html" title="Specifies the data structure for ECDSA signature." alt="" coords="363,284,482,311"/>
+<area shape="rect" id="node13" href="$d9/d66/structoptiga__gen__keypair.html" title="Specifies the data structure for generate key pair." alt="" coords="355,336,490,363"/>
+<area shape="rect" id="node14" href="$d9/d89/structoptiga__get__random.html" title="Specifies the data structure of random generation." alt="" coords="357,387,489,413"/>
+<area shape="rect" id="node15" href="$d3/d87/structoptiga__cmd.html" title="Command context." alt="" coords="739,377,828,404"/>
+<area shape="rect" id="node16" href="$d8/df6/structoptiga__context.html" title="OPTIGA Context which holds the communication buffer, comms instance and other required...." alt="" coords="369,437,476,464"/>
+<area shape="rect" id="node17" href="$d1/df5/structpal__os__event.html" title="PAL os event structure." alt="" coords="36,387,133,413"/>
+<area shape="rect" id="node18" href="$de/dc7/structoptiga__comms.html" title="Optiga comms structure." alt="" coords="31,437,138,464"/>
+<area shape="rect" id="node19" href="$dc/d84/structoptiga__cmd__queue__slot.html" title="The structure represents the slot in the execution queue." alt="" coords="5,497,164,524"/>
+</map>

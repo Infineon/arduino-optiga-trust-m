@@ -1,0 +1,8 @@
+<map id="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/pal_ifx_i2c_config.h" name="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/pal_ifx_i2c_config.h">
+<area shape="rect" id="node1" title="This file provides the platform abstraction layer extern declarations for IFX I2C." alt="" coords="363,5,561,76"/>
+<area shape="rect" id="node2" href="$d7/dd0/ifx__i2c__config_8c.html" title="This file provides the ifx i2c platform specific context configurations." alt="" coords="5,124,204,195"/>
+<area shape="rect" id="node3" href="$d6/dc6/ifx__i2c__presentation__layer_8c.html" title="This file implements the IFX I2C Presentation Layer of the Infineon I2C Protocol Stack library." alt="" coords="228,124,459,195"/>
+<area shape="rect" id="node4" href="$db/dd5/optiga__cmd_8c.html" title="This file implements cmd modules which covers OPTIGA command formation, locking mechanism,..." alt="" coords="483,124,681,195"/>
+<area shape="rect" id="node5" href="$d5/da0/_o_p_t_i_g_a_trust_m_8h.html" title=" " alt="" coords="705,131,936,187"/>
+<area shape="rect" id="node6" href="$dc/d63/_o_p_t_i_g_a_trust_m_8cpp.html" title=" " alt="" coords="698,243,943,299"/>
+</map>

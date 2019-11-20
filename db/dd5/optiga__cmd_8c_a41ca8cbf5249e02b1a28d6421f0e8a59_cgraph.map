@@ -1,0 +1,7 @@
+<map id="optiga_cmd_calc_hash_handler" name="optiga_cmd_calc_hash_handler">
+<area shape="rect" id="node1" title=" " alt="" coords="5,90,160,131"/>
+<area shape="rect" id="node2" href="$d3/dc7/optiga__lib__common_8c.html#af644c6ab6ad5604dca0600d7cb05a67d" title="Copies 2 bytes of uint16 type value to the buffer." alt="" coords="208,5,389,32"/>
+<area shape="rect" id="node3" href="$db/dd5/optiga__cmd_8c.html#ae92d7efd2c3a700c17bbcea6c2614476" title=" " alt="" coords="229,57,368,98"/>
+<area shape="rect" id="node4" href="$db/dd5/optiga__cmd_8c.html#abde8c38727ddd09b1740e66e96883719" title=" " alt="" coords="229,122,368,163"/>
+<area shape="rect" id="node5" href="$d3/dc7/optiga__lib__common_8c.html#a31382e57d222b58cc8caa91e7a078af6" title="Prepares uint16 [Big endian] type value from the buffer and stores in the output pointer." alt="" coords="208,188,389,215"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/optiga_lib_common.c" name="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/optiga_lib_common.c">
+<area shape="rect" id="node1" title="This file implements the commonly used functions by the OPTIGA Library ." alt="" coords="143,5,342,76"/>
+<area shape="rect" id="node2" href="$d7/d49/optiga__lib__types_8h.html" title="This file contains the type definitions for the fundamental data types." alt="" coords="103,199,230,225"/>
+<area shape="rect" id="node7" href="$d4/d4b/optiga__lib__common_8h.html" title="This file provides the prototypes for the commonly used functions and structures of OPTIGA Library." alt="" coords="235,124,381,151"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,273,67,300"/>
+<area shape="rect" id="node4" title=" " alt="" coords="91,273,155,300"/>
+<area shape="rect" id="node5" title=" " alt="" coords="179,273,245,300"/>
+<area shape="rect" id="node6" title=" " alt="" coords="269,273,334,300"/>
+<area shape="rect" id="node8" href="$d2/d32/optiga__lib__config_8h.html" title="This file is defines the compilation switches to build code with required features." alt="" coords="254,199,383,225"/>
+<area shape="rect" id="node9" href="$d6/dc1/optiga__lib__return__codes_8h.html" title="This file defines the error codes for the all the layers and modules. &#160;OPTIGA host library return val..." alt="" coords="408,199,579,225"/>
+</map>

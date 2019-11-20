@@ -1,0 +1,5 @@
+<map id="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/ifx_i2c_data_link_layer.h" name="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/ifx_i2c_data_link_layer.h">
+<area shape="rect" id="node1" title="This file defines the API prototype for data link layer of the Infineon I2C Protocol Stack library." alt="" coords="123,5,335,76"/>
+<area shape="rect" id="node2" href="$d4/d17/ifx__i2c__data__link__layer_8c.html" title="This file implements the APIs for data link layer of the Infineon I2C Protocol Stack library." alt="" coords="5,124,217,195"/>
+<area shape="rect" id="node3" href="$dc/d29/ifx__i2c__transport__layer_8c.html" title="This file implements the APIs for transport layer of the Infineon I2C Protocol Stack library." alt="" coords="242,124,453,195"/>
+</map>

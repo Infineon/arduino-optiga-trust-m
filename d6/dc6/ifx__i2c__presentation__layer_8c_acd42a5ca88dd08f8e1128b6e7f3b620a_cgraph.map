@@ -1,0 +1,13 @@
+<map id="ifx_i2c_prl_decrypt_msg" name="ifx_i2c_prl_decrypt_msg">
+<area shape="rect" id="node1" title=" " alt="" coords="5,56,168,83"/>
+<area shape="rect" id="node2" href="$d6/dc6/ifx__i2c__presentation__layer_8c.html#a219bbc2faa53b56817e9fa272be5af91" title=" " alt="" coords="216,56,431,83"/>
+<area shape="rect" id="node3" href="$d3/dc7/optiga__lib__common_8c.html#a6ce7eb375d09c0e61903265d7b02aed8" title="Copies 4 bytes of uint32 [Big endian] type value to the buffer and stores in the output pointer." alt="" coords="479,5,661,32"/>
+<area shape="rect" id="node5" href="$d9/d74/pal__crypt_8h.html#a8e4f0fc1d953df4a18ad683b59f26870" title="Decrypts the cipher text using AES CCM algorithm and provides the plain text." alt="" coords="220,157,427,184"/>
+<area shape="rect" id="node4" href="$d3/dc7/optiga__lib__common_8c.html#af644c6ab6ad5604dca0600d7cb05a67d" title="Copies 2 bytes of uint16 type value to the buffer." alt="" coords="479,56,661,83"/>
+<area shape="rect" id="node6" href="$d0/d8d/ccm_8c.html#abaeb0629dfac72016fda58a4f7870040" title="This function initializes the specified CCM context, to make references valid, and prepare the contex..." alt="" coords="508,107,632,133"/>
+<area shape="rect" id="node7" href="$d0/d8d/ccm_8c.html#a464d8e724738b4bbd5b415ca0580f1b1" title="This function initializes the CCM context set in the ctx parameter and sets the encryption key." alt="" coords="497,157,643,184"/>
+<area shape="rect" id="node8" href="$d0/d8d/ccm_8c.html#a8dc9dfe246064185498f005d8bf22622" title="This function performs a CCM authenticated decryption of a buffer." alt="" coords="479,208,661,235"/>
+<area shape="rect" id="node9" href="$d0/d8d/ccm_8c.html#a2bd8130a83c6633a4dfd61b181cdabac" title="This function releases and clears the specified CCM context and underlying cipher sub&#45;context." alt="" coords="506,259,634,285"/>
+<area shape="rect" id="node10" href="$dd/d8f/cipher_8c.html#a903c4146b471207690988584b83854a9" title="This function frees and clears the cipher&#45;specific context of ctx. Freeing ctx itself remains the res..." alt="" coords="709,233,848,260"/>
+<area shape="rect" id="node11" href="$dd/dde/platform__util_8c.html#aa4e36b2c1c58d8ad89e1e11b6ebea2d9" title="Securely zeroize a buffer." alt="" coords="896,259,1067,285"/>
+</map>

@@ -1,0 +1,12 @@
+<map id="pal_crypt_tls_prf_sha256" name="pal_crypt_tls_prf_sha256">
+<area shape="rect" id="node1" title="Derives the key using the TLS PRF SHA256 for a given secret." alt="" coords="5,183,172,209"/>
+<area shape="rect" id="node2" href="$d1/d7e/md_8c.html#ad8b02927ca10552e3cbf293fa8c10e24" title="This function initializes a message&#45;digest context without binding it to a particular message&#45;digest ..." alt="" coords="253,5,371,32"/>
+<area shape="rect" id="node3" href="$d1/d7e/md_8c.html#aca53b51e0c8eb0e07c7eb4a3e6acfa0d" title="This function returns the message&#45;digest information associated with the given digest type." alt="" coords="220,56,404,83"/>
+<area shape="rect" id="node4" href="$d1/d7e/md_8c.html#a1b858111212997b90bd7d2c71010a7ec" title="This function selects the message digest algorithm to use, and allocates internal structures." alt="" coords="246,107,378,133"/>
+<area shape="rect" id="node5" href="$d1/d7e/md_8c.html#a8968f8659fc277f013374c1bac8d4d1a" title="This function sets the HMAC key and prepares to authenticate a new message." alt="" coords="226,157,398,184"/>
+<area shape="rect" id="node6" href="$d1/d7e/md_8c.html#a86cbea1c3bcd558a7e185ff8200a29a6" title="This function feeds an input buffer into an ongoing HMAC computation." alt="" coords="223,208,401,235"/>
+<area shape="rect" id="node7" href="$d1/d7e/md_8c.html#a7aeafef80c89e47ee3033035a6a75a27" title="This function finishes the HMAC operation, and writes the result to the output buffer." alt="" coords="227,259,397,285"/>
+<area shape="rect" id="node8" href="$d1/d7e/md_8c.html#a3a5c64b5bda0f294e917ccd5a8ca234e" title="This function prepares to authenticate a new message with the same key as the previous HMAC operation..." alt="" coords="228,309,396,336"/>
+<area shape="rect" id="node9" href="$d1/d7e/md_8c.html#af3248ddb6ad05035292fa92ac4af2587" title="This function clears the internal structure of ctx and frees any embedded internal structure,..." alt="" coords="251,360,373,387"/>
+<area shape="rect" id="node10" href="$dd/dde/platform__util_8c.html#aa4e36b2c1c58d8ad89e1e11b6ebea2d9" title="Securely zeroize a buffer." alt="" coords="452,360,623,387"/>
+</map>

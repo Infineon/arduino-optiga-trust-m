@@ -1,0 +1,9 @@
+<map id="ifx_i2c_pl_negotiation_event_handler" name="ifx_i2c_pl_negotiation_event_handler">
+<area shape="rect" id="node1" title=" " alt="" coords="5,57,152,98"/>
+<area shape="rect" id="node2" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a63396640292aa554e4839ae52440167d" title=" " alt="" coords="205,13,355,40"/>
+<area shape="rect" id="node4" href="$de/d5e/pal__os__event_8h.html#ae19d426d427610ee4451d6a180f6c1a6" title="Callback registration function to trigger once when timer expires." alt="" coords="408,57,555,98"/>
+<area shape="rect" id="node5" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a22e117b8670c542fd94fba87e041293a" title=" " alt="" coords="201,115,359,141"/>
+<area shape="rect" id="node7" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a2c966b1934a2e845a14d8d8749135734" title=" " alt="" coords="200,165,360,192"/>
+<area shape="rect" id="node3" href="$db/dc2/pal__i2c_8h.html#a339652b7cbdfd5ae0e031e4a6da284f9" title="Sets the I2C Master bitrate." alt="" coords="416,5,547,32"/>
+<area shape="rect" id="node6" href="$db/dc2/pal__i2c_8h.html#a7bdda5d0f7d194d2dfd5353fd8b5885c" title="Writes on I2C bus." alt="" coords="433,144,530,171"/>
+</map>

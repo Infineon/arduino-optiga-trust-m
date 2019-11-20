@@ -1,0 +1,10 @@
+<map id="mbedtls_sha256_ret" name="mbedtls_sha256_ret">
+<area shape="rect" id="node1" title="This function calculates the SHA&#45;224 or SHA&#45;256 checksum of a buffer." alt="" coords="5,107,144,133"/>
+<area shape="rect" id="node2" href="$da/d01/sha256_8c.html#a7c7c355490ffac9fb942cab02361932c" title="This function initializes a SHA&#45;256 context." alt="" coords="214,5,355,32"/>
+<area shape="rect" id="node3" href="$da/d01/sha256_8c.html#af7feb61e3727df3ea4bb1bb08537934e" title="This function starts a SHA&#45;224 or SHA&#45;256 checksum calculation." alt="" coords="195,56,374,83"/>
+<area shape="rect" id="node4" href="$da/d01/sha256_8c.html#afeaa391b98ad340ed3b2233fa4ca665d" title="This function feeds an input buffer into an ongoing SHA&#45;256 checksum calculation." alt="" coords="192,107,377,133"/>
+<area shape="rect" id="node6" href="$da/d01/sha256_8c.html#ad9537ce07447c872e654ad87d144f1cd" title="This function finishes the SHA&#45;256 operation, and writes the result to the output buffer." alt="" coords="197,157,373,184"/>
+<area shape="rect" id="node7" href="$da/d01/sha256_8c.html#a6b9b9823b990de9685820fe59f1d9e1d" title="This function clears a SHA&#45;256 context." alt="" coords="212,208,357,235"/>
+<area shape="rect" id="node5" href="$da/d01/sha256_8c.html#a7d35cd23d4ede07db7c6fee054045efb" title="This function processes a single data block within the ongoing SHA&#45;256 computation...." alt="" coords="427,121,594,162"/>
+<area shape="rect" id="node8" href="$dd/dde/platform__util_8c.html#aa4e36b2c1c58d8ad89e1e11b6ebea2d9" title="Securely zeroize a buffer." alt="" coords="425,208,596,235"/>
+</map>

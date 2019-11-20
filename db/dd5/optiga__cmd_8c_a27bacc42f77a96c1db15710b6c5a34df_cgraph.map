@@ -1,0 +1,6 @@
+<map id="optiga_cmd_calc_sign_handler" name="optiga_cmd_calc_sign_handler">
+<area shape="rect" id="node1" title=" " alt="" coords="5,64,156,105"/>
+<area shape="rect" id="node2" href="$db/dd5/optiga__cmd_8c.html#ae92d7efd2c3a700c17bbcea6c2614476" title=" " alt="" coords="225,5,364,47"/>
+<area shape="rect" id="node3" href="$d3/dc7/optiga__lib__common_8c.html#af644c6ab6ad5604dca0600d7cb05a67d" title="Copies 2 bytes of uint16 type value to the buffer." alt="" coords="204,71,385,98"/>
+<area shape="rect" id="node4" href="$db/dd5/optiga__cmd_8c.html#abde8c38727ddd09b1740e66e96883719" title=" " alt="" coords="225,123,364,164"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="optiga_cmd_close_application_handler" name="optiga_cmd_close_application_handler">
+<area shape="rect" id="node1" title=" " alt="" coords="5,35,201,76"/>
+<area shape="rect" id="node2" href="$db/dd5/optiga__cmd_8c.html#abde8c38727ddd09b1740e66e96883719" title=" " alt="" coords="267,5,406,47"/>
+<area shape="rect" id="node3" href="$db/dd5/optiga__cmd_8c.html#a6e45a837cf75e21b89f065cb283a7499" title=" " alt="" coords="249,71,424,98"/>
+<area shape="rect" id="node4" href="$d1/d1b/pal__os__datastore_8h.html#a214588f1e3ed0af418fd0fef9dc5ef47" title="Writes data to the specified location for a given datastore_id." alt="" coords="472,71,627,98"/>
+</map>

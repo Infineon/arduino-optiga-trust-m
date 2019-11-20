@@ -1,0 +1,19 @@
+<map id="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/mbedtls/pk.h" name="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/mbedtls/pk.h">
+<area shape="rect" id="node1" title="Public Key abstraction layer." alt="" coords="1179,5,1385,61"/>
+<area shape="rect" id="node2" href="$df/d01/ssl__ciphersuites_8h.html" title="SSL Ciphersuites for mbed TLS." alt="" coords="740,109,939,180"/>
+<area shape="rect" id="node12" href="$da/d73/oid_8h.html" title="Object Identifier (OID) database." alt="" coords="1062,117,1273,173"/>
+<area shape="rect" id="node13" href="$d9/d22/pk__internal_8h.html" title="Public Key abstraction layer: wrapper functions." alt="" coords="1297,109,1496,180"/>
+<area shape="rect" id="node14" href="$d6/d90/x509_8h.html" title="X.509 generic defines and structures." alt="" coords="1570,117,1791,173"/>
+<area shape="rect" id="node3" href="$df/d6d/ssl_8h.html" title="SSL/TLS functions." alt="" coords="721,235,931,291"/>
+<area shape="rect" id="node4" href="$db/d16/debug_8h.html" title="Functions for controlling and providing debug output from the library." alt="" coords="5,354,233,410"/>
+<area shape="rect" id="node5" href="$d3/ddb/net__sockets_8h.html" title="Network sockets abstraction layer to integrate Mbed TLS into a BSD&#45;style sockets API." alt="" coords="257,347,456,417"/>
+<area shape="rect" id="node7" href="$d2/d81/ssl__cache_8h.html" title="SSL session cache implementation." alt="" coords="480,347,679,417"/>
+<area shape="rect" id="node8" href="$d6/dbb/ssl__cookie_8h.html" title="DTLS cookie callbacks implementation." alt="" coords="703,347,901,417"/>
+<area shape="rect" id="node9" href="$d7/d1c/ssl__internal_8h.html" title="Internal functions shared by the SSL modules." alt="" coords="925,347,1124,417"/>
+<area shape="rect" id="node10" href="$dd/d66/ssl__ticket_8h.html" title="TLS server ticket callbacks implementation." alt="" coords="1148,347,1347,417"/>
+<area shape="rect" id="node11" href="$d4/d75/pal__crypt__mbedtls_8c.html" title="This file implements the platform abstraction layer APIs for cryptographic functions using mbedTLS SW..." alt="" coords="1371,347,1569,417"/>
+<area shape="rect" id="node6" href="$d7/d97/net_8h.html" title="Deprecated header file that includes net_sockets.h." alt="" coords="251,465,462,521"/>
+<area shape="rect" id="node15" href="$d7/d21/x509__crl_8h.html" title="X.509 certificate revocation list parsing." alt="" coords="1456,228,1655,299"/>
+<area shape="rect" id="node16" href="$d6/db9/x509__crt_8h.html" title="X.509 certificate parsing and writing." alt="" coords="1593,347,1792,417"/>
+<area shape="rect" id="node17" href="$d6/dfd/x509__csr_8h.html" title="X.509 certificate signing request parsing and writing." alt="" coords="1731,228,1929,299"/>
+</map>

@@ -1,0 +1,15 @@
+<map id="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/pal_i2c_arduino.cpp" name="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/optiga_trustm/pal_i2c_arduino.cpp">
+<area shape="rect" id="node1" title="This file implements the platform abstraction layer(pal) APIs for I2C." alt="" coords="193,5,391,76"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,124,83,151"/>
+<area shape="rect" id="node3" title=" " alt="" coords="107,124,167,151"/>
+<area shape="rect" id="node4" href="$db/dc2/pal__i2c_8h.html" title="This file provides the prototype declarations of PAL I2C." alt="" coords="192,124,267,151"/>
+<area shape="rect" id="node11" href="$d2/d32/optiga__lib__config_8h.html" title="This file is defines the compilation switches to build code with required features." alt="" coords="291,124,421,151"/>
+<area shape="rect" id="node12" href="$d0/dbc/optiga__lib__logger_8h.html" title="This file provides the prototypes for the OPTIGA library logger." alt="" coords="364,199,495,225"/>
+<area shape="rect" id="node13" href="$d6/dc1/optiga__lib__return__codes_8h.html" title="This file defines the error codes for the all the layers and modules. &#160;OPTIGA host library return val..." alt="" coords="496,124,667,151"/>
+<area shape="rect" id="node5" href="$d9/d16/pal_8h.html" title="This file provides the prototype declarations of platform abstraction layer." alt="" coords="232,199,283,225"/>
+<area shape="rect" id="node6" href="$d7/d49/optiga__lib__types_8h.html" title="This file contains the type definitions for the fundamental data types." alt="" coords="279,273,406,300"/>
+<area shape="rect" id="node7" title=" " alt="" coords="181,348,243,375"/>
+<area shape="rect" id="node8" title=" " alt="" coords="267,348,331,375"/>
+<area shape="rect" id="node9" title=" " alt="" coords="355,348,421,375"/>
+<area shape="rect" id="node10" title=" " alt="" coords="445,348,510,375"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="ifx_i2c_context" name="ifx_i2c_context">
+<area shape="rect" id="node1" title="IFX I2C context structure." alt="" coords="579,117,688,143"/>
+<area shape="rect" id="node2" href="$d5/d5f/structifx__i2c__tl.html" title="Transport layer structure." alt="" coords="481,213,554,240"/>
+<area shape="rect" id="node3" href="$dd/d7e/structifx__i2c__prl.html" title="Presentation layer structure." alt="" coords="147,213,227,240"/>
+<area shape="rect" id="node8" href="$d6/d5b/structifx__i2c__pl.html" title="Physical layer structure." alt="" coords="710,213,786,240"/>
+<area shape="rect" id="node9" href="$d7/d16/structifx__i2c__dl.html" title="Datalink layer structure." alt="" coords="943,213,1019,240"/>
+<area shape="rect" id="node4" href="$db/df2/structifx__i2c__prl__manage__context.html" title="Presentation layer manage context structure." alt="" coords="5,109,139,151"/>
+<area shape="rect" id="node5" href="$d8/da8/structpal__gpio.html" title="Structure defines the PAL GPIO configuration." alt="" coords="458,5,529,32"/>
+<area shape="rect" id="node6" href="$dc/dee/structifx__i2c__datastore__config.html" title="Data store configuration structure." alt="" coords="553,5,714,32"/>
+<area shape="rect" id="node7" href="$df/daa/structpal__i2c.html" title="PAL I2C context structure." alt="" coords="777,5,839,32"/>
+</map>

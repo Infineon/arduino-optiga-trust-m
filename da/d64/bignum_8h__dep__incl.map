@@ -1,0 +1,20 @@
+<map id="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/mbedtls/bignum.h" name="C:/Users/Enriquez/Documents/Arduino/libraries/arduino&#45;optiga&#45;trust&#45;m/src/mbedtls/bignum.h">
+<area shape="rect" id="node1" title="Multi&#45;precision integer library." alt="" coords="1063,5,1261,76"/>
+<area shape="rect" id="node2" href="$d7/d03/bn__mul_8h.html" title="Multi&#45;precision integer library." alt="" coords="660,124,859,195"/>
+<area shape="rect" id="node3" href="$df/d6d/ssl_8h.html" title="SSL/TLS functions." alt="" coords="697,250,907,306"/>
+<area shape="rect" id="node12" href="$de/df7/ecp_8h.html" title="This file provides an API for Elliptic Curves over GF(P) (ECP)." alt="" coords="935,131,1149,187"/>
+<area shape="rect" id="node16" href="$d6/d3a/dhm_8h.html" title="This file contains Diffie&#45;Hellman&#45;Merkle (DHM) key exchange definitions and functions." alt="" coords="1174,131,1393,187"/>
+<area shape="rect" id="node17" href="$df/dc3/rsa_8h.html" title="This file provides an API for the RSA public&#45;key cryptosystem." alt="" coords="1417,131,1627,187"/>
+<area shape="rect" id="node18" href="$d2/d2f/rsa__internal_8h.html" title="Context&#45;independent RSA helper functions." alt="" coords="1652,124,1851,195"/>
+<area shape="rect" id="node4" href="$db/d16/debug_8h.html" title="Functions for controlling and providing debug output from the library." alt="" coords="5,369,233,425"/>
+<area shape="rect" id="node5" href="$d3/ddb/net__sockets_8h.html" title="Network sockets abstraction layer to integrate Mbed TLS into a BSD&#45;style sockets API." alt="" coords="257,361,456,432"/>
+<area shape="rect" id="node7" href="$d2/d81/ssl__cache_8h.html" title="SSL session cache implementation." alt="" coords="480,361,679,432"/>
+<area shape="rect" id="node8" href="$d6/dbb/ssl__cookie_8h.html" title="DTLS cookie callbacks implementation." alt="" coords="703,361,901,432"/>
+<area shape="rect" id="node9" href="$d7/d1c/ssl__internal_8h.html" title="Internal functions shared by the SSL modules." alt="" coords="925,361,1124,432"/>
+<area shape="rect" id="node10" href="$dd/d66/ssl__ticket_8h.html" title="TLS server ticket callbacks implementation." alt="" coords="1148,361,1347,432"/>
+<area shape="rect" id="node11" href="$d4/d75/pal__crypt__mbedtls_8c.html" title="This file implements the platform abstraction layer APIs for cryptographic functions using mbedTLS SW..." alt="" coords="1371,361,1569,432"/>
+<area shape="rect" id="node6" href="$d7/d97/net_8h.html" title="Deprecated header file that includes net_sockets.h." alt="" coords="251,480,462,536"/>
+<area shape="rect" id="node13" href="$dd/db0/ecdh_8h.html" title="This file contains ECDH definitions and functions." alt="" coords="931,250,1153,306"/>
+<area shape="rect" id="node14" href="$d5/d5d/ecdsa_8h.html" title="This file contains ECDSA definitions and functions." alt="" coords="1177,250,1405,306"/>
+<area shape="rect" id="node15" href="$d2/d6e/ecjpake_8h.html" title="Elliptic curve J&#45;PAKE." alt="" coords="1429,243,1628,313"/>
+</map>

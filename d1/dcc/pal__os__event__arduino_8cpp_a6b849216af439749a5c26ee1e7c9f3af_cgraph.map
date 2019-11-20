@@ -1,0 +1,4 @@
+<map id="pal_os_event_start" name="pal_os_event_start">
+<area shape="rect" id="node1" title="Start an os event." alt="" coords="5,13,136,39"/>
+<area shape="rect" id="node2" href="$d1/dcc/pal__os__event__arduino_8cpp.html#ae19d426d427610ee4451d6a180f6c1a6" title="Callback registration function to trigger once when timer expires." alt="" coords="184,5,331,47"/>
+</map>

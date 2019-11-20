@@ -1,0 +1,19 @@
+<map id="ifx_i2c_pl_init" name="ifx_i2c_pl_init">
+<area shape="rect" id="node1" title="Function for initializing the module." alt="" coords="5,140,105,167"/>
+<area shape="rect" id="node2" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a01211274bf6a8e51c4fe39c8814cdb1a" title=" " alt="" coords="153,133,291,174"/>
+<area shape="rect" id="node7" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a861f23046b66b4dd77521a4fa98e4204" title=" " alt="" coords="552,191,704,233"/>
+<area shape="rect" id="node17" href="$db/dc2/pal__i2c_8h.html#a3d9a35deea292c23c3d54bf923d15fd9" title="Initializes the I2C master." alt="" coords="179,199,265,225"/>
+<area shape="rect" id="node3" href="$de/d5e/pal__os__event_8h.html#ae19d426d427610ee4451d6a180f6c1a6" title="Callback registration function to trigger once when timer expires." alt="" coords="1161,82,1308,123"/>
+<area shape="rect" id="node4" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a734debeac8bde5c7715e431301f040e0" title=" " alt="" coords="339,257,504,284"/>
+<area shape="rect" id="node16" href="$d0/d01/ifx__i2c__physical__layer_8c.html#abcd46755e56a51002abc470f033f4126" title=" " alt="" coords="348,191,495,233"/>
+<area shape="rect" id="node5" href="$db/dc2/pal__i2c_8h.html#a7bdda5d0f7d194d2dfd5353fd8b5885c" title="Writes on I2C bus." alt="" coords="1186,296,1283,323"/>
+<area shape="rect" id="node6" href="$db/dc2/pal__i2c_8h.html#a230888595d36ced90e79b434b89bdb94" title="Reads from I2C bus." alt="" coords="581,257,675,284"/>
+<area shape="rect" id="node8" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a337508a9d7baecd5a2a5d1942a89e254" title=" " alt="" coords="759,224,899,251"/>
+<area shape="rect" id="node9" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a22e117b8670c542fd94fba87e041293a" title=" " alt="" coords="954,296,1113,323"/>
+<area shape="rect" id="node10" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a2c966b1934a2e845a14d8d8749135734" title=" " alt="" coords="953,195,1113,221"/>
+<area shape="rect" id="node11" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a709558b6b4e67fccf7c5fb76e2af1ef3" title=" " alt="" coords="755,107,902,149"/>
+<area shape="rect" id="node14" href="$d3/d40/pal__os__timer_8h.html#a9b652f13b4c40387615be7f849115553" title="Gets tick count value in milliseconds." alt="" coords="752,393,905,434"/>
+<area shape="rect" id="node15" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a69f37cc1f205498c2e7a95a87a08c59b" title=" " alt="" coords="755,275,902,317"/>
+<area shape="rect" id="node12" href="$d0/d01/ifx__i2c__physical__layer_8c.html#a63396640292aa554e4839ae52440167d" title=" " alt="" coords="958,144,1109,171"/>
+<area shape="rect" id="node13" href="$db/dc2/pal__i2c_8h.html#a339652b7cbdfd5ae0e031e4a6da284f9" title="Sets the I2C Master bitrate." alt="" coords="1169,148,1300,175"/>
+</map>
