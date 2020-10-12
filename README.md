@@ -229,7 +229,7 @@ As well as these examples the developer can also call getCurrentLimit/setCurrent
 current limitation of the chip (varies from 5mA by default to maximum 15mA) 
 
 ### getRandom
-getRandom demonstrates random number generator capabilities. This example outputs random numbers of various sizes (16, 32, 64, 128, 256)
+getRandom demonstrates random number generator capabilities. This example outputs random numbers of various sizes (16, 32, 64, 128, 256). The chip can generate minimum 8 bytes of random. If you need less you can discard the result output.
 
 ### testFullAPI
 testFullAPI is used to briefly test major API calls to the library. The expected output of this function can be found in Figure below. 
