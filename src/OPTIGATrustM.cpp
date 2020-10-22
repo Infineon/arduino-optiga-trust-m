@@ -443,8 +443,8 @@ static int32_t testTLSPRF256(void)
 								 
 		if (memcmp(p_derived_key, tls_at_ietf_output, sizeof(tls_at_ietf_output)) != 0)
 		{
-			output_result("Derived Key: ", p_derived_key, sizeof(tls_at_ietf_output));
-			output_result("Expected Key: ", tls_at_ietf_output, sizeof(tls_at_ietf_output));
+			output_result((char*)"Derived Key: ", p_derived_key, sizeof(tls_at_ietf_output));
+			output_result((char*)"Expected Key: ", tls_at_ietf_output, sizeof(tls_at_ietf_output));
 			break;
 		}
 		
@@ -525,9 +525,9 @@ static int32_t testAES128CCMEncrypt(void)
 										 ciphertext);
 			if (memcmp(ciphertext, res[i], msg_len[i] + tag_len[i])!= 0)
 			{
-				Serial.println("Encryption Failure");
-				output_result("Result Cipher: ", ciphertext, msg_len[i] + tag_len[i]);
-				output_result("Expected Cipher: ", res[i], msg_len[i] + tag_len[i]);
+				Serial.println((char*)"Encryption Failure");
+				output_result((char*)"Result Cipher: ", ciphertext, msg_len[i] + tag_len[i]);
+				output_result((char*)"Expected Cipher: ", res[i], msg_len[i] + tag_len[i]);
 			}
 		}
 		
@@ -560,11 +560,11 @@ static int32_t testAES128CCMDecrypt(void)
 									  plaintext);
 			if (memcmp(plaintext, msg, msg_len[i]) != 0)
 			{
-				Serial.print("Decryption Failure. Return Code ");
+				Serial.print((char*)"Decryption Failure. Return Code ");
 				Serial.println(ret);
-				output_result("Encrypted message: ", res[i], msg_len[i] + tag_len[i]);
-				output_result("Result Plain Text: ", plaintext, msg_len[i]);
-				output_result("Expected Plain Text: ", msg, msg_len[i]);
+				output_result((char*)"Encrypted message: ", res[i], msg_len[i] + tag_len[i]);
+				output_result((char*)"Result Plain Text: ", plaintext, msg_len[i]);
+				output_result((char*)"Expected Plain Text: ", msg, msg_len[i]);
 				ret = 1;
 			}
 		}
@@ -915,7 +915,7 @@ int32_t IFX_OPTIGA_TrustM:: getCertificate(uint8_t* p_cert, uint16_t& clen)
                 (Utility_GetUint24(&p_cert[3]) != (uint32_t)(tag_len - LENGTH_CERTLIST_LEN)) ||   \
                 ((cert_len > (uint32_t)(tag_len - (LENGTH_CERTLIST_LEN  + LENGTH_CERTLEN))) || (cert_len == 0x00)))
             {
-                OPTIGA_UTIL_LOG_MESSAGE("check lenghts");
+                OPTIGA_ARDUINO_LOG_MESSAGE("check lenghts");
                 return_status = OPTIGA_UTIL_ERROR;
                 break;
 
