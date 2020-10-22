@@ -2,7 +2,7 @@
 * \copyright
 * MIT License
 *
-* Copyright (c) 2019 Infineon Technologies AG
+* Copyright (c) 2020 Infineon Technologies AG
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -62,11 +62,12 @@ void ifx_i2c_tl_event_handler(ifx_i2c_context_t * p_ctx,
                               const uint8_t * p_data,
                               uint16_t data_len);
 
-void ifx_i2c_prl_close_event_handler(ifx_i2c_context_t * p_ctx,
-                                     optiga_lib_status_t event,
-                                     const uint8_t * p_data,
-                                     uint16_t data_len);
-
+#ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
+_STATIC_H void ifx_i2c_prl_close_event_handler(ifx_i2c_context_t * p_ctx,
+                                               optiga_lib_status_t event,
+                                               const uint8_t * p_data,
+                                               uint16_t data_len);
+#endif
 _STATIC_H optiga_lib_status_t ifx_i2c_init(ifx_i2c_context_t * p_ifx_i2c_context);
 
 //lint --e{526} suppress "This API is defined in ifx_i2c_physical_layer.c file. As it is a low level API, it is not exposed in header file"
@@ -176,6 +177,7 @@ optiga_lib_status_t ifx_i2c_close(ifx_i2c_context_t * p_ctx)
 #ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
         p_ctx->close_state = IFX_I2C_STACK_ERROR;
         p_ctx->state = IFX_I2C_STATE_UNINIT;
+        //lint --e{838} suppress "Previous value of api_status is needed for scenario when shielded connection is disabled"
         api_status = ifx_i2c_prl_close(p_ctx, ifx_i2c_prl_close_event_handler);
         if (IFX_I2C_STACK_ERROR == api_status)
         {
@@ -248,14 +250,14 @@ void ifx_i2c_tl_event_handler(ifx_i2c_context_t * p_ctx,
             break;
     }
 }
-
+#ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
 /// @cond hidden
 //lint --e{715} suppress "The arguments p_data and data_len is not used in this function 
 //                        but as per the function signature those 2 parameter should be passed"
-void ifx_i2c_prl_close_event_handler(ifx_i2c_context_t * p_ctx,
-                                     optiga_lib_status_t event,
-                                     const uint8_t * p_data,
-                                     uint16_t data_len)
+_STATIC_H void ifx_i2c_prl_close_event_handler(ifx_i2c_context_t * p_ctx,
+                                               optiga_lib_status_t event,
+                                               const uint8_t * p_data,
+                                               uint16_t data_len)
 {
     p_ctx->status = IFX_I2C_STATUS_NOT_BUSY;
     switch (p_ctx->state)
@@ -278,7 +280,7 @@ void ifx_i2c_prl_close_event_handler(ifx_i2c_context_t * p_ctx,
         p_ctx->upper_layer_event_handler(p_ctx->p_upper_layer_ctx, event);
     }
 }
-
+#endif
 _STATIC_H optiga_lib_status_t ifx_i2c_init(ifx_i2c_context_t * p_ifx_i2c_context)
 {
     optiga_lib_status_t api_status = IFX_I2C_STACK_ERROR;
