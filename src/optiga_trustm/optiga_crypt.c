@@ -35,10 +35,11 @@
 * @{
 */
 
-#include "optiga_crypt.h"
-#include "optiga_lib_logger.h"
-#include "optiga_lib_common_internal.h"
-#include "pal_os_memory.h"
+
+#include "optiga/optiga_crypt.h"
+#include "optiga/common/optiga_lib_logger.h"
+#include "optiga/common/optiga_lib_common_internal.h"
+#include "optiga/pal/pal_os_memory.h"
 
 /// ECDSA FIPS 186-3 without hash
 #define OPTIGA_CRYPT_ECDSA_FIPS_186_3_WITHOUT_HASH                  (0x11)
