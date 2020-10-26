@@ -2,7 +2,7 @@
 * \copyright
 * MIT License
 *
-* Copyright (c) 2019 Infineon Technologies AG
+* Copyright (c) 2020 Infineon Technologies AG
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -40,6 +40,44 @@
 #include "optiga_lib_common_internal.h"
 #include "pal_os_memory.h"
 
+#if defined (OPTIGA_LIB_ENABLE_LOGGING) && defined (OPTIGA_LIB_ENABLE_UTIL_LOGGING)
+
+//Logs the message provided from Util layer
+#define OPTIGA_UTIL_LOG_MESSAGE(msg) \
+{\
+    optiga_lib_print_message(msg,OPTIGA_UTIL_SERVICE,OPTIGA_UTIL_SERVICE_COLOR);\
+}
+
+//Logs the byte array buffer provided from Util layer in hexadecimal format
+//lint --e{750} suppress "The unused OPTIGA_UTIL_LOG_HEX_DATA macro is kept for future enhancements"
+#define OPTIGA_UTIL_LOG_HEX_DATA(array,array_len) \
+{\
+    optiga_lib_print_array_hex_format(array,array_len,OPTIGA_UNPROTECTED_DATA_COLOR);\
+}
+
+//Logs the status info provided from Util layer
+//lint --e{750} suppress "The unused OPTIGA_UTIL_LOG_STATUS macro is kept for future enhancements"
+#define OPTIGA_UTIL_LOG_STATUS(return_value) \
+{ \
+    if (OPTIGA_LIB_SUCCESS != return_value) \
+    { \
+        optiga_lib_print_status(OPTIGA_UTIL_SERVICE,OPTIGA_ERROR_COLOR,return_value); \
+    } \
+    else\
+    { \
+        optiga_lib_print_status(OPTIGA_UTIL_SERVICE,OPTIGA_UTIL_SERVICE_COLOR,return_value); \
+    } \
+}
+#else
+
+#define OPTIGA_UTIL_LOG_MESSAGE(msg) {}
+//lint --e{750} suppress "The unused OPTIGA_UTIL_LOG_HEX_DATA macro is kept for future enhancements"
+#define OPTIGA_UTIL_LOG_HEX_DATA(array, array_len) {}
+//lint --e{750} suppress "The unused OPTIGA_UTIL_LOG_STATUS macro is kept for future enhancements"
+#define OPTIGA_UTIL_LOG_STATUS(return_value) {}
+
+#endif
+
 extern void optiga_cmd_set_shielded_connection_option(optiga_cmd_t * me, uint8_t value,
                                                       uint8_t shielded_connection_option);
 
@@ -50,8 +88,8 @@ _STATIC_H void optiga_util_generic_event_handler(void * me,
 {
     optiga_util_t * p_optiga_util = (optiga_util_t *)me;
 
-    p_optiga_util->handler(p_optiga_util->caller_context, event);
     p_optiga_util->instance_state = OPTIGA_LIB_INSTANCE_FREE;
+    p_optiga_util->handler(p_optiga_util->caller_context, event);
 }
 
 _STATIC_H void optiga_util_reset_protection_level(optiga_util_t * me)
@@ -227,6 +265,7 @@ optiga_lib_status_t optiga_util_open_application(optiga_util_t * me,
             break;
         }
 #endif
+
         if (OPTIGA_LIB_INSTANCE_BUSY == me->instance_state)
         {
             return_value = OPTIGA_UTIL_ERROR_INSTANCE_IN_USE;
@@ -556,8 +595,7 @@ optiga_lib_status_t optiga_util_protected_update_start(optiga_util_t * me,
                                                     manifest_version,
                                                     manifest,
                                                     manifest_length,
-                                                    OPTIGA_SET_PROTECTED_UPDATE_START
-                                                    );
+                                                    OPTIGA_SET_PROTECTED_UPDATE_START);
     } while (FALSE);
     optiga_util_reset_protection_level(me);
     return (return_value);
@@ -622,11 +660,11 @@ optiga_lib_status_t optiga_util_update_count(optiga_util_t * me,
     const uint8_t count_value[] = {count};
     OPTIGA_UTIL_LOG_MESSAGE(__FUNCTION__);
     return (optiga_util_write_data_wrapper(me,
-                                          optiga_counter_oid,
-                                          OPTIGA_UTIL_COUNT_DATA_OBJECT,
-                                          0x0000,
-                                          count_value,
-                                          sizeof(count_value)));
+                                           optiga_counter_oid,
+                                           OPTIGA_UTIL_COUNT_DATA_OBJECT,
+                                           0x0000,
+                                           count_value,
+                                           sizeof(count_value)));
 }
 
 /**

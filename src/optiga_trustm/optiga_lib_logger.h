@@ -2,7 +2,7 @@
 * \copyright
 * MIT License
 *
-* Copyright (c) 2019 Infineon Technologies AG
+* Copyright (c) 2020 Infineon Technologies AG
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -194,7 +194,6 @@ void optiga_lib_print_array_hex_format(const uint8_t * p_log_string,
  * \param[in]  p_temp_buffer      Pointer to the input array buffer
  * \param[in]  p_color            Pointer to the color of array string
  */
-#ifndef WIN32
 #define OPTIGA_LIB_LOGGER_PRINT_ARRAY(p_output_buffer, p_temp_buffer, p_color) \
 { \
     sprintf((char_t *)p_output_buffer, \
@@ -203,18 +202,6 @@ void optiga_lib_print_array_hex_format(const uint8_t * p_log_string,
             p_temp_buffer, \
             OPTIGA_LIB_LOGGER_COLOR_DEFAULT); \
 }
-#else
-#define OPTIGA_LIB_LOGGER_PRINT_ARRAY(p_output_buffer, p_temp_buffer, p_color) \
-{ \
-    sprintf_s((char_t *)p_output_buffer, \
-              sizeof(p_output_buffer), \
-              "%25s%s%s", \
-              p_color, \
-              p_temp_buffer, \
-              OPTIGA_LIB_LOGGER_COLOR_DEFAULT); \
-}
-#endif
-
 
 /**
  * \brief Converts the input string to encode the color specified
@@ -233,7 +220,6 @@ void optiga_lib_print_array_hex_format(const uint8_t * p_log_string,
  * \param[in]  p_layer            Pointer to the layer info buffer
  * \param[in]  p_color            Pointer to the color of array string 
  */
-#ifndef WIN32
 #define OPTIGA_LIB_LOGGER_PRINT_INFO(p_output_buffer, p_temp_buffer, p_layer, p_color) \
 { \
     sprintf((char_t *)p_output_buffer, \
@@ -243,18 +229,6 @@ void optiga_lib_print_array_hex_format(const uint8_t * p_log_string,
             p_temp_buffer, \
             OPTIGA_LIB_LOGGER_COLOR_DEFAULT); \
 }
-#else
-#define OPTIGA_LIB_LOGGER_PRINT_INFO(p_output_buffer, p_temp_buffer, p_layer, p_color) \
-{ \
-    sprintf_s((char_t *)p_output_buffer, \
-              sizeof(p_output_buffer), \
-              "%s%s%s%s", \
-              p_color, \
-              p_layer, \
-              p_temp_buffer, \
-              OPTIGA_LIB_LOGGER_COLOR_DEFAULT); \
-}
-#endif
 
 #ifdef __cplusplus
 }
