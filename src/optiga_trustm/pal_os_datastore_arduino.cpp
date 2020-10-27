@@ -40,9 +40,6 @@
 /// Size of data store buffer
 #define DATA_STORE_BUFFERSIZE      (0x42)
 
-/// Maximum shared secret length 
-#define SHARED_SECRET_MAX_LENGTH   (0x40U)
-
 //Internal buffer to store manage context data use for data store
 uint8_t data_store_buffer [DATA_STORE_BUFFERSIZE];
 
@@ -50,7 +47,7 @@ uint8_t data_store_buffer [DATA_STORE_BUFFERSIZE];
 uint8_t data_store_app_context_buffer [APP_CONTEXT_SIZE];
 
 //Internal buffer to store the generated shared secret on Host
-uint8_t optiga_platform_binding_shared_secret [SHARED_SECRET_MAX_LENGTH] = {0x00};
+uint8_t optiga_platform_binding_shared_secret [OPTIGA_SHARED_SECRET_MAX_LENGTH] = {0x00};
 
 pal_status_t pal_os_datastore_read(uint16_t datastore_id,
                                    uint8_t * p_buffer,
