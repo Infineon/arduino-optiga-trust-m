@@ -2,7 +2,7 @@
 * \copyright
 * MIT License
 *
-* Copyright (c) 2019 Infineon Technologies AG
+* Copyright (c) 2020 Infineon Technologies AG
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@
 *
 * \file pal_os_memory_arduino.cpp
 *
-* \brief   This file implements the platform abstraction layer APIs for os memory management
+* \brief   This file implements the platform abstraction layer APIs for os memory
 *
 * \ingroup  grPAL
 *
