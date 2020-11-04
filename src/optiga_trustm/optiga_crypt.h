@@ -42,7 +42,7 @@
 extern "C" {
 #endif
 
-#include "optiga/cmd/optiga_cmd.h"
+#include "optiga_cmd.h"
 
 /** \brief union for OPTIGA crypt parameters */
 typedef union optiga_crypt_params

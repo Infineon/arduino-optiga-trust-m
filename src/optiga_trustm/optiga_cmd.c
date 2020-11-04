@@ -88,6 +88,7 @@
 #define OPTIGA_CMD_GEN_SYM_KEY                           (0x39 | OPTIGA_CMD_CLEAR_LAST_ERROR)
 #endif
 
+
 #define OPTIGA_CMD_MAX_NUMBER_OF_SESSIONS                (0x04)
 #define OPTIGA_CMD_START_SESSION_OID                     (0xE100)
 
@@ -102,7 +103,7 @@
 // Hash header size(hash_input_header_size + context_header_size)
 #define OPTIGA_CMD_HASH_HEADER_SIZE                      (0x06)
 // Intermediate context header size
-#define OPTIGA_CMD_INTERMEDIATE_CONTEX_HEADER            (0x03)
+#define OPTIGA_CMD_INTERMEDIATE_CONTEXT_HEADER           (0x03)
 // Zero length or value
 #define OPTIGA_CMD_ZERO_LENGTH_OR_VALUE                  (0x0000)
 // One length or value
@@ -121,132 +122,135 @@
 #define OPTIGA_CMD_APDU_SUCCESS                          (0x00)
 #define OPTIGA_CMD_APDU_FAILURE                          (0xFF)
 
-#define OPTIGA_CMD_WRITE_ONLY                            (0x00)
-#define OPTIGA_CMD_READ_DATA                             (0x00)
-#define OPTIGA_CMD_GET_DATA_OBJECT_NO_ERROR_CLEAR        (0x01)
+#define OPTIGA_CMD_WRITE_ONLY                                   (0x00)
+#define OPTIGA_CMD_READ_DATA                                    (0x00)
+#define OPTIGA_CMD_GET_DATA_OBJECT_NO_ERROR_CLEAR               (0x01)
 
 //Calc sign tag values
-#define OPTIGA_CMD_SIGN_DIGEST_TAG                       (0x01)
-#define OPTIGA_CMD_SIGN_OID_TAG                          (0x03)
-#define OPTIGA_CMD_SIGN_OID_LEN                          (0x0002)
+#define OPTIGA_CMD_SIGN_DIGEST_TAG                              (0x01)
+#define OPTIGA_CMD_SIGN_OID_TAG                                 (0x03)
+#define OPTIGA_CMD_SIGN_OID_LEN                                 (0x0002)
 
 //Calc SSec tag values
-#define OPTIGA_CMD_SSEC_PRIVATE_KEY_TAG                  (0x01)
-#define OPTIGA_CMD_SSEC_PRIVATE_KEY_LEN                  (0x0002)
-#define OPTIGA_CMD_SSEC_ALG_ID_TAG                       (0x05)
-#define OPTIGA_CMD_SSEC_ALG_ID_LEN                       (0x01)
-#define OPTIGA_CMD_SSEC_PUB_KEY_TAG                      (0x06)
-#define OPTIGA_CMD_SSEC_EXPORT_TAG                       (0x07)
-#define OPTIGA_CMD_SSEC_EXPORT_LEN                       (0x0000)
-#define OPTIGA_CMD_SSEC_STORE_SESSION_TAG                (0x08)
-#define OPTIGA_CMD_SSEC_STORE_SESSION_LEN                (0x0002)
+#define OPTIGA_CMD_SSEC_PRIVATE_KEY_TAG                         (0x01)
+#define OPTIGA_CMD_SSEC_PRIVATE_KEY_LEN                         (0x0002)
+#define OPTIGA_CMD_SSEC_ALG_ID_TAG                              (0x05)
+#define OPTIGA_CMD_SSEC_ALG_ID_LEN                              (0x01)
+#define OPTIGA_CMD_SSEC_PUB_KEY_TAG                             (0x06)
+#define OPTIGA_CMD_SSEC_EXPORT_TAG                              (0x07)
+#define OPTIGA_CMD_SSEC_EXPORT_LEN                              (0x0000)
+#define OPTIGA_CMD_SSEC_STORE_SESSION_TAG                       (0x08)
+#define OPTIGA_CMD_SSEC_STORE_SESSION_LEN                       (0x0002)
 
 //Verify sign tag values
-#define OPTIGA_CMD_VERIFY_SIGN_DIGEST_TAG                (0x01)
-#define OPTIGA_CMD_VERIFY_SIGN_SIGNATURE_TAG             (0x02)
-#define OPTIGA_CMD_VERIFY_SIGN_PUB_KEY_CERT_OID_TAG      (0x04)
-#define OPTIGA_CMD_VERIFY_SIGN_PUB_KEY_CERT_OID_LENGTH   (0x0002)
-#define OPTIGA_CMD_VERIFY_ALGO_ID_TAG                    (0x05)
-#define OPTIGA_CMD_VERIFY_ALGO_ID_LENGTH                 (0x0001)
-#define OPTIGA_CMD_VERIFY_PUBLIC_KEY_TAG                 (0x06)
+#define OPTIGA_CMD_VERIFY_SIGN_DIGEST_TAG                       (0x01)
+#define OPTIGA_CMD_VERIFY_SIGN_SIGNATURE_TAG                    (0x02)
+#define OPTIGA_CMD_VERIFY_SIGN_PUB_KEY_CERT_OID_TAG             (0x04)
+#define OPTIGA_CMD_VERIFY_SIGN_PUB_KEY_CERT_OID_LENGTH          (0x0002)
+#define OPTIGA_CMD_VERIFY_ALGO_ID_TAG                           (0x05)
+#define OPTIGA_CMD_VERIFY_ALGO_ID_LENGTH                        (0x0001)
+#define OPTIGA_CMD_VERIFY_PUBLIC_KEY_TAG                        (0x06)
 
 //Generate key pair tag and length value
-#define OPTIGA_CMD_GEN_KEY_PAIR_PRIVATE_KEY_OID_TAG      (0x01)
-#define OPTIGA_CMD_GEN_KEY_PAIR_PRIVATE_KEY_OID_LENGTH   (0x0002)
-#define OPTIGA_CMD_GEN_KEY_PAIR_KEY_USAGE_TAG            (0x02)
-#define OPTIGA_CMD_GEN_KEY_PAIR_KEY_USAGE_LENGTH         (0x0001)
-#define OPTIGA_CMD_GEN_KEY_PAIR_EXPORT_KEY_TAG           (0x07)
-#define OPTIGA_CMD_GEN_KEY_PAIR_EXPORT_KEY_LENGTH        (0x0000)
-#define OPTIGA_CMD_GEN_KEY_PAIR_PUBLIC_KEY_TAG           (0x02)
-#define OPTIGA_CMD_GEN_KEY_PAIR_PRIVATE_KEY_TAG          (0x01)
+#define OPTIGA_CMD_GEN_KEY_PAIR_PRIVATE_KEY_OID_TAG             (0x01)
+#define OPTIGA_CMD_GEN_KEY_PAIR_PRIVATE_KEY_OID_LENGTH          (0x0002)
+#define OPTIGA_CMD_GEN_KEY_PAIR_KEY_USAGE_TAG                   (0x02)
+#define OPTIGA_CMD_GEN_KEY_PAIR_KEY_USAGE_LENGTH                (0x0001)
+#define OPTIGA_CMD_GEN_KEY_PAIR_EXPORT_KEY_TAG                  (0x07)
+#define OPTIGA_CMD_GEN_KEY_PAIR_EXPORT_KEY_LENGTH               (0x0000)
+#define OPTIGA_CMD_GEN_KEY_PAIR_PUBLIC_KEY_TAG                  (0x02)
+#define OPTIGA_CMD_GEN_KEY_PAIR_PRIVATE_KEY_TAG                 (0x01)
 
 //Derive key tag value
-#define OPTIGA_CMD_DERIVE_KEY_SEC_OID_TAG                (0x01)
-#define OPTIGA_CMD_DERIVE_KEY_SEC_OID_TAG_LENGTH         (0x0002)
-#define OPTIGA_CMD_DERIVE_KEY_DERIVATION_DATA_TAG        (0x02)
-#define OPTIGA_CMD_DERIVE_KEY_KEY_LEN_TAG_LENGTH         (0x0002)
-#define OPTIGA_CMD_DERIVE_KEY_KEY_LEN_TAG                (0x03)
-#define OPTIGA_CMD_DERIVE_KEY_EXPORT_TAG                 (0x07)
-#define OPTIGA_CMD_DERIVE_KEY_STORE_TAG                  (0x08)
-#define OPTIGA_CMD_DERIVE_KEY_STORE_TAG_LENGTH           (0x0002)
-#define OPTIGA_CMD_DERIVE_KEY_DERIVE_KEY_LEN_MIN         (0x10)
-#define OPTIGA_CMD_DERIVE_KEY_INFO_TAG                   (0x04)
+#define OPTIGA_CMD_DERIVE_KEY_SEC_OID_TAG                       (0x01)
+#define OPTIGA_CMD_DERIVE_KEY_SEC_OID_TAG_LENGTH                (0x0002)
+#define OPTIGA_CMD_DERIVE_KEY_DERIVATION_DATA_TAG               (0x02)
+#define OPTIGA_CMD_DERIVE_KEY_KEY_LEN_TAG_LENGTH                (0x0002)
+#define OPTIGA_CMD_DERIVE_KEY_KEY_LEN_TAG                       (0x03)
+#define OPTIGA_CMD_DERIVE_KEY_EXPORT_TAG                        (0x07)
+#define OPTIGA_CMD_DERIVE_KEY_STORE_TAG                         (0x08)
+#define OPTIGA_CMD_DERIVE_KEY_STORE_TAG_LENGTH                  (0x0002)
+#define OPTIGA_CMD_DERIVE_KEY_DERIVE_KEY_LEN_MIN                (0x10)
+#define OPTIGA_CMD_DERIVE_KEY_INFO_TAG                          (0x04)
 
 //Encrypt asym tag values
-#define OPTIGA_CMD_ENCRYPT_ASYM_SESSION_OID_TAG          (0x02)
-#define OPTIGA_CMD_ENCRYPT_ASYM_SESSION_OID_LENGTH       (0x0002)
-#define OPTIGA_CMD_ENCRYPT_ASYM_MESSAGE_TAG              (0x61)
-#define OPTIGA_CMD_ENCRYPT_ASYM_PUB_KEY_CERT_OID_TAG     (0x04)
-#define OPTIGA_CMD_ENCRYPT_ASYM_PUB_KEY_CERT_OID_LENGTH  (0x0002)
-#define OPTIGA_CMD_ENCRYPT_ASYM_ALGO_ID_TAG              (0x05)
-#define OPTIGA_CMD_ENCRYPT_ASYM_ALGO_ID_LENGTH           (0x0001)
-#define OPTIGA_CMD_ENCRYPT_ASYM_PUBLIC_KEY_TAG           (0x06)
+#define OPTIGA_CMD_ENCRYPT_ASYM_SESSION_OID_TAG                 (0x02)
+#define OPTIGA_CMD_ENCRYPT_ASYM_SESSION_OID_LENGTH              (0x0002)
+#define OPTIGA_CMD_ENCRYPT_ASYM_MESSAGE_TAG                     (0x61)
+#define OPTIGA_CMD_ENCRYPT_ASYM_PUB_KEY_CERT_OID_TAG            (0x04)
+#define OPTIGA_CMD_ENCRYPT_ASYM_PUB_KEY_CERT_OID_LENGTH         (0x0002)
+#define OPTIGA_CMD_ENCRYPT_ASYM_ALGO_ID_TAG                     (0x05)
+#define OPTIGA_CMD_ENCRYPT_ASYM_ALGO_ID_LENGTH                  (0x0001)
+#define OPTIGA_CMD_ENCRYPT_ASYM_PUBLIC_KEY_TAG                  (0x06)
 
 //Decrypt asym key tag value
-#define OPTIGA_CMD_DECRYPT_ASYM_ENCRYPT_MESSAGE_TAG      (0x61)
-#define OPTIGA_CMD_DECRYPT_ASYM_DECRYPT_KEY_TAG          (0x03)
-#define OPTIGA_CMD_DECRYPT_ASYM_DECRYPT_KEY_LENGTH       (0x0002)
-#define OPTIGA_CMD_DECRYPT_ASYM_SESSION_OID_TAG          (0x02)
-#define OPTIGA_CMD_DECRYPT_ASYM_SESSION_OID_LENGTH       (0x0002)
+#define OPTIGA_CMD_DECRYPT_ASYM_ENCRYPT_MESSAGE_TAG             (0x61)
+#define OPTIGA_CMD_DECRYPT_ASYM_DECRYPT_KEY_TAG                 (0x03)
+#define OPTIGA_CMD_DECRYPT_ASYM_DECRYPT_KEY_LENGTH              (0x0002)
+#define OPTIGA_CMD_DECRYPT_ASYM_SESSION_OID_TAG                 (0x02)
+#define OPTIGA_CMD_DECRYPT_ASYM_SESSION_OID_LENGTH              (0x0002)
 
-#define OPTIGA_PROTECTION_LEVEL_MASK                     (0x03)
+#define OPTIGA_PROTECTION_LEVEL_MASK                            (0x03)
         
-#define OPTIGA_CMD_ERROR_CODE_PREPARE                    (0x01)
-#define OPTIGA_CMD_ERROR_CODE_TX                         (0x02)
-#define OPTIGA_CMD_ERROR_CODE_RX                         (0x03)
-#define OPTIGA_CMD_ERROR_CODE_STATE_MASK                 (0x03)
-#define OPTIGA_CMD_ENTER_HANDLER_CALL_MASK               (0x80)
-#define OPTIGA_CMD_ENTER_HANDLER_CALL                    (0x80)
-#define OPTIGA_CMD_EXIT_HANDLER_CALL                     (0x00)
-#define OPTIGA_CMD_OUT_OF_BOUNDARY_ERROR                 (0x08)
+#define OPTIGA_CMD_ERROR_CODE_PREPARE                           (0x01)
+#define OPTIGA_CMD_ERROR_CODE_TX                                (0x02)
+#define OPTIGA_CMD_ERROR_CODE_RX                                (0x03)
+#define OPTIGA_CMD_ERROR_CODE_STATE_MASK                        (0x03)
+#define OPTIGA_CMD_ENTER_HANDLER_CALL_MASK                      (0x80)
+#define OPTIGA_CMD_ENTER_HANDLER_CALL                           (0x80)
+#define OPTIGA_CMD_EXIT_HANDLER_CALL                            (0x00)
+#define OPTIGA_CMD_OUT_OF_BOUNDARY_ERROR                        (0x08)
 #if defined (OPTIGA_CRYPT_SYM_ENCRYPT_ENABLED) && defined (OPTIGA_CRYPT_SYM_DECRYPT_ENABLED)
 ///Symmetric encrypt decrypt hmac tag value
-#define OPTIGA_CMD_ENC_DEC_SYM_ASSOCIATED_DATA_TAG       (0x40)
-#define OPTIGA_CMD_ENC_DEC_SYM_IV_TAG                    (0x41)
-#define OPTIGA_CMD_ENC_DEC_SYM_TOTAL_DATA_LENGTH_TAG     (0x42)
-#define OPTIGA_CMD_ENC_DEC_SYM_VERIFICATION_DATA_TAG     (0x43)
-#define OPTIGA_CMD_ENC_DEC_SYM_OUT_DATA_TAG              (0x61)
+#define OPTIGA_CMD_ENC_DEC_SYM_ASSOCIATED_DATA_TAG              (0x40)
+#define OPTIGA_CMD_ENC_DEC_SYM_IV_TAG                           (0x41)
+#define OPTIGA_CMD_ENC_DEC_SYM_TOTAL_DATA_LENGTH_TAG            (0x42)
+#define OPTIGA_CMD_ENC_DEC_SYM_VERIFICATION_DATA_TAG            (0x43)
+#define OPTIGA_CMD_ENC_DEC_SYM_OUT_DATA_TAG                     (0x61)
 
-#define OPTIGA_CMD_RESET_SEQUENCE                        (0xFF)
-#define OPTIGA_CMD_SYM_MAX_INDATA_LENGTH                 (640U)
+#define OPTIGA_CMD_RESET_SEQUENCE                               (0xFF)
+#define OPTIGA_CMD_SYM_MAX_INDATA_LENGTH                        (640U)
 
 // Session OID length in case of HMAC verify
-#define OPTIGA_CMD_DECRYPT_SYM_SESSION_OID_LENGTH        (0x0002)
+#define OPTIGA_CMD_DECRYPT_SYM_SESSION_OID_LENGTH               (0x0002)
 #endif
 //RSA pre master optional data tag and length value
-#define OPTIGA_CMD_RSA_PRE_MASTER_OPTIONAL_DATA_TAG      (0x41)
+#define OPTIGA_CMD_RSA_PRE_MASTER_OPTIONAL_DATA_TAG             (0x41)
 
 /// Param type for optiga pre master secret
-#define OPTIGA_CMD_RANDOM_PARAM_TYPE_PRE_MASTER_SECRET   (0x04)
+#define OPTIGA_CMD_RANDOM_PARAM_TYPE_PRE_MASTER_SECRET          (0x04)
 
 /// Set object protected tag
-#define OPTIGA_CMD_SET_OBJECT_PROTECTED_TAG              (0x30)
+#define OPTIGA_CMD_SET_OBJECT_PROTECTED_TAG                     (0x30)
 
-#define OPTIGA_CMD_TAG_LENGTH_SIZE                       (0x03)
-#define OPTIGA_CMD_PARAM_INITIALIZE_APP_CONTEXT          (0x00)
+/// Supported instance number 
+#define OPTIGA_CMD_MAX_INSTANCE_ID                              (0x00)
+
+#define OPTIGA_CMD_TAG_LENGTH_SIZE                              (0x03)
+#define OPTIGA_CMD_PARAM_INITIALIZE_APP_CONTEXT                 (0x00)
 #ifdef OPTIGA_CRYPT_SYM_GENERATE_KEY_ENABLED
 //Generate symmetric key tag and length value
-#define OPTIGA_CMD_GEN_SYM_KEY_OID_TAG                   (0x01)
-#define OPTIGA_CMD_GEN_SYM_KEY_OID_LENGTH                (0x0002)
-#define OPTIGA_CMD_GEN_SYM_KEY_USAGE_TAG                 (0x02)
-#define OPTIGA_CMD_GEN_SYM_KEY_USAGE_LENGTH              (0x0001)
-#define OPTIGA_CMD_GEN_SYM_KEY_EXPORT_TAG                (0x07)
-#define OPTIGA_CMD_GEN_SYM_KEY_EXPORT_LENGTH             (0x0000)
-#define OPTIGA_CMD_GEN_SYM_KEY_TAG                       (0x01)
+#define OPTIGA_CMD_GEN_SYM_KEY_OID_TAG                          (0x01)
+#define OPTIGA_CMD_GEN_SYM_KEY_OID_LENGTH                       (0x0002)
+#define OPTIGA_CMD_GEN_SYM_KEY_USAGE_TAG                        (0x02)
+#define OPTIGA_CMD_GEN_SYM_KEY_USAGE_LENGTH                     (0x0001)
+#define OPTIGA_CMD_GEN_SYM_KEY_EXPORT_TAG                       (0x07)
+#define OPTIGA_CMD_GEN_SYM_KEY_EXPORT_LENGTH                    (0x0000)
+#define OPTIGA_CMD_GEN_SYM_KEY_TAG                              (0x01)
 #endif
 
 // Symmetric encrypt mode
-#define OPTIGA_CMD_OPERATION_MODE_SYMMETRIC_ENCRYPTION   (0x01)
+#define OPTIGA_CMD_OPERATION_MODE_SYMMETRIC_ENCRYPTION          (0x01)
 // Symmetric decrypt mode
-#define OPTIGA_CMD_OPERATION_MODE_SYMMETRIC_DECRYPTION   (0x00)
+#define OPTIGA_CMD_OPERATION_MODE_SYMMETRIC_DECRYPTION          (0x00)
 #if defined (OPTIGA_CRYPT_SYM_DECRYPT_ENABLED) || defined (OPTIGA_CRYPT_HMAC_VERIFY_ENABLED) ||\
     defined (OPTIGA_CRYPT_CLEAR_AUTO_STATE_ENABLED)
 // HMAC mode
-#define OPTIGA_CMD_OPERATION_MODE_HMAC                   (0x02)
+#define OPTIGA_CMD_OPERATION_MODE_HMAC                          (0x02)
 #endif
 #ifdef OPTIGA_CRYPT_CLEAR_AUTO_STATE_ENABLED
 // Auto clear state 
-#define OPTIGA_CMD_OPERATION_MODE_CLEAR_AUTO_STATE       (0x03)
+#define OPTIGA_CMD_OPERATION_MODE_CLEAR_AUTO_STATE              (0x03)
 #endif
 // Function to set given bits
 #define SET_DEV_ERROR_HANDLER_STATE(state){\
@@ -326,33 +330,33 @@ defined (OPTIGA_CRYPT_HMAC_ENABLED) || defined (OPTIGA_CRYPT_HMAC_VERIFY_ENABLED
 // Scheduler definitions
 
 // Optiga execution slot states
-#define     OPTIGA_CMD_QUEUE_NOT_ASSIGNED                (0x00)
-#define     OPTIGA_CMD_QUEUE_ASSIGNED                    (0x01)
-#define     OPTIGA_CMD_QUEUE_REQUEST                     (0x02)
-#define     OPTIGA_CMD_QUEUE_PROCESSING                  (0x04)
-#define     OPTIGA_CMD_QUEUE_RESUME                      (0x08)
+#define     OPTIGA_CMD_QUEUE_NOT_ASSIGNED           (0x00)
+#define     OPTIGA_CMD_QUEUE_ASSIGNED               (0x01)
+#define     OPTIGA_CMD_QUEUE_REQUEST                (0x02)
+#define     OPTIGA_CMD_QUEUE_PROCESSING             (0x04)
+#define     OPTIGA_CMD_QUEUE_RESUME                 (0x08)
 
 // Optiga session state
-#define     OPTIGA_CMD_SESSION_NOT_ASSIGNED              (0x00)
-#define     OPTIGA_CMD_SESSION_ASSIGNED                  (0x10)
+#define     OPTIGA_CMD_SESSION_NOT_ASSIGNED         (0x00)
+#define     OPTIGA_CMD_SESSION_ASSIGNED             (0x10)
 //Session not assigned to optiga cmd instance
-#define     OPTIGA_CMD_NO_SESSION_OID                    (0x0000)
-#define     OPTIGA_CMD_ALL_SESSION_ASSIGNED              (0x10101010)
+#define     OPTIGA_CMD_NO_SESSION_OID               (0x0000)
+#define     OPTIGA_CMD_ALL_SESSION_ASSIGNED         (0x10101010)
 
 // Optiga slot request types
-#define     OPTIGA_CMD_QUEUE_REQUEST_LOCK                (0x21)
-#define     OPTIGA_CMD_QUEUE_REQUEST_STRICT_LOCK         (0x23)
-#define     OPTIGA_CMD_QUEUE_REQUEST_SESSION             (0x22)
-#define     OPTIGA_CMD_QUEUE_NO_REQUEST		             (0x00)
+#define     OPTIGA_CMD_QUEUE_REQUEST_LOCK           (0x21)
+#define     OPTIGA_CMD_QUEUE_REQUEST_STRICT_LOCK    (0x23)
+#define     OPTIGA_CMD_QUEUE_REQUEST_SESSION        (0x22)
+#define     OPTIGA_CMD_QUEUE_NO_REQUEST             (0x00)
 
 // Type of slot, Do not change the values
-#define     OPTIGA_CMD_QUEUE_SLOT_STATE                  (0x09)
+#define     OPTIGA_CMD_QUEUE_SLOT_STATE             (0x09)
 // Type of lock, Do not change the values
-#define     OPTIGA_CMD_QUEUE_SLOT_LOCK_TYPE              (0x08)
+#define     OPTIGA_CMD_QUEUE_SLOT_LOCK_TYPE         (0x08)
 // Frequency of scheduler polling when no asynchronous requests are pending
-#define     OPTIGA_CMD_SCHEDULER_IDLING_TIME_MS          (1000U)
+#define     OPTIGA_CMD_SCHEDULER_IDLING_TIME_MS     (1000U)
 // Frequency of scheduler polling when asynchronous requests is being processed
-#define     OPTIGA_CMD_SCHEDULER_RUNNING_TIME_MS         (50U)
+#define     OPTIGA_CMD_SCHEDULER_RUNNING_TIME_MS    (50U)
 
 /** \brief The enum represents diffrent main state of command handler */
 typedef enum optiga_cmd_state
@@ -1073,6 +1077,7 @@ _STATIC_H void optiga_cmd_queue_reset_slot(const optiga_cmd_t * me)
     pal_os_event_start(me->p_optiga->p_pal_os_event_ctx, optiga_cmd_queue_scheduler, me->p_optiga);
 }
 
+
 /*
 * Release the strict lock associated with instance
 */
@@ -1635,6 +1640,11 @@ optiga_cmd_t * optiga_cmd_create(uint8_t optiga_instance_id, callback_handler_t 
     pal_os_lock_enter_critical_section();
     do
     {
+        //lint --e{778} suppress "There is no chance of g_optiga_list become 0."
+        if ( optiga_instance_id > (uint8_t)((sizeof(g_optiga_list)/sizeof(optiga_context_t *)) - 1 ) )
+        {
+            break;
+        }
         // Get number of free slots
         if (0 == optiga_cmd_queue_get_count_of(g_optiga_list[optiga_instance_id],
                                                OPTIGA_CMD_QUEUE_SLOT_STATE,
