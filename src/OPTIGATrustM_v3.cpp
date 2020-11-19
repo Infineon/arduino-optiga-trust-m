@@ -1655,7 +1655,7 @@ int32_t IFX_OPTIGA_TrustM::generateSymmetricKeyAES(optiga_symmetric_key_type_t s
                                                             sym_key_type,
                                                             (uint8_t)(OPTIGA_KEY_USAGE_SIGN | OPTIGA_KEY_USAGE_AUTHENTICATION | OPTIGA_KEY_USAGE_ENCRYPTION),
                                                             FALSE,
-                                                            OPTIGA_KEY_ID_SECRET_BASED);
+                                                            (void *)OPTIGA_KEY_ID_SECRET_BASED);
         OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
     } while (FALSE);
@@ -1704,12 +1704,12 @@ int32_t IFX_OPTIGA_TrustM::generateSymmetricKeyAES(optiga_symmetric_key_type_t s
     return ard_ret;
 }
 
-int32_t generateHMAC(optiga_hmac_type_t type, 
-                     optiga_key_id_t secret, 
-                     const uint8_t * input_data, 
-                     uint32_t input_data_length, 
-                     uint8_t * mac, 
-                     uint32_t * mac_length)
+int32_t IFX_OPTIGA_TrustM::generateHMAC(optiga_hmac_type_t type, 
+                     					optiga_key_id_t secret, 
+                     					const uint8_t * input_data, 
+                     					uint32_t input_data_length, 
+                     					uint8_t * mac, 
+                     					uint32_t * mac_length)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -1725,9 +1725,9 @@ int32_t generateHMAC(optiga_hmac_type_t type,
         return_status = optiga_crypt_hmac(me_crypt,
                                           type,
                                           secret,
-                                          input_data,,
+                                          input_data,
                                           input_data_length,
-                                          mac
+                                          mac,
                                           mac_length);
 
         OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
@@ -1742,10 +1742,10 @@ int32_t generateHMAC(optiga_hmac_type_t type,
     return ard_ret;
 }
 
-int32_t generateHMAC(optiga_hmac_type_t type, 
-                     optiga_key_id_t secret, 
-                     const uint8_t * input_data, 
-                     uint32_t input_data_length)
+int32_t IFX_OPTIGA_TrustM::generateHMAC(optiga_hmac_type_t type, 
+                     					optiga_key_id_t secret, 
+                     					const uint8_t * input_data, 
+                     					uint32_t input_data_length)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -1761,7 +1761,7 @@ int32_t generateHMAC(optiga_hmac_type_t type,
         return_status = optiga_crypt_hmac_start(me_crypt,
                                                 type,
                                                 secret,
-                                                input_data,,
+                                                input_data,
                                                 input_data_length);
                                           
         OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
@@ -1776,8 +1776,8 @@ int32_t generateHMAC(optiga_hmac_type_t type,
     return ard_ret;
 }
 
-int32_t generateHMAC(const uint8_t * input_data, 
-                     uint32_t input_data_length)
+int32_t IFX_OPTIGA_TrustM::generateHMAC(const uint8_t * input_data, 
+                     					uint32_t input_data_length)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -1791,7 +1791,7 @@ int32_t generateHMAC(const uint8_t * input_data,
         optiga_lib_status = OPTIGA_LIB_BUSY;
 
         return_status = optiga_crypt_hmac_update(me_crypt,
-                                                 input_data,,
+                                                 input_data,
                                                  input_data_length);
                                           
         OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
@@ -1806,10 +1806,10 @@ int32_t generateHMAC(const uint8_t * input_data,
     return ard_ret;
 }
 
-int32_t generateHMAC(const uint8_t * input_data, 
-                     uint32_t input_data_length, 
-                     uint8_t * mac, 
-                     uint32_t * mac_length)
+int32_t IFX_OPTIGA_TrustM::generateHMAC(const uint8_t * input_data, 
+                     					uint32_t input_data_length, 
+                     					uint8_t * mac, 
+                     					uint32_t * mac_length)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -1823,7 +1823,7 @@ int32_t generateHMAC(const uint8_t * input_data,
         optiga_lib_status = OPTIGA_LIB_BUSY;
 
         return_status = optiga_crypt_hmac_finalize(me_crypt,
-                                                   input_data,,
+                                                   input_data,
                                                    input_data_length,
                                                    mac,
                                                    mac_length);

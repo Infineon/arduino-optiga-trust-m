@@ -944,9 +944,9 @@ public:
     int32_t generateHMACSHA256(optiga_hmac_type_t type, optiga_key_id_t secret, const uint8_t * input_data, uint32_t input_data_length)
                               { return generateHMAC(OPTIGA_HMAC_SHA_256, secret, input_data, input_data_length); };
     int32_t generateHMACSHA256(const uint8_t * input_data, uint32_t input_data_length)
-                              { return (input_data, input_data_length); };
+                              { return generateHMAC(input_data, input_data_length); };
     int32_t generateHMACSHA256(const uint8_t * input_data, uint32_t input_data_length, uint8_t * mac, uint32_t * mac_length)
-                              { return (input_data, input_data_length, mac, mac_length) };
+                              { return generateHMAC(input_data, input_data_length, mac, mac_length); };
 
     /**
      * This function generates HMAC on the input data using secret key from the OPTIGA with SHA-384.
@@ -972,9 +972,9 @@ public:
     int32_t generateHMACSHA384(optiga_hmac_type_t type, optiga_key_id_t secret, const uint8_t * input_data, uint32_t input_data_length)
                               { return generateHMAC(OPTIGA_HMAC_SHA_384, secret, input_data, input_data_length); };
     int32_t generateHMACSHA384(const uint8_t * input_data, uint32_t input_data_length)
-                              { return (input_data, input_data_length); };
+                              { return generateHMAC(input_data, input_data_length); };
     int32_t generateHMACSHA384(const uint8_t * input_data, uint32_t input_data_length, uint8_t * mac, uint32_t * mac_length)
-                              { return (input_data, input_data_length, mac, mac_length) };
+                              { return generateHMAC(input_data, input_data_length, mac, mac_length); };
 
     /**
      * This function generates HMAC on the input data using secret key from the OPTIGA with SHA-512. 
@@ -1000,9 +1000,9 @@ public:
     int32_t generateHMACSHA512(optiga_hmac_type_t type, optiga_key_id_t secret, const uint8_t * input_data, uint32_t input_data_length)
                               { return generateHMAC(OPTIGA_HMAC_SHA_512, secret, input_data, input_data_length); };
     int32_t generateHMACSHA512(const uint8_t * input_data, uint32_t input_data_length)
-                              { return (input_data, input_data_length); };
+                              { return generateHMAC(input_data, input_data_length); };
     int32_t generateHMACSHA512(const uint8_t * input_data, uint32_t input_data_length, uint8_t * mac, uint32_t * mac_length)
-                              { return (input_data, input_data_length, mac, mac_length) };
+                              { return generateHMAC(input_data, input_data_length, mac, mac_length); };
 
 	/**
      * This function encrypt user given data with RSAES PKCS1 v1.5 Scheme.
