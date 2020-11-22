@@ -781,7 +781,7 @@ public:
      */
 	int32_t decrypt(uint8_t dataToDecrypt[], uint16_t dlen,  uint16_t keyOID, uint8_t result[], uint16_t& rlen);
 	
-private:
+protected:
 
     optiga_util_t  * me_util  = NULL;
     optiga_crypt_t * me_crypt = NULL;
