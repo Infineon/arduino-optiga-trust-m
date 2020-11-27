@@ -26,6 +26,7 @@
  */
  
 #include "OPTIGATrustM.h"
+// #include "OPTIGATrustM_v3.h"
 
 #define KEY_MAXLENGTH   300
 
@@ -157,6 +158,39 @@ void loop()
 
   output_result("Public Key ", ts, pubKey, pubKeyLen);
   output_result("Private Key ", ts, privKey, privKeyLen);
+
+  // /*
+  //  * Generate a keypair#5 ECC NIST P 521
+  //  */
+  // pubKeyLen = KEY_MAXLENGTH;
+  // privKeyLen = KEY_MAXLENGTH;
+  // printlnGreen("\r\nGenerate Key Pair ECC NIST P 521. Export Private Key ... ");
+  // ts = millis();
+  // ret = trustM_V3.generateKeypairECCP521(pubKey, pubKeyLen, privKey, privKeyLen);
+  // ts = millis() - ts;
+  // if (ret) {
+  //   printlnRed("Failed");
+  //   while (true);
+  // }
+
+  // output_result("Public Key ", ts, pubKey, pubKeyLen);
+  // output_result("Private Key ", ts, privKey, privKeyLen);
+
+  // /*
+  //  * Generate a keypair#6 ECC Brainpool P 256
+  //  */
+  // pubKeyLen = KEY_MAXLENGTH;
+  // privKeyLen = KEY_MAXLENGTH;
+  // printlnGreen("\r\nGenerate Key Pair ECC Brainpool P 256. Store Private Key on Board ... ");
+  // ts = millis();
+  // ret = trustM.generateKeypairECC(pubKey, pubKeyLen);
+  // ts = millis() - ts;
+  // if (ret) {
+  //   printlnRed("Failed");
+  //   while (true);
+  // }
+
+  // output_result("Public Key ", ts, pubKey, pubKeyLen);
   
   /* 
    * Execute the loop just once :)
