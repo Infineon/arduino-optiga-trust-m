@@ -74,7 +74,7 @@ extern "C" {
     #endif
 #else
     //Setting of frame size more than 277 and less than 16 bytes cause unexpected behaviour.
-    #define IFX_I2C_FRAME_SIZE          (277U)
+    #define IFX_I2C_FRAME_SIZE          (19U)
 #endif
 
 /** @brief Transport Layer: header size */
