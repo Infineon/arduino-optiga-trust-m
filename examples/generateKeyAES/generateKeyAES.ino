@@ -26,7 +26,7 @@
  */
 
 #include "OPTIGATrustM.h"
-//#include "OPTIGATrustM_v3.h"
+#include "OPTIGATrustM_v3.h"
 
 #define SUPPRESSCOLLORS
 #include "fprint.h"
