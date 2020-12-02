@@ -1,5 +1,5 @@
-#ifndef FPRINTTT_H
-#define FPRINTTT_H
+#ifndef FPRINT_H
+#define FPRINT_H
 
 #ifdef __cplusplus
 extern "C" {
