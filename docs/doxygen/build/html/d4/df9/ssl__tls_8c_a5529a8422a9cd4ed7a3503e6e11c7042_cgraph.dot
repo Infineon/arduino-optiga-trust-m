@@ -1,0 +1,31 @@
+digraph "ssl_calc_verify_tls"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="ssl_calc_verify_tls",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_md5_clone",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d6c/md5_8c.html#a229002f45a151fdd8683390bd271f55e",tooltip="Clone (the state of) an MD5 context."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_md5_finish_ret",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d6c/md5_8c.html#af63cd4648961d4b2efab1b4e2eb15d82",tooltip="MD5 final digest."];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mbedtls_internal_md5\l_process",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d6c/md5_8c.html#a2fc86ce6eea887e6c6b3cd619da02b21",tooltip="MD5 process data block (internal use only)"];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="mbedtls_md5_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d6c/md5_8c.html#a6cb8881e3dc6179228b69437ccd00451",tooltip="Clear MD5 context."];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="mbedtls_platform_zeroize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dde/platform__util_8c.html#aa4e36b2c1c58d8ad89e1e11b6ebea2d9",tooltip="Securely zeroize a buffer."];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="mbedtls_md5_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d6c/md5_8c.html#ad8147bb77981950e6965914d837d9b3e",tooltip="Initialize MD5 context."];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="mbedtls_sha1_clone",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d24/sha1_8c.html#a1d06f1cd6dc5b2849d08749eef1975f8",tooltip="This function clones the state of a SHA-1 context."];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="mbedtls_sha1_finish_ret",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d24/sha1_8c.html#ad5386f33f3a04ca416fe89e0e8d5039d",tooltip="This function finishes the SHA-1 operation, and writes the result to the output buffer."];
+  Node9 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="mbedtls_internal_sha1\l_process",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d24/sha1_8c.html#a691c38288ec5d507269f95f7eed2c1e0",tooltip="SHA-1 process data block (internal use only)."];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="mbedtls_sha1_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d24/sha1_8c.html#a126091a4e884966454dca38c97770a24",tooltip="This function clears a SHA-1 context."];
+  Node11 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="mbedtls_sha1_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d24/sha1_8c.html#af0cc8deb8dd30a095c6023c498418d24",tooltip="This function initializes a SHA-1 context."];
+}

@@ -1,0 +1,10 @@
+digraph "mbedtls_ssl_get_max_out_record_payload"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_ssl_get_max\l_out_record_payload",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Return the current maximum outgoing record payload in bytes. This takes into account the config...."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_ssl_get_max\l_frag_len",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/df9/ssl__tls_8c.html#a44fb4dcf45412d667778432836be9150",tooltip="Return the maximum fragment length (payload, in bytes). This is the value negotiated with peer if any..."];
+}

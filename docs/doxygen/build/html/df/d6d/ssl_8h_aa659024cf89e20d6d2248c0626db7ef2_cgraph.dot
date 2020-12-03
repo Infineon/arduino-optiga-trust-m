@@ -1,0 +1,14 @@
+digraph "mbedtls_ssl_set_hostname"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_ssl_set_hostname",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Set or reset the hostname to check against the received server certificate. It sets the ServerName TL..."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_calloc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d3f/platform_8c.html#a065dcb25fe2c4492a910bec761400ebe",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d3f/platform_8c.html#a5aeffbc9179142d77ef35d3266d5fc4d",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mbedtls_platform_zeroize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dde/platform__util_8c.html#aa4e36b2c1c58d8ad89e1e11b6ebea2d9",tooltip="Securely zeroize a buffer."];
+}

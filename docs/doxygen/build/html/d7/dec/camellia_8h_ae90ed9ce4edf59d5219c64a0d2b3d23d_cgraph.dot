@@ -1,0 +1,10 @@
+digraph "mbedtls_camellia_crypt_ctr"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_camellia_crypt_ctr",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Perform a CAMELLIA-CTR buffer encryption/decryption operation."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_camellia_crypt_ecb",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d8e/camellia_8c.html#a4399c4d56cd27ffb610abeb70d51f8f7",tooltip="Perform a CAMELLIA-ECB block encryption/decryption operation."];
+}

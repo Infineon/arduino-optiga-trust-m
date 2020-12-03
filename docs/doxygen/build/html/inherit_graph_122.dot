@@ -1,0 +1,8 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="optiga_gen_keypair",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/d66/structoptiga__gen__keypair.html",tooltip="Specifies the data structure for generate key pair."];
+}

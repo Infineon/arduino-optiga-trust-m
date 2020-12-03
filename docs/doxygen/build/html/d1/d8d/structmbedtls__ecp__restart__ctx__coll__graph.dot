@@ -1,0 +1,16 @@
+digraph "mbedtls_ecp_restart_ctx"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="mbedtls_ecp_restart_ctx",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="General context for resuming ECC operations."];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" rsm" ,fontname="Helvetica"];
+  Node2 [label="mbedtls_ecp_restart_mul",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/dab/structmbedtls__ecp__restart__mul.html",tooltip=" "];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" R\nT" ,fontname="Helvetica"];
+  Node3 [label="mbedtls_ecp_point",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d5a/structmbedtls__ecp__point.html",tooltip="The ECP point structure, in Jacobian coordinates."];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" X\nY\nZ" ,fontname="Helvetica"];
+  Node4 [label="mbedtls_mpi",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d11/structmbedtls__mpi.html",tooltip="MPI structure."];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" ma" ,fontname="Helvetica"];
+  Node5 [label="mbedtls_ecp_restart\l_muladd",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/dac/structmbedtls__ecp__restart__muladd.html",tooltip=" "];
+  Node3 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" R\nmP" ,fontname="Helvetica"];
+}

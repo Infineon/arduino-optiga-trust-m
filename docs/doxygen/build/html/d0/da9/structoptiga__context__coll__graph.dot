@@ -1,0 +1,15 @@
+digraph "optiga_context"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="optiga_context",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="OPTIGA Context which holds the communication buffer, comms instance and other required...."];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" p_pal_os_event_ctx" ,fontname="Helvetica"];
+  Node2 [label="pal_os_event",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/df5/structpal__os__event.html",tooltip="PAL os event structure."];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" p_optiga_comms" ,fontname="Helvetica"];
+  Node3 [label="optiga_comms",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/dc7/structoptiga__comms.html",tooltip="Optiga comms structure."];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" upper_layer_handler" ,fontname="Helvetica"];
+  Node4 [label="event",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" optiga_cmd_execution\l_queue" ,fontname="Helvetica"];
+  Node5 [label="optiga_cmd_queue_slot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d84/structoptiga__cmd__queue__slot.html",tooltip="The structure represents the slot in the execution queue."];
+}

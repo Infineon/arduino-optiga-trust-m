@@ -1,0 +1,14 @@
+digraph "mbedtls_x509_crt_restart_free"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_x509_crt_restart_free",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Free the components of a restart context."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_pk_restart_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dbd/pk_8c.html#ab82d0dc78b3262f16087fa4814eeca9c",tooltip="Free the components of a restart context."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_x509_crt_restart_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc4/group__x509__module.html#ga428fd958e44acf6063a925bf95f0a8a2",tooltip="Initialize a restart context."];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mbedtls_pk_restart_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dbd/pk_8c.html#a68035977bd3664838529bcc0ad95e059",tooltip="Initialize a restart context."];
+}

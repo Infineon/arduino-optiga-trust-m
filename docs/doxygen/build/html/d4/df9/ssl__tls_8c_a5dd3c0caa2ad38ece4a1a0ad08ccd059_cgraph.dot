@@ -1,0 +1,12 @@
+digraph "mbedtls_ssl_check_cert_usage"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_ssl_check_cert\l_usage",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_x509_crt_check\l_extended_key_usage",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc4/group__x509__module.html#gad21c0e75a3fdbeb1f65e4d339e479df3",tooltip="Check usage of certificate against extendedKeyUsage."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_x509_crt_check\l_key_usage",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc4/group__x509__module.html#ga0ab7857ffd82467207e718bb9f0131a2",tooltip="Check usage of certificate against keyUsage extension."];
+}

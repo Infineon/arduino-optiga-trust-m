@@ -1,0 +1,30 @@
+digraph "mbedtls_x509_crl_parse"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_x509_crl_parse",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Parse one or more CRLs and append them to the chained list."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_pem_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d32/pem_8c.html#a84ba36e8321d38064d78f29a97d7014c",tooltip="PEM context memory freeing."];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d3f/platform_8c.html#a5aeffbc9179142d77ef35d3266d5fc4d",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mbedtls_platform_zeroize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dde/platform__util_8c.html#aa4e36b2c1c58d8ad89e1e11b6ebea2d9",tooltip="Securely zeroize a buffer."];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="mbedtls_pem_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d32/pem_8c.html#a0421a5ec66a7efca0b6868ae72551d47",tooltip="PEM context setup."];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="mbedtls_pem_read_buffer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d32/pem_8c.html#a4ba4a0490a5edf5ca2055b8385863c39",tooltip="Read a buffer for PEM information and store the resulting data into the specified context buffers."];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="mbedtls_x509_crl_parse_der",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc4/group__x509__module.html#ga29ab5f1216a727b334ee26cce9f5d4b5",tooltip="Parse a DER-encoded CRL and append it to the chained list."];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="mbedtls_asn1_get_tag",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d01/group__asn1__module.html#gae8d7dd42a3b99b61d2ef60bc0c2eaf0d",tooltip="Get the tag and length of the tag. Check for the requested tag. Updates the pointer to immediately be..."];
+  Node7 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="mbedtls_calloc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d3f/platform_8c.html#a065dcb25fe2c4492a910bec761400ebe",tooltip=" "];
+  Node7 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="mbedtls_x509_crl_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc4/group__x509__module.html#gaeb19c3326889f9e493fbd605c1113b96",tooltip="Unallocate all CRL data."];
+  Node10 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="mbedtls_x509_crl_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc4/group__x509__module.html#ga8513a192e281217802837571da98e218",tooltip="Initialize a CRL (chain)"];
+}

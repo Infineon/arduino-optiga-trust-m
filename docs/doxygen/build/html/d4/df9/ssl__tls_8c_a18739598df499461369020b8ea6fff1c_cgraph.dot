@@ -1,0 +1,12 @@
+digraph "mbedtls_ssl_get_ciphersuite"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_ssl_get_ciphersuite",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Return the name of the current ciphersuite."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_ssl_get_ciphersuite_name",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d6d/ssl_8h.html#ada9a0169e4712521049117d29b91e1e5",tooltip="Return the name of the ciphersuite associated with the given ID."];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_ssl_ciphersuite\l_from_id",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d8e/ssl__ciphersuites_8c.html#a3f7c90bb6a864d2e078c671fb7540520",tooltip=" "];
+}

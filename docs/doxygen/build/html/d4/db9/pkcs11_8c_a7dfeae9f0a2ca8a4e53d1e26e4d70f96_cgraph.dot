@@ -1,0 +1,31 @@
+digraph "mbedtls_pkcs11_priv_key_bind"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_pkcs11_priv\l_key_bind",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_pkcs11_x509\l_cert_bind",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/db9/pkcs11_8c.html#ad7eafb267d9db01dcf504d7bac46fd8d",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_calloc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d3f/platform_8c.html#a065dcb25fe2c4492a910bec761400ebe",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mbedtls_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d3f/platform_8c.html#a5aeffbc9179142d77ef35d3266d5fc4d",tooltip=" "];
+  Node2 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="mbedtls_x509_crt_parse",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc4/group__x509__module.html#ga033567483649030f7f859db4f4cb7e14",tooltip="Parse one DER-encoded or one or more concatenated PEM-encoded certificates and add them to the chaine..."];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="mbedtls_pem_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d32/pem_8c.html#a84ba36e8321d38064d78f29a97d7014c",tooltip="PEM context memory freeing."];
+  Node6 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="mbedtls_platform_zeroize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dde/platform__util_8c.html#aa4e36b2c1c58d8ad89e1e11b6ebea2d9",tooltip="Securely zeroize a buffer."];
+  Node5 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="mbedtls_pem_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d32/pem_8c.html#a0421a5ec66a7efca0b6868ae72551d47",tooltip="PEM context setup."];
+  Node5 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="mbedtls_pem_read_buffer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d32/pem_8c.html#a4ba4a0490a5edf5ca2055b8385863c39",tooltip="Read a buffer for PEM information and store the resulting data into the specified context buffers."];
+  Node5 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="mbedtls_x509_crt_parse_der",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc4/group__x509__module.html#ga003c2483a2691e025641fa9d68d4a96a",tooltip="Parse a single DER formatted certificate and add it to the chained list."];
+  Node10 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="mbedtls_x509_crt_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc4/group__x509__module.html#ga016dd06bc770e77b84005f305df20ed1",tooltip="Initialize a certificate (chain)"];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

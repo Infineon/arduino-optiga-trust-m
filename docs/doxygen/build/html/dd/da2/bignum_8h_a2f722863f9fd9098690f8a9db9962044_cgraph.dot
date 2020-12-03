@@ -1,0 +1,14 @@
+digraph "mbedtls_mpi_copy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_mpi_copy",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Make a copy of an MPI."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_mpi_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dcc/bignum_8c.html#abffd5d8382cb86c089a1ef2bebb90f9f",tooltip="This function frees the components of an MPI context."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_mpi_grow",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dcc/bignum_8c.html#a22263d90d838cb58f271aa8f1920843d",tooltip="Enlarge an MPI to the specified number of limbs."];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mbedtls_calloc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d3f/platform_8c.html#a065dcb25fe2c4492a910bec761400ebe",tooltip=" "];
+}

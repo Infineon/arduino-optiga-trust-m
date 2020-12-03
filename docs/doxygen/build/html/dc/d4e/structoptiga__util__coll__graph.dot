@@ -1,0 +1,31 @@
+digraph "optiga_util"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="optiga_util",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="OPTIGA util instance structure."];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" handler" ,fontname="Helvetica"];
+  Node2 [label="event",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" my_cmd" ,fontname="Helvetica"];
+  Node3 [label="optiga_cmd",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/d87/structoptiga__cmd.html",tooltip="Command context."];
+  Node2 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" handler" ,fontname="Helvetica"];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" p_optiga" ,fontname="Helvetica"];
+  Node4 [label="optiga_context",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/df6/structoptiga__context.html",tooltip="OPTIGA Context which holds the communication buffer, comms instance and other required...."];
+  Node5 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" p_pal_os_event_ctx" ,fontname="Helvetica"];
+  Node5 [label="pal_os_event",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/df5/structpal__os__event.html",tooltip="PAL os event structure."];
+  Node6 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" p_optiga_comms" ,fontname="Helvetica"];
+  Node6 [label="optiga_comms",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/dc7/structoptiga__comms.html",tooltip="Optiga comms structure."];
+  Node2 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" upper_layer_handler" ,fontname="Helvetica"];
+  Node7 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" optiga_cmd_execution\l_queue" ,fontname="Helvetica"];
+  Node7 [label="optiga_cmd_queue_slot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d84/structoptiga__cmd__queue__slot.html",tooltip="The structure represents the slot in the execution queue."];
+  Node3 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" cmd_hdlrs" ,fontname="Helvetica"];
+  Node8 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" params" ,fontname="Helvetica"];
+  Node8 [label="optiga_util_params",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/d72/unionoptiga__util__params.html",tooltip="union for OPTIGA util parameters"];
+  Node9 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" optiga_get_data_object\l_params" ,fontname="Helvetica"];
+  Node9 [label="optiga_get_data_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d1b/structoptiga__get__data__object.html",tooltip="Specifies the data structure for data to be read from OPTIGA."];
+  Node10 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" optiga_set_object_protected\l_params" ,fontname="Helvetica"];
+  Node10 [label="optiga_set_object_protected\l_params",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/db9/structoptiga__set__object__protected__params.html",tooltip="Specifies the data structure for protected update."];
+  Node11 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" optiga_set_data_object\l_params" ,fontname="Helvetica"];
+  Node11 [label="optiga_set_data_object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d11/structoptiga__set__data__object.html",tooltip="Specifies the data structure for data to be written to OPTIGA."];
+}

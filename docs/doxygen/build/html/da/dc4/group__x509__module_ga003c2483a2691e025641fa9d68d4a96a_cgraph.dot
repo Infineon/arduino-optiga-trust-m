@@ -1,0 +1,12 @@
+digraph "mbedtls_x509_crt_parse_der"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_x509_crt_parse_der",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Parse a single DER formatted certificate and add it to the chained list."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_calloc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d3f/platform_8c.html#a065dcb25fe2c4492a910bec761400ebe",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_x509_crt_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc4/group__x509__module.html#ga016dd06bc770e77b84005f305df20ed1",tooltip="Initialize a certificate (chain)"];
+}

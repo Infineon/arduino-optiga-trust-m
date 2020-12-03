@@ -1,0 +1,25 @@
+digraph "mbedtls_ripemd160"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_ripemd160",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Output = RIPEMD-160( input buffer )"];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_ripemd160_ret",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/da9/ripemd160_8c.html#a95fcfdd9cab635e2127d77a0f8a9ef5b",tooltip="Output = RIPEMD-160( input buffer )"];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_ripemd160_finish_ret",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/da9/ripemd160_8c.html#a997017b06010b9c0660dc11c872ed86b",tooltip="RIPEMD-160 final digest."];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mbedtls_ripemd160_update_ret",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/da9/ripemd160_8c.html#a95f2a4b18c364e9edcd9ccbbf14ca20c",tooltip="RIPEMD-160 process buffer."];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="mbedtls_internal_ripemd160\l_process",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/da9/ripemd160_8c.html#a6dfe341167577a7d4ac13f75351be9b6",tooltip="RIPEMD-160 process data block (internal use only)"];
+  Node2 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="mbedtls_ripemd160_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/da9/ripemd160_8c.html#a8b7b57650be232cb05ae37bc859332d1",tooltip="Clear RIPEMD-160 context."];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="mbedtls_platform_zeroize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dde/platform__util_8c.html#aa4e36b2c1c58d8ad89e1e11b6ebea2d9",tooltip="Securely zeroize a buffer."];
+  Node2 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="mbedtls_ripemd160_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/da9/ripemd160_8c.html#a650a9d62b92a35fbb461e10c5d11c546",tooltip="Initialize RIPEMD-160 context."];
+  Node2 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="mbedtls_ripemd160_starts_ret",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/da9/ripemd160_8c.html#af734f3890b3d035e049f10012cf7d043",tooltip="RIPEMD-160 context setup."];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

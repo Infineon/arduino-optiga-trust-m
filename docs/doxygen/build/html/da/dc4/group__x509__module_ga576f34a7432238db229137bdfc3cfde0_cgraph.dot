@@ -1,0 +1,10 @@
+digraph "mbedtls_x509_dn_gets"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_x509_dn_gets",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Store the certificate DN in printable form into buf; no more than size characters will be written."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_oid_get_attr\l_short_name",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d73/oid_8h.html#a027b5bb24a69578666631ffea74064a1",tooltip="Translate an X.509 attribute type OID into the short name (e.g. the OID for an X520 Common Name into ..."];
+}

@@ -1,0 +1,27 @@
+digraph "x509_crt_verify_chain_item"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="x509_crt_verify_chain_item",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" crt" ,fontname="Helvetica"];
+  Node2 [label="mbedtls_x509_crt",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/daa/structmbedtls__x509__crt.html",tooltip=" "];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" ext_key_usage\nsubject_alt_names" ,fontname="Helvetica"];
+  Node3 [label="mbedtls_asn1_sequence",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d3d/structmbedtls__asn1__sequence.html",tooltip=" "];
+  Node3 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" next" ,fontname="Helvetica"];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" buf" ,fontname="Helvetica"];
+  Node4 [label="mbedtls_asn1_buf",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d6a/structmbedtls__asn1__buf.html",tooltip=" "];
+  Node5 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" issuer\nsubject" ,fontname="Helvetica"];
+  Node5 [label="mbedtls_asn1_named_data",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d5f/structmbedtls__asn1__named__data.html",tooltip=" "];
+  Node5 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" next" ,fontname="Helvetica"];
+  Node4 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" oid\nval" ,fontname="Helvetica"];
+  Node4 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" issuer_id\nissuer_raw\nraw\nserial\nsig\nsig_oid\nsubject_id\nsubject_raw\ntbs\nv3_ext\n..." ,fontname="Helvetica"];
+  Node6 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" valid_from\nvalid_to" ,fontname="Helvetica"];
+  Node6 [label="mbedtls_x509_time",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/dcf/structmbedtls__x509__time.html",tooltip=" "];
+  Node2 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" next" ,fontname="Helvetica"];
+  Node7 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" pk" ,fontname="Helvetica"];
+  Node7 [label="mbedtls_pk_context",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d1b/structmbedtls__pk__context.html",tooltip="Public key container."];
+  Node8 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" pk_info" ,fontname="Helvetica"];
+  Node8 [label="mbedtls_pk_info_t",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d36/structmbedtls__pk__info__t.html",tooltip=" "];
+}

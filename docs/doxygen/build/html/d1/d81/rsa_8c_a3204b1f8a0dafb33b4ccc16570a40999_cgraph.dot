@@ -1,0 +1,15 @@
+digraph "mbedtls_rsa_check_pub_priv"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_rsa_check_pub_priv",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This function checks a public-private RSA key pair."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_mpi_cmp_mpi",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dcc/bignum_8c.html#a762dd8add46384d4935a4aecc125096e",tooltip="Compare two MPIs."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_rsa_check_privkey",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d81/rsa_8c.html#ab393f7a4d3882ac0b2afa51b641bf475",tooltip="This function checks if a context contains an RSA private key and perform basic consistency checks."];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mbedtls_rsa_check_pubkey",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d81/rsa_8c.html#ad5da263d80db9ee27f084b68b0092546",tooltip="This function checks if a context contains at least an RSA public key."];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

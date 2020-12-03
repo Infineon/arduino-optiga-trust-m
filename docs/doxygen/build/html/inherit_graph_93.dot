@@ -1,0 +1,8 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="mbedtls_ssl_ticket_key",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/de8/structmbedtls__ssl__ticket__key.html",tooltip="Information for session ticket protection."];
+}

@@ -1,0 +1,25 @@
+digraph "mbedtls_md2"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_md2",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Output = MD2( input buffer )"];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_md2_ret",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/dd8/md2_8c.html#acadd8089e3f85cbee9509a816c7fef7c",tooltip="Output = MD2( input buffer )"];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_md2_finish_ret",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/dd8/md2_8c.html#a7f312acc5fdc3e55426e5f4732d8e718",tooltip="MD2 final digest."];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mbedtls_internal_md2\l_process",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/dd8/md2_8c.html#a53e3f89c8c0f4a83c29c01545f25d0b4",tooltip="MD2 process data block (internal use only)"];
+  Node2 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="mbedtls_md2_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/dd8/md2_8c.html#aa4e7e7bee8322a4409c1d562a9b5efa4",tooltip="Clear MD2 context."];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="mbedtls_platform_zeroize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dde/platform__util_8c.html#aa4e36b2c1c58d8ad89e1e11b6ebea2d9",tooltip="Securely zeroize a buffer."];
+  Node2 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="mbedtls_md2_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/dd8/md2_8c.html#a13c177d87d53058704c37e0c29fef8b5",tooltip="Initialize MD2 context."];
+  Node2 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="mbedtls_md2_starts_ret",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/dd8/md2_8c.html#add4f482b9b44cf5e04a8c779f97a7a7b",tooltip="MD2 context setup."];
+  Node2 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="mbedtls_md2_update_ret",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/dd8/md2_8c.html#ae454b2785eac074232085c6baa2568dd",tooltip="MD2 process buffer."];
+  Node9 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

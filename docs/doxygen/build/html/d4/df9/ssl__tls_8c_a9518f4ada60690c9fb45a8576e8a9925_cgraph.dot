@@ -1,0 +1,12 @@
+digraph "mbedtls_ssl_psk_derive_premaster"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_ssl_psk_derive\l_premaster",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_dhm_calc_secret",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/d16/dhm_8c.html#ac3985de01420d018ed91daec9e7d7969",tooltip="This function derives and exports the shared secret (G^Y)^X mod P."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_ecdh_calc_secret",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/dc9/ecdh_8c.html#a423fee27a0c8603bba336cbfe6dadcaa",tooltip="This function derives and exports the shared secret."];
+}

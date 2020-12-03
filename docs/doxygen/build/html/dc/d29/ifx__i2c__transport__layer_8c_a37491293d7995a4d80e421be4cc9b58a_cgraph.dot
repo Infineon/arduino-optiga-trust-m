@@ -1,0 +1,53 @@
+digraph "ifx_i2c_tl_send_next_fragment"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="ifx_i2c_tl_send_next\l_fragment",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="ifx_i2c_dl_send_frame",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d17/ifx__i2c__data__link__layer_8c.html#acda0916085df94f289a343110157fb99",tooltip="Function for sending a frame."];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="ifx_i2c_dl_send_frame\l_internal",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d17/ifx__i2c__data__link__layer_8c.html#a5f7865854ebd83541e0559a25d521023",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="ifx_i2c_dl_calc_crc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d17/ifx__i2c__data__link__layer_8c.html#a9d23a4c496fdc92c22572ee09e4967ec",tooltip=" "];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="ifx_i2c_dl_calc_crc_byte",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d17/ifx__i2c__data__link__layer_8c.html#a85d56ba5e04e97e8f2bc3d0893e86446",tooltip=" "];
+  Node3 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="ifx_i2c_pl_send_frame",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d01/ifx__i2c__physical__layer_8c.html#a58465fb4468ce23d645cc37b060d8942",tooltip="Function for sending a frame."];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="ifx_i2c_pl_frame_event\l_handler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d01/ifx__i2c__physical__layer_8c.html#a861f23046b66b4dd77521a4fa98e4204",tooltip=" "];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="ifx_i2c_pl_negotiation\l_event_handler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d01/ifx__i2c__physical__layer_8c.html#a709558b6b4e67fccf7c5fb76e2af1ef3",tooltip=" "];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="ifx_i2c_pl_read_register",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d01/ifx__i2c__physical__layer_8c.html#a22e117b8670c542fd94fba87e041293a",tooltip=" "];
+  Node9 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="pal_i2c_write",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dc2/pal__i2c_8h.html#a20a6ba51da2325eb170acd62c855e827",tooltip="Writes on I2C bus."];
+  Node8 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="ifx_i2c_pl_set_bit_rate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d01/ifx__i2c__physical__layer_8c.html#a63396640292aa554e4839ae52440167d",tooltip=" "];
+  Node11 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="pal_i2c_set_bitrate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dc2/pal__i2c_8h.html#a339652b7cbdfd5ae0e031e4a6da284f9",tooltip="Sets the I2C Master bitrate."];
+  Node11 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="pal_os_event_register\l_callback_oneshot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d5e/pal__os__event_8h.html#ae19d426d427610ee4451d6a180f6c1a6",tooltip="Callback registration function to trigger once when timer expires."];
+  Node8 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="ifx_i2c_pl_write_register",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d01/ifx__i2c__physical__layer_8c.html#a2c966b1934a2e845a14d8d8749135734",tooltip=" "];
+  Node14 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="ifx_i2c_pl_soft_reset",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d01/ifx__i2c__physical__layer_8c.html#a337508a9d7baecd5a2a5d1942a89e254",tooltip=" "];
+  Node15 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="ifx_i2c_pl_status_poll\l_callback",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d01/ifx__i2c__physical__layer_8c.html#a69f37cc1f205498c2e7a95a87a08c59b",tooltip=" "];
+  Node16 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="pal_os_timer_get_time\l_in_milliseconds",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/d40/pal__os__timer_8h.html#a9b652f13b4c40387615be7f849115553",tooltip="Gets tick count value in milliseconds."];
+  Node1 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="ifx_i2c_tl_calculate_pctr",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d29/ifx__i2c__transport__layer_8c.html#a9e1bf1c436c825c71ba65f5b01fdf9d7",tooltip=" "];
+}

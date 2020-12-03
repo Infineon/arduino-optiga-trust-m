@@ -1,0 +1,35 @@
+digraph "mbedtls_ecp_check_pub_priv"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_ecp_check_pub_priv",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This function checks that the keypair objects pub and prv have the same group and the same public poi..."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_ecp_group_copy",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d4d/ecp_8c.html#a2b6e780826b5d6ba4fd5dd5911e490dc",tooltip="This function copies the contents of group src into group dst."];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_ecp_group_load",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/df7/ecp_8h.html#a64439a12deff8bd1ef92eeab7ebbcf93",tooltip="This function sets up an ECP group context from a standardized set of domain parameters."];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mbedtls_ecp_group_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d4d/ecp_8c.html#a97b130596caa2844282181082f66cb90",tooltip="This function frees the components of an ECP group."];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="mbedtls_ecp_point_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d4d/ecp_8c.html#a87004f74814cc59a9ef757aea444098d",tooltip="This function frees the components of a point."];
+  Node4 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="mbedtls_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d3f/platform_8c.html#a5aeffbc9179142d77ef35d3266d5fc4d",tooltip=" "];
+  Node4 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="mbedtls_mpi_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dcc/bignum_8c.html#abffd5d8382cb86c089a1ef2bebb90f9f",tooltip="This function frees the components of an MPI context."];
+  Node4 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="mbedtls_platform_zeroize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dde/platform__util_8c.html#aa4e36b2c1c58d8ad89e1e11b6ebea2d9",tooltip="Securely zeroize a buffer."];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="mbedtls_ecp_group_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d4d/ecp_8c.html#a5102f6d44d9f16aece7b2e685c31e5da",tooltip="This function initializes an ECP group context without loading any domain parameters."];
+  Node9 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="mbedtls_ecp_point_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d4d/ecp_8c.html#ae069f80bc2f9cf2215c34430a9ccd924",tooltip="This function initializes a point as zero."];
+  Node9 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="mbedtls_mpi_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dcc/bignum_8c.html#a99c7cca612b47dc4f3b96905c4f9d69e",tooltip="Initialize an MPI context."];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="mbedtls_ecp_mul",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d4d/ecp_8c.html#a4d005045c302e100c78bdc587e8f0e6a",tooltip="This function performs a scalar multiplication of a point by an integer: R = m * P."];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="mbedtls_mpi_cmp_mpi",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dcc/bignum_8c.html#a762dd8add46384d4935a4aecc125096e",tooltip="Compare two MPIs."];
+}

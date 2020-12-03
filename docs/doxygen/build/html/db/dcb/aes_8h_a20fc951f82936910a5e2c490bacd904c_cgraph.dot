@@ -1,0 +1,10 @@
+digraph "mbedtls_aes_xts_init"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_aes_xts_init",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This function initializes the specified AES XTS context."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_aes_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d34/aes_8c.html#aa72dac8d698ab861843ef74ce8ebf62c",tooltip="This function initializes the specified AES context."];
+}

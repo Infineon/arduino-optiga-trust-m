@@ -1,0 +1,12 @@
+digraph "ifx_i2c_pl_status_poll_callback"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="ifx_i2c_pl_status_poll\l_callback",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="ifx_i2c_pl_read_register",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d01/ifx__i2c__physical__layer_8c.html#a22e117b8670c542fd94fba87e041293a",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="pal_i2c_write",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dc2/pal__i2c_8h.html#a20a6ba51da2325eb170acd62c855e827",tooltip="Writes on I2C bus."];
+}

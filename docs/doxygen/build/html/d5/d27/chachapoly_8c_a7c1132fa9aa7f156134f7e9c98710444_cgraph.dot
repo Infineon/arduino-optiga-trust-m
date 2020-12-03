@@ -1,0 +1,17 @@
+digraph "mbedtls_chachapoly_starts"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_chachapoly\l_starts",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This function starts a ChaCha20-Poly1305 encryption or decryption operation."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_chacha20_starts",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/dd7/chacha20_8c.html#ae101dbef191baa8c785ac75862e2d094",tooltip="This function sets the nonce and initial counter value."];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_platform_zeroize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dde/platform__util_8c.html#aa4e36b2c1c58d8ad89e1e11b6ebea2d9",tooltip="Securely zeroize a buffer."];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mbedtls_chacha20_update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/dd7/chacha20_8c.html#afdc3d51bfaf82786b5d24ea15542b167",tooltip="This function encrypts or decrypts data."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="mbedtls_poly1305_starts",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dd6/poly1305_8c.html#aeec95fe26f3ddb9e631d3a916449b6fb",tooltip="This function sets the one-time authentication key."];
+}

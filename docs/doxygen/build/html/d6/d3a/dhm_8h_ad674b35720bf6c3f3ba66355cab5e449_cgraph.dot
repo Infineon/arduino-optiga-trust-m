@@ -1,0 +1,33 @@
+digraph "mbedtls_dhm_make_params"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_dhm_make_params",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This function generates a DHM key pair and exports its public part together with the DHM parameters i..."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_mpi_cmp_int",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dcc/bignum_8c.html#ad0e7f426326afc7d3fde309a7a8d82fa",tooltip="Compare an MPI with an integer."];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_mpi_cmp_mpi",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dcc/bignum_8c.html#a762dd8add46384d4935a4aecc125096e",tooltip="Compare two MPIs."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mbedtls_mpi_fill_random",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dcc/bignum_8c.html#a81b99c0a79d3e8ddedfd4a6ee37ceb1e",tooltip="Fill an MPI with a number of random bytes."];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="mbedtls_mpi_read_binary",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dcc/bignum_8c.html#a68f62c99e53eb034daea486e5d5d83ca",tooltip="Import an MPI from unsigned big endian binary data."];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="mbedtls_mpi_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dcc/bignum_8c.html#abffd5d8382cb86c089a1ef2bebb90f9f",tooltip="This function frees the components of an MPI context."];
+  Node5 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="mbedtls_mpi_grow",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dcc/bignum_8c.html#a22263d90d838cb58f271aa8f1920843d",tooltip="Enlarge an MPI to the specified number of limbs."];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="mbedtls_calloc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d3f/platform_8c.html#a065dcb25fe2c4492a910bec761400ebe",tooltip=" "];
+  Node5 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="mbedtls_mpi_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dcc/bignum_8c.html#a99c7cca612b47dc4f3b96905c4f9d69e",tooltip="Initialize an MPI context."];
+  Node5 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="mbedtls_mpi_lset",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dcc/bignum_8c.html#a65644d139404325130491759a5651f6d",tooltip="Store integer value in MPI."];
+  Node10 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="mbedtls_platform_zeroize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dde/platform__util_8c.html#aa4e36b2c1c58d8ad89e1e11b6ebea2d9",tooltip="Securely zeroize a buffer."];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="mbedtls_mpi_shift_r",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dcc/bignum_8c.html#aee1140147b1e807645cebf64ebded168",tooltip="Perform a right-shift on an MPI: X >>= count."];
+  Node12 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

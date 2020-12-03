@@ -1,0 +1,12 @@
+digraph "optiga_comms_open"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="optiga_comms_open",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Opens the communication channel with OPTIGA."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="endif",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d68/_c_make_lists_8txt.html#a6a936336f6a8d0214665125a465f5ca3",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="ifx_i2c_open",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/db2/ifx__i2c_8c.html#a1b6ef08b044c3d93203043f85fd96849",tooltip="Initializes the IFX I2C protocol stack for a given context."];
+}

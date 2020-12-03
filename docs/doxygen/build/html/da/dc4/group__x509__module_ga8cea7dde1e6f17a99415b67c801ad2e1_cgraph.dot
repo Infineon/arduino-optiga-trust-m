@@ -1,0 +1,34 @@
+digraph "mbedtls_x509_get_sig_alg"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_x509_get_sig_alg",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_calloc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d3f/platform_8c.html#a065dcb25fe2c4492a910bec761400ebe",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_free",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d3f/platform_8c.html#a5aeffbc9179142d77ef35d3266d5fc4d",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mbedtls_oid_get_sig_alg",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d73/oid_8h.html#abc3e1ab713f5693308de415bbde0d5a0",tooltip="Translate SignatureAlgorithm OID into md_type and pk_type."];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="mbedtls_x509_get_rsassa\l_pss_params",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc4/group__x509__module.html#ga158d0b17cd5ef8fa250f50129c46768b",tooltip=" "];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="mbedtls_asn1_get_tag",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d01/group__asn1__module.html#gae8d7dd42a3b99b61d2ef60bc0c2eaf0d",tooltip="Get the tag and length of the tag. Check for the requested tag. Updates the pointer to immediately be..."];
+  Node5 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="mbedtls_oid_get_md_alg",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d73/oid_8h.html#ad17c5466d99de2ea8a9c581ecdfbded1",tooltip="Translate hash algorithm OID into md_type."];
+  Node5 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="mbedtls_x509_get_alg",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc4/group__x509__module.html#ga96a6e579899dff8e0669977605a85178",tooltip=" "];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="mbedtls_asn1_get_alg",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d01/group__asn1__module.html#gadd253579640ea717f368d9a0f6085be0",tooltip="Retrieve an AlgorithmIdentifier ASN.1 sequence. Updates the pointer to immediately behind the full Al..."];
+  Node9 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="mbedtls_asn1_get_len",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d01/group__asn1__module.html#gad45c1d0ed3694fe903342cb32647bfb1",tooltip="Get the length of an ASN.1 element. Updates the pointer to immediately behind the length."];
+  Node9 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="mbedtls_platform_zeroize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dde/platform__util_8c.html#aa4e36b2c1c58d8ad89e1e11b6ebea2d9",tooltip="Securely zeroize a buffer."];
+  Node5 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="mbedtls_x509_get_alg_null",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc4/group__x509__module.html#ga6d841aa6a9b81bf0b5d5877ef7a1c11a",tooltip=" "];
+  Node12 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="mbedtls_asn1_get_alg_null",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d01/group__asn1__module.html#gadad023ecf92a50d47eaf206705efdb0e",tooltip="Retrieve an AlgorithmIdentifier ASN.1 sequence with NULL or no params. Updates the pointer to immedia..."];
+  Node13 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

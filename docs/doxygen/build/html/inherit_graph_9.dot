@@ -1,0 +1,8 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="ifx_i2c_dl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d16/structifx__i2c__dl.html",tooltip="Datalink layer structure."];
+}

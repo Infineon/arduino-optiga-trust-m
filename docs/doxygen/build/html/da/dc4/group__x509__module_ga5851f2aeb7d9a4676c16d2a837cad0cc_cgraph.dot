@@ -1,0 +1,57 @@
+digraph "mbedtls_x509write_csr_pem"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_x509write_csr_pem",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Write a CSR (Certificate Signing Request) to a PEM string."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_pem_write_buffer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d32/pem_8c.html#a0fe6df77c4783c3f639ab5e47e5632aa",tooltip="Write a buffer of PEM information from a DER encoded buffer."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_x509write_csr_der",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc4/group__x509__module.html#gade066bfe50987c491ff51ce4f347fcb4",tooltip="Write a CSR (Certificate Signing Request) to a DER structure Note: data is written at the end of the ..."];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mbedtls_asn1_write_int",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d40/asn1write_8c.html#a6c5e6e927a74d85aea15866fb50e63c8",tooltip="Write an int tag (#MBEDTLS_ASN1_INTEGER) and value in ASN.1 format."];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="mbedtls_asn1_write_len",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d40/asn1write_8c.html#a7fe6f4cdba05081bff484a7b286108df",tooltip="Write a length field in ASN.1 format."];
+  Node4 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="mbedtls_asn1_write_tag",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d40/asn1write_8c.html#a2247b80bd02e2981dc26ce62ffbb1859",tooltip="Write an ASN.1 tag in ASN.1 format."];
+  Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="mbedtls_asn1_write_oid",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d40/asn1write_8c.html#ab437fb4183494e4c9cf4b6e15ca236d6",tooltip="Write an OID tag (#MBEDTLS_ASN1_OID) and data in ASN.1 format."];
+  Node7 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="mbedtls_asn1_write\l_raw_buffer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d40/asn1write_8c.html#a1ecd132a57faf95c61423dc9cdc30143",tooltip="Write raw buffer data."];
+  Node7 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="mbedtls_md",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d7e/md_8c.html#a36c5d8bda1905e0434708f0ef5912dda",tooltip="This function calculates the message-digest of a buffer, with respect to a configurable message-diges..."];
+  Node3 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="mbedtls_md_info_from_type",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d7e/md_8c.html#aca53b51e0c8eb0e07c7eb4a3e6acfa0d",tooltip="This function returns the message-digest information associated with the given digest type."];
+  Node3 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="mbedtls_oid_get_oid\l_by_sig_alg",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d73/oid_8h.html#a95b95cb99e0e954313aed008b38fbb2e",tooltip="Translate md_type and pk_type into SignatureAlgorithm OID."];
+  Node3 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="mbedtls_pk_can_do",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dbd/pk_8c.html#a2d72c66f5e78abe153bdf08874aaabf6",tooltip="Tell if a context can do the operation given by type."];
+  Node3 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="mbedtls_pk_sign",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dbd/pk_8c.html#a6055db23bfff422e65b3a41400344d15",tooltip="Make signature, including padding if relevant."];
+  Node13 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="mbedtls_pk_sign_restartable",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dbd/pk_8c.html#a12d5afa98a4cb6298a8c0f3afd51a20a",tooltip="Restartable version of mbedtls_pk_sign()"];
+  Node3 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="mbedtls_pk_write_pubkey_der",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dd6/pk_8h.html#af5b7c3953ad6fe8be09d35508ee569f6",tooltip="Write a public key to a SubjectPublicKeyInfo DER structure Note: data is written at the end of the bu..."];
+  Node3 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="mbedtls_x509_write\l_extensions",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc4/group__x509__module.html#ga0de4dd2a5d7fe95fa9b94e19260e29cf",tooltip=" "];
+  Node3 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="mbedtls_x509_write\l_names",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc4/group__x509__module.html#ga4787303446416e810ef20d7dcd9b993e",tooltip=" "];
+  Node3 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="mbedtls_x509_write_sig",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc4/group__x509__module.html#ga125c85f0064135e1e35179df7d3a76b6",tooltip=" "];
+  Node18 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="mbedtls_asn1_write\l_algorithm_identifier",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d40/asn1write_8c.html#a87b24d328654c5e8d17ffe3b0192ecb8",tooltip="Write an AlgorithmIdentifier sequence in ASN.1 format."];
+  Node19 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="mbedtls_asn1_write_null",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d40/asn1write_8c.html#adc9614b64c7bb92e1d159898b23acd90",tooltip="Write a NULL tag (#MBEDTLS_ASN1_NULL) with zero data in ASN.1 format."];
+  Node20 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

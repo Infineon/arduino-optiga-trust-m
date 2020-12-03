@@ -1,0 +1,19 @@
+digraph "mbedtls_ctr_drbg_update_seed_file"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_ctr_drbg_update\l_seed_file",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This function reads and updates a seed file. The seed is added to this instance."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_ctr_drbg_update_ret",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d36/ctr__drbg_8c.html#aa0af0a969c190209f9175c9260888735",tooltip="This function updates the state of the CTR_DRBG context."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_ctr_drbg_write\l_seed_file",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d36/ctr__drbg_8c.html#af8411dc8a4d9b2a7a5b4adf2ff3d9586",tooltip="This function writes a seed file."];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mbedtls_ctr_drbg_random",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d36/ctr__drbg_8c.html#af6e4dd295ae790a33128562dd01c79ab",tooltip="This function uses CTR_DRBG to generate random data."];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="mbedtls_ctr_drbg_random\l_with_add",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d36/ctr__drbg_8c.html#a18161010cbcf33f6930fa8fdc035e74d",tooltip="This function updates a CTR_DRBG instance with additional data and uses it to generate random data."];
+  Node3 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="mbedtls_platform_zeroize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dde/platform__util_8c.html#aa4e36b2c1c58d8ad89e1e11b6ebea2d9",tooltip="Securely zeroize a buffer."];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

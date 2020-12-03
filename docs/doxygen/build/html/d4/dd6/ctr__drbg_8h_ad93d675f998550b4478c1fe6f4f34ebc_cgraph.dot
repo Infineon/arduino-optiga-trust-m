@@ -1,0 +1,10 @@
+digraph "mbedtls_ctr_drbg_seed"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_ctr_drbg_seed",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This function seeds and sets up the CTR_DRBG entropy source for future reseeds."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_ctr_drbg_seed\l_entropy_len",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d36/ctr__drbg_8c.html#a24ae905b4a8198e39f88bd8be40a7601",tooltip=" "];
+}

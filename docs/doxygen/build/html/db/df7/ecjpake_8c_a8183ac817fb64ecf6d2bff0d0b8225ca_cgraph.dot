@@ -1,0 +1,16 @@
+digraph "mbedtls_ecjpake_init"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_ecjpake_init",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Initialize an ECJPAKE context."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_ecp_group_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d4d/ecp_8c.html#a5102f6d44d9f16aece7b2e685c31e5da",tooltip="This function initializes an ECP group context without loading any domain parameters."];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mbedtls_ecp_point_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d4d/ecp_8c.html#ae069f80bc2f9cf2215c34430a9ccd924",tooltip="This function initializes a point as zero."];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mbedtls_mpi_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dcc/bignum_8c.html#a99c7cca612b47dc4f3b96905c4f9d69e",tooltip="Initialize an MPI context."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

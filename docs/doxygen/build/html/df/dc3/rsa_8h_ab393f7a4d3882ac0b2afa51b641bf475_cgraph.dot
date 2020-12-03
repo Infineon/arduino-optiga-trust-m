@@ -1,0 +1,10 @@
+digraph "mbedtls_rsa_check_privkey"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_rsa_check_privkey",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This function checks if a context contains an RSA private key and perform basic consistency checks."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_rsa_check_pubkey",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d81/rsa_8c.html#ad5da263d80db9ee27f084b68b0092546",tooltip="This function checks if a context contains at least an RSA public key."];
+}

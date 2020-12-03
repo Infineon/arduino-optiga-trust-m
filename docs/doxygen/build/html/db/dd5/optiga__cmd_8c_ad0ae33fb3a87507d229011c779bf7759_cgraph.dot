@@ -1,0 +1,18 @@
+digraph "optiga_cmd_close_application_handler"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="optiga_cmd_close_application\l_handler",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="optiga_cmd_prepare\l_apdu_header",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dd5/optiga__cmd_8c.html#abde8c38727ddd09b1740e66e96883719",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="optiga_cmd_store_context",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dd5/optiga__cmd_8c.html#a6e45a837cf75e21b89f065cb283a7499",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="pal_os_datastore_write",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d1b/pal__os__datastore_8h.html#a214588f1e3ed0af418fd0fef9dc5ef47",tooltip="Writes data to the specified location for a given datastore_id."];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="pal_os_memcpy",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d52/pal__os__memory_8h.html#a81ebe98644b60cd70987491458788125",tooltip="Copies data from source to destination."];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="pal_os_memset",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d52/pal__os__memory_8h.html#a5c844a129a0cac70e56000451fa6e7e5",tooltip="Sets the buffer with the given value."];
+}

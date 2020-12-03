@@ -1,0 +1,10 @@
+digraph "mbedtls_x509_crt_is_revoked"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mbedtls_x509_crt_is\l_revoked",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Verify the certificate revocation status."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mbedtls_x509_time_is_past",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc4/group__x509__module.html#ga061f9945351822e8ccbeb7f3d7fc4fe3",tooltip="Check a given mbedtls_x509_time against the system time and tell if it's in the past."];
+}
