@@ -19,10 +19,10 @@ Each device is shipped with a unique elliptic-curve keypair and a corresponding 
 * Common Criteria Certified EAL6+ (high) hardware
 * I2C interface with Shielded Connection (encrypted communication)
 * Up to 10 KB user memory
-* Cryptographic support: ECC NIST P256/P384, SHA-256, TRNG, DRNG, RSA® 1024/2048
+* Cryptographic support: ECC NIST P256/P384/P521, ECC Brainpool P256/384/512 r1, SHA-256, TRNG, DRNG, RSA® 1024/2048, AES 128/192/256 (ECB, CBC, CBC-MAC, CMAC)
 * PG-USON-10-2 package (3 x 3 mm)
 * Temperature range (−40°C to +105°C)
-* Crypto ToolBox commands with ECC NIST P256/P384, SHA-256 (sign, verify, key generation, ECDH(E), key derivation), RSA® 1024/2048 (sign, verify, key generation, encrypt and decrypt)  
+* Crypto ToolBox commands with ECC NIST P256/P384/P521, ECC Brainpool P256/384/512 r1, SHA-256 (sign, verify, key generation, ECDH(E), key derivation), RSA® 1024/2048 (sign, verify, key generation, encrypt and decrypt)  
 * Device Security Monitor
 * Hibernate for zero power consumption
 * Lifetime for Industrial Automation and Infrastructure is 20 years and 15 years for other Application Profiles

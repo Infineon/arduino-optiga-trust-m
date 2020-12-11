@@ -1,25 +1,4 @@
 /*
- * API Adaptions needed
- * 
- * Feature additions:
- * 1) Add feature for AES with all the mentioned key sizes and algotrithms - 128/192/256 (ECB, CBC, CBC-MAC, CMAC)
- * 2) Add feature for HMAC with the mentioned algorithms - SHA256/384/512
- * 3) Add feature for "Protected Data/key/metadata update (Integrity and/or confidentiality)"
- *    with the mentioned curve/algorithm - ECC NIST P256/384/521
-                                           ECC Brainpool P256/384/512 r1
-                                           RSA® 1024/2048
-                                           Signature scheme as ECDSA FIPS 186-3/RSA SSA PKCS#1 v1.5 without hashing
- *
- * Algorithm support for existing features:
- * 1) Support 2 new curve/algorithm for ECC - ECC NIST P521, ECC Brainpool P256/384/512 r1
- * 2) Support 2 new curve/algorithm for ker derivation - TLS v1.2 PRF SHA 384/512; HKDF SHA-256/384/512
- * 3) Support new curve/algorithm for protected data(object), 
- *    update(integrity) - ECC NIST P521,
-                          ECC Brainpool P256/384/512 r1
-                          Signature scheme as ECDSA FIPS 186-3/RSA SSA PKCS#1 v1.5 without hashing
- */
-
-/*
  * MIT License
  *
  * Copyright (c) 2019 Infineon Technologies AG
@@ -43,6 +22,27 @@
  * SOFTWARE
  *
  * Arduino library for OPTIGA™ Trust M.
+ */
+
+/*
+ * API Adaptions needed
+ * 
+ * Feature additions:
+ * 1) Add feature for AES with all the mentioned key sizes and algotrithms - 128/192/256 (ECB, CBC, CBC-MAC, CMAC)
+ * 2) Add feature for HMAC with the mentioned algorithms - SHA256/384/512
+ * 3) Add feature for "Protected Data/key/metadata update (Integrity and/or confidentiality)"
+ *    with the mentioned curve/algorithm - ECC NIST P256/384/521
+                                           ECC Brainpool P256/384/512 r1
+                                           RSA® 1024/2048
+                                           Signature scheme as ECDSA FIPS 186-3/RSA SSA PKCS#1 v1.5 without hashing
+ *
+ * Algorithm support for existing features:
+ * 1) Support 2 new curve/algorithm for ECC - ECC NIST P521, ECC Brainpool P256/384/512 r1
+ * 2) Support 2 new curve/algorithm for ker derivation - TLS v1.2 PRF SHA 384/512; HKDF SHA-256/384/512
+ * 3) Support new curve/algorithm for protected data(object), 
+ *    update(integrity) - ECC NIST P521,
+                          ECC Brainpool P256/384/512 r1
+                          Signature scheme as ECDSA FIPS 186-3/RSA SSA PKCS#1 v1.5 without hashing
  */
 
 #ifndef IFXOPTIGATRUSTM_V3_H_

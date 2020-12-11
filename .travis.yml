@@ -7,6 +7,7 @@ sudo: required
 branches:
     - master
     - develop
+    - feature/m3
 
 env:
     matrix:
@@ -14,7 +15,9 @@ env:
         - PLATFORMIO_CI_SRC=examples/calculateSharedSecret
         - PLATFORMIO_CI_SRC=examples/calculateSignVerifySign
         - PLATFORMIO_CI_SRC=examples/encryptDecryptData
-        - PLATFORMIO_CI_SRC=examples/generateKeypair
+        - PLATFORMIO_CI_SRC=examples/generateHMAC
+        - PLATFORMIO_CI_SRC=examples/generateKeyAES
+        - PLATFORMIO_CI_SRC=examples/generateKeyPair
         - PLATFORMIO_CI_SRC=examples/getCertificate
         - PLATFORMIO_CI_SRC=examples/getRandom
         - PLATFORMIO_CI_SRC=examples/getUniqueID
