@@ -133,7 +133,7 @@ void loop()
    */
   printlnGreen("\r\nStart to generate HMAC");
   ts = millis();
-  ret = trustM_V3.generateHMAC(input_data_buffer_final, (uint32_t)(sizeof(input_data_buffer_final)), mac_buffer, mac_buffer_length);
+  ret = trustM_V3.generateHMAC(input_data_buffer_final, (uint32_t)(sizeof(input_data_buffer_final)), mac_buffer, &mac_buffer_length);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
