@@ -1,6 +1,0 @@
-var structmbedtls__aes__context =
-[
-    [ "nr", "d0/d26/structmbedtls__aes__context.html#ad0b4f626fa3881c76f23a9a96812b69a", null ],
-    [ "rk", "d0/d26/structmbedtls__aes__context.html#ac7e235e5b270daba3635f5e39949b7a4", null ],
-    [ "buf", "d0/d26/structmbedtls__aes__context.html#ad9a8f020a5028732e2cf3c8e07b39795", null ]
-];

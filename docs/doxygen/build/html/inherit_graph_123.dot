@@ -1,8 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
- // LATEX_PDF_SIZE
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node0 [label="optiga_gen_symkey_params",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/d23/structoptiga__gen__symkey__params.html",tooltip="Specifies the data structure for symmetric generate key."];
-}
