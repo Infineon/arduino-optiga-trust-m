@@ -113,6 +113,11 @@ void loop()
   Serial.println(" ms");
 
   /**
+   * Enable V3 capabilities in src/optiga_trustm/optiga_lib_config.h
+   */
+  #ifdef OPTIGA_TRUST_M_V3
+  
+  /**
    * Update HMAC on the input data 
    */
   printlnGreen("\r\nStart to generate HMAC");
@@ -139,7 +144,9 @@ void loop()
     printlnRed("Failed");
     while (true);
   }
-  
+
+ #endif /* OPTIGA_TRUST_M_V3 */ 
+
   printGreen("[OK] | Command executed in "); 
   Serial.print(ts); 
   Serial.println(" ms");

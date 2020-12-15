@@ -26,6 +26,9 @@
 
 #include "OPTIGATrustM.h"
 #include "OPTIGATrustM_v3.h"
+
+#ifdef OPTIGA_TRUST_M_V3
+
 #include "optiga_trustm/optiga_util.h"
 #include "optiga_trustm/optiga_lib_types.h"
 #include "optiga_trustm/optiga_comms.h"
@@ -670,5 +673,4 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(const uint8_t * input_data,
     return ard_ret;
 }
 
-
-
+#endif /* OPTIGA_TRUST_M_V3 */

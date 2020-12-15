@@ -48,11 +48,18 @@ static void output_result(char* tag, uint8_t* in, uint16_t in_len)
 
 void loop() 
 {
+  /**
+   * Enable V3 capabilities in src/optiga_trustm/optiga_lib_config.h
+   */
+  #ifdef OPTIGA_TRUST_M_V3
+
   /* Generate symmetric key using AES 128 and store in OPTIGA session oid */
   generateKeyAES_oid();
   
   /* Generate symmetric key using AES and export to host */
   generateKeyAES_export();
+
+ #endif /* OPTIGA_TRUST_M_V3 */ 
 
   /* 
    * Execute the loop just once :)
@@ -100,6 +107,11 @@ void setup()
     while(1);
   }
 }
+
+  /**
+   * Enable V3 capabilities in src/optiga_trustm/optiga_lib_config.h
+   */
+  #ifdef OPTIGA_TRUST_M_V3
 
 /**
  * Generate symmetric key using AES and store in OPTIGA Trust M
@@ -155,3 +167,5 @@ void generateKeyAES_export()
   Serial.println(" ms");
 
 }
+
+ #endif /* OPTIGA_TRUST_M_V3 */ 

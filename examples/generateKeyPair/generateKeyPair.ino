@@ -159,6 +159,11 @@ void loop()
   output_result("Public Key ", ts, pubKey, pubKeyLen);
   output_result("Private Key ", ts, privKey, privKeyLen);
 
+  /**
+   * Enable V3 capabilities in src/optiga_trustm/optiga_lib_config.h
+   */
+  #ifdef OPTIGA_TRUST_M_V3
+
   /*
    * Generate a keypair#5 ECC NIST P 521
    */
@@ -183,7 +188,7 @@ void loop()
   privKeyLen = KEY_MAXLENGTH;
   printlnGreen("\r\nGenerate Key Pair ECC Brainpool P 256. Store Private Key on Board ... ");
   ts = millis();
-  ret = trustM.generateKeypairECC(pubKey, pubKeyLen);
+  ret = trustM_V3.generateKeypairECC(pubKey, pubKeyLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -191,7 +196,8 @@ void loop()
   }
 
   output_result("Public Key ", ts, pubKey, pubKeyLen);
-  
+
+ #endif /* OPTIGA_TRUST_M_V3 */   
   /* 
    * Execute the loop just once :)
    */
