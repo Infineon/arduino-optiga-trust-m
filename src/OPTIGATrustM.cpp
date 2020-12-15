@@ -63,7 +63,7 @@
 
 #ifdef OPTIGA_LIB_ENABLE_LOGGING
     /** @brief Macro to enable logger for Arduino logging service */
-    //#define OPTIGA_LIB_ENABLE_ARDUINO_LOGGING
+    #define OPTIGA_LIB_ENABLE_ARDUINO_LOGGING
 #endif
 
 //  #if defined (OPTIGA_LIB_ENABLE_LOGGING) && defined (OPTIGA_LIB_ENABLE_ARDUINO_LOGGING)
@@ -443,8 +443,8 @@ static int32_t testTLSPRF256(void)
 								 
 		if (memcmp(p_derived_key, tls_at_ietf_output, sizeof(tls_at_ietf_output)) != 0)
 		{
-			output_result((char*)"Derived Key: ", p_derived_key, sizeof(tls_at_ietf_output));
-			output_result((char*)"Expected Key: ", tls_at_ietf_output, sizeof(tls_at_ietf_output));
+			output_result("Derived Key: ", p_derived_key, sizeof(tls_at_ietf_output));
+			output_result("Expected Key: ", tls_at_ietf_output, sizeof(tls_at_ietf_output));
 			break;
 		}
 		
@@ -525,9 +525,9 @@ static int32_t testAES128CCMEncrypt(void)
 										 ciphertext);
 			if (memcmp(ciphertext, res[i], msg_len[i] + tag_len[i])!= 0)
 			{
-				Serial.println((char*)"Encryption Failure");
-				output_result((char*)"Result Cipher: ", ciphertext, msg_len[i] + tag_len[i]);
-				output_result((char*)"Expected Cipher: ", res[i], msg_len[i] + tag_len[i]);
+				Serial.println("Encryption Failure");
+				output_result("Result Cipher: ", ciphertext, msg_len[i] + tag_len[i]);
+				output_result("Expected Cipher: ", res[i], msg_len[i] + tag_len[i]);
 			}
 		}
 		
@@ -560,11 +560,11 @@ static int32_t testAES128CCMDecrypt(void)
 									  plaintext);
 			if (memcmp(plaintext, msg, msg_len[i]) != 0)
 			{
-				Serial.print((char*)"Decryption Failure. Return Code ");
+				Serial.print("Decryption Failure. Return Code ");
 				Serial.println(ret);
-				output_result((char*)"Encrypted message: ", res[i], msg_len[i] + tag_len[i]);
-				output_result((char*)"Result Plain Text: ", plaintext, msg_len[i]);
-				output_result((char*)"Expected Plain Text: ", msg, msg_len[i]);
+				output_result("Encrypted message: ", res[i], msg_len[i] + tag_len[i]);
+				output_result("Result Plain Text: ", plaintext, msg_len[i]);
+				output_result("Expected Plain Text: ", msg, msg_len[i]);
 				ret = 1;
 			}
 		}
@@ -996,63 +996,22 @@ int32_t IFX_OPTIGA_TrustM::getRandom(uint16_t length, uint8_t* p_random)
     return ard_ret;
 }
 
-/**
- * Prepare the hash context
- */
-#define OPTIGA_HASH_CONTEXT_INIT(hash_context,p_context_buffer,context_buffer_size,hash_type) \
-{                                                               \
-    hash_context.context_buffer = p_context_buffer;             \
-    hash_context.context_buffer_length = context_buffer_size;   \
-    hash_context.hash_algo = hash_type;                         \
-}
-
 int32_t IFX_OPTIGA_TrustM::sha256(uint8_t dataToHash[], uint16_t ilen, uint8_t out[32])
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
-    optiga_hash_context_t hash_context;
-    uint8_t hash_context_buffer [130];
     hash_data_from_host_t hash_data_host;
 
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
 
     do
     {
-        /**
-         * 1. Initialize the Hash context
-         */
-        OPTIGA_HASH_CONTEXT_INIT(hash_context,hash_context_buffer,  \
-                                 sizeof(hash_context_buffer),(uint8_t)OPTIGA_HASH_TYPE_SHA_256);
-
-        optiga_lib_status = OPTIGA_LIB_BUSY;
-
-        /**
-         * 2. Initialize the hashing context at OPTIGA
-         */
-        return_status = optiga_crypt_hash_start(me_crypt, &hash_context);
-        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
-        
-        /**
-         * 3. Continue hashing the data
-         */
         hash_data_host.buffer = dataToHash;
         hash_data_host.length = ilen;
-
-        optiga_lib_status = OPTIGA_LIB_BUSY;
-        return_status = optiga_crypt_hash_update(me_crypt,
-                                                 &hash_context,
-                                                 OPTIGA_CRYPT_HOST_DATA,
-                                                 &hash_data_host);
-        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
-
-        /**
-         * 4. Finalize the hash
-         */
-        optiga_lib_status = OPTIGA_LIB_BUSY;
-        return_status = optiga_crypt_hash_finalize(me_crypt,
-                                                   &hash_context,
-                                                   out);
-        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
+		
+		optiga_lib_status = OPTIGA_LIB_BUSY;
+		return_status = optiga_crypt_hash(me_crypt, OPTIGA_HASH_TYPE_SHA_256, OPTIGA_CRYPT_HOST_DATA, &hash_data_host, out);
+		OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
         return_status = OPTIGA_LIB_SUCCESS;
 
@@ -1458,21 +1417,6 @@ int32_t IFX_OPTIGA_TrustM::calculateSharedSecretGeneric(int32_t curveID, uint16_
     return ard_ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::str2cur(String curve_name)
-{
-    int32_t ret;
-    
-    if (curve_name == "secp256r1") {
-        ret = OPTIGA_ECC_CURVE_NIST_P_256;
-    } else if (curve_name == "secp384r1") {
-        ret = OPTIGA_ECC_CURVE_NIST_P_384;
-    } else {
-        ret = OPTIGA_ECC_CURVE_NIST_P_256;
-    }
-    
-    return ret;
-}
-
 int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, 
                                               uint16_t privateKey_oid, optiga_rsa_key_type_t rsa_key_type)
 {
@@ -1618,7 +1562,8 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen,
                                                           p_pubkey,
                                                           &plen);
         OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
-
+		
+		prlen = plen;
 
     } while (FALSE);
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
