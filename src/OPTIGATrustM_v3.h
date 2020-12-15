@@ -48,6 +48,10 @@
 #ifndef IFXOPTIGATRUSTM_V3_H_
 #define IFXOPTIGATRUSTM_V3_H_
 
+#include "optiga_trustm/optiga_lib_config.h"
+
+#ifdef OPTIGA_TRUST_M_V3
+
 #include <Arduino.h>
 #include <Wire.h>
 #include "optiga_trustm/pal_i2c.h"
@@ -391,5 +395,5 @@ extern IFX_OPTIGA_TrustM_V3 trustM_V3;
 
  *************************************************************************/
                          
-
+#endif /* OPTIGA_TRUST_M_V3 */
 #endif /* IFXOPTIGATRUSTM_H_ */

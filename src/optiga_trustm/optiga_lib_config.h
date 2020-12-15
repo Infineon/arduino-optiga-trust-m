@@ -35,7 +35,6 @@
 * @{
 */
 
-
 #ifndef _OPTIGA_LIB_CONFIG_H_
 #define _OPTIGA_LIB_CONFIG_H_
 
@@ -43,6 +42,7 @@
 extern "C" {
 #endif
 
+#define OPTIGA_TRUST_M_V3
 
 #ifdef OPTIGA_LIB_EXTERNAL
     #include "optiga_lib_config_external.h"
@@ -97,13 +97,13 @@ extern "C" {
         /// @cond
         #ifdef OPTIGA_LIB_ENABLE_LOGGING
             /** @brief Macro to enable logger for Util service */
-            //#define OPTIGA_LIB_ENABLE_UTIL_LOGGING
+            #define OPTIGA_LIB_ENABLE_UTIL_LOGGING
             /** @brief Macro to enable logger for Crypt service */
-            //#define OPTIGA_LIB_ENABLE_CRYPT_LOGGING
+            #define OPTIGA_LIB_ENABLE_CRYPT_LOGGING
             /** @brief Macro to enable logger for Command layer */
-            //#define OPTIGA_LIB_ENABLE_CMD_LOGGING
+            #define OPTIGA_LIB_ENABLE_CMD_LOGGING
             /** @brief Macro to enable logger for Communication layer */
-            //#define OPTIGA_LIB_ENABLE_COMMS_LOGGING
+            // #define OPTIGA_LIB_ENABLE_COMMS_LOGGING
         #endif
         /// @endcond
 
@@ -123,7 +123,7 @@ extern "C" {
          */
         #define OPTIGA_COMMS_DEFAULT_RESET_TYPE     (0U)
 
-    #else // Default Configuration for OPTIGA Trust M V3
+    #elif defined(OPTIGA_TRUST_M_V3)
         
         /** @brief OPTIGA CRYPT random number generation feature enable/disable macro */
         #define OPTIGA_CRYPT_RANDOM_ENABLED
@@ -181,7 +181,7 @@ extern "C" {
         /** @brief OPTIGA COMMS shielded connection feature.
          *         To disable the feature, undefine the macro
          */
-        #define OPTIGA_COMMS_SHIELDED_CONNECTION
+        // #define OPTIGA_COMMS_SHIELDED_CONNECTION
 
         /** @brief Default reset protection level for OPTIGA CRYPT and UTIL APIs */
         #define OPTIGA_COMMS_DEFAULT_PROTECTION_LEVEL           OPTIGA_COMMS_NO_PROTECTION
@@ -214,13 +214,13 @@ extern "C" {
         /// @cond
         #ifdef OPTIGA_LIB_ENABLE_LOGGING
             /** @brief Macro to enable logger for Util service */
-            //#define OPTIGA_LIB_ENABLE_UTIL_LOGGING
+            #define OPTIGA_LIB_ENABLE_UTIL_LOGGING
             /** @brief Macro to enable logger for Crypt service */
-            //#define OPTIGA_LIB_ENABLE_CRYPT_LOGGING
+            #define OPTIGA_LIB_ENABLE_CRYPT_LOGGING
             /** @brief Macro to enable logger for Command layer */
-            //#define OPTIGA_LIB_ENABLE_CMD_LOGGING
+            #define OPTIGA_LIB_ENABLE_CMD_LOGGING
             /** @brief Macro to enable logger for Communication layer */
-            //#define OPTIGA_LIB_ENABLE_COMMS_LOGGING
+            #define OPTIGA_LIB_ENABLE_COMMS_LOGGING
         #endif
         /// @endcond
 
