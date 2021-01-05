@@ -1417,6 +1417,21 @@ int32_t IFX_OPTIGA_TrustM::calculateSharedSecretGeneric(int32_t curveID, uint16_
     return ard_ret;
 }
 
+int32_t IFX_OPTIGA_TrustM::str2cur(String curve_name)
+{
+    int32_t ret;
+    
+    if (curve_name == "secp256r1") {
+        ret = OPTIGA_ECC_CURVE_NIST_P_256;
+    } else if (curve_name == "secp384r1") {
+        ret = OPTIGA_ECC_CURVE_NIST_P_384;
+    } else {
+        ret = OPTIGA_ECC_CURVE_NIST_P_256;
+    }
+    
+    return ret;
+}
+
 int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, 
                                               uint16_t privateKey_oid, optiga_rsa_key_type_t rsa_key_type)
 {

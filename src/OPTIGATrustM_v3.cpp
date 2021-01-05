@@ -538,7 +538,7 @@ int32_t IFX_OPTIGA_TrustM_V3::generateSymmetricKeyAES(optiga_symmetric_key_type_
 }
 
 int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(optiga_hmac_type_t type, 
-                     					optiga_key_id_t secret, 
+                     					uint16_t secret, 
                      					const uint8_t * input_data, 
                      					uint32_t input_data_length, 
                      					uint8_t * mac, 
@@ -576,7 +576,7 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(optiga_hmac_type_t type,
 }
 
 int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(optiga_hmac_type_t type, 
-                     					optiga_key_id_t secret, 
+                     					uint16_t secret, 
                      					const uint8_t * input_data, 
                      					uint32_t input_data_length)
 {
