@@ -93,7 +93,7 @@ void calculateSharedSecretKey_oid()
   printlnGreen("\r\nGet IFX public key ... ");
   trustM.getPublicKey(ifxPublicKey);
    
-  output_result("My Public Key", ts, ifxPublicKey, sizeof(ifxPublicKey));
+  output_result((char*)"My Public Key", ts, ifxPublicKey, sizeof(ifxPublicKey));
 
   /*
    * Calculate shared secret
@@ -158,7 +158,7 @@ void calculateSharedSecretKey_export()
   printlnGreen("\r\nGet IFX public key ... ");
   trustM.getPublicKey(ifxPublicKey);
    
-  output_result("My Public Key", ts, ifxPublicKey, sizeof(ifxPublicKey));
+  output_result((char*)"My Public Key", ts, ifxPublicKey, sizeof(ifxPublicKey));
 
   /*
    * Calculate shared secret
@@ -172,7 +172,7 @@ void calculateSharedSecretKey_export()
     while (true);
   }
   
-  output_result("My Shared Secret", ts, shared_secret, shared_s_len);
+  output_result((char*)"My Shared Secret", ts, shared_secret, shared_s_len);
 }
 
 

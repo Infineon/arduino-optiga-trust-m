@@ -1435,7 +1435,7 @@ void example_optiga_util_read_data(void)
         if(OPTIGA_LIB_SUCCESS != return_status)
         {
             //lint --e{774} suppress This is a generic macro
-            OPTIGA_UTIL_LOG_STATUS(return_status);
+            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
         }
     }
 }

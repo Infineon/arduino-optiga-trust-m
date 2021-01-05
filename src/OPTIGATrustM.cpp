@@ -443,8 +443,8 @@ static int32_t testTLSPRF256(void)
 								 
 		if (memcmp(p_derived_key, tls_at_ietf_output, sizeof(tls_at_ietf_output)) != 0)
 		{
-			output_result("Derived Key: ", p_derived_key, sizeof(tls_at_ietf_output));
-			output_result("Expected Key: ", tls_at_ietf_output, sizeof(tls_at_ietf_output));
+			output_result((char*)"Derived Key: ", p_derived_key, sizeof(tls_at_ietf_output));
+			output_result((char*)"Expected Key: ", tls_at_ietf_output, sizeof(tls_at_ietf_output));
 			break;
 		}
 		
@@ -526,8 +526,8 @@ static int32_t testAES128CCMEncrypt(void)
 			if (memcmp(ciphertext, res[i], msg_len[i] + tag_len[i])!= 0)
 			{
 				Serial.println("Encryption Failure");
-				output_result("Result Cipher: ", ciphertext, msg_len[i] + tag_len[i]);
-				output_result("Expected Cipher: ", res[i], msg_len[i] + tag_len[i]);
+				output_result((char*)"Result Cipher: ", ciphertext, msg_len[i] + tag_len[i]);
+				output_result((char*)"Expected Cipher: ", res[i], msg_len[i] + tag_len[i]);
 			}
 		}
 		
@@ -562,9 +562,9 @@ static int32_t testAES128CCMDecrypt(void)
 			{
 				Serial.print("Decryption Failure. Return Code ");
 				Serial.println(ret);
-				output_result("Encrypted message: ", res[i], msg_len[i] + tag_len[i]);
-				output_result("Result Plain Text: ", plaintext, msg_len[i]);
-				output_result("Expected Plain Text: ", msg, msg_len[i]);
+				output_result((char*)"Encrypted message: ", res[i], msg_len[i] + tag_len[i]);
+				output_result((char*)"Result Plain Text: ", plaintext, msg_len[i]);
+				output_result((char*)"Expected Plain Text: ", msg, msg_len[i]);
 				ret = 1;
 			}
 		}

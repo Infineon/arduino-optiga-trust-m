@@ -78,7 +78,7 @@ void loop()
   printlnGreen("\r\nGet IFX public key ... ");
   trustM.getPublicKey(ifxPublicKey);
    
-  output_result("My Public Key", ifxPublicKey, sizeof(ifxPublicKey));
+  output_result((char*)"My Public Key", ifxPublicKey, sizeof(ifxPublicKey));
 
   /*
    * Calculate shared secret

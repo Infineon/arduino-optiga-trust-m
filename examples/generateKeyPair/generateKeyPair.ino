@@ -106,7 +106,7 @@ void loop()
     while (true);
   }
 
-  output_result("Public Key ", ts, pubKey, pubKeyLen);
+  output_result((char*)"Public Key ", ts, pubKey, pubKeyLen);
 
 
   /*
@@ -123,8 +123,8 @@ void loop()
     while (true);
   }
 
-  output_result("Public Key ", ts, pubKey, pubKeyLen);
-  output_result("Private Key ", ts, privKey, privKeyLen);
+  output_result((char*)"Public Key ", ts, pubKey, pubKeyLen);
+  output_result((char*)"Private Key ", ts, privKey, privKeyLen);
 
   /*
    * Generate a keypair#3 ECC NIST P 256
@@ -140,7 +140,7 @@ void loop()
     while (true);
   }
 
-  output_result("Public Key ", ts, pubKey, pubKeyLen);
+  output_result((char*)"Public Key ", ts, pubKey, pubKeyLen);
 
   /*
    * Generate a keypair#4 ECC NIST P 384
@@ -156,8 +156,8 @@ void loop()
     while (true);
   }
 
-  output_result("Public Key ", ts, pubKey, pubKeyLen);
-  output_result("Private Key ", ts, privKey, privKeyLen);
+  output_result((char*)"Public Key ", ts, pubKey, pubKeyLen);
+  output_result((char*)"Private Key ", ts, privKey, privKeyLen);
 
   /**
    * Enable V3 capabilities in src/optiga_trustm/optiga_lib_config.h
@@ -178,8 +178,8 @@ void loop()
     while (true);
   }
 
-  output_result("Public Key ", ts, pubKey, pubKeyLen);
-  output_result("Private Key ", ts, privKey, privKeyLen);
+  output_result((char*)"Public Key ", ts, pubKey, pubKeyLen);
+  output_result((char*)"Private Key ", ts, privKey, privKeyLen);
 
   /*
    * Generate a keypair#6 ECC Brainpool P 256
@@ -195,7 +195,7 @@ void loop()
     while (true);
   }
 
-  output_result("Public Key ", ts, pubKey, pubKeyLen);
+  output_result((char*)"Public Key ", ts, pubKey, pubKeyLen);
 
  #endif /* OPTIGA_TRUST_M_V3 */   
   /* 
