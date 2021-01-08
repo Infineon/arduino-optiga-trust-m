@@ -115,17 +115,17 @@ void loop()
   uint32_t ret = 0;
   uint32_t ts = 0;
 
-  /*
-   * Write input secret to OID
-   */
-  printlnGreen("\r\nCalculate shared secret... ");
-  ts = millis();
-  ret = (uint32_t) write_input_secret_to_oid();
-  ts = millis() - ts;
-  if (ret) {
-    printlnRed("Failed");
-    while (true);
-  }
+  // /*
+  //  * Write input secret to OID
+  //  */
+  // printlnGreen("\r\nCalculate shared secret... ");
+  // ts = millis();
+  // ret = (uint32_t) write_input_secret_to_oid();
+  // ts = millis() - ts;
+  // if (ret) {
+  //   printlnRed("Failed");
+  //   while (true);
+  // }
   
   printGreen("[OK] | Command executed in "); 
   Serial.print(ts); 
@@ -192,86 +192,86 @@ void loop()
   while(1){}
 }
 
-// Write metadata
-static optiga_lib_status_t write_metadata(optiga_util_t * me)
-{
-    optiga_lib_status_t return_status = OPTIGA_LIB_SUCCESS;
-    const uint8_t input_secret_oid_metadata[] = {0x20, 0x06, 0xD3, 0x01, 0x00, 0xE8, 0x01, 0x21};
-    do
-    {
-        optiga_lib_status = OPTIGA_LIB_BUSY;
-        return_status = optiga_util_write_metadata(me,
-                                                   secret_oid,
-                                                   input_secret_oid_metadata,
-                                                   sizeof(input_secret_oid_metadata));
-        WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
-    } while (FALSE);
+// // Write metadata
+// static optiga_lib_status_t write_metadata(optiga_util_t * me)
+// {
+//     optiga_lib_status_t return_status = OPTIGA_LIB_SUCCESS;
+//     const uint8_t input_secret_oid_metadata[] = {0x20, 0x06, 0xD3, 0x01, 0x00, 0xE8, 0x01, 0x21};
+//     do
+//     {
+//         optiga_lib_status = OPTIGA_LIB_BUSY;
+//         return_status = optiga_util_write_metadata(me,
+//                                                    secret_oid,
+//                                                    input_secret_oid_metadata,
+//                                                    sizeof(input_secret_oid_metadata));
+//         WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
+//     } while (FALSE);
 
-    return(return_status);
-}
+//     return(return_status);
+// }
 
-// Write input secret to OID
-static optiga_lib_status_t write_input_secret_to_oid()
-{
-    optiga_lib_status_t return_status = OPTIGA_UTIL_ERROR;
-    optiga_util_t * me_util = NULL;
-    const uint8_t input_secret[] = {0x8d,0xe4,0x3f,0xff,
-                                    0x65,0x2d,0xa0,0xa7,
-                                    0xf0,0x4e,0x8f,0x22,
-                                    0x84,0xa4,0x28,0x3b};
-    do
-    {
-        me_util = optiga_util_create(0, optiga_util_crypt_callback, NULL);
-        if (NULL == me_util)
-        {
-            break;
-        }
-        /**
-         * Precondition 1 :
-         * Metadata for 0xF1D0 :
-         * Execute access condition = Always
-         * Data object type  =  Pre-shared secret
-         */
-        return_status = write_metadata(me_util);
-        if (OPTIGA_LIB_SUCCESS != return_status)
-        {
-            break;
-        }
+// // Write input secret to OID
+// static optiga_lib_status_t write_input_secret_to_oid()
+// {
+//     optiga_lib_status_t return_status = OPTIGA_UTIL_ERROR;
+//     optiga_util_t * me_util = NULL;
+//     const uint8_t input_secret[] = {0x8d,0xe4,0x3f,0xff,
+//                                     0x65,0x2d,0xa0,0xa7,
+//                                     0xf0,0x4e,0x8f,0x22,
+//                                     0x84,0xa4,0x28,0x3b};
+//     do
+//     {
+//         me_util = optiga_util_create(0, optiga_util_crypt_callback, NULL);
+//         if (NULL == me_util)
+//         {
+//             break;
+//         }
+//         /**
+//          * Precondition 1 :
+//          * Metadata for 0xF1D0 :
+//          * Execute access condition = Always
+//          * Data object type  =  Pre-shared secret
+//          */
+//         return_status = write_metadata(me_util);
+//         if (OPTIGA_LIB_SUCCESS != return_status)
+//         {
+//             break;
+//         }
 
 
-        /**
-        *  Precondition 2 :
-        *  Write secret in OID 0xF1D0
-        */
-        optiga_lib_status = OPTIGA_LIB_BUSY;
-        return_status = optiga_util_write_data(me_util,
-                                               secret_oid,
-                                               OPTIGA_UTIL_ERASE_AND_WRITE,
-                                               0,
-                                               input_secret,
-                                               sizeof(input_secret));
+//         /**
+//         *  Precondition 2 :
+//         *  Write secret in OID 0xF1D0
+//         */
+//         optiga_lib_status = OPTIGA_LIB_BUSY;
+//         return_status = optiga_util_write_data(me_util,
+//                                                secret_oid,
+//                                                OPTIGA_UTIL_ERASE_AND_WRITE,
+//                                                0,
+//                                                input_secret,
+//                                                sizeof(input_secret));
 
-        WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
-    } while (FALSE);
-    if(me_util)
-    {
-        //Destroy the instance after the completion of usecase if not required.
-        return_status = optiga_util_destroy(me_util);
-        if(OPTIGA_LIB_SUCCESS != return_status)
-        {
-            //lint --e{774} suppress This is a generic macro
-            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
-        }
-    }
-    return (return_status);
-}
+//         WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
+//     } while (FALSE);
+//     if(me_util)
+//     {
+//         //Destroy the instance after the completion of usecase if not required.
+//         return_status = optiga_util_destroy(me_util);
+//         if(OPTIGA_LIB_SUCCESS != return_status)
+//         {
+//             //lint --e{774} suppress This is a generic macro
+//             OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+//         }
+//     }
+//     return (return_status);
+// }
 
-/* Call back function for  */
-static void optiga_util_crypt_callback(void * context, optiga_lib_status_t return_status)
-{
-    optiga_lib_status = return_status;
-    if (NULL != context)
-    {
-        // callback to upper layer here
-    }
-}
+// /* Call back function for  */
+// static void optiga_util_crypt_callback(void * context, optiga_lib_status_t return_status)
+// {
+//     optiga_lib_status = return_status;
+//     if (NULL != context)
+//     {
+//         // callback to upper layer here
+//     }
+// }

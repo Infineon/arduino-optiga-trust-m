@@ -54,6 +54,7 @@
 
 #include <Arduino.h>
 #include <Wire.h>
+#include "optiga_trustm/optiga_lib_config.h"
 #include "optiga_trustm/pal_i2c.h"
 #include <string.h> // memcpy
 #include "optiga_trustm/optiga_util.h"

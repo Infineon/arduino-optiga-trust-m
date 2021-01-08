@@ -29,6 +29,7 @@
 
 #include <Arduino.h>
 #include <Wire.h>
+#include "optiga_trustm/optiga_lib_config.h"
 #include "optiga_trustm/pal_i2c.h"
 #include <string.h> // memcpy
 #include "optiga_trustm/optiga_util.h"
@@ -781,6 +782,8 @@ public:
      */
 	int32_t decrypt(uint8_t dataToDecrypt[], uint16_t dlen,  uint16_t keyOID, uint8_t result[], uint16_t& rlen);
 	
+    int32_t setGenericData(uint16_t oid, uint8_t* p_data, uint16_t hashLength);
+
 protected:
 
     optiga_util_t  * me_util  = NULL;
@@ -790,7 +793,6 @@ protected:
     int32_t getGenericData(uint16_t oid, uint8_t* p_data, uint16_t& hashLength);
     int32_t getGenericMetadata(uint16_t oid, uint8_t* p_data, uint16_t& length);
     int32_t getState(uint16_t oid, uint8_t& p_data);
-    int32_t setGenericData(uint16_t oid, uint8_t* p_data, uint16_t hashLength);
     int32_t str2cur(String curve_name);
 	int32_t calculateSharedSecretGeneric( int32_t curveID, uint16_t priv_oid, uint8_t* p_pubkey, uint16_t plen, uint16_t out_oid) {
 	uint16_t dummy_len; 

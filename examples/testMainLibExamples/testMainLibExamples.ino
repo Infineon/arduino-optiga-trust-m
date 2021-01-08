@@ -26,6 +26,7 @@
  */
 
 #include <OPTIGATrustM.h>
+#include <OPTIGATrustM_v3.h>
 
 void setup() 
 {
@@ -41,6 +42,7 @@ void setup()
     // example_optiga_crypt_ecdsa_sign(); //--> OK
     // example_optiga_crypt_ecdsa_verify(); //--> OK
     // example_optiga_crypt_ecdh(); //--> OK (protected commented)
+    example_optiga_crypt_hmac();
     // example_optiga_crypt_random(); //--> OK
     // example_optiga_crypt_tls_prf_sha256(); //--> FAIL [optiga example]  : Failed with return value - 0x0107
     // example_optiga_util_read_data(); //--> OK 

@@ -103,7 +103,7 @@ extern "C" {
             /** @brief Macro to enable logger for Command layer */
             #define OPTIGA_LIB_ENABLE_CMD_LOGGING
             /** @brief Macro to enable logger for Communication layer */
-            // #define OPTIGA_LIB_ENABLE_COMMS_LOGGING
+            #define OPTIGA_LIB_ENABLE_COMMS_LOGGING
         #endif
         /// @endcond
 
@@ -181,7 +181,7 @@ extern "C" {
         /** @brief OPTIGA COMMS shielded connection feature.
          *         To disable the feature, undefine the macro
          */
-        // #define OPTIGA_COMMS_SHIELDED_CONNECTION
+        #define OPTIGA_COMMS_SHIELDED_CONNECTION
 
         /** @brief Default reset protection level for OPTIGA CRYPT and UTIL APIs */
         #define OPTIGA_COMMS_DEFAULT_PROTECTION_LEVEL           OPTIGA_COMMS_NO_PROTECTION
@@ -220,7 +220,7 @@ extern "C" {
             /** @brief Macro to enable logger for Command layer */
             #define OPTIGA_LIB_ENABLE_CMD_LOGGING
             /** @brief Macro to enable logger for Communication layer */
-            //#define OPTIGA_LIB_ENABLE_COMMS_LOGGING
+            // #define OPTIGA_LIB_ENABLE_COMMS_LOGGING
         #endif
         /// @endcond
 
