@@ -617,9 +617,43 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(optiga_hmac_type_t type,
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
 
+    const uint8_t input_secret[] = {0x8d,0xe4,0x3f,0xff,
+                                    0x65,0x2d,0xa0,0xa7,
+                                    0xf0,0x4e,0x8f,0x22,
+                                    0x84,0xa4,0x28,0x3b};
+
+    const uint8_t input_secret_oid_metadata[] = {0x20, 0x06, 0xD3, 0x01, 0x00, 0xE8, 0x01, 0x21};
+
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
     do
     {
+        /**
+         * Write metadata 
+         * Precondition 1 :
+         * Metadata for 0xF1D0 :
+         * Execute access condition = Always
+         * Data object type  =  Pre-shared secret
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_write_metadata(me_util,
+                                                   0xF1D0,
+                                                   input_secret_oid_metadata,
+                                                   sizeof(input_secret_oid_metadata));
+	    OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
+
+        /**
+        *  Precondition 2 :
+        *  Write secret in OID 0xF1D0
+        */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_write_data(me_util,
+                                               secret,
+                                               OPTIGA_UTIL_ERASE_AND_WRITE,
+                                               0,
+                                               input_secret,
+                                               sizeof(input_secret));
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
+
         /**
          *  start HMAC using the secret present in the OPTIGA
          */ 
