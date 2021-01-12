@@ -87,6 +87,9 @@ void setup()
     printlnRed("Failed");
     while(1);
   }
+
+  // initialize digital pin LED_BUILTIN as an output.
+  pinMode(LED_BUILTIN, OUTPUT);
 }
 
 void loop() 
@@ -96,55 +99,11 @@ void loop()
    */
   #ifdef OPTIGA_TRUST_M_V3
 
-  optiga_lib_status_t return_status = !OPTIGA_LIB_SUCCESS;
-  optiga_util_t * util_me = NULL;
-
-  /**
-   * Sample metadata of 0xE200 
-   */
-  const uint8_t E200_metadata[] = { 0x20, 0x06, 0xD0, 0x01, 0x00, 0xD3, 0x01, 0x00 }; 
-
-    do
-    {
-        /**
-         * 1. Create OPTIGA Util Instance
-         */
-        util_me = optiga_util_create(0, optiga_util_callback, NULL);
-        if (NULL == util_me)
-        {
-            break;
-        }
-        
-        /**
-         * Write metadata of a data object (e.g. key data object 0xE200)
-         */        
-        optiga_lib_status = OPTIGA_LIB_BUSY;
-        return_status = optiga_util_write_metadata(util_me,
-                                                   OPTIGA_KEY_ID_SECRET_BASED,
-                                                   E200_metadata,
-                                                   sizeof(E200_metadata));
-
-        WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
-        
-        return_status = OPTIGA_LIB_SUCCESS;
-    } while (FALSE);
-
   /* Generate symmetric key using AES 128 and store in OPTIGA session oid */
   generateKeyAES_oid();
   
   /* Generate symmetric key using AES and export to host */
   generateKeyAES_export();
-
-    if (util_me)
-    {
-        //Destroy the instance after the completion of usecase if not required.
-        return_status = optiga_util_destroy(util_me);
-        if(OPTIGA_LIB_SUCCESS != return_status)
-        {
-            //lint --e{774} suppress This is a generic macro
-            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
-        }
-    }
 
   #endif /* OPTIGA_TRUST_M_V3 */ 
 
@@ -175,6 +134,7 @@ void generateKeyAES_oid()
   ret = trustM_V3.generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, FALSE, OPTIGA_KEY_ID_SECRET_BASED);
   ts = millis() - ts;
   if (ret) {
+    digitalWrite(LED_BUILTIN, HIGH);   // Make the LED high to indicate failure
     printlnRed("Failed");
     while (true);
   }
@@ -212,15 +172,6 @@ void generateKeyAES_export()
   Serial.print(ts); 
   Serial.println(" ms");
 
-}
-
-static void optiga_util_callback(void * context, optiga_lib_status_t return_status)
-{
-    optiga_lib_status = return_status;
-    if (NULL != context)
-    {
-        // callback to upper layer here
-    }
 }
 
 #endif /* OPTIGA_TRUST_M_V3 */ 
