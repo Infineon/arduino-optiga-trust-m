@@ -527,7 +527,7 @@ int32_t IFX_OPTIGA_TrustM_V3::generateSymmetricKeyAES(optiga_symmetric_key_type_
                                                             sym_key_type,
                                                             (uint8_t)(OPTIGA_KEY_USAGE_ENCRYPTION),
                                                             FALSE,
-                                                            (void *)OPTIGA_KEY_ID_SECRET_BASED);
+                                                            &symmetricKey_oid);
         OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
     } while (FALSE);
@@ -600,8 +600,8 @@ int32_t IFX_OPTIGA_TrustM_V3::generateSymmetricKeyAES(optiga_symmetric_key_type_
         return_status = optiga_crypt_symmetric_generate_key(me_crypt,
                                                             sym_key_type,
                                                             (uint8_t)(OPTIGA_KEY_USAGE_ENCRYPTION),
-                                                            FALSE,
-                                                            optiga_oid);
+                                                            export_symmetric_key,
+                                                            &symmetric_key);
         OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
     } while (FALSE);
