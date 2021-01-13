@@ -169,6 +169,7 @@ void example_optiga_crypt_ecdsa_sign(void);
 void example_optiga_crypt_ecdsa_verify(void);
 void example_optiga_crypt_ecdh(void);
 void example_optiga_crypt_hmac(void);
+void example_optiga_crypt_symmetric_key(void);
 void example_optiga_crypt_random(void);
 void example_optiga_crypt_tls_prf_sha256(void);
 void example_optiga_util_read_data(void);
