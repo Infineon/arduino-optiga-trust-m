@@ -25,7 +25,6 @@
  * Infineon Technologies AG OPTIGA™ Trust M Arduino library
  */
 
-#include "OPTIGATrustM.h"
 #include "OPTIGATrustM_v3.h"
 
 #define SUPPRESSCOLLORS
@@ -83,7 +82,7 @@ void setup()
    * Initialise OPTIGA™ Trust M board
    */
 	printGreen("Begin Trust ... ");
-	ret = trustM.begin();
+	ret = trustM_V3.begin();
 	ASSERT(ret);
 	printlnGreen("OK");
 
@@ -91,7 +90,7 @@ void setup()
    * Speed up the chip (min is 6ma, maximum is 15ma)
    */
   printGreen("Setting Current Limit... ");
-	ret = trustM.setCurrentLimit(15);
+	ret = trustM_V3.setCurrentLimit(15);
 	ASSERT(ret);
 	printlnGreen("OK");
 
@@ -100,7 +99,7 @@ void setup()
    */
   printGreen("Checking Power Limit... ");
   uint8_t current_lim = 0;
-  ret = trustM.getCurrentLimit(current_lim);
+  ret = trustM_V3.getCurrentLimit(current_lim);
   ASSERT(ret);
   if (current_lim == 15) {
     printlnGreen("OK");
@@ -141,7 +140,7 @@ void loop()
    */
   printlnGreen("\r\nStart to generate HMAC");
   ts = millis();
-  ret = trustM_V3.generateHMAC(OPTIGA_HMAC_SHA_256, secret_oid, input_data_buffer_start, (uint32_t)(sizeof(input_data_buffer_start)));
+  ret = trustM_V3.generateHMACStart(OPTIGA_HMAC_SHA_256, secret_oid, input_data_buffer_start, (uint32_t)(sizeof(input_data_buffer_start)));
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -155,9 +154,9 @@ void loop()
   /**
    * Update HMAC on the input data 
    */
-  printlnGreen("\r\nStart to generate HMAC");
+  printlnGreen("\r\nUpdate generate HMAC");
   ts = millis();
-  ret = trustM_V3.generateHMAC(input_data_buffer_update, (uint32_t)(sizeof(input_data_buffer_update)));
+  ret = trustM_V3.generateHMACUpdate(input_data_buffer_update, (uint32_t)(sizeof(input_data_buffer_update)));
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -171,9 +170,9 @@ void loop()
   /**
    * Finalize HMAC on the input data 
    */
-  printlnGreen("\r\nStart to generate HMAC");
+  printlnGreen("\r\nFinalize generate HMAC");
   ts = millis();
-  ret = trustM_V3.generateHMAC(input_data_buffer_final, (uint32_t)(sizeof(input_data_buffer_final)), mac_buffer, &mac_buffer_length);
+  ret = trustM_V3.generateHMACFinalize(input_data_buffer_final, (uint32_t)(sizeof(input_data_buffer_final)), mac_buffer, &mac_buffer_length);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");

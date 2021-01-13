@@ -119,7 +119,8 @@ void generateKeyAES_oid()
    */
   printlnGreen("\r\nGenerating symmetric key... ");
   ts = millis();
-  ret = trustM_V3.generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, FALSE, OPTIGA_KEY_ID_SECRET_BASED);
+  uint16_t oid = OPTIGA_KEY_ID_SECRET_BASED;
+  ret = trustM_V3.generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, FALSE, (void *)&oid);
   ts = millis() - ts;
   if (ret) {
     digitalWrite(LED_BUILTIN, HIGH);   // Make the LED high to indicate failure

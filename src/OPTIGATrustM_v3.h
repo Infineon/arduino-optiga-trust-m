@@ -194,14 +194,16 @@ public:
      * @param[in,out]   symmetricKey_oid                        an Object ID of a slot, where the newly generated key should be stored:
      *                                                          Use the following slot:
      *                                                          @ref eDEVICE_PRIKEY_4 
-     *
+     * @param[in]       oid                                     Object ID to story symmetric key
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateSymmetricKeyAES(optiga_symmetric_key_type_t sym_key_type, optiga_key_id_t symmetricKey_oid) 
-                                   { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, FALSE, OPTIGA_KEY_ID_SECRET_BASED); };
-    int32_t generateSymmetricKeyAES(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, optiga_key_id_t symmetricKey_oid);
-    int32_t generateSymmetricKeyAES(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, void * symmetric_key);
+    int32_t generateSymmetricKeyAES(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, void * symmetricKey_oid);
+    int32_t generateStoreSymmetricKeyAES(optiga_symmetric_key_type_t sym_key_type, optiga_key_id_t oid) 
+                                        { return generateSymmetricKeyAES(sym_key_type, FALSE, (void *)&oid); };
+    int32_t generateExportSymmetricKeyAES(optiga_symmetric_key_type_t sym_key_type, void * symmetric_key) 
+                                        { return generateSymmetricKeyAES(sym_key_type, TRUE, symmetric_key); };
+    // int32_t generateSymmetricKeyAES(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, optiga_key_id_t symmetricKey_oid);
 
     /**
      * This function generates a symmetric key using AES 128. You can store the key in the optiga or export the key to the host.
@@ -216,14 +218,17 @@ public:
      * @param[in,out]   symmetricKey_oid                        an Object ID of a slot, where the newly generated key should be stored:
      *                                                          Use the following slot:
      *                                                          @ref eDEVICE_PRIKEY_4 
+     * @param[in]       oid                                     Object ID to story symmetric key
      *
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateSymmetricKeyAES128(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, optiga_key_id_t symmetricKey_oid)
-                                      { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, FALSE, OPTIGA_KEY_ID_SECRET_BASED); };
-    int32_t generateSymmetricKeyAES128(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, void * symmetric_key)
-                                      { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, TRUE, symmetric_key); };
+    int32_t generateSymmetricKeyAES128(bool_t export_symmetric_key, void * symmetricKey_oid)
+                                      { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, export_symmetric_key, symmetricKey_oid); };
+    int32_t generateStoreSymmetricKeyAES128(optiga_key_id_t oid) 
+                                      { return generateStoreSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, oid); };
+    int32_t generateExportSymmetricKeyAES128(void * symmetricKey_oid) 
+                                      { return generateExportSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, symmetricKey_oid); };
 
     /**
      * This function generates a symmetric key using AES 192. You can store the key in the optiga or export the key to the host.
@@ -242,10 +247,10 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateSymmetricKeyAES192(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, optiga_key_id_t symmetricKey_oid)
-                                      { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_192, FALSE, OPTIGA_KEY_ID_SECRET_BASED); };
-    int32_t generateSymmetricKeyAES192(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, void * symmetric_key)
-                                      { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_192, TRUE, symmetric_key); };
+    // int32_t generateSymmetricKeyAES192(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, optiga_key_id_t symmetricKey_oid)
+    //                                   { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_192, FALSE, OPTIGA_KEY_ID_SECRET_BASED); };
+    // int32_t generateSymmetricKeyAES192(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, void * symmetric_key)
+    //                                   { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_192, TRUE, symmetric_key); };
 
     /**
      * This function generates a symmetric key using AES 256. You can store the key in the optiga or export the key to the host.
@@ -264,10 +269,10 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateSymmetricKeyAES256(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, optiga_key_id_t symmetricKey_oid)
-                                      { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_256, FALSE, OPTIGA_KEY_ID_SECRET_BASED); };
-    int32_t generateSymmetricKeyAES256(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, void * symmetric_key)
-                                      { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_256, TRUE, symmetric_key); };
+    // int32_t generateSymmetricKeyAES256(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, optiga_key_id_t symmetricKey_oid)
+    //                                   { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_256, FALSE, OPTIGA_KEY_ID_SECRET_BASED); };
+    // int32_t generateSymmetricKeyAES256(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, void * symmetric_key)
+    //                                   { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_256, TRUE, symmetric_key); };
 
     /**
      * This function generates HMAC on the input data using secret key from the OPTIGA and exports the generated HMAC to the host. 
@@ -288,12 +293,11 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateHMAC(uint16_t secret, const uint8_t * input_data, uint32_t input_data_length, uint8_t * mac, uint32_t * mac_length)
-                        { return generateHMAC(OPTIGA_HMAC_SHA_256, secret, input_data, input_data_length, mac, mac_length); };
+
     int32_t generateHMAC(optiga_hmac_type_t type, uint16_t secret, const uint8_t * input_data, uint32_t input_data_length, uint8_t * mac, uint32_t * mac_length);
-    int32_t generateHMAC(optiga_hmac_type_t type, uint16_t secret, const uint8_t * input_data, uint32_t input_data_length);
-    int32_t generateHMAC(const uint8_t * input_data, uint32_t input_data_length);
-    int32_t generateHMAC(const uint8_t * input_data, uint32_t input_data_length, uint8_t * mac, uint32_t * mac_length);
+    int32_t generateHMACStart(optiga_hmac_type_t type, uint16_t secret, const uint8_t * input_data, uint32_t input_data_length);
+    int32_t generateHMACUpdate(const uint8_t * input_data, uint32_t input_data_length);
+    int32_t generateHMACFinalize(const uint8_t * input_data, uint32_t input_data_length, uint8_t * mac, uint32_t * mac_length);
 
     /**
      * This function generates HMAC on the input data using secret key from the OPTIGA with SHA-256. 
@@ -314,14 +318,14 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateHMACSHA256(optiga_hmac_type_t type, optiga_key_id_t secret, const uint8_t * input_data, uint32_t input_data_length, uint8_t * mac, uint32_t * mac_length)
+    int32_t generateHMACSHA256(optiga_key_id_t secret, const uint8_t * input_data, uint32_t input_data_length, uint8_t * mac, uint32_t * mac_length)
                               { return generateHMAC(OPTIGA_HMAC_SHA_256, secret, input_data, input_data_length, mac, mac_length); };
-    int32_t generateHMACSHA256(optiga_hmac_type_t type, optiga_key_id_t secret, const uint8_t * input_data, uint32_t input_data_length)
-                              { return generateHMAC(OPTIGA_HMAC_SHA_256, secret, input_data, input_data_length); };
-    int32_t generateHMACSHA256(const uint8_t * input_data, uint32_t input_data_length)
-                              { return generateHMAC(input_data, input_data_length); };
-    int32_t generateHMACSHA256(const uint8_t * input_data, uint32_t input_data_length, uint8_t * mac, uint32_t * mac_length)
-                              { return generateHMAC(input_data, input_data_length, mac, mac_length); };
+    int32_t generateHMACSHA256Start(optiga_key_id_t secret, const uint8_t * input_data, uint32_t input_data_length)
+                              { return generateHMACStart(OPTIGA_HMAC_SHA_256, secret, input_data, input_data_length); };
+    int32_t generateHMACSHA256Update(const uint8_t * input_data, uint32_t input_data_length)
+                              { return generateHMACUpdate(input_data, input_data_length); };
+    int32_t generateHMACSHA256Finalize(const uint8_t * input_data, uint32_t input_data_length, uint8_t * mac, uint32_t * mac_length)
+                              { return generateHMACFinalize(input_data, input_data_length, mac, mac_length); };
 
     /**
      * This function generates HMAC on the input data using secret key from the OPTIGA with SHA-384.
@@ -342,14 +346,14 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateHMACSHA384(optiga_hmac_type_t type, optiga_key_id_t secret, const uint8_t * input_data, uint32_t input_data_length, uint8_t * mac, uint32_t * mac_length)
+    int32_t generateHMACSHA384(optiga_key_id_t secret, const uint8_t * input_data, uint32_t input_data_length, uint8_t * mac, uint32_t * mac_length)
                               { return generateHMAC(OPTIGA_HMAC_SHA_384, secret, input_data, input_data_length, mac, mac_length); };
-    int32_t generateHMACSHA384(optiga_hmac_type_t type, optiga_key_id_t secret, const uint8_t * input_data, uint32_t input_data_length)
-                              { return generateHMAC(OPTIGA_HMAC_SHA_384, secret, input_data, input_data_length); };
+    int32_t generateHMACSHA384(optiga_key_id_t secret, const uint8_t * input_data, uint32_t input_data_length)
+                              { return generateHMACStart(OPTIGA_HMAC_SHA_384, secret, input_data, input_data_length); };
     int32_t generateHMACSHA384(const uint8_t * input_data, uint32_t input_data_length)
-                              { return generateHMAC(input_data, input_data_length); };
+                              { return generateHMACUpdate(input_data, input_data_length); };
     int32_t generateHMACSHA384(const uint8_t * input_data, uint32_t input_data_length, uint8_t * mac, uint32_t * mac_length)
-                              { return generateHMAC(input_data, input_data_length, mac, mac_length); };
+                              { return generateHMACFinalize(input_data, input_data_length, mac, mac_length); };
 
     /**
      * This function generates HMAC on the input data using secret key from the OPTIGA with SHA-512. 
@@ -370,14 +374,14 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateHMACSHA512(optiga_hmac_type_t type, optiga_key_id_t secret, const uint8_t * input_data, uint32_t input_data_length, uint8_t * mac, uint32_t * mac_length)
+    int32_t generateHMACSHA512(optiga_key_id_t secret, const uint8_t * input_data, uint32_t input_data_length, uint8_t * mac, uint32_t * mac_length)
                               { return generateHMAC(OPTIGA_HMAC_SHA_512, secret, input_data, input_data_length, mac, mac_length); };
-    int32_t generateHMACSHA512(optiga_hmac_type_t type, optiga_key_id_t secret, const uint8_t * input_data, uint32_t input_data_length)
-                              { return generateHMAC(OPTIGA_HMAC_SHA_512, secret, input_data, input_data_length); };
+    int32_t generateHMACSHA512(optiga_key_id_t secret, const uint8_t * input_data, uint32_t input_data_length)
+                              { return generateHMACStart(OPTIGA_HMAC_SHA_512, secret, input_data, input_data_length); };
     int32_t generateHMACSHA512(const uint8_t * input_data, uint32_t input_data_length)
-                              { return generateHMAC(input_data, input_data_length); };
+                              { return generateHMACUpdate(input_data, input_data_length); };
     int32_t generateHMACSHA512(const uint8_t * input_data, uint32_t input_data_length, uint8_t * mac, uint32_t * mac_length)
-                              { return generateHMAC(input_data, input_data_length, mac, mac_length); };
+                              { return generateHMACFinalize(input_data, input_data_length, mac, mac_length); };
 	
     private:
 
