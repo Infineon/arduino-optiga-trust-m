@@ -25,7 +25,6 @@
  * Infineon Technologies AG OPTIGA™ Trust M Arduino library
  */
 
-#include "OPTIGATrustM.h"
 #include "OPTIGATrustM_v3.h"
 
 #define SUPPRESSCOLLORS
@@ -62,7 +61,7 @@ void setup()
    * Initialise OPTIGA™ Trust M board
    */
 	printGreen("Begin Trust ... ");
-	ret = trustM.begin();
+	ret = trustM_V3.begin();
 	ASSERT(ret);
 	printlnGreen("OK");
 
@@ -70,7 +69,7 @@ void setup()
    * Speed up the chip (min is 6ma, maximum is 15ma)
    */
   printGreen("Setting Current Limit... ");
-	ret = trustM.setCurrentLimit(15);
+	ret = trustM_V3.setCurrentLimit(15);
 	ASSERT(ret);
 	printlnGreen("OK");
 
@@ -79,7 +78,7 @@ void setup()
    */
   printGreen("Checking Power Limit... ");
   uint8_t current_lim = 0;
-  ret = trustM.getCurrentLimit(current_lim);
+  ret = trustM_V3.getCurrentLimit(current_lim);
   ASSERT(ret);
   if (current_lim == 15) {
     printlnGreen("OK");
@@ -94,10 +93,6 @@ void setup()
 
 void loop() 
 {
-  /**
-   * Enable V3 capabilities in src/optiga_trustm/optiga_lib_config.h
-   */
-  #ifdef OPTIGA_TRUST_M_V3
 
   /* Generate symmetric key using AES 128 and store in OPTIGA session oid */
   generateKeyAES_oid();
@@ -105,18 +100,11 @@ void loop()
   /* Generate symmetric key using AES and export to host */
   generateKeyAES_export();
 
-  #endif /* OPTIGA_TRUST_M_V3 */ 
-
   /* 
    * Execute the loop just once :)
    */
   while(1){}
 }
-
-/**
- * Enable V3 capabilities in src/optiga_trustm/optiga_lib_config.h
- */
-#ifdef OPTIGA_TRUST_M_V3
 
 /**
  * Generate symmetric key using AES and store in OPTIGA Trust M
@@ -174,4 +162,3 @@ void generateKeyAES_export()
 
 }
 
-#endif /* OPTIGA_TRUST_M_V3 */ 

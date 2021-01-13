@@ -492,7 +492,7 @@ int32_t IFX_OPTIGA_TrustM_V3::generateSymmetricKeyAES(optiga_symmetric_key_type_
                                                   read_data_buffer,
                                                   &bytes_to_read);
 
-        WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
         
         if (OPTIGA_LIB_SUCCESS != return_status)
         {
@@ -510,7 +510,7 @@ int32_t IFX_OPTIGA_TrustM_V3::generateSymmetricKeyAES(optiga_symmetric_key_type_
                                                    E200_metadata,
                                                    sizeof(E200_metadata));
 
-        WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
         /**
          *  Generate symmetric key using AES
@@ -526,7 +526,7 @@ int32_t IFX_OPTIGA_TrustM_V3::generateSymmetricKeyAES(optiga_symmetric_key_type_
         return_status = optiga_crypt_symmetric_generate_key(me_crypt,
                                                             sym_key_type,
                                                             (uint8_t)(OPTIGA_KEY_USAGE_ENCRYPTION),
-                                                            FALSE,
+                                                            export_symmetric_key,
                                                             &symmetricKey_oid);
         OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 

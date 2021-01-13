@@ -35,7 +35,13 @@
 
 uint8_t *pubKey = new uint8_t[KEY_MAXLENGTH];
 uint8_t *privKey = new uint8_t[KEY_MAXLENGTH];
-  
+
+#ifdef OPTIGA_TRUST_M_V3
+IFX_OPTIGA_TrustM_V3 * trustm = &trustM_V3;
+#elif defined(OPTIGA_TRUST_M_V1)
+IFX_OPTIGA_TrustM * trustm = &trustM;
+#endif
+
 void setup() 
 {
   uint32_t ret = 0;
@@ -51,7 +57,7 @@ void setup()
    * Initialise an OPTIGA™ Trust X Board
    */
   printGreen("Begin to trust ... ");
-  ret = trustM.begin();
+  ret = trustm->begin();
   if (ret) {
     printlnRed("Failed");
     while (true);
@@ -62,7 +68,7 @@ void setup()
    * Speedup the board (from 6 mA to 15 mA)
    */
   printGreen("Limit the Current ... ");
-  ret = trustM.setCurrentLimit(15);
+  ret = trustm->setCurrentLimit(15);
   if (ret) {
     printlnRed("Failed");
     while (true);
@@ -99,7 +105,7 @@ void loop()
    */
   printlnGreen("\r\nGenerate Key Pair RSA 1024. Store Private Key on Board ... ");
   ts = millis();
-  ret = trustM.generateKeypair(pubKey, pubKeyLen, ctx);
+  ret = trustm->generateKeypair(pubKey, pubKeyLen, ctx);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -116,7 +122,7 @@ void loop()
   privKeyLen = KEY_MAXLENGTH;
   printlnGreen("\r\nGenerate Key Pair RSA 1024. Export Private Key ... ");
   ts = millis();
-  ret = trustM.generateKeypair(pubKey, pubKeyLen, privKey, privKeyLen);
+  ret = trustm->generateKeypair(pubKey, pubKeyLen, privKey, privKeyLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -133,7 +139,7 @@ void loop()
   privKeyLen = KEY_MAXLENGTH;
   printlnGreen("\r\nGenerate Key Pair ECC NIST P 256. Store Private Key on Board ... ");
   ts = millis();
-  ret = trustM.generateKeypairECC(pubKey, pubKeyLen);
+  ret = trustm->generateKeypairECC(pubKey, pubKeyLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -149,7 +155,7 @@ void loop()
   privKeyLen = KEY_MAXLENGTH;
   printlnGreen("\r\nGenerate Key Pair ECC NIST P 384. Export Private Key ... ");
   ts = millis();
-  ret = trustM.generateKeypairECCP384(pubKey, pubKeyLen, privKey, privKeyLen);
+  ret = trustm->generateKeypairECCP384(pubKey, pubKeyLen, privKey, privKeyLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -171,7 +177,7 @@ void loop()
   privKeyLen = KEY_MAXLENGTH;
   printlnGreen("\r\nGenerate Key Pair ECC NIST P 521. Export Private Key ... ");
   ts = millis();
-  ret = trustM_V3.generateKeypairECCP521(pubKey, pubKeyLen, privKey, privKeyLen);
+  ret = trustm->generateKeypairECCP521(pubKey, pubKeyLen, privKey, privKeyLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -188,7 +194,7 @@ void loop()
   privKeyLen = KEY_MAXLENGTH;
   printlnGreen("\r\nGenerate Key Pair ECC Brainpool P 256. Store Private Key on Board ... ");
   ts = millis();
-  ret = trustM_V3.generateKeypairECC(pubKey, pubKeyLen);
+  ret = trustm->generateKeypairECC(pubKey, pubKeyLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
