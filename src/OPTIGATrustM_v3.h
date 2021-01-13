@@ -227,8 +227,8 @@ public:
                                       { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, export_symmetric_key, symmetricKey_oid); };
     int32_t generateStoreSymmetricKeyAES128(optiga_key_id_t oid) 
                                       { return generateStoreSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, oid); };
-    int32_t generateExportSymmetricKeyAES128(void * symmetricKey_oid) 
-                                      { return generateExportSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, symmetricKey_oid); };
+    int32_t generateExportSymmetricKeyAES128(void * symmetric_key) 
+                                      { return generateExportSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, symmetric_key); };
 
     /**
      * This function generates a symmetric key using AES 192. You can store the key in the optiga or export the key to the host.
@@ -243,14 +243,17 @@ public:
      * @param[in,out]   symmetricKey_oid                        an Object ID of a slot, where the newly generated key should be stored:
      *                                                          Use the following slot:
      *                                                          @ref eDEVICE_PRIKEY_4 
+     * @param[in]       oid                                     Object ID to story symmetric key
      *
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    // int32_t generateSymmetricKeyAES192(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, optiga_key_id_t symmetricKey_oid)
-    //                                   { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_192, FALSE, OPTIGA_KEY_ID_SECRET_BASED); };
-    // int32_t generateSymmetricKeyAES192(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, void * symmetric_key)
-    //                                   { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_192, TRUE, symmetric_key); };
+     int32_t generateSymmetricKeyAES192(bool_t export_symmetric_key, void * symmetricKey_oid)
+                                       { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_192, export_symmetric_key, symmetricKey_oid); };
+     int32_t generateStoreSymmetricKeyAES192(optiga_key_id_t oid)
+                                       { return generateStoreSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_192, oid); };
+     int32_t generateExportSymmetricKeyAES192(void * symmetric_key)
+                                       { return generateExportSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_192, symmetric_key); };
 
     /**
      * This function generates a symmetric key using AES 256. You can store the key in the optiga or export the key to the host.
@@ -265,14 +268,18 @@ public:
      * @param[in,out]   symmetricKey_oid                        an Object ID of a slot, where the newly generated key should be stored:
      *                                                          Use the following slot:
      *                                                          @ref eDEVICE_PRIKEY_4 
+     * @param[in]       oid                                     Object ID to story symmetric key
      *
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
-     */
-    // int32_t generateSymmetricKeyAES256(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, optiga_key_id_t symmetricKey_oid)
-    //                                   { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_256, FALSE, OPTIGA_KEY_ID_SECRET_BASED); };
-    // int32_t generateSymmetricKeyAES256(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, void * symmetric_key)
-    //                                   { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_256, TRUE, symmetric_key); };
+     */    
+     int32_t generateSymmetricKeyAES256(bool_t export_symmetric_key, void * symmetricKey_oid)
+                                       { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_256, export_symmetric_key, symmetricKey_oid); };
+     int32_t generateStoreSymmetricKeyAES256(optiga_key_id_t oid)
+                                       { return generateStoreSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_256, oid); };
+     int32_t generateExportSymmetricKeyAES256(void * symmetric_key)
+                                       { return generateExportSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_256, symmetric_key); };
+
 
     /**
      * This function generates HMAC on the input data using secret key from the OPTIGA and exports the generated HMAC to the host. 
