@@ -25,7 +25,6 @@
  * Infineon Technologies AG OPTIGA™ Trust M Arduino library
  */
 
-#include "OPTIGATrustM.h"
 #include "OPTIGATrustM_v3.h"
 
 #define SUPPRESSCOLLORS
@@ -62,7 +61,7 @@ void setup()
    * Initialise OPTIGA™ Trust M board
    */
 	printGreen("Begin Trust ... ");
-	ret = trustM.begin();
+	ret = trustM_V3.begin();
 	ASSERT(ret);
 	printlnGreen("OK");
 
@@ -70,7 +69,7 @@ void setup()
    * Speed up the chip (min is 6ma, maximum is 15ma)
    */
   printGreen("Setting Current Limit... ");
-	ret = trustM.setCurrentLimit(15);
+	ret = trustM_V3.setCurrentLimit(15);
 	ASSERT(ret);
 	printlnGreen("OK");
 
@@ -79,7 +78,7 @@ void setup()
    */
   printGreen("Checking Power Limit... ");
   uint8_t current_lim = 0;
-  ret = trustM.getCurrentLimit(current_lim);
+  ret = trustM_V3.getCurrentLimit(current_lim);
   ASSERT(ret);
   if (current_lim == 15) {
     printlnGreen("OK");
@@ -87,47 +86,13 @@ void setup()
     printlnRed("Failed");
     while(1);
   }
+
+  // initialize digital pin LED_BUILTIN as an output.
+  pinMode(LED_BUILTIN, OUTPUT);
 }
 
 void loop() 
 {
-  /**
-   * Enable V3 capabilities in src/optiga_trustm/optiga_lib_config.h
-   */
-  #ifdef OPTIGA_TRUST_M_V3
-
-  optiga_lib_status_t return_status = !OPTIGA_LIB_SUCCESS;
-  optiga_util_t * util_me = NULL;
-
-  /**
-   * Sample metadata of 0xE200 
-   */
-  const uint8_t E200_metadata[] = { 0x20, 0x06, 0xD0, 0x01, 0x00, 0xD3, 0x01, 0x00 }; 
-
-    do
-    {
-        /**
-         * 1. Create OPTIGA Util Instance
-         */
-        util_me = optiga_util_create(0, optiga_util_callback, NULL);
-        if (NULL == util_me)
-        {
-            break;
-        }
-        
-        /**
-         * Write metadata of a data object (e.g. key data object 0xE200)
-         */        
-        optiga_lib_status = OPTIGA_LIB_BUSY;
-        return_status = optiga_util_write_metadata(util_me,
-                                                   OPTIGA_KEY_ID_SECRET_BASED,
-                                                   E200_metadata,
-                                                   sizeof(E200_metadata));
-
-        WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
-        
-        return_status = OPTIGA_LIB_SUCCESS;
-    } while (FALSE);
 
   /* Generate symmetric key using AES 128 and store in OPTIGA session oid */
   generateKeyAES_oid();
@@ -135,29 +100,11 @@ void loop()
   /* Generate symmetric key using AES and export to host */
   generateKeyAES_export();
 
-    if (util_me)
-    {
-        //Destroy the instance after the completion of usecase if not required.
-        return_status = optiga_util_destroy(util_me);
-        if(OPTIGA_LIB_SUCCESS != return_status)
-        {
-            //lint --e{774} suppress This is a generic macro
-            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
-        }
-    }
-
-  #endif /* OPTIGA_TRUST_M_V3 */ 
-
   /* 
    * Execute the loop just once :)
    */
   while(1){}
 }
-
-/**
- * Enable V3 capabilities in src/optiga_trustm/optiga_lib_config.h
- */
-#ifdef OPTIGA_TRUST_M_V3
 
 /**
  * Generate symmetric key using AES and store in OPTIGA Trust M
@@ -172,9 +119,11 @@ void generateKeyAES_oid()
    */
   printlnGreen("\r\nGenerating symmetric key... ");
   ts = millis();
-  ret = trustM_V3.generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, FALSE, OPTIGA_KEY_ID_SECRET_BASED);
+  uint16_t oid = OPTIGA_KEY_ID_SECRET_BASED;
+  ret = trustM_V3.generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, FALSE, (void *)&oid);
   ts = millis() - ts;
   if (ret) {
+    digitalWrite(LED_BUILTIN, HIGH);   // Make the LED high to indicate failure
     printlnRed("Failed");
     while (true);
   }
@@ -214,13 +163,3 @@ void generateKeyAES_export()
 
 }
 
-static void optiga_util_callback(void * context, optiga_lib_status_t return_status)
-{
-    optiga_lib_status = return_status;
-    if (NULL != context)
-    {
-        // callback to upper layer here
-    }
-}
-
-#endif /* OPTIGA_TRUST_M_V3 */ 

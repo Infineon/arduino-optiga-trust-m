@@ -74,7 +74,7 @@ extern void example_performance_measurement(uint32_t* time_value, uint8_t time_r
                                 break;\
                             }\
                             while (OPTIGA_LIB_BUSY == optiga_lib_status)\
-                            { }\
+                            {   pal_os_event_process();  }\
                             if (OPTIGA_LIB_SUCCESS != optiga_lib_status)\
                             {\
                                 return_status = optiga_lib_status;\
@@ -162,6 +162,31 @@ extern void example_performance_measurement(uint32_t* time_value, uint8_t time_r
         OPTIGA_EXAMPLE_LOG_MESSAGE(performance_buffer_string);  \
     }   \
 }
+
+void example_optiga_crypt_hash (void);
+void example_optiga_crypt_ecc_generate_keypair(void);
+void example_optiga_crypt_ecdsa_sign(void);
+void example_optiga_crypt_ecdsa_verify(void);
+void example_optiga_crypt_ecdh(void);
+void example_optiga_crypt_hmac(void);
+void example_optiga_crypt_symmetric_key(void);
+void example_optiga_crypt_random(void);
+void example_optiga_crypt_tls_prf_sha256(void);
+void example_optiga_util_read_data(void);
+void example_optiga_util_write_data(void);
+void example_optiga_crypt_rsa_generate_keypair(void);
+void example_optiga_crypt_rsa_sign(void);
+void example_optiga_crypt_rsa_verify(void);
+void example_optiga_crypt_rsa_decrypt_and_export(void);
+void example_optiga_crypt_rsa_decrypt_and_store(void);
+void example_optiga_crypt_rsa_encrypt_message(void);
+void example_optiga_crypt_rsa_encrypt_session(void);
+void example_optiga_util_update_count(void);
+void example_optiga_util_protected_update(void);
+void example_optiga_util_read_uuid(void);
+void example_pair_host_and_optiga_using_pre_shared_secret(void);
+void example_optiga_util_hibernate_restore(void);
+
 #ifdef __cplusplus
 }
 #endif

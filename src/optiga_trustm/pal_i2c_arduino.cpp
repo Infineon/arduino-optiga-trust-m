@@ -50,7 +50,7 @@
 
 #ifdef OPTIGA_LIB_ENABLE_LOGGING
     /** @brief Macro to enable logger for Util service */
-    //#define OPTIGA_LIB_ENABLE_I2C_ARD_LOGGING
+    // #define OPTIGA_LIB_ENABLE_I2C_ARD_LOGGING
 #endif
 
  #if defined (OPTIGA_LIB_ENABLE_LOGGING) && defined (OPTIGA_LIB_ENABLE_I2C_ARD_LOGGING)

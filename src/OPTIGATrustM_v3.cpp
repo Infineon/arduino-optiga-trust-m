@@ -458,37 +458,81 @@ static int32_t testPalCryptTinyCrypt(void)
 	
 	return ret;
 }
-
-/*************************************************************************************
- *                              COMMANDS API TRUST E COMPATIBLE
- **************************************************************************************/
  
 int32_t IFX_OPTIGA_TrustM_V3::generateSymmetricKeyAES(optiga_symmetric_key_type_t sym_key_type, 
-                                                   bool_t export_symmetric_key, 
-                                                   optiga_key_id_t symmetricKey_oid)
+                                                     bool_t export_symmetric_key, 
+                                                     void * symmetricKey_oid)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
+    uint8_t read_data_buffer[100];
+    uint16_t optiga_oid, bytes_to_read;
+
+    /**
+     * Sample metadata of 0xE200 // TODO: Is this metadata only for E200? we need it as argument? 
+     */
+    const uint8_t E200_metadata[] = { 0x20, 0x06, 0xD0, 0x01, 0x00, 0xD3, 0x01, 0x00 }; 
 
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
     do
     {
+        /**
+         * Read metadata of a data object (e.g. key data object 0xE200)
+         * using optiga_util_read_metadata.
+         */
+        if( FALSE == export_symmetric_key)
+        {
+            optiga_oid = *((uint16_t*)symmetricKey_oid);
+        }
+        else
+        {
+            optiga_oid =  OPTIGA_KEY_ID_SECRET_BASED;
+        }
+        
+
+        bytes_to_read = sizeof(read_data_buffer);
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_read_metadata(me_util,
+                                                  optiga_oid,
+                                                  read_data_buffer,
+                                                  &bytes_to_read);
+
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
+        
+        if (OPTIGA_LIB_SUCCESS != return_status)
+        {
+            return_status = OPTIGA_LIB_SUCCESS;
+            break;
+        }
+
+        /**
+         * Write metadata of a data object (e.g. key data object 0xE200)
+         */        
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        // optiga_oid = 0xE200;
+        return_status = optiga_util_write_metadata(me_util,
+                                                   optiga_oid,
+                                                   E200_metadata,
+                                                   sizeof(E200_metadata));
+
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
+
         /**
          *  Generate symmetric key using AES
          *       - Use key size of 128/192/256
          *       - Specify the Key Usage (Key Agreement or Sign based on requirement)
          *       - Store the Private key in OPTIGA Key store or export the key
          */
-        if (symmetricKey_oid == 0)
-            symmetricKey_oid = OPTIGA_KEY_ID_SECRET_BASED;
+        // if (symmetricKey_oid == 0)
+        // symmetricKey_oid = optiga_oid;
  
         optiga_lib_status = OPTIGA_LIB_BUSY;
 
         return_status = optiga_crypt_symmetric_generate_key(me_crypt,
                                                             sym_key_type,
-                                                            (uint8_t)(OPTIGA_KEY_USAGE_SIGN | OPTIGA_KEY_USAGE_AUTHENTICATION | OPTIGA_KEY_USAGE_ENCRYPTION),
-                                                            FALSE,
-                                                            (void *)OPTIGA_KEY_ID_SECRET_BASED);
+                                                            (uint8_t)(OPTIGA_KEY_USAGE_ENCRYPTION),
+                                                            export_symmetric_key,
+                                                            symmetricKey_oid);
         OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
     } while (FALSE);
@@ -501,41 +545,79 @@ int32_t IFX_OPTIGA_TrustM_V3::generateSymmetricKeyAES(optiga_symmetric_key_type_
     return ard_ret;
 }
 
-int32_t IFX_OPTIGA_TrustM_V3::generateSymmetricKeyAES(optiga_symmetric_key_type_t sym_key_type, 
-                                                   bool_t export_symmetric_key, 
-                                                   void * symmetric_key)
-{
-    uint32_t ard_ret = 1;
-    optiga_lib_status_t return_status = 0;
+// int32_t IFX_OPTIGA_TrustM_V3::generateSymmetricKeyAES(optiga_symmetric_key_type_t sym_key_type, 
+//                                                    bool_t export_symmetric_key, 
+//                                                    void * symmetric_key)
+// {
+//     uint32_t ard_ret = 1;
+//     optiga_lib_status_t return_status = 0;
+//     uint8_t read_data_buffer[100];
+//     uint16_t optiga_oid, bytes_to_read;
 
-    OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
-    do
-    {
-        /**
-         *  Generate symmetric key using AES
-         *       - Use key size of 128/192/256
-         *       - Specify the Key Usage (Key Agreement or Sign based on requirement)
-         *       - Store the Private key in OPTIGA Key store or export the key
-         */
+//     /**
+//      * Sample metadata of 0xE200 
+//      */
+//     const uint8_t E200_metadata[] = { 0x20, 0x06, 0xD0, 0x01, 0x00, 0xD3, 0x01, 0x00 }; 
+
+//     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
+//     do
+//     {
+//                 /**
+//          * Read metadata of a data object (e.g. key data object 0xE200)
+//          * using optiga_util_read_metadata.
+//          */
+//         optiga_oid = symmetric_key;
+//         bytes_to_read = sizeof(read_data_buffer);
+//         optiga_lib_status = OPTIGA_LIB_BUSY;
+//         return_status = optiga_util_read_metadata(me_util,
+//                                                   optiga_oid,
+//                                                   read_data_buffer,
+//                                                   &bytes_to_read);
+
+//         WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
+        
+//         if (OPTIGA_LIB_SUCCESS != return_status)
+//         {
+//             return_status = OPTIGA_LIB_SUCCESS;
+//             break;
+//         }
+
+//         /**
+//          * Write metadata of a data object (e.g. key data object 0xE200)
+//          */        
+//         optiga_lib_status = OPTIGA_LIB_BUSY;
+//         return_status = optiga_util_write_metadata(me_util,
+//                                                    optiga_oid,
+//                                                    E200_metadata,
+//                                                    sizeof(E200_metadata));
+
+//         WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
+
+//         /**
+//          *  Generate symmetric key using AES
+//          *       - Use key size of 128/192/256
+//          *       - Specify the Key Usage (Key Agreement or Sign based on requirement)
+//          *       - Store the Private key in OPTIGA Key store or export the key
+//          */
  
-        optiga_lib_status = OPTIGA_LIB_BUSY;
+//         optiga_lib_status = OPTIGA_LIB_BUSY;
 
-        optiga_crypt_symmetric_generate_key(me_crypt,
-                                            sym_key_type,
-                                            (uint8_t)(OPTIGA_KEY_USAGE_SIGN | OPTIGA_KEY_USAGE_AUTHENTICATION | OPTIGA_KEY_USAGE_ENCRYPTION),
-                                            TRUE,
-                                            symmetric_key);
-        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
+//         return_status = optiga_crypt_symmetric_generate_key(me_crypt,
+//                                                             sym_key_type,
+//                                                             (uint8_t)(OPTIGA_KEY_USAGE_ENCRYPTION),
+//                                                             export_symmetric_key,
+//                                                             &symmetric_key);
+//         OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
-    } while (FALSE);
-    OPTIGA_ARDUINO_LOG_STATUS(return_status);
+//     } while (FALSE);
+//     OPTIGA_ARDUINO_LOG_STATUS(return_status);
     
-    if(OPTIGA_LIB_SUCCESS == return_status)
-    {
-        ard_ret = 0;
-    }
-    return ard_ret;
-}
+//     if(OPTIGA_LIB_SUCCESS == return_status)
+//     {
+//         ard_ret = 0;
+//     }
+//     return ard_ret;
+// }
 
 int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(optiga_hmac_type_t type, 
                      					uint16_t secret, 
@@ -547,9 +629,43 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(optiga_hmac_type_t type,
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
 
+    const uint8_t input_secret[] = {0x8d,0xe4,0x3f,0xff,
+                                    0x65,0x2d,0xa0,0xa7,
+                                    0xf0,0x4e,0x8f,0x22,
+                                    0x84,0xa4,0x28,0x3b};
+
+    const uint8_t input_secret_oid_metadata[] = {0x20, 0x06, 0xD3, 0x01, 0x00, 0xE8, 0x01, 0x21};
+
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
     do
     {
+        /**
+         * Write metadata 
+         * Precondition 1 :
+         * Metadata for 0xF1D0 :
+         * Execute access condition = Always
+         * Data object type  =  Pre-shared secret
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_write_metadata(me_util,
+                                                   secret,
+                                                   input_secret_oid_metadata,
+                                                   sizeof(input_secret_oid_metadata));
+	    OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
+
+        /**
+        *  Precondition 2 :
+        *  Write secret in OID 0xF1D0
+        */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_write_data(me_util,
+                                               secret,
+                                               OPTIGA_UTIL_ERASE_AND_WRITE,
+                                               0,
+                                               input_secret,
+                                               sizeof(input_secret));
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
+
         /**
          *  Generate HMAC using secret in the OPTIGA
          */ 
@@ -575,17 +691,51 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(optiga_hmac_type_t type,
     return ard_ret;
 }
 
-int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(optiga_hmac_type_t type, 
-                     					uint16_t secret, 
-                     					const uint8_t * input_data, 
-                     					uint32_t input_data_length)
+int32_t IFX_OPTIGA_TrustM_V3::generateHMACStart(optiga_hmac_type_t type, 
+                     					        uint16_t secret, 
+                     					        const uint8_t * input_data, 
+                     					        uint32_t input_data_length)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
 
+    const uint8_t input_secret[] = {0x8d,0xe4,0x3f,0xff,
+                                    0x65,0x2d,0xa0,0xa7,
+                                    0xf0,0x4e,0x8f,0x22,
+                                    0x84,0xa4,0x28,0x3b};
+
+    const uint8_t input_secret_oid_metadata[] = {0x20, 0x06, 0xD3, 0x01, 0x00, 0xE8, 0x01, 0x21};
+
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
     do
     {
+        /**
+         * Write metadata 
+         * Precondition 1 :
+         * Metadata for 0xF1D0 :
+         * Execute access condition = Always
+         * Data object type  =  Pre-shared secret
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_write_metadata(me_util,
+                                                   0xF1D0,
+                                                   input_secret_oid_metadata,
+                                                   sizeof(input_secret_oid_metadata));
+	    OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
+
+        /**
+        *  Precondition 2 :
+        *  Write secret in OID 0xF1D0
+        */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_write_data(me_util,
+                                               secret,
+                                               OPTIGA_UTIL_ERASE_AND_WRITE,
+                                               0,
+                                               input_secret,
+                                               sizeof(input_secret));
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
+
         /**
          *  start HMAC using the secret present in the OPTIGA
          */ 
@@ -609,8 +759,8 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(optiga_hmac_type_t type,
     return ard_ret;
 }
 
-int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(const uint8_t * input_data, 
-                     					uint32_t input_data_length)
+int32_t IFX_OPTIGA_TrustM_V3::generateHMACUpdate(const uint8_t * input_data, 
+                     					               uint32_t  input_data_length)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -639,10 +789,10 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(const uint8_t * input_data,
     return ard_ret;
 }
 
-int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(const uint8_t * input_data, 
-                     					uint32_t input_data_length, 
-                     					uint8_t * mac, 
-                     					uint32_t * mac_length)
+int32_t IFX_OPTIGA_TrustM_V3::generateHMACFinalize(const uint8_t  * input_data, 
+                     					                 uint32_t   input_data_length, 
+                     					                 uint8_t  * mac, 
+                     					                 uint32_t * mac_length) 
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;

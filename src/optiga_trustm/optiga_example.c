@@ -8,6 +8,7 @@
 #include "pal_os_timer.h"
 #include "optiga_lib_logger.h"
 #include "optiga_example.h"
+#include "optiga_lib_config.h"
 
 static volatile optiga_lib_status_t optiga_lib_status;
 //lint --e{818} suppress "argument "context" is not used in the sample provided"
@@ -887,6 +888,344 @@ void example_optiga_crypt_ecdh(void)
             OPTIGA_EXAMPLE_LOG_STATUS(return_status);
         }
     }
+}
+
+// static optiga_lib_status_t write_input_secret_to_oid(void);
+// static optiga_lib_status_t write_metadata(optiga_util_t * me);
+
+// Write metadata
+// static optiga_lib_status_t write_metadata(optiga_util_t * me)
+// {
+//     optiga_lib_status_t return_status = OPTIGA_LIB_SUCCESS;
+
+//     do
+//     {
+
+//     } while (FALSE);
+
+//     return(return_status);
+// }
+
+// Write input secret to OID
+// static optiga_lib_status_t write_input_secret_to_oid()
+// {
+//     optiga_lib_status_t return_status = OPTIGA_UTIL_ERROR;
+
+
+
+//     } while (FALSE);
+
+// }
+
+#define METADATA_TAG_KEY_ALGO_ID     (0xE0)
+optiga_lib_status_t example_check_tag_in_metadata(const uint8_t * buffer, const uint8_t tag)
+{
+    optiga_lib_status_t return_status = OPTIGA_LIB_SUCCESS;
+    uint8_t offset = 1;
+    uint8_t buffer_length = 0;
+    uint8_t tag_length = 0;
+    do
+    {
+        buffer_length = buffer[offset++];
+        while(offset < buffer_length)
+        {
+            if (tag == buffer[offset++])
+            {
+                return_status = !OPTIGA_LIB_SUCCESS;
+                break;
+            }
+            tag_length = buffer[offset];
+            offset += (tag_length + 1);
+        }
+    } while (FALSE);
+    return (return_status);
+}
+
+void example_optiga_crypt_symmetric_key(void)
+{
+    optiga_lib_status_t return_status;
+    optiga_crypt_t * me_crypt = NULL;
+    optiga_util_t * me_util = NULL;     
+    optiga_key_id_t symmetric_key;
+    uint16_t optiga_oid, bytes_to_read;
+    uint8_t read_data_buffer[100];   
+        
+    /**
+     * Sample metadata of 0xE200 
+     */
+    const uint8_t E200_metadata[] = { 0x20, 0x06, 0xD0, 0x01, 0x00, 0xD3, 0x01, 0x00 };
+
+   do
+    {
+      /**
+         * 1. Create OPTIGA Crypt Instance
+         */
+        // me_crypt = optiga_crypt_create(0, optiga_util_callback, NULL);
+        // if (NULL == me_crypt)
+        // {
+        //     break;
+        // }
+
+        me_util = optiga_util_create(0, optiga_util_callback, NULL);
+        if (NULL == me_util)
+        {
+            break;
+        }
+
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */        
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me_util, 0);
+        WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
+        
+        /**
+         * Read metadata of a data object (e.g. key data object 0xE200)
+         * using optiga_util_read_metadata.
+         */
+        optiga_oid = 0xE200;
+        bytes_to_read = sizeof(read_data_buffer);
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_read_metadata(me_util,
+                                                  optiga_oid,
+                                                  read_data_buffer,
+                                                  &bytes_to_read);
+
+        WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
+        
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = example_check_tag_in_metadata(read_data_buffer,
+                                                      METADATA_TAG_KEY_ALGO_ID);
+        // if (OPTIGA_LIB_SUCCESS != return_status)
+        // {
+        //     return_status = OPTIGA_LIB_SUCCESS;
+        //     break;
+        // }
+        WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
+        
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        optiga_oid = 0xE200;
+        return_status = optiga_util_write_metadata(me_util,
+                                                   optiga_oid,
+                                                   E200_metadata,
+                                                   sizeof(E200_metadata));
+
+        WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
+        
+        /**
+         * 2. Generate symmetric key
+         *       - Use AES-128 key type
+         *       - OPTIGA_KEY_USAGE_ENCRYPTION as a Key Usage
+         *       - Store the Symmetric key in OPTIGA Key store OID(E200)
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        symmetric_key = OPTIGA_KEY_ID_SECRET_BASED;
+        
+        // START_PERFORMANCE_MEASUREMENT(time_taken_to_generate_key);
+        
+        return_status = optiga_crypt_symmetric_generate_key(me_crypt,
+                                                            OPTIGA_SYMMETRIC_AES_128,
+                                                            (uint8_t)OPTIGA_KEY_USAGE_ENCRYPTION,
+                                                            FALSE,
+                                                            &symmetric_key);
+
+        WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
+        
+        // READ_PERFORMANCE_MEASUREMENT(time_taken_to_generate_key);
+        
+        //return_status = OPTIGA_LIB_SUCCESS;
+
+    } while (FALSE);
+    OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+
+    if (me_crypt)
+    {
+        //Destroy the instance after the completion of usecase if not required.
+        return_status = optiga_crypt_destroy(me_crypt);
+        if(OPTIGA_LIB_SUCCESS != return_status)
+        {
+            //lint --e{774} suppress This is a generic macro
+            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+        }
+    }
+
+    if(me_util)
+    {
+        //Destroy the instance after the completion of usecase if not required.
+        return_status = optiga_util_destroy(me_util);
+        if(OPTIGA_LIB_SUCCESS != return_status)
+        {
+            //lint --e{774} suppress This is a generic macro
+            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+        }
+    }
+
+}
+
+void example_optiga_crypt_hmac(void)
+{
+
+#if defined OPTIGA_CRYPT_HMAC_ENABLED
+
+    const uint8_t input_data_buffer_start[] = {0x6b, 0xc1, 0xbe, 0xe2,
+                                               0x2e, 0x40, 0x9f, 0x96,
+                                               0xe9, 0x3d, 0x7e, 0x11,
+                                               0x73, 0x93, 0x17, 0x2a};
+    const uint8_t input_data_buffer_update[] = {0x7c,0xd2,0xcf,0xf3,
+                                                0x3f,0x51,0xa0,0xa7,
+                                                0xf0,0x4e,0x8f,0x22,
+                                                0x84,0xa4,0x28,0x3b};
+    const uint8_t input_data_buffer_final[] = {0x5a,0xb0,0xad,0xd1,
+                                               0x1d,0x3f,0x8e,0x85,
+                                               0xd8,0x2c,0x6d,0xf1,
+                                               0x62,0x82,0x06,0x19};
+    uint8_t mac_buffer[32] = {0};
+    uint32_t mac_buffer_length = sizeof(mac_buffer);
+    // uint32_t time_taken = 0;
+    optiga_crypt_t * me_crypt = NULL;
+    optiga_util_t * me_util = NULL;        
+    optiga_lib_status_t return_status = !OPTIGA_LIB_SUCCESS;
+    const uint8_t input_secret[] = {0x8d,0xe4,0x3f,0xff,
+                                    0x65,0x2d,0xa0,0xa7,
+                                    0xf0,0x4e,0x8f,0x22,
+                                    0x84,0xa4,0x28,0x3b};
+    const uint8_t input_secret_oid_metadata[] = {0x20, 0x06, 0xD3, 0x01, 0x00, 0xE8, 0x01, 0x21};
+
+    do
+    {
+        OPTIGA_EXAMPLE_LOG_MESSAGE(__FUNCTION__);
+
+        me_util = optiga_util_create(0, optiga_util_callback, NULL);
+        if (NULL == me_util)
+        {
+            break;
+        }
+
+        /**
+         * Open the application on OPTIGA which is a precondition to perform any other operations
+         * using optiga_util_open_application
+         */        
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_open_application(me_util, 0);
+        WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
+
+        /**
+         * 1. Create OPTIGA Crypt Instance
+         *
+         */
+        me_crypt = optiga_crypt_create(0, optiga_util_callback, NULL);
+        if (NULL == me_crypt)
+        {
+            break;
+        }
+
+        /**
+         * Precondition 1 :
+         * Metadata for 0xF1D0 :
+         * Execute access condition = Always
+         * Data object type  =  Pre-shared secret
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_write_metadata(me_util,
+                                                   0xF1D0,
+                                                   input_secret_oid_metadata,
+                                                   sizeof(input_secret_oid_metadata));
+        WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
+
+        /**
+        *  Precondition 2 :
+        *  Write secret in OID 0xF1D0
+        */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_write_data(me_util,
+                                               0xF1D0,
+                                               OPTIGA_UTIL_ERASE_AND_WRITE,
+                                               0,
+                                               input_secret,
+                                               sizeof(input_secret));
+
+        WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
+
+        // /**
+        //  * 2. Update input secret in 0xF1D0
+        //  *
+        //  */
+        // return_status = write_input_secret_to_oid();
+        // if (OPTIGA_LIB_SUCCESS != return_status)
+        // {
+        //     // Update of secret failed
+        //     break;
+        // }
+        /**
+         * 3. Start HMAC operation 
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        
+        // START_PERFORMANCE_MEASUREMENT(time_taken);
+        
+        return_status = optiga_crypt_hmac_start(me_crypt,
+                                                OPTIGA_HMAC_SHA_256,
+                                                0xF1D0,
+                                                input_data_buffer_start,
+                                                sizeof(input_data_buffer_start));
+
+        WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
+
+        /**
+         * 4. Continue HMAC operation on input data
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_crypt_hmac_update(me_crypt,
+                                                 input_data_buffer_update,
+                                                 sizeof(input_data_buffer_update));
+
+        WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
+        /**
+         * 5. End HMAC sequence and return the MAC generated
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_crypt_hmac_finalize(me_crypt,
+                                                   input_data_buffer_final,
+                                                   sizeof(input_data_buffer_final),
+                                                   mac_buffer,
+                                                   &mac_buffer_length);
+
+        WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status);
+        
+        // READ_PERFORMANCE_MEASUREMENT(time_taken);
+                                                   
+        return_status = OPTIGA_LIB_SUCCESS;
+
+    } while (FALSE);
+    OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+    
+    // OPTIGA_EXAMPLE_LOG_PERFORMANCE_VALUE(time_taken, return_status);
+    
+    if (me_crypt)
+    {
+        //Destroy the instance after the completion of usecase if not required.
+        return_status = optiga_crypt_destroy(me_crypt);
+        if(OPTIGA_LIB_SUCCESS != return_status)
+        {
+            //lint --e{774} suppress This is a generic macro
+            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+        }
+    }
+
+    if(me_util)
+    {
+        //Destroy the instance after the completion of usecase if not required.
+        return_status = optiga_util_destroy(me_util);
+        if(OPTIGA_LIB_SUCCESS != return_status)
+        {
+            //lint --e{774} suppress This is a generic macro
+            OPTIGA_EXAMPLE_LOG_STATUS(return_status);
+        }
+    }
+    
+#endif  //OPTIGA_CRYPT_HMAC_ENABLED
+
 }
 
 void example_optiga_crypt_random(void)
