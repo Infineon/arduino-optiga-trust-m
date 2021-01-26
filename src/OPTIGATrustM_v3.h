@@ -106,8 +106,8 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateKeypairECCP521(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen) { return generateKeypairECC(p_pubkey, plen, p_privkey, prlen, OPTIGA_ECC_CURVE_NIST_P_521); };
-    int32_t generateKeypairECCP521(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(p_pubkey, plen, privateKey_oid, OPTIGA_ECC_CURVE_NIST_P_521); };
+    int32_t generateKeypairECCP521(uint8_t publicKey[], uint16_t& plen, uint8_t privateKey[], uint16_t& prlen) { return generateKeypairECC(publicKey, plen, privateKey, prlen, OPTIGA_ECC_CURVE_NIST_P_521); };
+    int32_t generateKeypairECCP521(uint8_t publicKey[], uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(publicKey, plen, privateKey_oid, OPTIGA_ECC_CURVE_NIST_P_521); };
     
     /**
      * This function generates an ECC Brainpool P 256 r1 public private keypair. You can store the private key internally or export it for your usage
@@ -130,8 +130,8 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateKeypairECCP256r1(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen) { return generateKeypairECC(p_pubkey, plen, p_privkey, prlen, OPTIGA_ECC_CURVE_BRAIN_POOL_P_256R1); };
-    int32_t generateKeypairECCP256r1(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(p_pubkey, plen, privateKey_oid, OPTIGA_ECC_CURVE_BRAIN_POOL_P_256R1); };
+    int32_t generateKeypairECCP256r1(uint8_t publicKey[], uint16_t& plen, uint8_t privateKey[], uint16_t& prlen) { return generateKeypairECC(publicKey, plen, privateKey, prlen, OPTIGA_ECC_CURVE_BRAIN_POOL_P_256R1); };
+    int32_t generateKeypairECCP256r1(uint8_t publicKey[], uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(publicKey, plen, privateKey_oid, OPTIGA_ECC_CURVE_BRAIN_POOL_P_256R1); };
 
     /**
      * This function generates an ECC Brainpool P 384 r1 public private keypair. You can store the private key internally or export it for your usage
@@ -154,8 +154,8 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateKeypairECCP384r1(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen) { return generateKeypairECC(p_pubkey, plen, p_privkey, prlen, OPTIGA_ECC_CURVE_BRAIN_POOL_P_384R1); };
-    int32_t generateKeypairECCP384r1(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(p_pubkey, plen, privateKey_oid, OPTIGA_ECC_CURVE_BRAIN_POOL_P_384R1); };
+    int32_t generateKeypairECCP384r1(uint8_t publicKey[], uint16_t& plen, uint8_t privateKey[], uint16_t& prlen) { return generateKeypairECC(publicKey, plen, privateKey, prlen, OPTIGA_ECC_CURVE_BRAIN_POOL_P_384R1); };
+    int32_t generateKeypairECCP384r1(uint8_t publicKey[], uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(publicKey, plen, privateKey_oid, OPTIGA_ECC_CURVE_BRAIN_POOL_P_384R1); };
     
     /**
      * This function generates an ECC Brainpool P 512 r1 public private keypair. You can store the private key internally or export it for your usage
@@ -178,106 +178,67 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateKeypairECCP512r1(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen) { return generateKeypairECC(p_pubkey, plen, p_privkey, prlen, OPTIGA_ECC_CURVE_BRAIN_POOL_P_512R1); };
-    int32_t generateKeypairECCP512r1(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(p_pubkey, plen, privateKey_oid, OPTIGA_ECC_CURVE_BRAIN_POOL_P_512R1); };
+    int32_t generateKeypairECCP512r1(uint8_t publicKey[], uint16_t& plen, uint8_t privateKey[], uint16_t& prlen) { return generateKeypairECC(publicKey, plen, privateKey, prlen, OPTIGA_ECC_CURVE_BRAIN_POOL_P_512R1); };
+    int32_t generateKeypairECCP512r1(uint8_t publicKey[], uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(publicKey, plen, privateKey_oid, OPTIGA_ECC_CURVE_BRAIN_POOL_P_512R1); };
 
     /**
      * This function generates a symmetric key using AES. You can store the key in the optiga or export the key to the host.
      *
      * @param[in]       sym_key_type                            Key type of #optiga_symmetric_key_type_t.
-     * @param[in]       export_symmetric_key                    TRUE (1) or Non-Zero value - Exports symmetric key to the host. 
-     *                                                          - Assign pointer to a buffer to store symmetric key.
-     *                                                          FALSE (0) - Stores symmetric key in OPTIGA.
-     *                                                          - Assign pointer to a buffer to store symmetric key.
      * @param[in,out]   symmetric_key                           Pointer to buffer of symmetric key.
      *                                                          - The size of the buffer must be sufficient enough to accommodate the key. 
-     * @param[in,out]   symmetricKey_oid                        an Object ID of a slot, where the newly generated key should be stored:
-     *                                                          Use the following slot:
-     *                                                          @ref eDEVICE_PRIKEY_4 
      * @param[in]       oid                                     Object ID to story symmetric key
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateSymmetricKeyAES(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, void * symmetricKey_oid);
     int32_t generateStoreSymmetricKeyAES(optiga_symmetric_key_type_t sym_key_type, optiga_key_id_t oid) 
                                         { return generateSymmetricKeyAES(sym_key_type, FALSE, (void *)&oid); };
-    int32_t generateExportSymmetricKeyAES(optiga_symmetric_key_type_t sym_key_type, void * symmetric_key) 
+    int32_t generateExportSymmetricKeyAES(optiga_symmetric_key_type_t sym_key_type, uint8_t symmetric_key[]) 
                                         { return generateSymmetricKeyAES(sym_key_type, TRUE, symmetric_key); };
-    // int32_t generateSymmetricKeyAES(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, optiga_key_id_t symmetricKey_oid);
 
     /**
      * This function generates a symmetric key using AES 128. You can store the key in the optiga or export the key to the host.
      *
      * @param[in]       sym_key_type                            Key type of #optiga_symmetric_key_type_t.
-     * @param[in]       export_symmetric_key                    TRUE (1) or Non-Zero value - Exports symmetric key to the host. 
-     *                                                          - Assign pointer to a buffer to store symmetric key.
-     *                                                          FALSE (0) - Stores symmetric key in OPTIGA.
-     *                                                          - Assign pointer to a buffer to store symmetric key.
      * @param[in,out]   symmetric_key                           Pointer to buffer of symmetric key.
      *                                                          - The size of the buffer must be sufficient enough to accommodate the key. 
-     * @param[in,out]   symmetricKey_oid                        an Object ID of a slot, where the newly generated key should be stored:
-     *                                                          Use the following slot:
-     *                                                          @ref eDEVICE_PRIKEY_4 
      * @param[in]       oid                                     Object ID to story symmetric key
-     *
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateSymmetricKeyAES128(bool_t export_symmetric_key, void * symmetricKey_oid)
-                                      { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, export_symmetric_key, symmetricKey_oid); };
     int32_t generateStoreSymmetricKeyAES128(optiga_key_id_t oid) 
                                       { return generateStoreSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, oid); };
-    int32_t generateExportSymmetricKeyAES128(void * symmetric_key) 
+    int32_t generateExportSymmetricKeyAES128(uint8_t symmetric_key[]) 
                                       { return generateExportSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, symmetric_key); };
 
     /**
      * This function generates a symmetric key using AES 192. You can store the key in the optiga or export the key to the host.
      *
      * @param[in]       sym_key_type                            Key type of #optiga_symmetric_key_type_t.
-     * @param[in]       export_symmetric_key                    TRUE (1) or Non-Zero value - Exports symmetric key to the host. 
-     *                                                          - Assign pointer to a buffer to store symmetric key.
-     *                                                          FALSE (0) - Stores symmetric key in OPTIGA.
-     *                                                          - Assign pointer to a buffer to store symmetric key.
      * @param[in,out]   symmetric_key                           Pointer to buffer of symmetric key.
      *                                                          - The size of the buffer must be sufficient enough to accommodate the key. 
-     * @param[in,out]   symmetricKey_oid                        an Object ID of a slot, where the newly generated key should be stored:
-     *                                                          Use the following slot:
-     *                                                          @ref eDEVICE_PRIKEY_4 
      * @param[in]       oid                                     Object ID to story symmetric key
-     *
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-     int32_t generateSymmetricKeyAES192(bool_t export_symmetric_key, void * symmetricKey_oid)
-                                       { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_192, export_symmetric_key, symmetricKey_oid); };
      int32_t generateStoreSymmetricKeyAES192(optiga_key_id_t oid)
                                        { return generateStoreSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_192, oid); };
-     int32_t generateExportSymmetricKeyAES192(void * symmetric_key)
+     int32_t generateExportSymmetricKeyAES192(uint8_t symmetric_key[])
                                        { return generateExportSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_192, symmetric_key); };
 
     /**
      * This function generates a symmetric key using AES 256. You can store the key in the optiga or export the key to the host.
      *
      * @param[in]       sym_key_type                            Key type of #optiga_symmetric_key_type_t.
-     * @param[in]       export_symmetric_key                    TRUE (1) or Non-Zero value - Exports symmetric key to the host. 
-     *                                                          - Assign pointer to a buffer to store symmetric key.
-     *                                                          FALSE (0) - Stores symmetric key in OPTIGA.
-     *                                                          - Assign pointer to a buffer to store symmetric key.
      * @param[in,out]   symmetric_key                           Pointer to buffer of symmetric key.
      *                                                          - The size of the buffer must be sufficient enough to accommodate the key. 
-     * @param[in,out]   symmetricKey_oid                        an Object ID of a slot, where the newly generated key should be stored:
-     *                                                          Use the following slot:
-     *                                                          @ref eDEVICE_PRIKEY_4 
      * @param[in]       oid                                     Object ID to story symmetric key
-     *
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
-     */    
-     int32_t generateSymmetricKeyAES256(bool_t export_symmetric_key, void * symmetricKey_oid)
-                                       { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_256, export_symmetric_key, symmetricKey_oid); };
+     */
      int32_t generateStoreSymmetricKeyAES256(optiga_key_id_t oid)
                                        { return generateStoreSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_256, oid); };
-     int32_t generateExportSymmetricKeyAES256(void * symmetric_key)
+     int32_t generateExportSymmetricKeyAES256(uint8_t symmetric_key[])
                                        { return generateExportSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_256, symmetric_key); };
 
 
@@ -392,7 +353,15 @@ public:
 	
     private:
 
-    bool v3_active;
+        bool v3_active;
+
+        int32_t generateSymmetricKeyAES(optiga_symmetric_key_type_t sym_key_type, bool_t export_symmetric_key, void * symmetricKey_oid);
+        int32_t generateSymmetricKeyAES128(bool_t export_symmetric_key, void * symmetricKey_oid)
+                                            { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_128, export_symmetric_key, symmetricKey_oid); };
+        int32_t generateSymmetricKeyAES192(bool_t export_symmetric_key, void * symmetricKey_oid)
+                                            { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_192, export_symmetric_key, symmetricKey_oid); };
+        int32_t generateSymmetricKeyAES256(bool_t export_symmetric_key, void * symmetricKey_oid)
+                                            { return generateSymmetricKeyAES(OPTIGA_SYMMETRIC_AES_256, export_symmetric_key, symmetricKey_oid); };
 };
 /**
  * @}
