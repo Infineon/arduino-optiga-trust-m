@@ -27,33 +27,30 @@
 
 #include "OPTIGATrustM_v3.h"
 
+#define KEY_MAXLENGTH   300
+
 #define SUPPRESSCOLLORS
 #include "fprint.h"
 
 #define ASSERT(err)   if (ret) { printlnRed("Failed"); while (true); }
 
+uint8_t *pubKey = new uint8_t[KEY_MAXLENGTH];
+
 /**
  * Input data for generating HMAC
  */
-const uint8_t input_data_buffer_start[] = {0x6b, 0xc1, 0xbe, 0xe2,
-                                           0x2e, 0x40, 0x9f, 0x96,
-                                           0xe9, 0x3d, 0x7e, 0x11,
-                                           0x73, 0x93, 0x17, 0x2a};
-const uint8_t input_data_buffer_update[] = {0x7c,0xd2,0xcf,0xf3,
-                                            0x3f,0x51,0xa0,0xa7,
-                                            0xf0,0x4e,0x8f,0x22,
-                                            0x84,0xa4,0x28,0x3b};
-const uint8_t input_data_buffer_final[] = {0x5a,0xb0,0xad,0xd1,
-                                           0x1d,0x3f,0x8e,0x85,
-                                           0xd8,0x2c,0x6d,0xf1,
-                                           0x62,0x82,0x06,0x19};
+const uint8_t input_data_buffer[] = {0x6b, 0xc1, 0xbe, 0xe2,
+                                     0x2e, 0x40, 0x9f, 0x96,
+                                     0xe9, 0x3d, 0x7e, 0x11,
+                                     0x73, 0x93, 0x17, 0x2a};
+uint32_t input_data_buffer_length = sizeof(input_data_buffer);
 
 /**
  * Buffer for using in loop
  */
 uint8_t mac_buffer[32] = {0};
 uint32_t mac_buffer_length = sizeof(mac_buffer);
-uint16_t secret_oid = 0xF1D0;
+optiga_key_id_t secret_oid = OPTIGA_KEY_ID_SESSION_BASED;
 
 volatile optiga_lib_status_t optiga_lib_status;
 
@@ -114,21 +111,9 @@ void loop()
   uint32_t ret = 0;
   uint32_t ts = 0;
 
-  // /*
-  //  * Write input secret to OID
-  //  */
-  // printlnGreen("\r\nCalculate shared secret... ");
-  // ts = millis();
-  // ret = (uint32_t) write_input_secret_to_oid();
-  // ts = millis() - ts;
-  // if (ret) {
-  //   printlnRed("Failed");
-  //   while (true);
-  // }
-  
-  printGreen("[OK] | Command executed in "); 
-  Serial.print(ts); 
-  Serial.println(" ms");
+  /* Context to be used for storing the key */
+  uint16_t ctx = 0;
+  uint16_t pubKeyLen = KEY_MAXLENGTH;
 
   /**
    * Enable V3 capabilities in src/optiga_trustm/optiga_lib_config.h
@@ -136,11 +121,41 @@ void loop()
   #ifdef OPTIGA_TRUST_M_V3
 
   /**
-   * Start HMAC on the input data 
+   * Generate public private keypair
+   */
+  printlnGreen("\r\nGenerate Key Pair RSA 1024. Store Private Key on Board ... ");
+  ts = millis();
+  ret = trustM_V3.generateKeypair(pubKey, pubKeyLen);
+  ts = millis() - ts;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
+
+  output_result((char*)"Public Key ", pubKey, pubKeyLen);
+
+  /*
+   * Calculate shared secret
+   */
+  printlnGreen("\r\nCalculate shared secret 2... ");
+  ts = millis();
+  ret = trustM.sharedSecret(pubKey, pubKeyLen);
+  ts = millis() - ts;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
+  
+  printGreen("[OK] | Command executed in "); 
+  Serial.print(ts); 
+  Serial.println(" ms");
+
+  /**
+   * Generate HMAC on the input data 
    */
   printlnGreen("\r\nStart to generate HMAC");
   ts = millis();
-  ret = trustM_V3.generateHMACStart(OPTIGA_HMAC_SHA_256, secret_oid, input_data_buffer_start, (uint32_t)(sizeof(input_data_buffer_start)));
+  ret = trustM_V3.generateHMACSHA256(secret_oid, input_data_buffer, input_data_buffer_length, mac_buffer, &mac_buffer_length );
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -150,40 +165,8 @@ void loop()
   printGreen("[OK] | Command executed in "); 
   Serial.print(ts); 
   Serial.println(" ms");
-  
-  /**
-   * Update HMAC on the input data 
-   */
-  printlnGreen("\r\nUpdate generate HMAC");
-  ts = millis();
-  ret = trustM_V3.generateHMACUpdate(input_data_buffer_update, (uint32_t)(sizeof(input_data_buffer_update)));
-  ts = millis() - ts;
-  if (ret) {
-    printlnRed("Failed");
-    while (true);
-  }
-  
-  printGreen("[OK] | Command executed in "); 
-  Serial.print(ts); 
-  Serial.println(" ms");
-
-  /**
-   * Finalize HMAC on the input data 
-   */
-  printlnGreen("\r\nFinalize generate HMAC");
-  ts = millis();
-  ret = trustM_V3.generateHMACFinalize(input_data_buffer_final, (uint32_t)(sizeof(input_data_buffer_final)), mac_buffer, &mac_buffer_length);
-  ts = millis() - ts;
-  if (ret) {
-    printlnRed("Failed");
-    while (true);
-  }
 
  #endif /* OPTIGA_TRUST_M_V3 */ 
-
-  printGreen("[OK] | Command executed in "); 
-  Serial.print(ts); 
-  Serial.println(" ms");
 
   /* 
    * Execute the loop just once :)
