@@ -155,7 +155,7 @@ void loop()
    */
   printlnGreen("\r\nStart to generate HMAC");
   ts = millis();
-  ret = trustM_V3.generateHMACSHA256(secret_oid, input_data_buffer, input_data_buffer_length, mac_buffer, &mac_buffer_length );
+  ret = trustM_V3.generateHMACSHA256(secret_oid, input_data_buffer, input_data_buffer_length, mac_buffer, mac_buffer_length );
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");

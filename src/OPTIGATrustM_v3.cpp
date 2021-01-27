@@ -620,11 +620,11 @@ int32_t IFX_OPTIGA_TrustM_V3::generateSymmetricKeyAES(optiga_symmetric_key_type_
 // }
 
 int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(optiga_hmac_type_t type, 
-                     					uint16_t secret, 
-                     					const uint8_t * input_data, 
-                     					uint32_t input_data_length, 
-                     					uint8_t * mac, 
-                     					uint32_t * mac_length)
+                     					   uint16_t secret, 
+                     					   const uint8_t input_data[], 
+                     					   uint32_t input_data_length, 
+                     					   uint8_t mac[], 
+                     					   uint32_t mac_length)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -693,7 +693,7 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(optiga_hmac_type_t type,
 
 int32_t IFX_OPTIGA_TrustM_V3::generateHMACStart(optiga_hmac_type_t type, 
                      					        uint16_t secret, 
-                     					        const uint8_t * input_data, 
+                     					        const uint8_t input_data[], 
                      					        uint32_t input_data_length)
 {
     uint32_t ard_ret = 1;
@@ -759,8 +759,8 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMACStart(optiga_hmac_type_t type,
     return ard_ret;
 }
 
-int32_t IFX_OPTIGA_TrustM_V3::generateHMACUpdate(const uint8_t * input_data, 
-                     					               uint32_t  input_data_length)
+int32_t IFX_OPTIGA_TrustM_V3::generateHMACUpdate(const uint8_t input_data[], 
+                     					               uint32_t input_data_length)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -789,10 +789,10 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMACUpdate(const uint8_t * input_data,
     return ard_ret;
 }
 
-int32_t IFX_OPTIGA_TrustM_V3::generateHMACFinalize(const uint8_t  * input_data, 
+int32_t IFX_OPTIGA_TrustM_V3::generateHMACFinalize(const uint8_t input_data[], 
                      					                 uint32_t   input_data_length, 
-                     					                 uint8_t  * mac, 
-                     					                 uint32_t * mac_length) 
+                     					                 uint8_t mac[], 
+                     					                 uint32_t mac_length) 
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
