@@ -36,6 +36,12 @@
 
 uint8_t *pubKey = new uint8_t[KEY_MAXLENGTH];
 
+#ifdef OPTIGA_TRUST_M_V3
+IFX_OPTIGA_TrustM_V3 * trustm = &trustM_V3;
+#elif defined(OPTIGA_TRUST_M_V1)
+IFX_OPTIGA_TrustM * trustm = &trustM;
+#endif
+
 /**
  * Input data for generating HMAC
  */
@@ -50,7 +56,7 @@ uint32_t input_data_buffer_length = sizeof(input_data_buffer);
  */
 uint8_t mac_buffer[32] = {0};
 uint32_t mac_buffer_length = sizeof(mac_buffer);
-optiga_key_id_t secret_oid = OPTIGA_KEY_ID_SESSION_BASED;
+uint16_t secret_oid = eSESSION_ID_2;
 
 volatile optiga_lib_status_t optiga_lib_status;
 
@@ -79,7 +85,7 @@ void setup()
    * Initialise OPTIGA™ Trust M board
    */
 	printGreen("Begin Trust ... ");
-	ret = trustM_V3.begin();
+	ret = trustm->begin();
 	ASSERT(ret);
 	printlnGreen("OK");
 
@@ -87,23 +93,23 @@ void setup()
    * Speed up the chip (min is 6ma, maximum is 15ma)
    */
   printGreen("Setting Current Limit... ");
-	ret = trustM_V3.setCurrentLimit(15);
+	ret = trustm->setCurrentLimit(15);
 	ASSERT(ret);
 	printlnGreen("OK");
 
-  /*
-   * Check the return value which we just set
-   */
-  printGreen("Checking Power Limit... ");
-  uint8_t current_lim = 0;
-  ret = trustM_V3.getCurrentLimit(current_lim);
-  ASSERT(ret);
-  if (current_lim == 15) {
-    printlnGreen("OK");
-  } else {
-    printlnRed("Failed");
-    while(1);
-  }
+  // /*
+  //  * Check the return value which we just set
+  //  */
+  // printGreen("Checking Power Limit... ");
+  // uint8_t current_lim = 0;
+  // ret = trustM_V3.getCurrentLimit(current_lim);
+  // ASSERT(ret);
+  // if (current_lim == 15) {
+  //   printlnGreen("OK");
+  // } else {
+  //   printlnRed("Failed");
+  //   while(1);
+  // }
 }
 
 void loop() 
@@ -114,32 +120,41 @@ void loop()
   /* Context to be used for storing the key */
   uint16_t ctx = 0;
   uint16_t pubKeyLen = KEY_MAXLENGTH;
+  uint8_t  ifxPublicKey[68];
 
   /**
    * Enable V3 capabilities in src/optiga_trustm/optiga_lib_config.h
    */
   #ifdef OPTIGA_TRUST_M_V3
 
-  /**
-   * Generate public private keypair
-   */
-  printlnGreen("\r\nGenerate Key Pair RSA 1024. Store Private Key on Board ... ");
-  ts = millis();
-  ret = trustM_V3.generateKeypair(pubKey, pubKeyLen);
-  ts = millis() - ts;
-  if (ret) {
-    printlnRed("Failed");
-    while (true);
-  }
+  // /**
+  //  * Generate public private keypair
+  //  */
+  // printlnGreen("\r\nGenerate Key Pair RSA 1024. Store Private Key on Board ... ");
+  // ts = millis();
+  // ret = trustM_V3.generateKeypair(pubKey, pubKeyLen);
+  // ts = millis() - ts;
+  // if (ret) {
+  //   printlnRed("Failed");
+  //   while (true);
+  // }
 
-  output_result((char*)"Public Key ", pubKey, pubKeyLen);
+  // output_result((char*)"Public Key ", pubKey, pubKeyLen);
+
+  /*
+   * Extract public key of the device certificate
+   */
+  printlnGreen("\r\nGet IFX public key ... ");
+  trustm->getPublicKey(ifxPublicKey);
+   
+  output_result((char*)"My Public Key", ifxPublicKey, sizeof(ifxPublicKey));
 
   /*
    * Calculate shared secret
    */
-  printlnGreen("\r\nCalculate shared secret 2... ");
+  printlnGreen("\r\nCalculate shared secret... ");
   ts = millis();
-  ret = trustM.sharedSecret(pubKey, pubKeyLen);
+  ret = trustm->sharedSecret(ifxPublicKey, sizeof(ifxPublicKey));
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -155,7 +170,7 @@ void loop()
    */
   printlnGreen("\r\nStart to generate HMAC");
   ts = millis();
-  ret = trustM_V3.generateHMACSHA256(secret_oid, input_data_buffer, input_data_buffer_length, mac_buffer, mac_buffer_length );
+  ret = trustm->generateHMACSHA256(secret_oid, input_data_buffer, input_data_buffer_length, mac_buffer, mac_buffer_length );
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
