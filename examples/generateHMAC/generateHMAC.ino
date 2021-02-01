@@ -56,7 +56,7 @@ uint32_t input_data_buffer_length = sizeof(input_data_buffer);
  */
 uint8_t mac_buffer[32] = {0};
 uint32_t mac_buffer_length = sizeof(mac_buffer);
-uint16_t secret_oid = eSESSION_ID_2;
+uint16_t secret_oid = OPTIGA_KEY_ID_SESSION_BASED;
 
 volatile optiga_lib_status_t optiga_lib_status;
 

@@ -639,32 +639,32 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(optiga_hmac_type_t type,
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
     do
     {
-        /**
-         * Write metadata 
-         * Precondition 1 :
-         * Metadata for 0xF1D0 :
-         * Execute access condition = Always
-         * Data object type  =  Pre-shared secret
-         */
-        optiga_lib_status = OPTIGA_LIB_BUSY;
-        return_status = optiga_util_write_metadata(me_util,
-                                                   secret,
-                                                   input_secret_oid_metadata,
-                                                   sizeof(input_secret_oid_metadata));
-	    OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
+        // /**
+        //  * Write metadata 
+        //  * Precondition 1 :
+        //  * Metadata for 0xF1D0 :
+        //  * Execute access condition = Always
+        //  * Data object type  =  Pre-shared secret
+        //  */
+        // optiga_lib_status = OPTIGA_LIB_BUSY;
+        // return_status = optiga_util_write_metadata(me_util,
+        //                                            secret,
+        //                                            input_secret_oid_metadata,
+        //                                            sizeof(input_secret_oid_metadata));
+	    // OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
-        /**
-        *  Precondition 2 :
-        *  Write secret in OID 0xF1D0
-        */
-        optiga_lib_status = OPTIGA_LIB_BUSY;
-        return_status = optiga_util_write_data(me_util,
-                                               secret,
-                                               OPTIGA_UTIL_ERASE_AND_WRITE,
-                                               0,
-                                               input_secret,
-                                               sizeof(input_secret));
-        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
+        // /**
+        // *  Precondition 2 :
+        // *  Write secret in OID 0xF1D0
+        // */
+        // optiga_lib_status = OPTIGA_LIB_BUSY;
+        // return_status = optiga_util_write_data(me_util,
+        //                                        secret,
+        //                                        OPTIGA_UTIL_ERASE_AND_WRITE,
+        //                                        0,
+        //                                        input_secret,
+        //                                        sizeof(input_secret));
+        // OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
         /**
          *  Generate HMAC using secret in the OPTIGA
