@@ -1432,7 +1432,7 @@ int32_t IFX_OPTIGA_TrustM::str2cur(String curve_name)
     return ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, 
+int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t p_pubkey[], uint16_t& plen, 
                                               uint16_t privateKey_oid, optiga_rsa_key_type_t rsa_key_type)
 {
     uint32_t ard_ret = 1;
@@ -1473,8 +1473,8 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen,
     return ard_ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, 
-                                              uint8_t* p_privkey, uint16_t& prlen, 
+int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t publicKey[], uint16_t& plen, 
+                                              uint8_t privateKey[], uint16_t& prlen, 
                                               optiga_rsa_key_type_t rsa_key_type)
 {
     uint32_t ard_ret = 1;
@@ -1497,8 +1497,8 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen,
                                                           rsa_key_type,
                                                           (uint8_t)(OPTIGA_KEY_USAGE_SIGN | OPTIGA_KEY_USAGE_AUTHENTICATION | OPTIGA_KEY_USAGE_KEY_AGREEMENT | OPTIGA_KEY_USAGE_ENCRYPTION ) ,
                                                           TRUE,
-                                                          p_privkey,
-                                                          p_pubkey,
+                                                          privateKey,
+                                                          publicKey,
                                                           &plen);
         OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
@@ -1512,7 +1512,7 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen,
     return ard_ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen, 
+int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t  publicKey[], uint16_t& plen, 
                                               uint16_t privateKey_oid, optiga_ecc_curve_t ecc_key_type)
 {
     uint32_t ard_ret = 1;
@@ -1537,7 +1537,7 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen,
                                                           (uint8_t)(OPTIGA_KEY_USAGE_SIGN | OPTIGA_KEY_USAGE_AUTHENTICATION | OPTIGA_KEY_USAGE_KEY_AGREEMENT),
                                                           FALSE,
                                                           &privateKey_oid,
-                                                          p_pubkey,
+                                                          publicKey,
                                                           &plen);
         OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
@@ -1551,8 +1551,8 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen,
     return ard_ret;
 }
 
-int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen, 
-                                              uint8_t* p_privkey, uint16_t& prlen,
+int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t publicKey[], uint16_t& plen, 
+                                              uint8_t privateKey[], uint16_t& prlen,
                                               optiga_ecc_curve_t ecc_key_type)
 {
     uint32_t ard_ret = 1;
@@ -1573,8 +1573,8 @@ int32_t IFX_OPTIGA_TrustM::generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen,
                                                           ecc_key_type,
                                                           (uint8_t)(OPTIGA_KEY_USAGE_SIGN |OPTIGA_KEY_USAGE_AUTHENTICATION | OPTIGA_KEY_USAGE_KEY_AGREEMENT),
                                                           TRUE,
-                                                          p_privkey,
-                                                          p_pubkey,
+                                                          privateKey,
+                                                          publicKey,
                                                           &plen);
         OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 		

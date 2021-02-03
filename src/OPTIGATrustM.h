@@ -565,8 +565,8 @@ public:
      * @retval  1 If the operation failed.
      */
     int32_t generateKeypairRSA(uint8_t publicKey[], uint16_t& plen ) {return generateKeypairRSA(publicKey, plen, eRSA_DEVICE_PRIKEY_1, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); };
-    int32_t generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid, optiga_rsa_key_type_t rsa_key_type);
-    int32_t generateKeypairRSA(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen, optiga_rsa_key_type_t rsa_key_type);
+    int32_t generateKeypairRSA(uint8_t publicKey[], uint16_t& plen, uint16_t privateKey_oid, optiga_rsa_key_type_t rsa_key_type);
+    int32_t generateKeypairRSA(uint8_t publicKey[], uint16_t& plen, uint8_t  privateKey[], uint16_t& prlen, optiga_rsa_key_type_t rsa_key_type);
 
     /**
      * This function generates RSA 1024 bits exponential type public private keypair. You can store the private key internally or export it for your usage
@@ -589,8 +589,8 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateKeypairRSA1024(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen) { return generateKeypairRSA(p_pubkey, plen, p_privkey, prlen, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); };
-    int32_t generateKeypairRSA1024(uint8_t* p_pubkey, uint16_t& plen,  uint16_t privateKey_oid) { return generateKeypairRSA(p_pubkey, plen, privateKey_oid, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); };
+    int32_t generateKeypairRSA1024(uint8_t publicKey[], uint16_t& plen, uint8_t privateKey[], uint16_t& prlen) { return generateKeypairRSA(publicKey, plen, privateKey, prlen, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); };
+    int32_t generateKeypairRSA1024(uint8_t publicKey[], uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairRSA(publicKey, plen, privateKey_oid, OPTIGA_RSA_KEY_1024_BIT_EXPONENTIAL); };
 
         /**
      * This function generates RSA 2048 bits exponential type public private keypair. You can store the private key internally or export it for your usage
@@ -613,8 +613,8 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateKeypairRSA2048(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen)  {return generateKeypairRSA(p_pubkey, plen, p_privkey, prlen, OPTIGA_RSA_KEY_2048_BIT_EXPONENTIAL); };
-    int32_t generateKeypairRSA2048(uint8_t* p_pubkey, uint16_t& plen,  uint16_t privateKey_oid) { return generateKeypairRSA(p_pubkey, plen, privateKey_oid, OPTIGA_RSA_KEY_2048_BIT_EXPONENTIAL); };
+    int32_t generateKeypairRSA2048(uint8_t publicKey[], uint16_t& plen, uint8_t privateKey[], uint16_t& prlen)  {return generateKeypairRSA(publicKey, plen, privateKey, prlen, OPTIGA_RSA_KEY_2048_BIT_EXPONENTIAL); };
+    int32_t generateKeypairRSA2048(uint8_t publicKey[], uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairRSA(publicKey, plen, privateKey_oid, OPTIGA_RSA_KEY_2048_BIT_EXPONENTIAL); };
     
     /**
      * This function generates an ECC public private keypair. You can store the private key internally or export it for your usage
@@ -639,8 +639,8 @@ public:
      * @retval  1 If the operation failed.
      */
     int32_t generateKeypairECC(uint8_t publicKey[], uint16_t& plen ) { return generateKeypairECC(publicKey, plen, OPTIGA_KEY_ID_E0F1, OPTIGA_ECC_CURVE_NIST_P_256); };
-    int32_t generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid, optiga_ecc_curve_t ecc_key_type);
-    int32_t generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen, optiga_ecc_curve_t ecc_key_type);
+    int32_t generateKeypairECC(uint8_t publicKey[], uint16_t& plen, uint16_t privateKey_oid, optiga_ecc_curve_t ecc_key_type);
+    int32_t generateKeypairECC(uint8_t publicKey[], uint16_t& plen, uint8_t privateKey[], uint16_t& prlen, optiga_ecc_curve_t ecc_key_type);
     
     /**
      * This function generates an ECC NIST P 256 public private keypair. You can store the private key internally or export it for your usage
@@ -663,8 +663,8 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateKeypairECCP256(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen) { return generateKeypairECC(p_pubkey, plen, p_privkey, prlen, OPTIGA_ECC_CURVE_NIST_P_256); };
-    int32_t generateKeypairECCP256(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(p_pubkey, plen, privateKey_oid, OPTIGA_ECC_CURVE_NIST_P_256); };
+    int32_t generateKeypairECCP256(uint8_t publicKey[], uint16_t& plen, uint8_t privateKey[], uint16_t& prlen) { return generateKeypairECC(publicKey, plen, privateKey, prlen, OPTIGA_ECC_CURVE_NIST_P_256); };
+    int32_t generateKeypairECCP256(uint8_t publicKey[], uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(publicKey, plen, privateKey_oid, OPTIGA_ECC_CURVE_NIST_P_256); };
     
         /**
      * This function generates an ECC NIST P 384 public private keypair. You can store the private key internally or export it for your usage
@@ -687,8 +687,8 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateKeypairECCP384(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen) { return generateKeypairECC(p_pubkey, plen, p_privkey, prlen, OPTIGA_ECC_CURVE_NIST_P_384); };
-    int32_t generateKeypairECCP384(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(p_pubkey, plen, privateKey_oid, OPTIGA_ECC_CURVE_NIST_P_384); };
+    int32_t generateKeypairECCP384(uint8_t publicKey[], uint16_t& plen, uint8_t privateKey[], uint16_t& prlen) { return generateKeypairECC(publicKey, plen, privateKey, prlen, OPTIGA_ECC_CURVE_NIST_P_384); };
+    int32_t generateKeypairECCP384(uint8_t publicKey[], uint16_t& plen, uint16_t privateKey_oid) { return generateKeypairECC(publicKey, plen, privateKey_oid, OPTIGA_ECC_CURVE_NIST_P_384); };
 
 	/**
      * This function encrypt user given data with RSAES PKCS1 v1.5 Scheme.
@@ -782,7 +782,6 @@ public:
      */
 	int32_t decrypt(uint8_t dataToDecrypt[], uint16_t dlen,  uint16_t keyOID, uint8_t result[], uint16_t& rlen);
 	
-    int32_t setGenericData(uint16_t oid, uint8_t* p_data, uint16_t hashLength);
 
 protected:
 
@@ -792,6 +791,7 @@ protected:
 
     int32_t getGenericData(uint16_t oid, uint8_t* p_data, uint16_t& hashLength);
     int32_t getGenericMetadata(uint16_t oid, uint8_t* p_data, uint16_t& length);
+    int32_t setGenericData(uint16_t oid, uint8_t* p_data, uint16_t hashLength);
     int32_t getState(uint16_t oid, uint8_t& p_data);
     int32_t str2cur(String curve_name);
 	int32_t calculateSharedSecretGeneric( int32_t curveID, uint16_t priv_oid, uint8_t* p_pubkey, uint16_t plen, uint16_t out_oid) {
