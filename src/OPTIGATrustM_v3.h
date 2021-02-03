@@ -285,9 +285,18 @@ public:
      * This function generates HMAC on the input data using secret key from the OPTIGA and exports the generated HMAC to the host. 
      *
      * @param[in]         type                                  HMAC type
-     * @param[in]         secret                                OPTIGA OID with input secret
+     * @param[in]         secret_oid                            OPTIGA OID with input secret
      *                                                          - Input secret must be available at the specified OID.<br> 
      *                                                          - To indicate session OID (already acquired by instance), specify #OPTIGA_KEY_ID_SESSION_BASED
+     *                                                          Use one of the following slots:
+     *                                                          @ref eSESSION_ID_1
+     *                                                          @ref eSESSION_ID_2 (Default: Use #OPTIGA_KEY_ID_SESSION_BASED)
+     *                                                          @ref eSESSION_ID_3
+     *                                                          @ref eSESSION_ID_4
+     *                                                          @ref eDEVICE_PRIKEY_1
+     *                                                          @ref eDEVICE_PRIKEY_2 
+     *                                                          @ref eDEVICE_PRIKEY_3 
+     *                                                          @ref eDEVICE_PRIKEY_4 
      * @param[in]         input_data                            Pointer to input data for HMAC generation.
      * @param[in]         input_data_length                     Length of input data for HMAC generation.
      *                                                          - Must be greater than 0.<br>
@@ -301,8 +310,8 @@ public:
      * @retval  1 If the operation failed.
      */
 
-    int32_t generateHMAC(optiga_hmac_type_t type, uint16_t secret, const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length);
-    int32_t generateHMACStart(optiga_hmac_type_t type, uint16_t secret, const uint8_t input_data[], uint32_t input_data_length);
+    int32_t generateHMAC(optiga_hmac_type_t type, uint16_t secret_oid, const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length);
+    int32_t generateHMACStart(optiga_hmac_type_t type, uint16_t secret_oid, const uint8_t input_data[], uint32_t input_data_length);
     int32_t generateHMACUpdate(const uint8_t input_data[], uint32_t input_data_length);
     int32_t generateHMACFinalize(const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length);
 
@@ -310,9 +319,18 @@ public:
      * This function generates HMAC on the input data using secret key from the OPTIGA with SHA-256. 
      *
      * @param[in]         type                                  HMAC type
-     * @param[in]         secret                                OPTIGA OID with input secret
+     * @param[in]         secret_oid                            OPTIGA OID with input secret
      *                                                          - Input secret must be available at the specified OID.<br> 
      *                                                          - To indicate session OID (already acquired by instance), specify #OPTIGA_KEY_ID_SESSION_BASED
+     *                                                          Use one of the following slots:
+     *                                                          @ref eSESSION_ID_1
+     *                                                          @ref eSESSION_ID_2 (Default: Use #OPTIGA_KEY_ID_SESSION_BASED)
+     *                                                          @ref eSESSION_ID_3
+     *                                                          @ref eSESSION_ID_4
+     *                                                          @ref eDEVICE_PRIKEY_1
+     *                                                          @ref eDEVICE_PRIKEY_2 
+     *                                                          @ref eDEVICE_PRIKEY_3 
+     *                                                          @ref eDEVICE_PRIKEY_4 
      * @param[in]         input_data                            Pointer to input data for HMAC generation.
      * @param[in]         input_data_length                     Length of input data for HMAC generation.
      *                                                          - Must be greater than 0.<br>
@@ -325,10 +343,10 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateHMACSHA256(uint16_t secret, const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
-                              { return generateHMAC(OPTIGA_HMAC_SHA_256, secret, input_data, input_data_length, mac, mac_length); };
-    int32_t generateHMACSHA256Start(uint16_t secret, const uint8_t input_data[], uint32_t input_data_length)
-                              { return generateHMACStart(OPTIGA_HMAC_SHA_256, secret, input_data, input_data_length); };
+    int32_t generateHMACSHA256(uint16_t secret_oid, const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
+                              { return generateHMAC(OPTIGA_HMAC_SHA_256, secret_oid, input_data, input_data_length, mac, mac_length); };
+    int32_t generateHMACSHA256Start(uint16_t secret_oid, const uint8_t input_data[], uint32_t input_data_length)
+                              { return generateHMACStart(OPTIGA_HMAC_SHA_256, secret_oid, input_data, input_data_length); };
     int32_t generateHMACSHA256Update(const uint8_t input_data[], uint32_t input_data_length)
                               { return generateHMACUpdate(input_data, input_data_length); };
     int32_t generateHMACSHA256Finalize(const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
@@ -338,9 +356,18 @@ public:
      * This function generates HMAC on the input data using secret key from the OPTIGA with SHA-384.
      *
      * @param[in]         type                                  HMAC type
-     * @param[in]         secret                                OPTIGA OID with input secret
+     * @param[in]         secret_oid                            OPTIGA OID with input secret
      *                                                          - Input secret must be available at the specified OID.<br> 
      *                                                          - To indicate session OID (already acquired by instance), specify #OPTIGA_KEY_ID_SESSION_BASED
+     *                                                          Use one of the following slots:
+     *                                                          @ref eSESSION_ID_1
+     *                                                          @ref eSESSION_ID_2 (Default: Use #OPTIGA_KEY_ID_SESSION_BASED)
+     *                                                          @ref eSESSION_ID_3
+     *                                                          @ref eSESSION_ID_4
+     *                                                          @ref eDEVICE_PRIKEY_1
+     *                                                          @ref eDEVICE_PRIKEY_2 
+     *                                                          @ref eDEVICE_PRIKEY_3 
+     *                                                          @ref eDEVICE_PRIKEY_4 
      * @param[in]         input_data                            Pointer to input data for HMAC generation.
      * @param[in]         input_data_length                     Length of input data for HMAC generation.
      *                                                          - Must be greater than 0.<br>
@@ -353,10 +380,10 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateHMACSHA384(uint16_t secret, const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
-                              { return generateHMAC(OPTIGA_HMAC_SHA_384, secret, input_data, input_data_length, mac, mac_length); };
-    int32_t generateHMACSHA384(uint16_t secret, const uint8_t input_data[], uint32_t input_data_length)
-                              { return generateHMACStart(OPTIGA_HMAC_SHA_384, secret, input_data, input_data_length); };
+    int32_t generateHMACSHA384(uint16_t secret_oid, const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
+                              { return generateHMAC(OPTIGA_HMAC_SHA_384, secret_oid, input_data, input_data_length, mac, mac_length); };
+    int32_t generateHMACSHA384(uint16_t secret_oid, const uint8_t input_data[], uint32_t input_data_length)
+                              { return generateHMACStart(OPTIGA_HMAC_SHA_384, secret_oid, input_data, input_data_length); };
     int32_t generateHMACSHA384(const uint8_t input_data[], uint32_t input_data_length)
                               { return generateHMACUpdate(input_data, input_data_length); };
     int32_t generateHMACSHA384(const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
@@ -366,9 +393,18 @@ public:
      * This function generates HMAC on the input data using secret key from the OPTIGA with SHA-512. 
      *
      * @param[in]         type                                  HMAC type
-     * @param[in]         secret                                OPTIGA OID with input secret
+     * @param[in]         secret_oid                            OPTIGA OID with input secret
      *                                                          - Input secret must be available at the specified OID.<br> 
      *                                                          - To indicate session OID (already acquired by instance), specify #OPTIGA_KEY_ID_SESSION_BASED
+     *                                                          Use one of the following slots:
+     *                                                          @ref eSESSION_ID_1
+     *                                                          @ref eSESSION_ID_2 (Default: Use #OPTIGA_KEY_ID_SESSION_BASED)
+     *                                                          @ref eSESSION_ID_3
+     *                                                          @ref eSESSION_ID_4
+     *                                                          @ref eDEVICE_PRIKEY_1
+     *                                                          @ref eDEVICE_PRIKEY_2 
+     *                                                          @ref eDEVICE_PRIKEY_3 
+     *                                                          @ref eDEVICE_PRIKEY_4 
      * @param[in]         input_data                            Pointer to input data for HMAC generation.
      * @param[in]         input_data_length                     Length of input data for HMAC generation.
      *                                                          - Must be greater than 0.<br>
@@ -381,10 +417,10 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateHMACSHA512(uint16_t secret, const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
-                              { return generateHMAC(OPTIGA_HMAC_SHA_512, secret, input_data, input_data_length, mac, mac_length); };
-    int32_t generateHMACSHA512(uint16_t secret, const uint8_t input_data[], uint32_t input_data_length)
-                              { return generateHMACStart(OPTIGA_HMAC_SHA_512, secret, input_data, input_data_length); };
+    int32_t generateHMACSHA512(uint16_t secret_oid, const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
+                              { return generateHMAC(OPTIGA_HMAC_SHA_512, secret_oid, input_data, input_data_length, mac, mac_length); };
+    int32_t generateHMACSHA512(uint16_t secret_oid, const uint8_t input_data[], uint32_t input_data_length)
+                              { return generateHMACStart(OPTIGA_HMAC_SHA_512, secret_oid, input_data, input_data_length); };
     int32_t generateHMACSHA512(const uint8_t input_data[], uint32_t input_data_length)
                               { return generateHMACUpdate(input_data, input_data_length); };
     int32_t generateHMACSHA512(const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)

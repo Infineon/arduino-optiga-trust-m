@@ -56,6 +56,7 @@ uint32_t input_data_buffer_length = sizeof(input_data_buffer);
  */
 uint8_t mac_buffer[32] = {0};
 uint32_t mac_buffer_length = sizeof(mac_buffer);
+  /* OID to be used for HMAC generation */
 uint16_t secret_oid = OPTIGA_KEY_ID_SESSION_BASED;
 
 volatile optiga_lib_status_t optiga_lib_status;
@@ -127,12 +128,24 @@ void loop()
    */
   #ifdef OPTIGA_TRUST_M_V3
 
-  // /**
-  //  * Generate public private keypair
+  /**
+   * Generate public private keypair
+   */
+  printlnGreen("\r\nGenerate Key Pair RSA 1024. Store Private Key on Board ... ");
+  ts = millis();
+  ret = trustM_V3.generateKeypair(pubKey, pubKeyLen);
+  ts = millis() - ts;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
+
+  // /*
+  //  * Generate a keypair#3 ECC NIST P 256
   //  */
-  // printlnGreen("\r\nGenerate Key Pair RSA 1024. Store Private Key on Board ... ");
+  // printlnGreen("\r\nGenerate Key Pair ECC NIST P 256. Store Private Key on Board ... ");
   // ts = millis();
-  // ret = trustM_V3.generateKeypair(pubKey, pubKeyLen);
+  // ret = trustm->generateKeypairECC(pubKey, pubKeyLen);
   // ts = millis() - ts;
   // if (ret) {
   //   printlnRed("Failed");
@@ -141,20 +154,20 @@ void loop()
 
   // output_result((char*)"Public Key ", pubKey, pubKeyLen);
 
-  /*
-   * Extract public key of the device certificate
-   */
-  printlnGreen("\r\nGet IFX public key ... ");
-  trustm->getPublicKey(ifxPublicKey);
+  // /*
+  //  * Extract public key of the device certificate
+  //  */
+  // printlnGreen("\r\nGet IFX public key ... ");
+  // trustm->getPublicKey(ifxPublicKey);
    
-  output_result((char*)"My Public Key", ifxPublicKey, sizeof(ifxPublicKey));
+  // output_result((char*)"My Public Key", ifxPublicKey, sizeof(ifxPublicKey));
 
   /*
    * Calculate shared secret
    */
   printlnGreen("\r\nCalculate shared secret... ");
   ts = millis();
-  ret = trustm->sharedSecret(ifxPublicKey, sizeof(ifxPublicKey));
+  ret = trustm->sharedSecret(pubKey, pubKeyLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");

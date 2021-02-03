@@ -620,7 +620,7 @@ int32_t IFX_OPTIGA_TrustM_V3::generateSymmetricKeyAES(optiga_symmetric_key_type_
 // }
 
 int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(optiga_hmac_type_t type, 
-                     					   uint16_t secret, 
+                     					   uint16_t secret_oid, 
                      					   const uint8_t input_data[], 
                      					   uint32_t input_data_length, 
                      					   uint8_t mac[], 
@@ -628,6 +628,7 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(optiga_hmac_type_t type,
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
+    uint32_t * mac_length_p = &mac_length;
 
     const uint8_t input_secret[] = {0x8d,0xe4,0x3f,0xff,
                                     0x65,0x2d,0xa0,0xa7,
@@ -667,17 +668,22 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(optiga_hmac_type_t type,
         // OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
         /**
+         * Set the default OID if user has not provided any OID
+         */
+        if (secret_oid == 0)
+            secret_oid = OPTIGA_KEY_ID_SESSION_BASED;
+
+        /**
          *  Generate HMAC using secret in the OPTIGA
          */ 
         optiga_lib_status = OPTIGA_LIB_BUSY;
-
         return_status = optiga_crypt_hmac(me_crypt,
                                           type,
-                                          secret,
+                                          secret_oid,
                                           input_data,
                                           input_data_length,
                                           mac,
-                                          mac_length);
+                                          mac_length_p);
 
         OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
@@ -692,7 +698,7 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(optiga_hmac_type_t type,
 }
 
 int32_t IFX_OPTIGA_TrustM_V3::generateHMACStart(optiga_hmac_type_t type, 
-                     					        uint16_t secret, 
+                     					        uint16_t secret_oid, 
                      					        const uint8_t input_data[], 
                      					        uint32_t input_data_length)
 {
@@ -709,6 +715,12 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMACStart(optiga_hmac_type_t type,
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
     do
     {
+        /**
+         * Set the default OID if user has not provided any OID
+         */
+        if (secret_oid == 0)
+            secret_oid = OPTIGA_KEY_ID_SESSION_BASED;
+
         /**
          * Write metadata 
          * Precondition 1 :
@@ -729,7 +741,7 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMACStart(optiga_hmac_type_t type,
         */
         optiga_lib_status = OPTIGA_LIB_BUSY;
         return_status = optiga_util_write_data(me_util,
-                                               secret,
+                                               secret_oid,
                                                OPTIGA_UTIL_ERASE_AND_WRITE,
                                                0,
                                                input_secret,
@@ -743,7 +755,7 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMACStart(optiga_hmac_type_t type,
 
         return_status = optiga_crypt_hmac_start(me_crypt,
                                                 type,
-                                                secret,
+                                                secret_oid,
                                                 input_data,
                                                 input_data_length);
                                           
