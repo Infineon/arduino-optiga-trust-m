@@ -638,7 +638,7 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
-    int32_t generateKeypairECC(uint8_t publicKey[], uint16_t& plen ) { return generateKeypairECC(publicKey, plen, OPTIGA_KEY_ID_E0F1, OPTIGA_ECC_CURVE_NIST_P_256); };
+    int32_t generateKeypairECC(uint8_t publicKey[], uint16_t& plen ) { return generateKeypairECC(publicKey, plen, eSESSION_ID_2, OPTIGA_ECC_CURVE_NIST_P_256); };
     int32_t generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen, uint16_t privateKey_oid, optiga_ecc_curve_t ecc_key_type);
     int32_t generateKeypairECC(uint8_t* p_pubkey, uint16_t& plen, uint8_t* p_privkey, uint16_t& prlen, optiga_ecc_curve_t ecc_key_type);
     

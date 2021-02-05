@@ -34,7 +34,8 @@
 
 #define ASSERT(err)   if (ret) { printlnRed("Failed"); while (true); }
 
-uint8_t *pubKey = new uint8_t[KEY_MAXLENGTH];
+uint8_t pubKey[KEY_MAXLENGTH] = {0};
+uint16_t pubKeyLen = KEY_MAXLENGTH;
 
 #ifdef OPTIGA_TRUST_M_V3
 IFX_OPTIGA_TrustM_V3 * trustm = &trustM_V3;
@@ -118,11 +119,6 @@ void loop()
   uint32_t ret = 0;
   uint32_t ts = 0;
 
-  /* Context to be used for storing the key */
-  uint16_t ctx = 0;
-  uint16_t pubKeyLen = KEY_MAXLENGTH;
-  uint8_t  ifxPublicKey[68];
-
   /**
    * Enable V3 capabilities in src/optiga_trustm/optiga_lib_config.h
    */
@@ -131,9 +127,9 @@ void loop()
   /**
    * Generate public private keypair
    */
-  printlnGreen("\r\nGenerate Key Pair RSA 1024. Store Private Key on Board ... ");
+  printlnGreen("\r\nGenerate Key Pair ECC 256. Store Private Key on Board ... ");
   ts = millis();
-  ret = trustM_V3.generateKeypair(pubKey, pubKeyLen);
+  ret = trustM_V3.generateKeypairECC(pubKey, pubKeyLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
