@@ -34,7 +34,8 @@
 
 #define ASSERT(err)   if (ret) { printlnRed("Failed"); while (true); }
 
-uint8_t *pubKey = new uint8_t[KEY_MAXLENGTH];
+uint8_t pubKey[KEY_MAXLENGTH] = {0};
+uint16_t pubKeyLen = KEY_MAXLENGTH;
 
 #ifdef OPTIGA_TRUST_M_V3
 IFX_OPTIGA_TrustM_V3 * trustm = &trustM_V3;
@@ -56,6 +57,7 @@ uint32_t input_data_buffer_length = sizeof(input_data_buffer);
  */
 uint8_t mac_buffer[32] = {0};
 uint32_t mac_buffer_length = sizeof(mac_buffer);
+  /* OID to be used for HMAC generation */
 uint16_t secret_oid = OPTIGA_KEY_ID_SESSION_BASED;
 
 volatile optiga_lib_status_t optiga_lib_status;
@@ -117,22 +119,29 @@ void loop()
   uint32_t ret = 0;
   uint32_t ts = 0;
 
-  /* Context to be used for storing the key */
-  uint16_t ctx = 0;
-  uint16_t pubKeyLen = KEY_MAXLENGTH;
-  uint8_t  ifxPublicKey[68];
-
   /**
    * Enable V3 capabilities in src/optiga_trustm/optiga_lib_config.h
    */
   #ifdef OPTIGA_TRUST_M_V3
 
-  // /**
-  //  * Generate public private keypair
+  /**
+   * Generate public private keypair
+   */
+  printlnGreen("\r\nGenerate Key Pair ECC 256. Store Private Key on Board ... ");
+  ts = millis();
+  ret = trustM_V3.generateKeypairECC(pubKey, pubKeyLen);
+  ts = millis() - ts;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
+
+  // /*
+  //  * Generate a keypair#3 ECC NIST P 256
   //  */
-  // printlnGreen("\r\nGenerate Key Pair RSA 1024. Store Private Key on Board ... ");
+  // printlnGreen("\r\nGenerate Key Pair ECC NIST P 256. Store Private Key on Board ... ");
   // ts = millis();
-  // ret = trustM_V3.generateKeypair(pubKey, pubKeyLen);
+  // ret = trustm->generateKeypairECC(pubKey, pubKeyLen);
   // ts = millis() - ts;
   // if (ret) {
   //   printlnRed("Failed");
@@ -141,20 +150,20 @@ void loop()
 
   // output_result((char*)"Public Key ", pubKey, pubKeyLen);
 
-  /*
-   * Extract public key of the device certificate
-   */
-  printlnGreen("\r\nGet IFX public key ... ");
-  trustm->getPublicKey(ifxPublicKey);
+  // /*
+  //  * Extract public key of the device certificate
+  //  */
+  // printlnGreen("\r\nGet IFX public key ... ");
+  // trustm->getPublicKey(ifxPublicKey);
    
-  output_result((char*)"My Public Key", ifxPublicKey, sizeof(ifxPublicKey));
+  // output_result((char*)"My Public Key", ifxPublicKey, sizeof(ifxPublicKey));
 
   /*
    * Calculate shared secret
    */
   printlnGreen("\r\nCalculate shared secret... ");
   ts = millis();
-  ret = trustm->sharedSecret(ifxPublicKey, sizeof(ifxPublicKey));
+  ret = trustm->sharedSecret(pubKey, pubKeyLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");

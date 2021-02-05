@@ -28,11 +28,13 @@
 #include "OPTIGATrustM.h"
 
 #define PUBKEY_LENGTH	300
+#define KEY_MAXLENGTH 300
 
 #define SUPPRESSCOLLORS
 #include "fprint.h"
 
-
+uint8_t pubKey[KEY_MAXLENGTH] = {0};
+uint16_t pubKeyLen = KEY_MAXLENGTH;
 void setup() 
 {
   uint32_t ret = 0;
@@ -84,23 +86,28 @@ static void output_result(char* tag, uint32_t tstamp, uint8_t* in, uint16_t in_l
 void calculateSharedSecretKey_oid()
 {
   uint32_t ret = 0;
-  uint8_t  ifxPublicKey[68];
   uint32_t ts = 0;
 
   /*
-   * Extract public key of the device certificate
+   * Generate public and private keypair and store the private key in device
    */
-  printlnGreen("\r\nGet IFX public key ... ");
-  trustM.getPublicKey(ifxPublicKey);
+  printlnGreen("\r\nGenerate keypair and save the key in the device");
+  ts = millis();
+  ret = trustM.generateKeypairECC(pubKey, pubKeyLen);
+  ts = millis() - ts;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
    
-  output_result((char*)"My Public Key", ts, ifxPublicKey, sizeof(ifxPublicKey));
+  output_result((char*)"My Public Key", ts, pubKey, pubKeyLen);
 
   /*
    * Calculate shared secret
    */
   printlnGreen("\r\nCalculate shared secret 1... ");
   ts = millis();
-  ret = trustM.sharedSecret(ifxPublicKey, sizeof(ifxPublicKey));
+  ret = trustM.sharedSecret(pubKey, pubKeyLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -116,7 +123,7 @@ void calculateSharedSecretKey_oid()
    */
   printlnGreen("\r\nCalculate shared secret 2... ");
   ts = millis();
-  ret = trustM.sharedSecret(eSESSION_ID_1, ifxPublicKey, sizeof(ifxPublicKey));
+  ret = trustM.sharedSecret(eSESSION_ID_2, pubKey, pubKeyLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -132,7 +139,7 @@ void calculateSharedSecretKey_oid()
    */
   printlnGreen("\r\nCalculate shared secret 3... ");
   ts = millis();
-  ret = trustM.sharedSecret("secp256r1", eSESSION_ID_1, ifxPublicKey, sizeof(ifxPublicKey));
+  ret = trustM.sharedSecret("secp256r1", eSESSION_ID_2, pubKey, pubKeyLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -147,25 +154,30 @@ void calculateSharedSecretKey_oid()
 void calculateSharedSecretKey_export()
 {
   uint32_t ret = 0;
-  uint8_t  ifxPublicKey[68];
   uint8_t  shared_secret[48];
   uint16_t shared_s_len = 0; 
   uint32_t ts = 0;
 
   /*
-   * Extract public key of the device certificate
+   * Generate public and private keypair and store the private key in device
    */
-  printlnGreen("\r\nGet IFX public key ... ");
-  trustM.getPublicKey(ifxPublicKey);
+  printlnGreen("\r\nGenerate keypair and save the key in the device");
+  ts = millis();
+  ret = trustM.generateKeypairECC(pubKey, pubKeyLen);
+  ts = millis() - ts;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
    
-  output_result((char*)"My Public Key", ts, ifxPublicKey, sizeof(ifxPublicKey));
+  output_result((char*)"My Public Key", ts, pubKey, pubKeyLen);
 
   /*
    * Calculate shared secret
    */
   printlnGreen("\r\nCalculate shared secret 4 with export... ");
   ts = millis();
-  ret = trustM.sharedSecretWithExport(ifxPublicKey, sizeof(ifxPublicKey), shared_secret, shared_s_len);
+  ret = trustM.sharedSecretWithExport(pubKey, pubKeyLen, shared_secret, shared_s_len);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
