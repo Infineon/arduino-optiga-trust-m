@@ -271,6 +271,8 @@ public:
      * @retval  1 If the operation failed.
      */
 
+    int32_t generateHMAC(const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
+                        { return generateHMAC(OPTIGA_HMAC_SHA_256, OPTIGA_KEY_ID_SESSION_BASED, input_data, input_data_length, mac, mac_length); }
     int32_t generateHMAC(optiga_hmac_type_t type, uint16_t secret_oid, const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length);
     int32_t generateHMACStart(optiga_hmac_type_t type, uint16_t secret_oid, const uint8_t input_data[], uint32_t input_data_length);
     int32_t generateHMACUpdate(const uint8_t input_data[], uint32_t input_data_length);
@@ -304,6 +306,8 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
+    int32_t generateHMACSHA256(const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
+                              { return generateHMAC(OPTIGA_HMAC_SHA_256, OPTIGA_KEY_ID_SESSION_BASED, input_data, input_data_length, mac, mac_length); };
     int32_t generateHMACSHA256(uint16_t secret_oid, const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
                               { return generateHMAC(OPTIGA_HMAC_SHA_256, secret_oid, input_data, input_data_length, mac, mac_length); };
     int32_t generateHMACSHA256Start(uint16_t secret_oid, const uint8_t input_data[], uint32_t input_data_length)
@@ -341,13 +345,15 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
+    int32_t generateHMACSHA384(const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
+                              { return generateHMAC(OPTIGA_HMAC_SHA_384, OPTIGA_KEY_ID_SESSION_BASED, input_data, input_data_length, mac, mac_length); };
     int32_t generateHMACSHA384(uint16_t secret_oid, const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
                               { return generateHMAC(OPTIGA_HMAC_SHA_384, secret_oid, input_data, input_data_length, mac, mac_length); };
-    int32_t generateHMACSHA384(uint16_t secret_oid, const uint8_t input_data[], uint32_t input_data_length)
+    int32_t generateHMACSHA384Start(uint16_t secret_oid, const uint8_t input_data[], uint32_t input_data_length)
                               { return generateHMACStart(OPTIGA_HMAC_SHA_384, secret_oid, input_data, input_data_length); };
-    int32_t generateHMACSHA384(const uint8_t input_data[], uint32_t input_data_length)
+    int32_t generateHMACSHA384Update(const uint8_t input_data[], uint32_t input_data_length)
                               { return generateHMACUpdate(input_data, input_data_length); };
-    int32_t generateHMACSHA384(const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
+    int32_t generateHMACSHA384Finalize(const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
                               { return generateHMACFinalize(input_data, input_data_length, mac, mac_length); };
 
     /**
@@ -378,13 +384,15 @@ public:
      * @retval  0 If function was successful.
      * @retval  1 If the operation failed.
      */
+    int32_t generateHMACSHA512(const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
+                              { return generateHMAC(OPTIGA_HMAC_SHA_512, OPTIGA_KEY_ID_SESSION_BASED, input_data, input_data_length, mac, mac_length); };
     int32_t generateHMACSHA512(uint16_t secret_oid, const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
                               { return generateHMAC(OPTIGA_HMAC_SHA_512, secret_oid, input_data, input_data_length, mac, mac_length); };
-    int32_t generateHMACSHA512(uint16_t secret_oid, const uint8_t input_data[], uint32_t input_data_length)
+    int32_t generateHMACSHA512Start(uint16_t secret_oid, const uint8_t input_data[], uint32_t input_data_length)
                               { return generateHMACStart(OPTIGA_HMAC_SHA_512, secret_oid, input_data, input_data_length); };
-    int32_t generateHMACSHA512(const uint8_t input_data[], uint32_t input_data_length)
+    int32_t generateHMACSHA512Update(const uint8_t input_data[], uint32_t input_data_length)
                               { return generateHMACUpdate(input_data, input_data_length); };
-    int32_t generateHMACSHA512(const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
+    int32_t generateHMACSHA512Finalize(const uint8_t input_data[], uint32_t input_data_length, uint8_t mac[], uint32_t mac_length)
                               { return generateHMACFinalize(input_data, input_data_length, mac, mac_length); };
 	
     private:

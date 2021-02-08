@@ -57,8 +57,6 @@ uint32_t input_data_buffer_length = sizeof(input_data_buffer);
  */
 uint8_t mac_buffer[32] = {0};
 uint32_t mac_buffer_length = sizeof(mac_buffer);
-  /* OID to be used for HMAC generation */
-uint16_t secret_oid = OPTIGA_KEY_ID_SESSION_BASED;
 
 volatile optiga_lib_status_t optiga_lib_status;
 
@@ -127,9 +125,9 @@ void loop()
   /**
    * Generate public private keypair
    */
-  printlnGreen("\r\nGenerate Key Pair ECC 256. Store Private Key on Board ... ");
+  printlnGreen("\r\nGenerate Key Pair ECC NIST P 256. Store Private Key on Board ... ");
   ts = millis();
-  ret = trustM_V3.generateKeypairECC(pubKey, pubKeyLen);
+  ret = trustm->generateKeypairECC(pubKey, pubKeyLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
@@ -179,7 +177,7 @@ void loop()
    */
   printlnGreen("\r\nStart to generate HMAC");
   ts = millis();
-  ret = trustm->generateHMACSHA256(secret_oid, input_data_buffer, input_data_buffer_length, mac_buffer, mac_buffer_length );
+  ret = trustm->generateHMACSHA256(input_data_buffer, input_data_buffer_length, mac_buffer, mac_buffer_length );
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
