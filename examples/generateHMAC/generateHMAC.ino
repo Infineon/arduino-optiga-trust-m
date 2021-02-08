@@ -175,7 +175,7 @@ void loop()
   /**
    * Generate HMAC on the input data 
    */
-  printlnGreen("\r\nStart to generate HMAC");
+  printlnGreen("\r\nFinalize generate HMAC");
   ts = millis();
   ret = trustm->generateHMACSHA256(input_data_buffer, input_data_buffer_length, mac_buffer, mac_buffer_length );
   ts = millis() - ts;
