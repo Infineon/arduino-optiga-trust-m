@@ -34,9 +34,11 @@
 
 #define ASSERT(err)   if (ret) { printlnRed("Failed"); while (true); }
 
-static void output_result(char* tag, uint8_t* in, uint16_t in_len)
+static void output_result(char* tag, uint32_t tstamp, uint8_t* in, uint16_t in_len)
 {
-  printlnGreen("OK"); 
+  printGreen("[OK] | Command executed in "); 
+  Serial.print(tstamp); 
+  Serial.println(" ms");
   printMagenta(tag); 
   printMagenta(" Length: ");
   Serial.println(in_len);
@@ -61,7 +63,7 @@ void setup()
    * Initialise OPTIGA™ Trust M board
    */
 	printGreen("Begin Trust ... ");
-	ret = trustM_V3.begin();
+	ret = trustM_V3.begin(0);
 	ASSERT(ret);
 	printlnGreen("OK");
 
@@ -156,9 +158,7 @@ void generateKeyAES_export()
     while (true);
   }
   
-  printGreen("[OK] | Command executed in "); 
-  Serial.print(ts); 
-  Serial.println(" ms");
+  output_result((char*)"Public Key ", ts, symmetric_key, SYMMETRIC_KEY_SIZE);
 
 }
 
