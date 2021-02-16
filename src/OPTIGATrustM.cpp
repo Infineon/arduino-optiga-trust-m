@@ -205,15 +205,15 @@ uint8_t platformBindingSharedSecretMetadataFinal [] = {
 IFX_OPTIGA_TrustM trustM = IFX_OPTIGA_TrustM();
 
 
-static volatile optiga_lib_status_t optiga_lib_status;
-static void optiga_util_callback(void * context, optiga_lib_status_t return_status)
-{
-    optiga_lib_status = return_status; 
-    if (NULL != context)
-    {
-        // callback to upper layer here
-    }
-};
+// static volatile optiga_lib_status_t optiga_lib_status;
+// static void optiga_util_callback(void * context, optiga_lib_status_t return_status)
+// {
+//     optiga_lib_status = return_status; 
+//     if (NULL != context)
+//     {
+//         // callback to upper layer here
+//     }
+// };
 
 IFX_OPTIGA_TrustM::IFX_OPTIGA_TrustM()
 { 
@@ -238,7 +238,7 @@ int32_t IFX_OPTIGA_TrustM::begin(uint8_t pairDevice)
     do 
     {
         //Create an instance of optiga_util to open the application on OPTIGA.
-        me_util = optiga_util_create(OPTIGA_INSTANCE_ID_0, optiga_util_callback, NULL);
+        me_util = optiga_util_create(OPTIGA_INSTANCE_ID_0, utilCryptCallback, &optiga_lib_status);
         if (NULL == me_util)
         {
             return_status = OPTIGA_UTIL_ERROR;
@@ -249,7 +249,7 @@ int32_t IFX_OPTIGA_TrustM::begin(uint8_t pairDevice)
          *  Create OPTIGA Crypt Instance
          *
          */
-        me_crypt = optiga_crypt_create(OPTIGA_INSTANCE_ID_0, optiga_util_callback, NULL);
+        me_crypt = optiga_crypt_create(OPTIGA_INSTANCE_ID_0, utilCryptCallback, &optiga_lib_status);
         if (NULL == me_crypt)
         {
             return_status = OPTIGA_CRYPT_ERROR;
@@ -760,6 +760,16 @@ void IFX_OPTIGA_TrustM::end(void)
 
     OPTIGA_ARDUINO_LOG_STATUS(return_status);
 }
+
+void IFX_OPTIGA_TrustM::utilCryptCallback(void * context, optiga_lib_status_t return_status)
+{
+    // optiga_lib_status = return_status; 
+    if (NULL != context)
+    {
+        optiga_lib_status_t * ptr = (optiga_lib_status_t*) context;
+        *ptr =  return_status;
+    }
+};
 
 int32_t IFX_OPTIGA_TrustM::getGenericData(uint16_t oid, uint8_t* p_data, uint16_t& hashLength)
 {  

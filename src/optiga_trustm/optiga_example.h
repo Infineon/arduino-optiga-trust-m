@@ -62,10 +62,10 @@ extern void example_performance_measurement(uint32_t* time_value, uint8_t time_r
 #define OPTIGA_EXAMPLE_COLOR               OPTIGA_LIB_LOGGER_COLOR_DEFAULT
 
 //Start timer for performance measurement
-#define START_PERFORMANCE_MEASUREMENT(time_taken) example_performance_measurement(&time_taken, START_TIMER)
+#define START_PERFORMANCE_MEASUREMENT(time_taken) //example_performance_measurement(&time_taken, START_TIMER)
 
 //Stop timer and calculate performance measurement
-#define READ_PERFORMANCE_MEASUREMENT(time_taken) example_performance_measurement(&time_taken, STOPTIMER_AND_CALCULATE)
+#define READ_PERFORMANCE_MEASUREMENT(time_taken) //example_performance_measurement(&time_taken, STOPTIMER_AND_CALCULATE)
 
 // Check return status
 #define WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status)\
@@ -169,6 +169,7 @@ void example_optiga_crypt_ecdsa_sign(void);
 void example_optiga_crypt_ecdsa_verify(void);
 void example_optiga_crypt_ecdh(void);
 void example_optiga_crypt_hmac(void);
+void example_optiga_crypt_hmac_original(void);
 void example_optiga_crypt_symmetric_key(void);
 void example_optiga_crypt_random(void);
 void example_optiga_crypt_tls_prf_sha256(void);
@@ -184,8 +185,11 @@ void example_optiga_crypt_rsa_encrypt_session(void);
 void example_optiga_util_update_count(void);
 void example_optiga_util_protected_update(void);
 void example_optiga_util_read_uuid(void);
-void example_pair_host_and_optiga_using_pre_shared_secret(void);
+optiga_lib_status_t example_pair_host_and_optiga_using_pre_shared_secret(void);
 void example_optiga_util_hibernate_restore(void);
+
+void example_optiga_init(void);
+void example_optiga_deinit(void);
 
 #ifdef __cplusplus
 }

@@ -184,15 +184,15 @@
 IFX_OPTIGA_TrustM_V3 trustM_V3 = IFX_OPTIGA_TrustM_V3();
 
 
-static volatile optiga_lib_status_t optiga_lib_status;
-static void optiga_util_callback(void * context, optiga_lib_status_t return_status)
-{
-    optiga_lib_status = return_status; 
-    if (NULL != context)
-    {
-        // callback to upper layer here
-    }
-};
+// static volatile optiga_lib_status_t optiga_lib_status;
+// static void optiga_util_callback(void * context, optiga_lib_status_t return_status)
+// {
+//     optiga_lib_status = return_status; 
+//     if (NULL != context)
+//     {
+//         // callback to upper layer here
+//     }
+// };
 
 IFX_OPTIGA_TrustM_V3::IFX_OPTIGA_TrustM_V3()
 { 
@@ -612,41 +612,47 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(optiga_hmac_type_t type,
                      					   const uint8_t input_data[], 
                      					   uint32_t input_data_length, 
                      					   uint8_t mac[], 
-                     					   uint32_t mac_length)
+                     					   uint32_t & mac_length)
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
-    uint32_t * mac_length_p = &mac_length;
+    // uint32_t * mac_length_p = &mac_length;
+    const uint8_t input_secret_oid_metadata[] = {0x20, 0x06, 0xD3, 0x01, 0x00, 0xE8, 0x01, 0x21};
+    const uint8_t input_secret[] = {0x8d,0xe4,0x3f,0xff,
+                                    0x65,0x2d,0xa0,0xa7,
+                                    0xf0,0x4e,0x8f,0x22,
+                                    0x84,0xa4,0x28,0x3b};
 
     OPTIGA_ARDUINO_LOG_MESSAGE(__FUNCTION__);
     do
     {
-        // /**
-        //  * Write metadata 
-        //  * Precondition 1 :
-        //  * Metadata for 0xF1D0 :
-        //  * Execute access condition = Always
-        //  * Data object type  =  Pre-shared secret
-        //  */
-        // optiga_lib_status = OPTIGA_LIB_BUSY;
-        // return_status = optiga_util_write_metadata(me_util,
-        //                                            secret,
-        //                                            input_secret_oid_metadata,
-        //                                            sizeof(input_secret_oid_metadata));
-	    // OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
-        // /**
-        // *  Precondition 2 :
-        // *  Write secret in OID 0xF1D0
-        // */
-        // optiga_lib_status = OPTIGA_LIB_BUSY;
-        // return_status = optiga_util_write_data(me_util,
-        //                                        secret,
-        //                                        OPTIGA_UTIL_ERASE_AND_WRITE,
-        //                                        0,
-        //                                        input_secret,
-        //                                        sizeof(input_secret));
-        // OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
+        /**
+         * Write metadata 
+         * Precondition 1 :
+         * Metadata for 0xF1D0 :
+         * Execute access condition = Always
+         * Data object type  =  Pre-shared secret
+         */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_write_metadata(me_util,
+                                                   secret_oid,
+                                                   input_secret_oid_metadata,
+                                                   sizeof(input_secret_oid_metadata));
+	    OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
+
+        /**
+        *  Precondition 2 :
+        *  Write secret in OID 0xF1D0
+        */
+        optiga_lib_status = OPTIGA_LIB_BUSY;
+        return_status = optiga_util_write_data(me_util,
+                                               secret_oid,
+                                               OPTIGA_UTIL_ERASE_AND_WRITE,
+                                               0,
+                                               input_secret,
+                                               sizeof(input_secret));
+        OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
         /**
          * Set the default OID if user has not provided any OID
@@ -662,7 +668,7 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMAC(optiga_hmac_type_t type,
                                           input_data,
                                           input_data_length,
                                           mac,
-                                          mac_length_p);
+                                          &mac_length);
 
         OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 
@@ -709,7 +715,7 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMACStart(optiga_hmac_type_t type,
          */
         optiga_lib_status = OPTIGA_LIB_BUSY;
         return_status = optiga_util_write_metadata(me_util,
-                                                   0xF1D0,
+                                                   secret_oid,
                                                    input_secret_oid_metadata,
                                                    sizeof(input_secret_oid_metadata));
 	    OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
@@ -783,7 +789,7 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMACUpdate(const uint8_t input_data[],
 int32_t IFX_OPTIGA_TrustM_V3::generateHMACFinalize(const uint8_t input_data[], 
                      					                 uint32_t   input_data_length, 
                      					                 uint8_t mac[], 
-                     					                 uint32_t mac_length) 
+                     					                 uint32_t & mac_length) 
 {
     uint32_t ard_ret = 1;
     optiga_lib_status_t return_status = 0;
@@ -800,7 +806,7 @@ int32_t IFX_OPTIGA_TrustM_V3::generateHMACFinalize(const uint8_t input_data[],
                                                    input_data,
                                                    input_data_length,
                                                    mac,
-                                                   mac_length);
+                                                   &mac_length);
                                           
         OPTIGA_ASSERT_WAIT_WHILE_BUSY(return_status);
 

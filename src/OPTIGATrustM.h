@@ -42,7 +42,6 @@
 #include "optiga_trustm/pal_ifx_i2c_config.h"
 #include "optiga_trustm/optiga_example.h"
 
-
 /*************************************************************************
 
  *  fundamental typedefs
@@ -789,6 +788,9 @@ protected:
     optiga_util_t  * me_util  = NULL;
     optiga_crypt_t * me_crypt = NULL;
 	bool active;
+    optiga_lib_status_t optiga_lib_status;
+
+    static void utilCryptCallback(void * context, optiga_lib_status_t return_status);
 
     int32_t getGenericData(uint16_t oid, uint8_t* p_data, uint16_t& hashLength);
     int32_t getGenericMetadata(uint16_t oid, uint8_t* p_data, uint16_t& length);
