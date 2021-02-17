@@ -2,7 +2,7 @@
 * \copyright
 * MIT License
 *
-* Copyright (c) 2019 Infineon Technologies AG
+* Copyright (c) 2020 Infineon Technologies AG
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@
 *
 * \file pal_os_memory.h
 *
-* \brief   This file defines the memory management related macros.
+* \brief   This file provides the prototype declarations of PAL OS MEMORY.
 *
 * \ingroup  grPAL
 *
@@ -36,51 +36,44 @@
 */
 
 
-#ifndef _PAL_MEMORY_MGMT_H_
-#define _PAL_MEMORY_MGMT_H_
+#ifndef _PAL_OS_MEMORY_H_
+#define _PAL_OS_MEMORY_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/**
- * \brief Allocates a block of memory.
- *
- * \details
- * Allocates a block of memory.
- *
- * \pre
- * - None
- *
- * \note
- * - None
- *
- * \param[in] block_size   Size of memory block to be allocated
- */
-#define pal_os_malloc(block_size) malloc(block_size)
+#include "pal.h"
+
 
 /**
- * \brief Allocates a block of memory and clean the contents.
+ * \brief Allocates a block of memory specified by the block size and return the pointer to it.
+ *
+ * <br>
  *
  * \details
- * Allocates a block of memory and clean the contents.
- *
+ * - Allocates a block of memory specified by the block size and return the pointer to it
+ * 
  * \pre
  * - None
  *
  * \note
  * - None
  *
- * \param[in] no_of_blocks   Number of blocks to be allocated
- * \param[in] block_size     Size of memory block to be allocated
+ * \param[in] block_size         Size of the block
+ *
+ * \retval  Block Pointer  Memory allocation is successful
+ * \retval  NULL           Memory allocation is not successful
  */
-#define pal_os_calloc(no_of_blocks, block_size) calloc(no_of_blocks, block_size)
+LIBRARY_EXPORTS void * pal_os_malloc(uint32_t block_size);
 
 /**
- * \brief Free's a block of allocated memory.
+ * @brief Allocates a block of memory specified by the block size and return the pointer to it.
+ *
+ * <br>
  *
  * \details
- * Free's a block of allocated memory.
+ * - Allocates a block of memory specified by the block size and return the pointer to it
  *
  * \pre
  * - None
@@ -88,15 +81,21 @@ extern "C" {
  * \note
  * - None
  *
- * \param[in] p_block   Pointer to the memory block to be freed
+ * \param[in] number_of_blocks      Number of block to allocate
+ * \param[in] block_size            Size of the block
+ *
+ * \retval  Block Pointer  Memory allocation is successful
+ * \retval  NULL           Memory allocation is not successful
  */
-#define pal_os_free(p_block) free(p_block)
+LIBRARY_EXPORTS void * pal_os_calloc(uint32_t number_of_blocks , uint32_t block_size);
 
 /**
- * \brief Copies the data from source to destination.
+ * @brief Frees the block of memory specified by the block pointer.
+ *
+ * <br>
  *
  * \details
- * Copies the data from source to destination.
+ * - Frees the block of memory specified by the block pointer
  *
  * \pre
  * - None
@@ -104,17 +103,18 @@ extern "C" {
  * \note
  * - None
  *
- * \param[in] p_destination   Pointer to destination buffer
- * \param[in] p_source        Pointer to source buffer
- * \param[in] size            Size in bytes to be copied
+ * \param[in] block      Pointer to memory block to be freed
+ *
  */
-#define pal_os_memcpy(p_destination, p_source, size)    memcpy(p_destination, p_source, size)
+LIBRARY_EXPORTS void pal_os_free(void * block);
 
 /**
- * \brief Sets the memory buffer to the data supplied.
+ * @brief Copies data from source to destination.
+ *
+ * <br>
  *
  * \details
- * Sets the memory buffer with the specified size to the data supplied.
+ * - Copies data from source to destination
  *
  * \pre
  * - None
@@ -122,18 +122,41 @@ extern "C" {
  * \note
  * - None
  *
- * \param[in] p_buffer        Pointer to buffer
- * \param[in] value           Value to be written in the buffer
- * \param[in] size            Size in bytes to be written with the specified value
+ * \param[in] p_destination      Source to copy the data from
+ * \param[in] p_source           Destination to copy the data to
+ * \param[in] size               Size of the data to copy
+ *
  */
-#define pal_os_memset(p_buffer, value, size)    memset(p_buffer, value, size)
+LIBRARY_EXPORTS void pal_os_memcpy(void * p_destination, const void * p_source, uint32_t size);
+
+/**
+ * @brief Sets the buffer with the given value.
+ *
+ * <br>
+ *
+ * \details
+ * - Sets the buffer with the given value
+ *
+ * \pre
+ * - None
+ *
+ * \note
+ * - None
+ *
+ * \param[in] p_buffer      Pointer to buffer
+ * \param[in] value         Value to be set in the buffer
+ * \param[in] size          Size of the buffer
+ *
+ */
+LIBRARY_EXPORTS void pal_os_memset(void * p_buffer, uint32_t value, uint32_t size);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _PAL_MEMORY_MGMT_H_*/
+#endif /* _PAL_OS_MEMORY_H_ */
 
 /**
 * @}
 */
+

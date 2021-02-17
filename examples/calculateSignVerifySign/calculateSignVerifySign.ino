@@ -104,7 +104,7 @@ void calculateSignVerifySign_ownkey()
    */
   trustM.getPublicKey(ifxPublicKey);
    
-  output_result("My Public Key", ts, ifxPublicKey, sizeof(ifxPublicKey));
+  output_result((char*)"My Public Key", ts, ifxPublicKey, sizeof(ifxPublicKey));
 
   /*
    * Calculate a hash of the given data
@@ -119,7 +119,7 @@ void calculateSignVerifySign_ownkey()
     while (true);
   }
 
-  output_result("Hash", ts, hash, hashLen);
+  output_result((char*)"Hash", ts, hash, hashLen);
 
   /*
    * Sign hash
@@ -133,7 +133,7 @@ void calculateSignVerifySign_ownkey()
     while (true);
   }
 
-  output_result("Signature #1", ts, formSign, signLen);
+  output_result((char*)"Signature #1", ts, formSign, signLen);
 
   /*
    * Verify a signature generated before
@@ -176,7 +176,7 @@ void calculateSignVerifySign_newkey()
     while (true);
   }
 
-  output_result("Hash", ts, hash, hashLen);
+  output_result((char*)"Hash", ts, hash, hashLen);
 
   /*
    * Generate a key pair and store private key inside the security chip
@@ -189,7 +189,7 @@ void calculateSignVerifySign_newkey()
     printlnRed("Failed");
     while (true);
   }
-  output_result("Public key", ts, pubKey, pubKeyLen);
+  output_result((char*)"Public key", ts, pubKey, pubKeyLen);
 
   /*
    * Sign hash with the newly generated private key
@@ -203,7 +203,7 @@ void calculateSignVerifySign_newkey()
     while (true);
   }
 
-  output_result("Signature #2", ts, formSign, signLen);
+  output_result((char*)"Signature #2", ts, formSign, signLen);
 
   /*
    * Verify a signature generated before

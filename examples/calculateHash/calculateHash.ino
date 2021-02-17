@@ -105,7 +105,7 @@ void loop()
     printlnRed("Failed");
     while (true);
   }
-  output_result("Hash", ts, hash, HASH_LENGTH);
+  output_result((char*)"Hash", ts, hash, HASH_LENGTH);
 
   /*
    * SHA 256 NIST.1 --> "abc" string
@@ -125,7 +125,7 @@ void loop()
     while (true);
   }
 
-  output_result("Hash", ts, hash, HASH_LENGTH);
+  output_result((char*)"Hash", ts, hash, HASH_LENGTH);
   printGreen("Hashrate is "); 
   Serial.print(1024/ts); 
   Serial.println(" kB/sec");

@@ -85,7 +85,7 @@ void loop()
   uint16_t uidLength = UID_LENGTH;
   ret = trustM.getUniqueID(uid, uidLength);
   ASSERT(ret);
-  output_result("Co-processor UID", uid, uidLength);
+  output_result((char*)"Co-processor UID", uid, uidLength);
 
   /* 
    * Getting primary certificate
@@ -93,7 +93,7 @@ void loop()
   printGreen("Reading cert ... ");
   ret = trustM.getCertificate(cert, certLen);
   ASSERT(ret);
-  output_result("Certificate", cert, certLen);
+  output_result((char*)"Certificate", cert, certLen);
 
   /* 
    * Generate a Keypair
@@ -102,7 +102,7 @@ void loop()
   uint16_t ctx = 0;
   ret = trustM.generateKeypair(pubKey, pubKeyLen, ctx);
   ASSERT(ret);
-  output_result("Public key", pubKey, pubKeyLen);
+  output_result((char*)"Public key", pubKey, pubKeyLen);
 
   /* 
    * Get random value of RND_LENGTH length
@@ -110,7 +110,7 @@ void loop()
   printGreen("Get random value ... ");
   ret = trustM.getRandom(RND_LENGTH, rnd);
   ASSERT(ret);
-  output_result("Random", rnd, RND_LENGTH);
+  output_result((char*)"Random", rnd, RND_LENGTH);
 
   /* 
    * Calculate SHA256 value
@@ -119,7 +119,7 @@ void loop()
   ret = trustM.sha256(rnd, RND_LENGTH, hash);
   hashLen = 32;
   ASSERT(ret);
-  output_result("SHA256", hash, hashLen);
+  output_result((char*)"SHA256", hash, hashLen);
 
   /* 
    * Generate a signature NIST-P256
@@ -127,7 +127,7 @@ void loop()
   printGreen("Generate Signature ... ");
   ret = trustM.calculateSignature(hash, hashLen, formSign, signLen);
   ASSERT(ret);
-  output_result("Signature", formSign, signLen);
+  output_result((char*)"Signature", formSign, signLen);
 
   /* 
    * Verify just geberated signature
@@ -150,7 +150,7 @@ void loop()
     while (true);
   }
   
-  output_result("My Shared Secret", shared_secret, shared_s_len);
+  output_result((char*)"My Shared Secret", shared_secret, shared_s_len);
   /* 
    * Execute the loop just once :)
    */

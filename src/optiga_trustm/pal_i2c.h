@@ -2,7 +2,7 @@
 * \copyright
 * MIT License
 *
-* Copyright (c) 2019 Infineon Technologies AG
+* Copyright (c) 2020 Infineon Technologies AG
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -167,7 +167,7 @@ LIBRARY_EXPORTS pal_status_t pal_i2c_set_bitrate(const pal_i2c_t * p_i2c_context
  * \retval  #PAL_STATUS_FAILURE  Returns when the I2C write fails.
  * \retval  #PAL_STATUS_I2C_BUSY Returns when the I2C bus is busy.
  */
-LIBRARY_EXPORTS pal_status_t pal_i2c_write(pal_i2c_t * p_i2c_context, uint8_t * p_data, uint16_t length);
+LIBRARY_EXPORTS pal_status_t pal_i2c_write(const pal_i2c_t * p_i2c_context, uint8_t * p_data, uint16_t length);
 
 /**
  * @brief Reads from I2C bus.
@@ -201,7 +201,7 @@ LIBRARY_EXPORTS pal_status_t pal_i2c_write(pal_i2c_t * p_i2c_context, uint8_t * 
  * \retval  #PAL_STATUS_FAILURE  Returns when the I2C read fails.
  * \retval  #PAL_STATUS_I2C_BUSY Returns when the I2C bus is busy.
  */
-LIBRARY_EXPORTS pal_status_t pal_i2c_read(pal_i2c_t * p_i2c_context, uint8_t * p_data, uint16_t length);
+LIBRARY_EXPORTS pal_status_t pal_i2c_read(const pal_i2c_t * p_i2c_context, uint8_t * p_data, uint16_t length);
 
 /**
  * @brief De-initializes the I2C master.

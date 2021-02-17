@@ -26,31 +26,39 @@
 *
 * \author Infineon Technologies AG
 *
-* \file optiga_lib_version.h
+* \file pal_os_memory_arduino.cpp
 *
-* \brief   This file contains Optiga library version information.
+* \brief   This file implements the platform abstraction layer APIs for os memory
 *
-* \ingroup grOptigaLibCommon
+* \ingroup  grPAL
 *
 * @{
 */
 
-#ifndef _OPTIGA_LIB_VERSION_H_
-#define _OPTIGA_LIB_VERSION_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "pal_os_memory.h"
 
-/// OPTIGA Library version information
-#define OPTIGA_LIB_VERSION "Ver 3.00.2490"
-
-#ifdef __cplusplus
+LIBRARY_EXPORTS void * pal_os_malloc(uint32_t block_size)
+{
+    return malloc(block_size);
 }
-#endif
 
-#endif /*_OPTIGA_LIB_VERSION_H_*/
+LIBRARY_EXPORTS void * pal_os_calloc(uint32_t number_of_blocks , uint32_t block_size)
+{
+    return calloc(number_of_blocks, block_size);
+}
 
-/**
-* @}
-*/
+LIBRARY_EXPORTS void pal_os_free(void * block)
+{
+    free(block);
+}
+
+LIBRARY_EXPORTS void pal_os_memcpy(void * p_destination, const void * p_source, uint32_t size)
+{
+    (void) memcpy(p_destination, p_source, size);
+}
+
+LIBRARY_EXPORTS void pal_os_memset(void * p_buffer, uint32_t value, uint32_t size)
+{
+    (void) memset(p_buffer, value, size);
+}

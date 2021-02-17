@@ -101,7 +101,7 @@ void loop()
     printlnRed("Failed");
     while (true);
   }
-  output_result("Random", ts, rnd, 16);
+  output_result((char*)"Random", ts, rnd, 16);
 
   printGreen("\r\nGet 32 bytes random number");
   ts = millis();
@@ -111,7 +111,7 @@ void loop()
     printlnRed("Failed");
     while (true);
   }
-  output_result("Random", ts, rnd, 32);
+  output_result((char*)"Random", ts, rnd, 32);
 
   printGreen("\r\nGet 64 bytes random number");
   ts = millis();
@@ -121,7 +121,7 @@ void loop()
     printlnRed("Failed");
     while (true);
   }
-  output_result("Random", ts, rnd, 64);
+  output_result((char*)"Random", ts, rnd, 64);
 
   printGreen("\r\nGet 128 bytes random number");
   ts = millis();
@@ -131,7 +131,7 @@ void loop()
     printlnRed("Failed");
     while (true);
   }
-  output_result("Random", ts, rnd, 128);
+  output_result((char*)"Random", ts, rnd, 128);
 
   printGreen("\r\nGet 256 bytes random number");
   ts = millis();
@@ -141,7 +141,7 @@ void loop()
     printlnRed("Failed");
     while (true);
   }
-  output_result("Random", ts, rnd, 256);
+  output_result((char*)"Random", ts, rnd, 256);
   
   /*
    * Remove dynamically allocated data

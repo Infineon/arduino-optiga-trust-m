@@ -2,7 +2,7 @@
 * \copyright
 * MIT License
 *
-* Copyright (c) 2019 Infineon Technologies AG
+* Copyright (c) 2020 Infineon Technologies AG
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -365,7 +365,7 @@ _STATIC_H optiga_lib_status_t ifx_i2c_pl_set_bit_rate(ifx_i2c_context_t * p_ctx,
 }
 _STATIC_H void ifx_i2c_pl_negotiation_event_handler(void * p_input_ctx)
 {
-    optiga_lib_status_t event = (uint8_t)IFX_I2C_STACK_ERROR;
+    optiga_lib_status_t event = (optiga_lib_status_t)IFX_I2C_STACK_ERROR;
     uint8_t continue_negotiation;
     ifx_i2c_context_t * p_ctx = (ifx_i2c_context_t * )p_input_ctx;
     uint8_t i2c_mode_value[2];

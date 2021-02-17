@@ -2,7 +2,7 @@
 * \copyright
 * MIT License
 *
-* Copyright (c) 2019 Infineon Technologies AG
+* Copyright (c) 2020 Infineon Technologies AG
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -46,9 +46,9 @@ extern "C" {
 #include "optiga_cmd.h"
 
 /// Option to only write the data object
-#define OPTIGA_UTIL_WRITE_ONLY      (0x00)
+#define OPTIGA_UTIL_WRITE_ONLY          (0x00)
 /// Option to erase and write the data object
-#define OPTIGA_UTIL_ERASE_AND_WRITE (0x40)
+#define OPTIGA_UTIL_ERASE_AND_WRITE     (0x40)
 
 
 /// To Initialize a clean application context
@@ -106,7 +106,7 @@ typedef struct optiga_util optiga_util_t;
  * - None
  *
  * \param[in,out]  me                     Valid instance of #optiga_util_t
- * \param[in]      configuration_type     Configuration Type
+ * \param[in]      parameter_type         Parameter Type
  *                                        Possible Types are
  *                                        #OPTIGA_COMMS_PROTECTION_LEVEL
  *                                        #OPTIGA_COMMS_PROTOCOL_VERSION
@@ -117,7 +117,7 @@ typedef struct optiga_util optiga_util_t;
  *
  */
 void optiga_util_set_comms_params(optiga_util_t * me,
-                                  uint8_t configuration_type,
+                                  uint8_t parameter_type,
                                   uint8_t value);
 #endif
 /**
@@ -151,8 +151,8 @@ void optiga_util_set_comms_params(optiga_util_t * me,
  * main_xmc4800_sample.c
  */
 LIBRARY_EXPORTS optiga_util_t * optiga_util_create(uint8_t optiga_instance_id,
-                                   callback_handler_t handler,
-                                   void * caller_context);
+                                                   callback_handler_t handler,
+                                                   void * caller_context);
 
 /**
  * \brief De-Initializes the OPTIGA util instance.
@@ -211,7 +211,7 @@ LIBRARY_EXPORTS optiga_lib_status_t optiga_util_destroy(optiga_util_t * me);
  * main_xmc4800_sample.c
  */
 LIBRARY_EXPORTS optiga_lib_status_t optiga_util_open_application(optiga_util_t * me,
-                                                 bool_t perform_restore);
+                                                                 bool_t perform_restore);
 
 /**
  *\brief Closes the application on OPTIGA and closes the communication with optiga.
@@ -229,6 +229,9 @@ LIBRARY_EXPORTS optiga_lib_status_t optiga_util_open_application(optiga_util_t *
  *\note
  * - For <b>protected I2C communication</b>, Refer #OPTIGA_UTIL_SET_COMMS_PROTECTION_LEVEL
  * - Error codes from lower layer will be returned as it is.
+ * - Close application with hibernate and shielded connection establishment(negotiation/re-negotiation) will fail at OPTIGA because hibernation is not allowed when SEC value is greater than zero.
+ *   The SEC value increments internally on every shielded connection negotiation process.
+
  *
  *<br>
  * \param[in]   me                                       Valid instance of #optiga_util_t created using #optiga_util_create.
@@ -246,7 +249,7 @@ LIBRARY_EXPORTS optiga_lib_status_t optiga_util_open_application(optiga_util_t *
  * main_xmc4800_sample.c
  */
 LIBRARY_EXPORTS optiga_lib_status_t optiga_util_close_application(optiga_util_t * me,
-                                                  bool_t perform_hibernate);
+                                                                  bool_t perform_hibernate);
 
 /**
  * \brief Reads data from optiga.
@@ -283,10 +286,10 @@ LIBRARY_EXPORTS optiga_lib_status_t optiga_util_close_application(optiga_util_t 
  * example_optiga_util_read_data.c
  */
 LIBRARY_EXPORTS optiga_lib_status_t optiga_util_read_data(optiga_util_t * me,
-                                          uint16_t optiga_oid,
-                                          uint16_t offset,
-                                          uint8_t * buffer,
-                                          uint16_t * length);
+                                                          uint16_t optiga_oid,
+                                                          uint16_t offset,
+                                                          uint8_t * buffer,
+                                                          uint16_t * length);
 
 /**
  * \brief Reads metadata of the specified data object from optiga.
@@ -322,9 +325,9 @@ LIBRARY_EXPORTS optiga_lib_status_t optiga_util_read_data(optiga_util_t * me,
  * example_optiga_util_read_data.c
  */
 LIBRARY_EXPORTS optiga_lib_status_t optiga_util_read_metadata(optiga_util_t * me,
-                                              uint16_t optiga_oid,
-                                              uint8_t * buffer,
-                                              uint16_t * length);
+                                                              uint16_t optiga_oid,
+                                                              uint8_t * buffer,
+                                                              uint16_t * length);
 
 /**
  * \brief Writes data to optiga.
@@ -361,11 +364,11 @@ LIBRARY_EXPORTS optiga_lib_status_t optiga_util_read_metadata(optiga_util_t * me
  * example_optiga_util_write_data.c
  */
 LIBRARY_EXPORTS optiga_lib_status_t optiga_util_write_data(optiga_util_t * me,
-                                           uint16_t optiga_oid,
-                                           uint8_t write_type,
-                                           uint16_t offset,
-                                           const uint8_t * buffer,
-                                           uint16_t length);
+                                                           uint16_t optiga_oid,
+                                                           uint8_t write_type,
+                                                           uint16_t offset,
+                                                           const uint8_t * buffer,
+                                                           uint16_t length);
 
 /**
  * \brief Writes metadata for the user provided data object.
@@ -399,9 +402,9 @@ LIBRARY_EXPORTS optiga_lib_status_t optiga_util_write_data(optiga_util_t * me,
  * example_optiga_util_write_data.c
  */
 LIBRARY_EXPORTS optiga_lib_status_t optiga_util_write_metadata(optiga_util_t * me,
-                                               uint16_t optiga_oid,
-                                               const uint8_t * buffer,
-                                               uint8_t length);
+                                                               uint16_t optiga_oid,
+                                                               const uint8_t * buffer,
+                                                               uint8_t length);
 
 /**
  * \brief Initiates the start of protected update of object by writing manifest into OPTIGA object.
@@ -421,7 +424,6 @@ LIBRARY_EXPORTS optiga_lib_status_t optiga_util_write_metadata(optiga_util_t * m
  * - The strict sequence is terminated
  *   - In case of an error from lower layer.<br>
  *   - Same instance is used for other service layer APIs (except #optiga_util_protected_update_continue).<br>
- * - Any subsequent call to this API with same instance is accepted, provided the previous once is asynchronously completed.<br>
  *
  * \param[in]      me                                     Valid instance of #optiga_util_t created using #optiga_util_create.
  * \param[in]      manifest_version                       Version of manifest to be written
@@ -439,9 +441,9 @@ LIBRARY_EXPORTS optiga_lib_status_t optiga_util_write_metadata(optiga_util_t * m
  * example_optiga_util_protected_update.c
  */
 LIBRARY_EXPORTS optiga_lib_status_t optiga_util_protected_update_start(optiga_util_t * me,
-                                                       uint8_t manifest_version,
-                                                       const uint8_t * manifest,
-                                                       uint16_t manifest_length);
+                                                                       uint8_t manifest_version,
+                                                                       const uint8_t * manifest,
+                                                                       uint16_t manifest_length);
 
 /**
  * \brief Sends fragment(s) of data to be written to OPTIGA.
@@ -477,8 +479,8 @@ LIBRARY_EXPORTS optiga_lib_status_t optiga_util_protected_update_start(optiga_ut
  * example_optiga_util_protected_update.c
  */
 LIBRARY_EXPORTS optiga_lib_status_t optiga_util_protected_update_continue(optiga_util_t * me,
-                                                          const uint8_t * fragment,
-                                                          uint16_t fragment_length);
+                                                                          const uint8_t * fragment,
+                                                                          uint16_t fragment_length);
 
 /**
  * \brief Sends the last fragment to finalize the protected update of data object.
@@ -512,8 +514,8 @@ LIBRARY_EXPORTS optiga_lib_status_t optiga_util_protected_update_continue(optiga
  * example_optiga_util_protected_update.c
  */
 LIBRARY_EXPORTS optiga_lib_status_t optiga_util_protected_update_final(optiga_util_t * me,
-                                                       const uint8_t * fragment,
-                                                       uint16_t fragment_length);
+                                                                       const uint8_t * fragment,
+                                                                       uint16_t fragment_length);
 
 /**
  * \brief Increments the counter object by a value specified by user.
@@ -545,8 +547,8 @@ LIBRARY_EXPORTS optiga_lib_status_t optiga_util_protected_update_final(optiga_ut
  * example_optiga_util_update_count.c
  */
 LIBRARY_EXPORTS optiga_lib_status_t optiga_util_update_count(optiga_util_t * me,
-                                             uint16_t optiga_counter_oid,
-                                             uint8_t count);
+                                                             uint16_t optiga_counter_oid,
+                                                             uint8_t count);
 
 /**
  * \brief Enables the protected I2C communication with OPTIGA for UTIL instances
@@ -577,8 +579,8 @@ LIBRARY_EXPORTS optiga_lib_status_t optiga_util_update_count(optiga_util_t * me,
 #define OPTIGA_UTIL_SET_COMMS_PROTECTION_LEVEL(p_instance, protection_level) \
 { \
     optiga_util_set_comms_params(p_instance, \
-                                        OPTIGA_COMMS_PROTECTION_LEVEL, \
-                                        protection_level); \
+                                 OPTIGA_COMMS_PROTECTION_LEVEL, \
+                                 protection_level); \
 }
 #else
 #define OPTIGA_UTIL_SET_COMMS_PROTECTION_LEVEL(p_instance, protection_level) {}
@@ -604,84 +606,11 @@ LIBRARY_EXPORTS optiga_lib_status_t optiga_util_update_count(optiga_util_t * me,
 #define OPTIGA_UTIL_SET_COMMS_PROTOCOL_VERSION(p_instance, version) \
 { \
     optiga_util_set_comms_params(p_instance, \
-                                        OPTIGA_COMMS_PROTOCOL_VERSION, \
-                                        version);\
+                                 OPTIGA_COMMS_PROTOCOL_VERSION, \
+                                 version);\
 }
 #else
 #define OPTIGA_UTIL_SET_COMMS_PROTOCOL_VERSION(p_instance, version) {}
-#endif
-
-#if defined (OPTIGA_LIB_ENABLE_LOGGING) && defined (OPTIGA_LIB_ENABLE_UTIL_LOGGING)
-/**
- * \brief Logs the message provided from Util layer
- *
- * \details
- * Logs the message provided from Util layer
- *
- * \pre
- *
- * \note
- * - None
- *
- * \param[in]      msg      Valid pointer to string to be logged
- *
- */
-#define OPTIGA_UTIL_LOG_MESSAGE(msg) \
-{\
-    optiga_lib_print_message(msg,OPTIGA_UTIL_SERVICE,OPTIGA_UTIL_SERVICE_COLOR);\
-}
-
-/**
- * \brief Logs the byte array buffer provided from Util layer in hexadecimal format
- *
- * \details
- * Logs the byte array buffer provided from Util layer in hexadecimal format
- *
- * \pre
- *
- * \note
- * - None
- *
- * \param[in]      array      Valid pointer to array to be logged
- * \param[in]      array_len  Length of array buffer
- *
- */
-#define OPTIGA_UTIL_LOG_HEX_DATA(array,array_len) \
-{\
-    optiga_lib_print_array_hex_format(array,array_len,OPTIGA_UNPROTECTED_DATA_COLOR);\
-}
-
-/**
- * \brief Logs the status info provided from Util layer
- *
- * \details
- * Logs the status info provided from Util layer
- *
- * \pre
- *
- * \note
- * - None
- *
- * \param[in]      return_value      Status information Util service
- *
- */
-#define OPTIGA_UTIL_LOG_STATUS(return_value) \
-{ \
-    if (OPTIGA_LIB_SUCCESS != return_value) \
-    { \
-        optiga_lib_print_status(OPTIGA_UTIL_SERVICE,OPTIGA_ERROR_COLOR,return_value); \
-    } \
-    else\
-    { \
-        optiga_lib_print_status(OPTIGA_UTIL_SERVICE,OPTIGA_UTIL_SERVICE_COLOR,return_value); \
-    } \
-}
-#else
-
-#define OPTIGA_UTIL_LOG_MESSAGE(msg) {}
-#define OPTIGA_UTIL_LOG_HEX_DATA(array, array_len) {}
-#define OPTIGA_UTIL_LOG_STATUS(return_value) {}
-
 #endif
 
 #ifdef __cplusplus

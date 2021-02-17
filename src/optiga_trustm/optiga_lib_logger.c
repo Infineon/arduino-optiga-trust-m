@@ -2,7 +2,7 @@
 * \copyright
 * MIT License
 *
-* Copyright (c) 2019 Infineon Technologies AG
+* Copyright (c) 2020 Infineon Technologies AG
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -57,9 +57,9 @@ extern pal_logger_t logger_console;
 
 /* Converts the uint8 array to hex string format */
 _STATIC_H void optiga_lib_byte_to_hex_string(const uint8_t * p_array_buffer,
-                                                   uint8_t * p_hex_string,
-                                                   uint32_t length,
-                                                   bool_t is_input_byte_array)
+                                             uint8_t * p_hex_string,
+                                             uint32_t length,
+                                             bool_t is_input_byte_array)
 {
     uint32_t loop = 0;
     uint8_t hex_byte = 0, index = 0;
@@ -92,10 +92,10 @@ _STATIC_H void optiga_lib_byte_to_hex_string(const uint8_t * p_array_buffer,
 }
 /* Converts the uint16 value to hex string format */
 _STATIC_H void optiga_lib_word_to_hex_string(uint16_t value,
-                                                    uint8_t * p_buffer)
+                                             uint8_t * p_buffer)
 {
     uint8_t array_buffer [5] = {0};   
-    uint8_t loop = 0, hex_byte = 0, index = 0;
+    uint8_t loop, hex_byte = 0, index = 0;
     
     array_buffer [0] = (uint8_t)((value & 0xFF00) >> 8);
     array_buffer [1] = (uint8_t)((value & 0x00FF));
@@ -125,9 +125,6 @@ _STATIC_H void optiga_lib_print_length_of_data(uint16_t value)
     strcat(print_buffer,(char_t *)uint16t_conv_buffer); 
     
     optiga_lib_print_string_with_newline(print_buffer);
-    
-
-
 }
 
 void optiga_lib_print_string(const char_t * p_log_string)
@@ -221,10 +218,10 @@ void optiga_lib_print_array_hex_format(const uint8_t * p_log_string,
                                        const char_t * p_log_color)
 {
     uint8_t temp_buffer[350];
-    char_t output_buffer[350];
-    uint16_t index = 0;
+    char_t output_buffer[400];
+    uint16_t index;
     uint16_t temp_length;
-    uint8_t new_line_characters[2] = {OPTIGA_LOGGER_NEW_LINE_CHAR};
+    char_t new_line_characters[2] = {OPTIGA_LOGGER_NEW_LINE_CHAR};
     uint8_t buffer_window = 32; // Alignment of 16 bytes per line
 
     if ((NULL == p_log_string) || (NULL == p_log_color))
