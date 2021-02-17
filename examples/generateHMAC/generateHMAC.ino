@@ -43,6 +43,8 @@ IFX_OPTIGA_TrustM_V3 * trustm = &trustM_V3;
 IFX_OPTIGA_TrustM * trustm = &trustM;
 #endif
 
+#define ENABLE_PAIRING 0
+
 /**
  * Input data for generating HMAC
  */
@@ -87,7 +89,7 @@ void setup()
    * Initialise OPTIGA™ Trust M board
    */
 	printGreen("Begin Trust ... ");
-	ret = trustm->begin(0);
+	ret = trustm->begin(ENABLE_PAIRING);
 	ASSERT(ret);
 	printlnGreen("OK");
 
@@ -166,7 +168,7 @@ void loop()
     while (true);
   }
  
-  output_result((char*)"Public Key ", ts, mac_buffer, mac_buffer_length);
+  output_result((char*)"HMAC ", ts, mac_buffer, mac_buffer_length);
 
  #endif /* OPTIGA_TRUST_M_V3 */ 
 

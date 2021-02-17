@@ -63,7 +63,7 @@ void setup()
    * Initialise OPTIGA™ Trust M board
    */
 	printGreen("Begin Trust ... ");
-	ret = trustM_V3.begin(0);
+	ret = trustM_V3.begin();
 	ASSERT(ret);
 	printlnGreen("OK");
 
@@ -158,7 +158,7 @@ void generateKeyAES_export()
     while (true);
   }
   
-  output_result((char*)"Public Key ", ts, symmetric_key, SYMMETRIC_KEY_SIZE);
+  output_result((char*)"Symmetric Key ", ts, symmetric_key, SYMMETRIC_KEY_SIZE);
 
 }
 

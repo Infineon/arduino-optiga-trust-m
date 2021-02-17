@@ -183,17 +183,6 @@
  */
 IFX_OPTIGA_TrustM_V3 trustM_V3 = IFX_OPTIGA_TrustM_V3();
 
-
-// static volatile optiga_lib_status_t optiga_lib_status;
-// static void optiga_util_callback(void * context, optiga_lib_status_t return_status)
-// {
-//     optiga_lib_status = return_status; 
-//     if (NULL != context)
-//     {
-//         // callback to upper layer here
-//     }
-// };
-
 IFX_OPTIGA_TrustM_V3::IFX_OPTIGA_TrustM_V3()
 { 
     v3_active = false;

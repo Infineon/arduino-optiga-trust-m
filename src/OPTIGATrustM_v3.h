@@ -417,4 +417,4 @@ extern IFX_OPTIGA_TrustM_V3 trustM_V3;
  *************************************************************************/
                          
 #endif /* OPTIGA_TRUST_M_V3 */
-#endif /* IFXOPTIGATRUSTM_H_ */
+#endif /* IFXOPTIGATRUSTM_V3_H_ */
