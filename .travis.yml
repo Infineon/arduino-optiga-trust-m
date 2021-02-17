@@ -1,12 +1,18 @@
+
+os:
+  - linux
+
 language: python
+
 python:
-    - "2.7"
+    - 3.7
 
 sudo: required
         
 branches:
     - master
     - develop
+    - /^v.*$/
     - feature/m3
 
 env:
@@ -33,3 +39,22 @@ install:
 
 script:
     - platformio ci --lib="." --board=xmc1100_xmc2go --board=xmc1100_boot_kit --board=xmc4700_relax_kit --board=zero --board=mhetesp32minikit
+
+jobs:
+  include:   
+    - stage: "Deploy" 
+      name: "GitHub Pages Deployment"
+      if: tag IS present
+      addons:
+        apt:
+            packages:
+            - doxygen
+            - graphviz
+            sources:
+                - ubuntu-toolchain-r-test
+      install:
+        - git clone https://github.com/Infineon/InfineonDoxyGenerator.git --branch v.0.2.1
+      script: 
+        - cd InfineonDoxyGenerator
+        - python doxyifx.py html
+        - python doxyifx.py release $GH_USER $GH_PASS_TOKEN
