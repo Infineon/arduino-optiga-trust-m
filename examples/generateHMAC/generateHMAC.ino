@@ -99,19 +99,19 @@ void setup()
 	ASSERT(ret);
 	printlnGreen("OK");
 
-  // /*
-  //  * Check the return value which we just set
-  //  */
-  // printGreen("Checking Power Limit... ");
-  // uint8_t current_lim = 0;
-  // ret = trustM_V3.getCurrentLimit(current_lim);
-  // ASSERT(ret);
-  // if (current_lim == 15) {
-  //   printlnGreen("OK");
-  // } else {
-  //   printlnRed("Failed");
-  //   while(1);
-  // }
+  /*
+   * Check the return value which we just set
+   */
+  printGreen("Checking Power Limit... ");
+  uint8_t current_lim = 0;
+  ret = trustM_V3.getCurrentLimit(current_lim);
+  ASSERT(ret);
+  if (current_lim == 15) {
+    printlnGreen("OK");
+  } else {
+    printlnRed("Failed");
+    while(1);
+  }
 }
 
 void loop() 
@@ -124,70 +124,47 @@ void loop()
    */
   #ifdef OPTIGA_TRUST_M_V3
 
-  /**
+ /**
    * Generate public private keypair
    */
-  // printlnGreen("\r\nGenerate Key Pair ECC NIST P 256. Store Private Key on Board ... ");
-  // ts = millis();
-  // ret = trustm->generateKeypairECC(pubKey, pubKeyLen);
-  // ts = millis() - ts;
-  // if (ret) {
-  //   printlnRed("Failed");
-  //   while (true);
-  // }
+  printlnGreen("\r\nGenerate Key Pair ECC NIST P 256. Store Private Key on Board ... ");
+  ts = millis();
+  ret = trustm->generateKeypairECC(pubKey, pubKeyLen);
+  ts = millis() - ts;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
 
-
-  // output_result((char*)"Public Key ", ts, pubKey, pubKeyLen);
-  // /*
-  //  * Generate a keypair#3 ECC NIST P 256
-  //  */
-  // printlnGreen("\r\nGenerate Key Pair ECC NIST P 256. Store Private Key on Board ... ");
-  // ts = millis();
-  // ret = trustm->generateKeypairECC(pubKey, pubKeyLen);
-  // ts = millis() - ts;
-  // if (ret) {
-  //   printlnRed("Failed");
-  //   while (true);
-  // }
-
-  // output_result((char*)"Public Key ", pubKey, pubKeyLen);
-
-  // /*
-  //  * Extract public key of the device certificate
-  //  */
-  // printlnGreen("\r\nGet IFX public key ... ");
-  // trustm->getPublicKey(ifxPublicKey);
-   
-  // output_result((char*)"My Public Key", ifxPublicKey, sizeof(ifxPublicKey));
+  output_result((char*)"Public Key ", ts, pubKey, pubKeyLen);
 
   /*
    * Calculate shared secret
    */
-  // printlnGreen("\r\nCalculate shared secret... ");
-  // ts = millis();
-  // ret = trustm->sharedSecret(pubKey, pubKeyLen);
-  // ts = millis() - ts;
-  // if (ret) {
-  //   printlnRed("Failed");
-  //   while (true);
-  // }
-  
-  // printGreen("[OK] | Command executed in "); 
-  // Serial.print(ts); 
-  // Serial.println(" ms");
-
-  /**
-   * Generate HMAC on the input data 
-   */
-  printlnGreen("\r\nGenerate HMAC");
+  printlnGreen("\r\nCalculate shared secret... ");
   ts = millis();
-  ret = trustm->generateHMACSHA256(0xF1D0, input_data_buffer, input_data_buffer_length, mac_buffer, mac_buffer_length );
+  ret = trustm->sharedSecret(eSESSION_ID_2, pubKey, pubKeyLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
     while (true);
   }
   
+  printGreen("[OK] | Command executed in "); 
+  Serial.print(ts); 
+  Serial.println(" ms");
+
+  /**
+   * Generate HMAC on the input data 
+   */
+  printlnGreen("\r\nGenerate HMAC");
+  ts = millis();
+  ret = trustm->generateHMACSHA256(input_data_buffer, input_data_buffer_length, mac_buffer, mac_buffer_length );
+  ts = millis() - ts;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
  
   output_result((char*)"Public Key ", ts, mac_buffer, mac_buffer_length);
 
