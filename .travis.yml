@@ -13,7 +13,6 @@ branches:
     - master
     - develop
     - /^v.*$/
-    - feature/m3
 
 env:
     matrix:
