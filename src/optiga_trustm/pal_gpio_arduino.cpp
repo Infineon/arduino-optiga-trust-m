@@ -60,9 +60,10 @@ LIBRARY_EXPORTS pal_status_t pal_gpio_init(const pal_gpio_t * p_gpio_context)
     {
         pinMode(*(uint8_t*)p_gpio_context->p_gpio_hw, OUTPUT);
     }
+    return PAL_STATUS_SUCCESS;
 }
 
 LIBRARY_EXPORTS pal_status_t pal_gpio_deinit(const pal_gpio_t * p_gpio_context)
 {
-    
+    return PAL_STATUS_SUCCESS;
 }
