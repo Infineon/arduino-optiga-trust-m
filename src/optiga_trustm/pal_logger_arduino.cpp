@@ -49,11 +49,12 @@ pal_logger_t logger_console =
 pal_status_t pal_logger_init(void * p_logger_context)
 {
     //Initialized in arduino setup()
+    return PAL_STATUS_SUCCESS;
 }
 
 pal_status_t pal_logger_deinit(void * p_logger_context)
 {
-    
+    return PAL_STATUS_SUCCESS;
 }
 
 pal_status_t pal_logger_write(void * p_logger_context, const uint8_t * p_log_data, uint32_t log_data_length)
@@ -63,9 +64,10 @@ pal_status_t pal_logger_write(void * p_logger_context, const uint8_t * p_log_dat
   for(int i=0; i< log_data_length; i++) {
     Serial.print(str.charAt(i));
   }
+  return PAL_STATUS_SUCCESS;
 }
 
 pal_status_t pal_logger_read(void * p_logger_context, uint8_t * p_log_data, uint32_t log_data_length)
 {
-
+  return PAL_STATUS_SUCCESS;
 }
