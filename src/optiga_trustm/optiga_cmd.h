@@ -2,7 +2,7 @@
 * \copyright
 * MIT License
 *
-* Copyright (c) 2019 Infineon Technologies AG
+* Copyright (c) 2020 Infineon Technologies AG
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -420,7 +420,7 @@ optiga_lib_status_t optiga_cmd_calc_ssec(optiga_cmd_t * me,
                                          optiga_calc_ssec_params_t * params);
 #endif //OPTIGA_CRYPT_ECDH_ENABLED
 
-#ifdef OPTIGA_CRYPT_TLS_PRF_SHA256_ENABLED
+#if defined (OPTIGA_CRYPT_TLS_PRF_SHA256_ENABLED) || defined (OPTIGA_CRYPT_TLS_PRF_SHA384_ENABLED) || defined (OPTIGA_CRYPT_TLS_PRF_SHA512_ENABLED) || defined (OPTIGA_CRYPT_HKDF_ENABLED)
 /**
  * \brief Derives a key.
  *
@@ -453,7 +453,7 @@ optiga_lib_status_t optiga_cmd_calc_ssec(optiga_cmd_t * me,
 optiga_lib_status_t optiga_cmd_derive_key(optiga_cmd_t * me,
                                           uint8_t cmd_param,
                                           optiga_derive_key_params_t * params);
-#endif //OPTIGA_CRYPT_TLS_PRF_SHA256_ENABLED
+#endif //OPTIGA_CRYPT_TLS_PRF_SHA256_ENABLED || OPTIGA_CRYPT_TLS_PRF_SHA384_ENABLED || OPTIGA_CRYPT_TLS_PRF_SHA512_ENABLED || OPTIGA_CRYPT_HKDF_ENABLED
 
 #if defined (OPTIGA_CRYPT_ECC_GENERATE_KEYPAIR_ENABLED) || defined (OPTIGA_CRYPT_RSA_GENERATE_KEYPAIR_ENABLED)
 /**
@@ -588,79 +588,109 @@ optiga_lib_status_t optiga_cmd_decrypt_asym(optiga_cmd_t * me,
 optiga_lib_status_t optiga_cmd_set_object_protected(optiga_cmd_t * me,
                                                     uint8_t cmd_param,
                                                     optiga_set_object_protected_params_t * params);
-
-#if defined (OPTIGA_LIB_ENABLE_LOGGING) && defined (OPTIGA_LIB_ENABLE_CMD_LOGGING)
+                                                    
+#if defined (OPTIGA_CRYPT_SYM_ENCRYPT_ENABLED) || defined (OPTIGA_CRYPT_HMAC_ENABLED)
 /**
- * \brief Logs the message provided from Command layer
+ * \brief Encrypt data using #optiga_symmetric_encryption_mode_t encryption scheme.
  *
  * \details
- * Logs the message provided from Command layer
+ * Encrypts data using selected encryption scheme by issuing Encrypt Sym command to OPTIGA.
+ * - Acquires the strict sequence.
+ * - Forms the Encrypt Sym command based on inputs.
+ * - Issues the Encrypt Sym command through #optiga_comms_transceive.
+ * - Releases the strict sequence in case of an error or after #optiga_crypt_symmetric_encrypt_final is successfully completed.
  *
  * \pre
+ * - Application on OPTIGA must be opened using #optiga_cmd_open_application before using this API.
  *
  * \note
- * - None
+ * - Error codes from lower layers will be returned as it is.
  *
- * \param[in]      msg      Valid pointer to string to be logged
+ *\param[in]  me                                      Valid instance of #optiga_cmd_t created using #optiga_cmd_create.
+ *\param[in]  cmd_param                               Param of Encrypt Sym Command APDU.
+ *                                                    - Must be valid argument, otherwise OPTIGA returns an error.
+ *\param[in]  params                                  InData of Encrypt Sym Command APDU, must not be NULL.
  *
+ * \retval    #OPTIGA_LIB_SUCCESS                     Successful invocation.
+ * \retval    #OPTIGA_CMD_ERROR                       Error occurred before invoking Encrypt Sym command.<br>
+ *                                                    Error in the asynchronous state machine.
+ * \retval    #OPTIGA_CMD_ERROR_INVALID_INPUT         Continue and final APDU command invoked without strict lock acquired for the instance.
+ * \retval    #OPTIGA_CMD_ERROR_MEMORY_INSUFFICIENT   Error due to insufficient buffer size.
+ *                                                    - Length of the buffer to copy the encrypted data is less than buffer to copy it into.
  */
-#define OPTIGA_CMD_LOG_MESSAGE(msg) \
-{\
-    optiga_lib_print_message(msg,OPTIGA_COMMAND_LAYER,OPTIGA_COMMAND_LAYER_COLOR);\
-}
-
-/**
- * \brief Logs the byte array buffer provided from Command layer in hexadecimal format
- *
- * \details
- * Logs the byte array buffer provided from Command layer in hexadecimal format
- *
- * \pre
- *
- * \note
- * - None
- *
- * \param[in]      array      Valid pointer to array to be logged
- * \param[in]      array_len  Length of array buffer
- *
- */
-#define OPTIGA_CMD_LOG_HEX_DATA(array,array_len) \
-{\
-    optiga_lib_print_array_hex_format(array,array_len,OPTIGA_UNPROTECTED_DATA_COLOR);\
-}
-
-/**
- * \brief Logs the status info provided from Command layer
- *
- * \details
- * Logs the status info provided from Command layer
- *
- * \pre
- *
- * \note
- * - None
- *
- * \param[in]      return_value      Status information Command service
- *
- */
-#define OPTIGA_CMD_LOG_STATUS(return_value) \
-{ \
-    if (OPTIGA_LIB_SUCCESS != return_value) \
-    { \
-        optiga_lib_print_status(OPTIGA_COMMAND_LAYER,OPTIGA_ERROR_COLOR,return_value); \
-    } \
-    else\
-    { \
-        optiga_lib_print_status(OPTIGA_COMMAND_LAYER,OPTIGA_COMMAND_LAYER_COLOR,return_value); \
-    } \
-}
-#else
-
-#define OPTIGA_CMD_LOG_MESSAGE(msg) {}
-#define OPTIGA_CMD_LOG_HEX_DATA(array, array_len) {}
-#define OPTIGA_CMD_LOG_STATUS(return_value) {}
-
+optiga_lib_status_t optiga_cmd_encrypt_sym(optiga_cmd_t * me,
+                                           uint8_t cmd_param,
+                                           optiga_encrypt_sym_params_t * params);
 #endif
+
+#if defined (OPTIGA_CRYPT_SYM_DECRYPT_ENABLED) || defined (OPTIGA_CRYPT_HMAC_VERIFY_ENABLED) ||\
+    defined (OPTIGA_CRYPT_CLEAR_AUTO_STATE_ENABLED)
+/**
+ * \brief Decrypt data using #optiga_symmetric_encryption_mode_t encryption scheme.
+ *
+ * \details
+ * Decrypts data using selected encryption scheme by issuing Decrypt Sym command to OPTIGA.
+ * - Acquires the strict sequence.
+ * - Forms the Decrypt Sym command based on inputs.
+ * - Issues the Decrypt Sym command through #optiga_comms_transceive.
+ * - Releases the strict sequence in case of an error or after #optiga_crypt_symmetric_decrypt_final is successfully completed.
+ *
+ * \pre
+ * - Application on OPTIGA must be opened using #optiga_cmd_open_application before using this API.
+ *
+ * \note
+ * - Error codes from lower layers will be returned as it is.
+ *
+ *\param[in]  me                                      Valid instance of #optiga_cmd_t created using #optiga_cmd_create.
+ *\param[in]  cmd_param                               Param of Decrypt Sym Command APDU.
+ *                                                    - Must be valid argument, otherwise OPTIGA returns an error.
+ *\param[in]  params                                  InData of Decrypt Sym Command APDU, must not be NULL.
+ *
+ * \retval    #OPTIGA_LIB_SUCCESS                     Successful invocation.
+ * \retval    #OPTIGA_CMD_ERROR                       Error occurred before invoking Encrypt Sym command.<br>
+ *                                                    Error in the asynchronous state machine.
+ * \retval    #OPTIGA_CMD_ERROR_INVALID_INPUT         Continue and final APDU command invoked without strict lock acquired for the instance.
+ * \retval    #OPTIGA_CMD_ERROR_MEMORY_INSUFFICIENT   Error due to insufficient buffer size.
+ *                                                    - Length of the buffer to copy the encrypted data is less than buffer to copy it into.
+ */
+optiga_lib_status_t optiga_cmd_decrypt_sym(optiga_cmd_t * me,
+                                           uint8_t cmd_param,
+                                           optiga_decrypt_sym_params_t * params);
+#endif
+
+#ifdef OPTIGA_CRYPT_SYM_GENERATE_KEY_ENABLED
+/**
+ * \brief Generate symmetric key using OPTIGA.
+ *
+ * \details
+ * Generate symmetric key by issuing Generate Symmetric Key command to OPTIGA.
+ * - Acquires the OPTIGA lock for #optiga_crypt_symmetric_generate_key.<br> 
+ * - Forms the Generate Symmetric Key command based on inputs.
+ * - Issues the Generate Symmetric Key command through #optiga_comms_transceive.
+ * - Releases the OPTIGA lock on successful completion of asynchronous operation.<br>
+ *
+ * \pre
+ * - Application on OPTIGA must be opened using #optiga_cmd_open_application before using this API.
+ *
+ * \note
+ * - Error codes from lower layers will be returned as it is.
+ *
+ *\param[in]  me                                      Valid instance of #optiga_cmd_t created using #optiga_cmd_create.
+ *\param[in]  cmd_param                               Param of Gen Sym Key Command APDU.
+ *                                                    - Must be valid argument, otherwise OPTIGA returns an error.
+ *\param[in]  params                                  InData of Gen Sym Key Command APDU, must not be NULL.
+ *
+ * \retval    #OPTIGA_LIB_SUCCESS                     Successful invocation.
+ * \retval    #OPTIGA_CMD_ERROR                       Error occurred before invoking Gen Sym Key command.<br>
+ *                                                    Error in the asynchronous state machine.
+ * \retval    #OPTIGA_CMD_ERROR_INVALID_INPUT         Instance invoked for encrypting session, without acquiring the session
+ * \retval    #OPTIGA_CMD_ERROR_MEMORY_INSUFFICIENT   Error due to insufficient buffer size.
+ *                                                    - APDU length formed is greater than <b>OPTIGA_MAX_COMMS_BUFFER_SIZE</b>.
+ */
+optiga_lib_status_t optiga_cmd_gen_symkey(optiga_cmd_t * me,
+                                          uint8_t cmd_param,
+                                          optiga_gen_symkey_params_t * params);
+#endif // OPTIGA_CRYPT_SYM_GENERATE_KEY_ENABLED
 
 #ifdef __cplusplus
 }

@@ -26,6 +26,7 @@
  */
  
 #include "OPTIGATrustM.h"
+#include "OPTIGATrustM_v3.h"
 
 #define KEY_MAXLENGTH   300
 
@@ -34,7 +35,13 @@
 
 uint8_t *pubKey = new uint8_t[KEY_MAXLENGTH];
 uint8_t *privKey = new uint8_t[KEY_MAXLENGTH];
-  
+
+#ifdef OPTIGA_TRUST_M_V3
+IFX_OPTIGA_TrustM_V3 * trustm = &trustM_V3;
+#elif defined(OPTIGA_TRUST_M_V1)
+IFX_OPTIGA_TrustM * trustm = &trustM;
+#endif
+
 void setup() 
 {
   uint32_t ret = 0;
@@ -50,7 +57,7 @@ void setup()
    * Initialise an OPTIGA™ Trust X Board
    */
   printGreen("Begin to trust ... ");
-  ret = trustM.begin();
+  ret = trustm->begin();
   if (ret) {
     printlnRed("Failed");
     while (true);
@@ -61,7 +68,7 @@ void setup()
    * Speedup the board (from 6 mA to 15 mA)
    */
   printGreen("Limit the Current ... ");
-  ret = trustM.setCurrentLimit(15);
+  ret = trustm->setCurrentLimit(15);
   if (ret) {
     printlnRed("Failed");
     while (true);
@@ -98,14 +105,14 @@ void loop()
    */
   printlnGreen("\r\nGenerate Key Pair RSA 1024. Store Private Key on Board ... ");
   ts = millis();
-  ret = trustM.generateKeypair(pubKey, pubKeyLen, ctx);
+  ret = trustm->generateKeypair(pubKey, pubKeyLen, ctx);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
     while (true);
   }
 
-  output_result("Public Key ", ts, pubKey, pubKeyLen);
+  output_result((char*)"Public Key ", ts, pubKey, pubKeyLen);
 
 
   /*
@@ -115,15 +122,15 @@ void loop()
   privKeyLen = KEY_MAXLENGTH;
   printlnGreen("\r\nGenerate Key Pair RSA 1024. Export Private Key ... ");
   ts = millis();
-  ret = trustM.generateKeypair(pubKey, pubKeyLen, privKey, privKeyLen);
+  ret = trustm->generateKeypair(pubKey, pubKeyLen, privKey, privKeyLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
     while (true);
   }
 
-  output_result("Public Key ", ts, pubKey, pubKeyLen);
-  output_result("Private Key ", ts, privKey, privKeyLen);
+  output_result((char*)"Public Key ", ts, pubKey, pubKeyLen);
+  output_result((char*)"Private Key ", ts, privKey, privKeyLen);
 
   /*
    * Generate a keypair#3 ECC NIST P 256
@@ -132,14 +139,14 @@ void loop()
   privKeyLen = KEY_MAXLENGTH;
   printlnGreen("\r\nGenerate Key Pair ECC NIST P 256. Store Private Key on Board ... ");
   ts = millis();
-  ret = trustM.generateKeypairECC(pubKey, pubKeyLen);
+  ret = trustm->generateKeypairECC(pubKey, pubKeyLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
     while (true);
   }
 
-  output_result("Public Key ", ts, pubKey, pubKeyLen);
+  output_result((char*)"Public Key ", ts, pubKey, pubKeyLen);
 
   /*
    * Generate a keypair#4 ECC NIST P 384
@@ -148,18 +155,60 @@ void loop()
   privKeyLen = KEY_MAXLENGTH;
   printlnGreen("\r\nGenerate Key Pair ECC NIST P 384. Export Private Key ... ");
   ts = millis();
-  ret = trustM.generateKeypairECCP384(pubKey, pubKeyLen, privKey, privKeyLen);
+  ret = trustm->generateKeypairECCP384(pubKey, pubKeyLen, privKey, privKeyLen);
   ts = millis() - ts;
   if (ret) {
     printlnRed("Failed");
     while (true);
   }
 
-  output_result("Public Key ", ts, pubKey, pubKeyLen);
-  output_result("Private Key ", ts, privKey, privKeyLen);
-  
+  output_result((char*)"Public Key ", ts, pubKey, pubKeyLen);
+  output_result((char*)"Private Key ", ts, privKey, privKeyLen);
+
+  /**
+   * Enable V3 capabilities in src/optiga_trustm/optiga_lib_config.h
+   */
+  #ifdef OPTIGA_TRUST_M_V3
+
+  /*
+   * Generate a keypair#5 ECC NIST P 521
+   */
+  pubKeyLen = KEY_MAXLENGTH;
+  privKeyLen = KEY_MAXLENGTH;
+  printlnGreen("\r\nGenerate Key Pair ECC NIST P 521. Export Private Key ... ");
+  ts = millis();
+  ret = trustm->generateKeypairECCP521(pubKey, pubKeyLen, privKey, privKeyLen);
+  ts = millis() - ts;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
+
+  output_result((char*)"Public Key ", ts, pubKey, pubKeyLen);
+  output_result((char*)"Private Key ", ts, privKey, privKeyLen);
+
+  /*
+   * Generate a keypair#6 ECC Brainpool P 256
+   */
+  pubKeyLen = KEY_MAXLENGTH;
+  privKeyLen = KEY_MAXLENGTH;
+  printlnGreen("\r\nGenerate Key Pair ECC Brainpool P 256. Store Private Key on Board ... ");
+  ts = millis();
+  ret = trustm->generateKeypairECC(pubKey, pubKeyLen);
+  ts = millis() - ts;
+  if (ret) {
+    printlnRed("Failed");
+    while (true);
+  }
+
+  output_result((char*)"Public Key ", ts, pubKey, pubKeyLen);
+
+ #endif /* OPTIGA_TRUST_M_V3 */   
   /* 
    * Execute the loop just once :)
    */
-  while(1){};
+  while(1){
+    Serial.println("Running...");
+    delay(1000);
+  };
 }

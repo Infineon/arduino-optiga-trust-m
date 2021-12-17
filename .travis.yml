@@ -1,12 +1,18 @@
+
+os:
+  - linux
+
 language: python
+
 python:
-    - "2.7"
+    - 3.7
 
 sudo: required
         
 branches:
     - master
     - develop
+    - /^v.*$/
 
 env:
     matrix:
@@ -14,7 +20,9 @@ env:
         - PLATFORMIO_CI_SRC=examples/calculateSharedSecret
         - PLATFORMIO_CI_SRC=examples/calculateSignVerifySign
         - PLATFORMIO_CI_SRC=examples/encryptDecryptData
-        - PLATFORMIO_CI_SRC=examples/generateKeypair
+        - PLATFORMIO_CI_SRC=examples/generateHMAC
+        - PLATFORMIO_CI_SRC=examples/generateKeyAES
+        - PLATFORMIO_CI_SRC=examples/generateKeyPair
         - PLATFORMIO_CI_SRC=examples/getCertificate
         - PLATFORMIO_CI_SRC=examples/getRandom
         - PLATFORMIO_CI_SRC=examples/getUniqueID
@@ -30,3 +38,22 @@ install:
 
 script:
     - platformio ci --lib="." --board=xmc1100_xmc2go --board=xmc1100_boot_kit --board=xmc4700_relax_kit --board=zero --board=mhetesp32minikit
+
+jobs:
+  include:   
+    - stage: "Deploy" 
+      name: "GitHub Pages Deployment"
+      if: tag IS present
+      addons:
+        apt:
+            packages:
+            - doxygen
+            - graphviz
+            sources:
+                - ubuntu-toolchain-r-test
+      install:
+        - git clone https://github.com/Infineon/InfineonDoxyGenerator.git --branch v.0.2.1
+      script: 
+        - cd InfineonDoxyGenerator
+        - python doxyifx.py html
+        - python doxyifx.py release $GH_USER $GH_PASS_TOKEN

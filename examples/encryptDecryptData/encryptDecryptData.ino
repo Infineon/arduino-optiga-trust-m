@@ -111,7 +111,7 @@ void loop()
     while (true);
   }
 
-  output_result("Public Key ", ts, pubKey, pubKeyLen);
+  output_result((char*)"Public Key ", ts, pubKey, pubKeyLen);
 
   /*
    * Encrypt Data
@@ -127,7 +127,7 @@ void loop()
     while (true);
   }
 
-  output_result("\r\nEncrypted message ", ts, secret, secretLen);
+  output_result((char*)"\r\nEncrypted message ", ts, secret, secretLen);
   printlnGreen("");
   /*
    * Decrypt Data
@@ -140,7 +140,7 @@ void loop()
     while (true);
   }
 
-  output_result("\r\nDecrypted message ", ts, restoredMessage, restoredMessageLen);
+  output_result((char*)"\r\nDecrypted message ", ts, restoredMessage, restoredMessageLen);
   
   /* 
    * Execute the loop just once :)

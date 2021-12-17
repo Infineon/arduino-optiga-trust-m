@@ -38,13 +38,25 @@ generateKeypairRSA2048  KEYWORD2
 generateKeypairECC  KEYWORD2
 generateKeypairECCP256  KEYWORD2
 generateKeypairECCP384  KEYWORD2
+generateKeypairECCP521  KEYWORD2
+generateKeypairECCP256r1    KEYWORD2
+generateKeypairECCP384r1    KEYWORD2
+generateKeypairECCP512r1    KEYWORD2
+generateSymmetricKeyAES KEYWORD2
+generateSymmetricKeyAES128  KEYWORD2
+generateSymmetricKeyAES192  KEYWORD2
+generateSymmetricKeyAES256  KEYWORD2
+generateHMAC    KEYWORD2
+generateHMACSHA256  KEYWORD2
+generateHMACSHA384  KEYWORD2
+generateHMACSHA512  KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)
 #######################################
 
 TrustM	KEYWORD2
-
+trustM_V3   KEYWORD2
 #######################################
 # Constants (LITERAL1)
 #######################################

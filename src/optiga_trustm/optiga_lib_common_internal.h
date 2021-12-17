@@ -2,7 +2,7 @@
 * \copyright
 * MIT License
 *
-* Copyright (c) 2019 Infineon Technologies AG
+* Copyright (c) 2020 Infineon Technologies AG
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -49,8 +49,8 @@ extern "C" {
 
 /** @brief For hash input as start */
 #define OPTIGA_CRYPT_HASH_START                         (0x00)
-/** @brief For hash digest out */
-#define OPTIGA_CRYPT_HASH_DIGEST_OUT                    (0x01)
+/** @brief For hash input as start and final */
+#define OPTIGA_CRYPT_HASH_START_FINAL                   (0x01)
 /** @brief For hash input as continue */
 #define OPTIGA_CRYPT_HASH_CONTINUE                      (0x02)
 /** @brief For hash input as final */
@@ -69,9 +69,19 @@ extern "C" {
 /** @brief For no manage context operation */
 #define OPTIGA_COMMS_SESSION_CONTEXT_NONE               (0x33)
 
+/** @brief For symetric encrypt, dectypt or hmac input as start */
+#define OPTIGA_CRYPT_SYM_START                          (0x00)
+/** @brief For symetric encrypt, dectypt or hmac input as start and final */
+#define OPTIGA_CRYPT_SYM_START_FINAL                    (0x01)
+/** @brief For symetric encrypt, dectypt or hmac input as continue */
+#define OPTIGA_CRYPT_SYM_CONTINUE                       (0x02)
+/** @brief For symetric encrypt, dectypt or hmac input as final */
+#define OPTIGA_CRYPT_SYM_FINAL                          (0x03)
+
 /// @cond hidden
 /// Option to write count value to the data object
 #define OPTIGA_UTIL_COUNT_DATA_OBJECT                   (0x02)
+
 #ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
 /// To set protection level in cmd instance
 #define OPTIGA_SET_PROTECTION_LEVEL                     (0x00)

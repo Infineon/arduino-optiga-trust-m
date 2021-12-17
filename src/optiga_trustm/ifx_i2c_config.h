@@ -2,7 +2,7 @@
 * \copyright
 * MIT License
 *
-* Copyright (c) 2019 Infineon Technologies AG
+* Copyright (c) 2020 Infineon Technologies AG
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -65,13 +65,15 @@ extern "C" {
 /** @brief Physical Layer: guard time interval in microseconds */
 #define PL_GUARD_TIME_INTERVAL_US   (50U)
 
-/** @brief Data link layer: frame size (max supported is 277 decimal).
-           Note: This can be configured externally to a lesser value due to platform restrictions */
+/** @brief Data link layer: frame size (max supported is 277 in OPTIGA ).
+*          - Note: This can be configured externally to a lesser value due to platform restrictions.<br>
+*            Externally means through command line argument or project configuration or optiga_lib_config.h*/
 #ifdef IFX_I2C_FRAME_SIZE
     #if (IFX_I2C_FRAME_SIZE > 277) || (IFX_I2C_FRAME_SIZE < 16)
-        #error "unsupported value"
+        #error "Unsupported value for IFX_I2C_FRAME_SIZE"
     #endif
 #else
+    //Setting of frame size more than 277 and less than 16 bytes cause unexpected behaviour.
     #define IFX_I2C_FRAME_SIZE          (19U)
 #endif
 
@@ -131,23 +133,9 @@ extern "C" {
 /** @brief Log ID number for platform abstraction layer */
 #define IFX_I2C_LOG_ID_PAL          (0x04)
 
-
-#if defined IFX_I2C_PRESENTATION_LAYER_TRANSPARENT
-    #define IFX_I2C_TL_ENABLE              (1U)
-
-    #define IFX_I2C_PRESENCE_BIT           (0x08)
-    #define IFX_I2C_PRL_MAC_SIZE           (0x08)
-    #define IFX_I2C_PRL_HEADER_SIZE        (0x05)
-    /// Overhead buffer size for user buffer
-    #define IFX_I2C_PRL_OVERHEAD_SIZE      (IFX_I2C_PRL_HEADER_SIZE + IFX_I2C_PRL_MAC_SIZE)
-    /// Offset for data
-    #define IFX_I2C_DATA_OFFSET            (IFX_I2C_PRL_HEADER_SIZE)
-    #define IFX_I2C_PRESENCE_BIT_CHECK     (0x08)
-#endif
-
 #if defined OPTIGA_COMMS_SHIELDED_CONNECTION
-    #define IFX_I2C_PRL_ENABLED            (1U)
     #define IFX_I2C_TL_ENABLE              (1U)
+    #define IFX_I2C_PRL_ENABLED            (1U)
 
     #define IFX_I2C_PRESENCE_BIT           (0x08)
     #define IFX_I2C_PRL_MAC_SIZE           (0x08)
@@ -187,6 +175,9 @@ extern "C" {
 #define FULL_PROTECTION             (0x03)
 /** @brief To re-establish secure channel */
 #define RE_ESTABLISH                (0x80)
+
+/** @brief Session key buffer size */
+#define IFX_I2C_SESSION_KEY_BUFFER_SIZE    (0x28)
 
 
 typedef struct ifx_i2c_context ifx_i2c_context_t;
@@ -294,7 +285,7 @@ typedef struct ifx_i2c_tl
     uint16_t * p_recv_packet_buffer_length;
     /// Start time of the transport layer API
     uint32_t api_start_time;
-    ///Chaining error coutn from slave
+    ///Chaining error count from slave
     uint8_t chaining_error_count;
     ///Chaining error count for master
     uint8_t master_chaining_error_count;
@@ -321,7 +312,7 @@ typedef struct ifx_i2c_tl
 typedef struct ifx_i2c_prl_manage_context
 {
     ///Buffer to store session key
-    uint8_t session_key[40];
+    uint8_t session_key[IFX_I2C_SESSION_KEY_BUFFER_SIZE];
     /// Master retransmit counter
     uint8_t decryption_failure_counter;
     /// Slave retransmit counter
@@ -384,8 +375,8 @@ typedef struct ifx_i2c_prl
     ///Presentation header offset
     uint8_t prl_header_offset;
     ///Buffer to store prf
-    uint8_t session_key[40];
-    /// Randon data
+    uint8_t session_key[IFX_I2C_SESSION_KEY_BUFFER_SIZE];
+    /// Random data
     uint8_t random[32];
     /// Receive buffer
     uint8_t prl_txrx_buffer[58];
@@ -484,175 +475,6 @@ typedef struct ifx_i2c_context
 
 /** @brief IFX I2C Instance */
 extern ifx_i2c_context_t ifx_i2c_context_0;
-
-#if defined (OPTIGA_LIB_ENABLE_LOGGING) && defined (OPTIGA_LIB_ENABLE_COMMS_LOGGING)
-
-/**
- * \brief Logs the message provided from OPTIGA Comms layer
- *
- * \details
- * Logs the message provided from OPTIGA Comms layer
- *
- * \pre
- *
- * \note
- * - None
- *
- * \param[in]      msg      Valid pointer to string to be logged
- *
- */
-#define OPTIGA_COMMS_LOG_MESSAGE(msg) \
-{\
-    optiga_lib_print_message(msg,OPTIGA_COMMUNICATION_LAYER,OPTIGA_COMMUNICATION_LAYER_COLOR);\
-}
-
-/**
- * \brief Logs the status info provided from OPTIGA Comms layer
- *
- * \details
- * Logs the status info provided from OPTIGA Comms layer
- *
- * \pre
- *
- * \note
- * - None
- *
- * \param[in]      return_value      Status information OPTIGA Comms service
- *
- */
-#define OPTIGA_COMMS_LOG_STATUS(return_value)                                 \
-{                                                       \
-    if (OPTIGA_LIB_SUCCESS != return_value)                                 \
-    {                                                     \
-        optiga_lib_print_status(OPTIGA_COMMUNICATION_LAYER,OPTIGA_ERROR_COLOR,return_value);        \
-    }                                                     \
-    else                                                  \
-    {                                                     \
-        optiga_lib_print_status(OPTIGA_COMMUNICATION_LAYER,OPTIGA_COMMUNICATION_LAYER_COLOR,return_value);  \
-    }                                                     \
-}
-
-#ifdef OPTIGA_COMMS_SHIELDED_CONNECTION
-
-/**
- * \brief Logs the transmitted data to OPTIGA from IFXI2C layer in hexadecimal format
- *
- * \details
- * Logs the transmitted data to OPTIGA from IFXI2C layer in hexadecimal format.
- * If the transmitted data is protected, it is logged with a different color
- *
- * \pre
- *
- * \note
- * - None
- *
- * \param[in]      array          Valid pointer to array to be logged
- * \param[in]      array_len      Length of array buffer
- * \param[in]      p_ifx_i2c_ctx  Valid pointer to ifx_i2c context
- *
- */
-#define OPTIGA_IFXI2C_LOG_TRANSMIT_HEX_DATA(array,array_len,p_ifx_i2c_ctx)              \
-{                                                 \
-  if (0 != frame_len)                                       \
-  {                                               \
-    if (((((ifx_i2c_context_t * )p_ifx_i2c_ctx)->protection_level & 0x0F) == 0x01) ||       \
-      ((((ifx_i2c_context_t * )p_ifx_i2c_ctx)->protection_level & 0x0F) == 0x03))       \
-      {                                             \
-        optiga_lib_print_array_hex_format(array,array_len,OPTIGA_PROTECTED_DATA_COLOR);  \
-      }                                             \
-      else                                          \
-      {                                             \
-        optiga_lib_print_array_hex_format(array,array_len,OPTIGA_UNPROTECTED_DATA_COLOR);\
-      }                                             \
-  }                                               \
-}
-
-/**
- * \brief Logs the received data from OPTIGA in hexadecimal format
- *
- * \details
- * Logs the received data from OPTIGA in hexadecimal format.
- * If the received data is protected, it is logged with a different color
- *
- * \pre
- *
- * \note
- * - None
- *
- * \param[in]      array          Valid pointer to array to be logged
- * \param[in]      array_len      Length of array buffer
- * \param[in]      p_ifx_i2c_ctx  Valid pointer to ifx_i2c context
- *
- */
-#define OPTIGA_IFXI2C_LOG_RECEIVE_HEX_DATA(array,array_len,p_ifx_i2c_ctx) \
-{\
-    if (((((ifx_i2c_context_t * )p_ifx_i2c_ctx)->protection_level & 0x0F) == 0x02) || \
-        ((((ifx_i2c_context_t * )p_ifx_i2c_ctx)->protection_level & 0x0F) == 0x03)) \
-        { \
-            optiga_lib_print_array_hex_format(array,array_len,OPTIGA_PROTECTED_DATA_COLOR); \
-        } \
-        else \
-        { \
-            optiga_lib_print_array_hex_format(array,array_len,OPTIGA_UNPROTECTED_DATA_COLOR); \
-        } \
-}
-#else
-
-/**
- * \brief Logs the transmitted data to OPTIGA from IFXI2C layer in hexadecimal format
- *
- * \details
- * Logs the transmitted data to OPTIGA from IFXI2C layer in hexadecimal format.
- * If the transmitted data is protected, it is logged with a different color
- *
- * \pre
- *
- * \note
- * - None
- *
- * \param[in]      array          Valid pointer to array to be logged
- * \param[in]      array_len      Length of array buffer
- * \param[in]      p_ifx_i2c_ctx  Valid pointer to ifx_i2c context
- *
- */
-#define OPTIGA_IFXI2C_LOG_TRANSMIT_HEX_DATA(array,array_len,p_ifx_i2c_ctx) \
-{\
-    OPTIGA_COMMS_LOG_MESSAGE("");\
-    optiga_lib_print_array_hex_format(array,array_len,OPTIGA_UNPROTECTED_DATA_COLOR);\
-}
-
-/**
- * \brief Logs the received data from OPTIGA in hexadecimal format
- *
- * \details
- * Logs the received data from OPTIGA in hexadecimal format.
- * If the received data is protected, it is logged with a different color
- *
- * \pre
- *
- * \note
- * - None
- *
- * \param[in]      array          Valid pointer to array to be logged
- * \param[in]      array_len      Length of array buffer
- * \param[in]      p_ifx_i2c_ctx  Valid pointer to ifx_i2c context
- *
- */
-#define OPTIGA_IFXI2C_LOG_RECEIVE_HEX_DATA(array,array_len,p_ifx_i2c_ctx) \
-{\
-    OPTIGA_COMMS_LOG_MESSAGE("");\
-    optiga_lib_print_array_hex_format(array,array_len,OPTIGA_UNPROTECTED_DATA_COLOR);\
-}
-
-#endif
-
-#else
-
-#define OPTIGA_IFXI2C_LOG_TRANSMIT_HEX_DATA(array,array_len,p_ifx_i2c_ctx) {}
-#define OPTIGA_IFXI2C_LOG_RECEIVE_HEX_DATA(array,array_len,p_ifx_i2c_ctx) {}
-#define OPTIGA_COMMS_LOG_MESSAGE(msg) {}
-#define OPTIGA_COMMS_LOG_STATUS(return_value) {}
-#endif
 
 #endif
 

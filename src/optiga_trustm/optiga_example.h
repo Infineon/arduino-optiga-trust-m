@@ -2,7 +2,7 @@
 * \copyright
 * MIT License
 *
-* Copyright (c) 2019 Infineon Technologies AG
+* Copyright (c) 2020 Infineon Technologies AG
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -45,6 +45,13 @@ extern "C" {
 #include "optiga_lib_config.h"
 #include "optiga_lib_logger.h"
 
+extern char performance_buffer_string[30];
+extern void example_performance_measurement(uint32_t* time_value, uint8_t time_reset_flag);
+
+#define START_TIMER                 (TRUE)
+
+#define STOPTIMER_AND_CALCULATE     (FALSE)
+
 // Macro to enable logger for Application
 #define OPTIGA_LIB_ENABLE_EXAMPLE_LOGGING
 
@@ -54,7 +61,27 @@ extern "C" {
 // Logger color for different layers and data
 #define OPTIGA_EXAMPLE_COLOR               OPTIGA_LIB_LOGGER_COLOR_DEFAULT
 
-#if defined (OPTIGA_LIB_ENABLE_LOGGING) && defined (OPTIGA_LIB_ENABLE_EXAMPLE_LOGGING)
+//Start timer for performance measurement
+#define START_PERFORMANCE_MEASUREMENT(time_taken) //example_performance_measurement(&time_taken, START_TIMER)
+
+//Stop timer and calculate performance measurement
+#define READ_PERFORMANCE_MEASUREMENT(time_taken) //example_performance_measurement(&time_taken, STOPTIMER_AND_CALCULATE)
+
+// Check return status
+#define WAIT_AND_CHECK_STATUS(return_status, optiga_lib_status)\
+                            if (OPTIGA_LIB_SUCCESS != return_status)\
+                            {\
+                                break;\
+                            }\
+                            while (OPTIGA_LIB_BUSY == optiga_lib_status)\
+                            {   pal_os_event_process();  }\
+                            if (OPTIGA_LIB_SUCCESS != optiga_lib_status)\
+                            {\
+                                return_status = optiga_lib_status;\
+                                break;\
+                            }\
+                            
+#if defined (OPTIGA_LIB_ENABLE_EXAMPLE_LOGGING)
 /**
  * \brief Logs the message provided from Application layer
  *
@@ -127,12 +154,23 @@ extern "C" {
 
 #endif
 
+#define OPTIGA_EXAMPLE_LOG_PERFORMANCE_VALUE(time_taken,return_value) \
+{   \
+    if(OPTIGA_LIB_SUCCESS == return_value)  \
+    {   \
+        sprintf(performance_buffer_string, "Example takes %d msec", (int)time_taken);    \
+        OPTIGA_EXAMPLE_LOG_MESSAGE(performance_buffer_string);  \
+    }   \
+}
 
 void example_optiga_crypt_hash (void);
 void example_optiga_crypt_ecc_generate_keypair(void);
 void example_optiga_crypt_ecdsa_sign(void);
 void example_optiga_crypt_ecdsa_verify(void);
 void example_optiga_crypt_ecdh(void);
+void example_optiga_crypt_hmac(void);
+void example_optiga_crypt_hmac_original(void);
+void example_optiga_crypt_symmetric_key(void);
 void example_optiga_crypt_random(void);
 void example_optiga_crypt_tls_prf_sha256(void);
 void example_optiga_util_read_data(void);
@@ -147,8 +185,11 @@ void example_optiga_crypt_rsa_encrypt_session(void);
 void example_optiga_util_update_count(void);
 void example_optiga_util_protected_update(void);
 void example_optiga_util_read_uuid(void);
-void example_pair_host_and_optiga_using_pre_shared_secret(void);
+optiga_lib_status_t example_pair_host_and_optiga_using_pre_shared_secret(void);
 void example_optiga_util_hibernate_restore(void);
+
+void example_optiga_init(void);
+void example_optiga_deinit(void);
 
 #ifdef __cplusplus
 }

@@ -50,7 +50,7 @@
 
 #ifdef OPTIGA_LIB_ENABLE_LOGGING
     /** @brief Macro to enable logger for Util service */
-    //#define OPTIGA_LIB_ENABLE_I2C_ARD_LOGGING
+    // #define OPTIGA_LIB_ENABLE_I2C_ARD_LOGGING
 #endif
 
  #if defined (OPTIGA_LIB_ENABLE_LOGGING) && defined (OPTIGA_LIB_ENABLE_I2C_ARD_LOGGING)
@@ -165,7 +165,7 @@ LIBRARY_EXPORTS pal_status_t pal_i2c_set_bitrate(const pal_i2c_t * p_i2c_context
 }
 
 #define MAX_POLLING	50
-LIBRARY_EXPORTS pal_status_t pal_i2c_write(pal_i2c_t * p_i2c_context, uint8_t * p_data, uint16_t length)
+LIBRARY_EXPORTS pal_status_t pal_i2c_write(const pal_i2c_t * p_i2c_context, uint8_t * p_data, uint16_t length)
 {
 	upper_layer_callback_t upper_layer_handler;
 	upper_layer_handler = (upper_layer_callback_t)p_i2c_context->upper_layer_event_handler;
@@ -203,7 +203,7 @@ LIBRARY_EXPORTS pal_status_t pal_i2c_write(pal_i2c_t * p_i2c_context, uint8_t * 
     return status;
 }
 
-LIBRARY_EXPORTS pal_status_t pal_i2c_read(pal_i2c_t * p_i2c_context, uint8_t * p_data, uint16_t length)
+LIBRARY_EXPORTS pal_status_t pal_i2c_read(const pal_i2c_t * p_i2c_context, uint8_t * p_data, uint16_t length)
 {
     upper_layer_callback_t upper_layer_handler;
 	upper_layer_handler = (upper_layer_callback_t)p_i2c_context->upper_layer_event_handler;
